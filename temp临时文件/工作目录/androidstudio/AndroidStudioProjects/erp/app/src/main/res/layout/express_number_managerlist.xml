@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TableRow
+        >
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/number"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/expressName"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#000000"
+            />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/type"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/expressCount"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#000000"
+            />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/billingTime"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#000000"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/operate"
+            android:layout_weight="1"
+            android:text="删除"
+            android:clickable="true"
+            android:textColor="#0000cd"
+            android:textSize="16sp"
+            android:gravity="center" />
+    </TableRow>
+
+
+</TableLayout>

@@ -1,0 +1,212 @@
+package ui.activity;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.PersistableBundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+import com.example.admin.erp.R;
+
+import net.tsz.afinal.FinalBitmap;
+
+import java.util.Properties;
+import broadcast.Config;
+import broadcast.FreshenBroadcastReceiver;
+import http.AccountManagementHttpPost;
+import http.Constants;
+import portface.LazyLoadFace;
+
+public class MainActivity extends AppCompatActivity{
+
+    private EditText userName;
+    private EditText userPassword;
+    private AccountManagementHttpPost httpPost;
+    private Button login;
+    private Button reset;
+    private Properties properties;
+    public static Intent in;
+    public static Activity activity;
+    public static boolean flag = true;
+    private String userNameString;
+    private CheckBox rememberMe;
+    SharedPreferences sp = null;
+    private RelativeLayout background;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTitle("统一登录平台");
+        setContentView(R.layout.activity_main);
+
+        background = (RelativeLayout) findViewById(R.id.activity_main2);
+
+        /*new Runnable() {
+            @Override
+            public void run() {
+                background.setBackgroundResource(R.drawable.loginbackground);
+            }
+        }.run();*/
+        sp = this.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+        userName = (EditText) findViewById(R.id.userName);
+        userPassword = (EditText) findViewById(R.id.userPassword);
+        login = (Button) findViewById(R.id.login);
+        reset = (Button) findViewById(R.id.reset);
+        rememberMe = (CheckBox) findViewById(R.id.rememberMe);
+        login.setOnClickListener(o);
+        reset.setOnClickListener(o);
+
+        new Runnable() {
+            @Override
+            public void run() {
+                init();
+            }
+        }.run();
+
+        if (sp.getBoolean("checkboxBoolean", false)){
+            userName.setText(sp.getString("uname", null));
+            userPassword.setText(sp.getString("upswd", null));
+            rememberMe.setChecked(true);
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    private void initBroadCast() {
+        //广播初始化 必须动态注册才能实现回调
+        FreshenBroadcastReceiver broadcast = new FreshenBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Config.BC_ONE);
+        getApplicationContext().registerReceiver(broadcast, intentFilter);
+
+        broadcast.setLazyLoadFace(new LazyLoadFace() {
+            @Override
+            public void AdapterRefresh(String type) {
+                //具体更新
+                if(type.equals("login")){
+                    in = new Intent(MainActivity.this, CensusActivity.class);
+                    flag = false;
+                    Constants.LoginId = userNameString ;
+                    startActivity(in);
+                    finish();
+                }
+            }
+
+        });
+    }
+
+    private void init() {
+
+        //handler = new MyHandler();
+
+        //读取配置文件
+        properties = new Properties();
+        try {
+            properties.load(MainActivity.this.getAssets().open("property1.properties"));
+            String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
+            Constants.LoginUrl = IFengLoginUrl + "/identify/login.jhtml";
+            //Constants.LoginUrl = IFengLoginUrl;
+            String IFengUrl = properties.getProperty("IFengUrl").trim();
+            Constants.AccountManagementSearchUrl = IFengUrl + "/wxApi.ajax";
+            Constants.AllCustomerUrl = IFengUrl + "/getWXAllCustomer.ajax";
+            Constants.AccountReasonUrl = IFengUrl + "/getWXExpenseAccountReason.ajax";
+            Constants.AccountClassifyUrl = IFengUrl + "/getWXExpenseAccountClassify.ajax";
+            Constants.AccountTypeUrl = IFengUrl + "/getWXExpenseAccountType.ajax";
+            Constants.TimeSearchUrl = IFengUrl + "/getWXTjsjList.ajax";
+            Constants.CustomerSearchUrl = IFengUrl + "/getWXCustomerTjsjList.ajax";
+            Constants.YearSearchUrl = IFengUrl + "/getWXYearAccountStatistics.ajax";
+            Constants.XqCustomerSearchUrl = IFengUrl + "/getWXCustomerTjxq.ajax";
+            Constants.ExpressYearSearchUrl = IFengUrl + "/getWXYearNumberStatistics.ajax";
+            Constants.ExpressPersonNameSearchUrl = IFengUrl + "/getWXAllNumber.ajax";
+            Constants.ExpressCountSearch = IFengUrl + "/wxApiNumber.ajax";
+            Constants.TimeStatisticSearchUrl = IFengUrl + "/getWXTjsjListNumber.ajax";
+            Constants.ExpressStatisticSearchUrl = IFengUrl + "/getCustomerTjsjListNumber.ajax";
+            Constants.ExpressXqTimeSearchUrl = IFengUrl + "/getCustomerTjxqNumber.ajax";
+            Constants.ExpressPieceMonthDaySearchUrl = IFengUrl + "/getWxXAxisDay.ajax";
+            Constants.ExpressPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataDay.ajax";
+            Constants.ExpressPersonPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataAmount.ajax";
+            Log.d("55","登录"+Constants.LoginUrl);
+            Log.d("55", Constants.AccountManagementSearchUrl);
+            Log.d("55", Constants.AllCustomerUrl);
+            Log.d("55", Constants.AccountReasonUrl);
+            Log.d("55", Constants.AccountTypeUrl);
+            Log.d("55", Constants.TimeSearchUrl);
+            Log.d("55", Constants.CustomerSearchUrl);
+            Log.d("55", Constants.YearSearchUrl);
+            Log.d("55", Constants.XqCustomerSearchUrl);
+            Log.d("55",Constants.ExpressPersonPieceDaySearchUrl);
+            Log.d("55","测试");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    View.OnClickListener o = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.login:
+                    check();
+                    break;
+                case R.id.reset:
+                    userName.setText("");
+                    userPassword.setText("");
+                    break;
+            }
+        }
+
+        private void check() {
+            initBroadCast();
+            flag = true;
+            userNameString = userName.getText().toString().trim();
+            String password = userPassword.getText().toString().trim();
+            if ("".equals(userNameString) || "".equals(password)) {
+                Toast.makeText(MainActivity.this, "用户名或密码不能为空", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            boolean CheckBoxLogin = rememberMe.isChecked();
+            if (CheckBoxLogin)
+            {
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("uname", userNameString);
+                editor.putString("upswd", password);
+                editor.putBoolean("checkboxBoolean", true);
+                editor.commit();
+            }
+            else
+            {
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("uname", null);
+                editor.putString("upswd", null);
+                editor.putBoolean("checkboxBoolean", false);
+                editor.commit();
+            }
+
+            String urlString = Constants.LoginUrl;
+            httpPost = new AccountManagementHttpPost(getApplicationContext());
+            httpPost.LoginHttp(urlString, userNameString, password, MainActivity.this);
+        }
+    };
+
+}
