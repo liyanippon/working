@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 	@RequestMapping("/login")
 	public String login(String username,String password,Model model){  
+		System.out.println("asdfasdfasdf");
         if (username.equals(password))   
         {  
             model.addAttribute("username", username);  
-            return "ok.jsp";  
+            return "/jsp/ok.jsp";  
         } else {  
-            return "no.jsp";  
+            return "/jsp/no.jsp";  
         }  
     }  
 
