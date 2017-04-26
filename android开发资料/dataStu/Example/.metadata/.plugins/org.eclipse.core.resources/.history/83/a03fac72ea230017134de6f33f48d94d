@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<script>
+function displayDate(){
+	document.getElementById("demo").innerHTML=Date();
+}
+function myFunction () {
+  	document.getElementById("demo").innerHTML="我的第一个函数";
+}
+</script>
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+	$(document).ready(function() {
+		$("#demo").dblclick(function(){
+			$(this).hide();
+			alert("双击");
+			
+		});
+		
+		$("#buttonid").click(function(){
+			$.get("robots.txt",function(data,status){
+				alert("数据："+data+"\n状态："+status);
+			});
+		});
+		
+		$("#text").click(function(){
+			alert($("#text").val());
+		});
+		
+		$("#btnSave").click(function(){
+			alert($("#sid").val());
+			$('#io').attr("checked",false); 
+		});
+		
+		$("#clickMe").click(function(){
+			var x=$("#demo7").val();
+			if (navigator.geolocation){
+				navigator.geolocation.getCurrentPosition(showPosition);
+				alert("纬度: " + position.coords.latitude + 
+		"<br>经度: " + position.coords.longitude);
+				
+				
+			}
+			else{
+				x.innerHTML="该浏览器不支持获取地理位置。";
+			}
+		
+		});
+		
+		
+	});
+	
+	
+	
+		function getLocation(){
+			var x=$("#demo7").val();
+			alert(x);
+		if (navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(showPosition);
+			}
+		else{
+			x.innerHTML="该浏览器不支持获取地理位置。";
+			}
+		}
+
+		function showPosition(position){
+		x.innerHTML="纬度: " + position.coords.latitude + 
+		"<br>经度: " + position.coords.longitude;	
+	}
+</script>
+</head>
+<body>
+
+<h1>我的第一个 JavaScript 程序</h1>
+<p id="demo">这是一个段落</p>
+<button type="button" onclick="displayDate()">显示日期</button>
+<button type="button" onclick="myFunction()">test</button>
+<p>双击消失</p>
+<button id="buttonid">点击</button>
+<input type="text" value="jintian" id="text">
+<form method="post">
+<p><input id="io" type="checkbox" name="vehicle" value="Car" checked="checked"/>car</p>
+<p><input type="checkbox" name="vehicle1" value="Car1" />train</p>
+<p><input type="checkbox" name="vehicle2" value="Car2" checked="checked" />fire</p>
+	<select  id="sid" onchange="selectcity()">  
+          <option>---请选择---</option>  
+          <option>湖南</option>  
+          <option>湖北</option>  
+          <option>浙江</option>  
+          <option>广东</option>  
+	</select>  
+<button type="button" id="btnSave">保存</button>
+</form>
+<input type="text" id="demo7" value="ssss"/></body>
+<button type="button" id="clickMe">点我</button>
+</html>
