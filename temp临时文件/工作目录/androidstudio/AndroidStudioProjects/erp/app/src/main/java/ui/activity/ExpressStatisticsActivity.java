@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Tool.ToolUtils;
+import Tool.statistics.Statics;
 import http.Constants;
 import http.ExpressStatisticsHttpPost;
 import model.ExpressPersonStatistic;
@@ -67,16 +68,16 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
 
         init();
         spinnerType();
-        if( Constants.year.size() > 0){
-            yearSpinnerString = Constants.year.get(0);//默认赋值
+        if( Statics.expressYear.size() > 0){
+            yearSpinnerString = Statics.expressYear.get(0);//默认赋值
         }
         yearSpinnerString = "2017";//默认赋值
         //首次访问 空查询
         progressDialog = ProgressDialog.show(ExpressStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
         expressStatisticsHttpPost = new ExpressStatisticsHttpPost();
-        expressStatisticsHttpPost.searchTimeHttp(Constants.TimeStatisticSearchUrl, yearSpinnerString, "", ExpressStatisticsActivity.this);
+        expressStatisticsHttpPost.searchTimeHttp(Statics.TimeStatisticSearchUrl, yearSpinnerString, "", ExpressStatisticsActivity.this);
         timeExpressStatisticsesList =new ArrayList<>();
-        timeExpressStatisticsesList = Constants.expressTimeList;
+        timeExpressStatisticsesList = Statics.expressTimeList;
         timeAdapter = new TimeExpressStatisticsAdapter(ExpressStatisticsActivity.this, timeExpressStatisticsesList);
         timeListView.setAdapter(timeAdapter);
         search.setOnClickListener(o);
@@ -89,13 +90,13 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                 //选中变色
                 //ToolUtils.selectColor(parent,position);
                 //确定月份
-                month = Constants.expressTimeList.get(position).getMonth();
+                month = Statics.expressTimeList.get(position).getMonth();
                 //判断是否点击过查询，若是则typeSpinnerString不变，否则为空
                 if(!onsearchclick){
                     typeSpinnerString = "";
                 }
-                expressStatisticsHttpPost.searchExpressPersonStatisticsHttp(Constants.ExpressStatisticSearchUrl, yearSpinnerString, typeSpinnerString, month, ExpressStatisticsActivity.this);
-                expressPersonStatisticList = Constants.expressPersonStatisticList;
+                expressStatisticsHttpPost.searchExpressPersonStatisticsHttp(Statics.ExpressStatisticSearchUrl, yearSpinnerString, typeSpinnerString, month, ExpressStatisticsActivity.this);
+                expressPersonStatisticList = Statics.expressPersonStatisticList;
                 expressPersionAdapter = new ExpressPersonStatisticsAdapter(ExpressStatisticsActivity.this, expressPersonStatisticList);
                 expressPersonListView.setAdapter(expressPersionAdapter);
                 expressPersonListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,14 +104,14 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                                 //选中变色
                                                                 //ToolUtils.selectColor(parent,position);
-                                                                String expressPersonId = Constants.expressPersonStatisticList.get(position).getName_id();//ID
-                                                                month = Constants.expressPersonStatisticList.get(position).getMonth();
+                                                                String expressPersonId = Statics.expressPersonStatisticList.get(position).getName_id();//ID
+                                                                month = Statics.expressPersonStatisticList.get(position).getMonth();
                                                                 Log.d("xiangxixinx","---------------------------------------------------------------");
                                                                 listView = null;
                                                                 //递类型，月份，客户名客户名以检索
                                                                 Log.d("test90","express:"+typeSpinnerString);
                                                                 Log.d("xiangxixinx",yearSpinnerString+"@"+typeSpinnerString+"@"+month+expressPersonId);
-                                                                expressStatisticsHttpPost.searchXqExpressPersonHttp(Constants.ExpressXqTimeSearchUrl, "2017", typeSpinnerString, month, expressPersonId, ExpressStatisticsActivity.this);
+                                                                expressStatisticsHttpPost.searchXqExpressPersonHttp(Statics.ExpressXqTimeSearchUrl, "2017", typeSpinnerString, month, expressPersonId, ExpressStatisticsActivity.this);
                                                                 //显示对话框，在对话框中使用ListView
                                                                 AlertDialog.Builder builder = new AlertDialog.Builder(ExpressStatisticsActivity.this);
                                                                 LayoutInflater inflater = getLayoutInflater();
@@ -119,7 +120,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                                                                 listView = (ListView) layout.findViewById(R.id.lv);
                                                                 tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
                                                                 tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
-                                                                epsXList = Constants.epsXList;
+                                                                epsXList = Statics.epsXList;
                                                                 for (int i=0;i<epsXList.size();i++){
                                                                     Log.d("xiangxixinx",epsXList.get(i).getNumeric()+"@"+epsXList.get(i).getTime());
                                                                 }
@@ -144,17 +145,17 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                         //ToolUtils.selectColor(parent,position);
-                        String expressPersonId = Constants.expressPersonStatisticList.get(position).getName_id();//ID
+                        String expressPersonId = Statics.expressPersonStatisticList.get(position).getName_id();//ID
                         listView = null;
                         //递类型，月份，客户名客户名以检索
-                        //expressStatisticsHttpPost.searchXqExpressPersonHttp(Constants.ExpressXqTimeSearchUrl, yearSpinnerString, typeSpinnerString, month, expressPersonId, ExpressStatisticsActivity.this);
+                        //expressStatisticsHttpPost.searchXqExpressPersonHttp(Statics.ExpressXqTimeSearchUrl, yearSpinnerString, typeSpinnerString, month, expressPersonId, ExpressStatisticsActivity.this);
                         Log.d("test90","sdfa::"+typeSpinnerString);
                         Log.d("test90","sdfa::"+yearSpinnerString);
                         Log.d("test90","position::"+Integer.toString(position));
-                        for (int i =0;i<Constants.expressTimeList.size();i++){
-                            Log.d("test90","getSum::"+Constants.expressTimeList.get(i).getSum());
+                        for (int i =0;i<Statics.expressTimeList.size();i++){
+                            Log.d("test90","getSum::"+Statics.expressTimeList.get(i).getSum());
                         }
-                        month = Constants.expressPersonStatisticList.get(position).getMonth();
+                        month = Statics.expressPersonStatisticList.get(position).getMonth();
                         Log.d("test00","month:"+month);
                         Intent in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesPersonDetailsChartsFragementActivity.class);
                         in.putExtra("year", yearSpinnerString);
@@ -172,7 +173,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //选中变色
                 //ToolUtils.selectColor(parent,position);
-                month = Constants.expressTimeList.get(position).getMonth();
+                month = Statics.expressTimeList.get(position).getMonth();
                 Intent in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesDetailsChartsFragementActivity.class);
                 in.putExtra("year", yearSpinnerString);
                 in.putExtra("month", month);
@@ -193,8 +194,8 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                     Log.v("test2", "R.id.search");
                     progressDialog = ProgressDialog.show(ExpressStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
                     onsearchclick=true;
-                    expressStatisticsHttpPost.searchTimeHttp(Constants.TimeStatisticSearchUrl, yearSpinnerString, typeSpinnerString, ExpressStatisticsActivity.this);
-                    timeExpressStatisticsesList = Constants.expressTimeList;
+                    expressStatisticsHttpPost.searchTimeHttp(Statics.TimeStatisticSearchUrl, yearSpinnerString, typeSpinnerString, ExpressStatisticsActivity.this);
+                    timeExpressStatisticsesList = Statics.expressTimeList;
                     timeAdapter = new TimeExpressStatisticsAdapter(ExpressStatisticsActivity.this, timeExpressStatisticsesList);
                     timeListView.setAdapter(timeAdapter);
                     expressPersonStatisticList = null;
@@ -203,7 +204,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                     break;
                 case R.id.zhuXing:
                     Intent in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesChartsFragementActivity.class);
-                    Constants.dayCount = false;
+                    Statics.dayCount = false;
                     startActivity(in);
                     break;
             }
@@ -213,12 +214,12 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
     private void spinnerType() {
         //数据
         //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this);
+        //httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.clear();
         data_list.add("全部");
-        for (int i = 0; i < Constants.accountTypeList.size(); i++) {
-            data_list.add(Constants.accountTypeList.get(i).getName());
+        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
+            data_list.add(Statics.accountTypeList.get(i).getName());
         }
 
         //适配器
@@ -235,7 +236,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                 if(position == 0){
                     typeSpinnerString = "全部";
                 }else{
-                    typeSpinnerString = Constants.accountTypeList.get(--position).getId();
+                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
                 }
             }
 
@@ -246,12 +247,12 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
 
         //数据
         //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this);
+        //httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl, AccountManagementActivity.this);
 
         ArrayList<String> yearlist = new ArrayList<>();
         yearlist.add("全部");
-        for (int i=0;i<Constants.year.size();i++){
-            yearlist.add(Constants.year.get(i));
+        for (int i=0;i<Statics.expressYear.size();i++){
+            yearlist.add(Statics.expressYear.get(i));
         }
 
 
@@ -269,7 +270,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                 if(position == 0){
                     yearSpinnerString = "全部";
                 }else{
-                    yearSpinnerString = Constants.year.get(--position);
+                    yearSpinnerString = Statics.expressYear.get(--position);
                 }
                 data_list = null;
             }

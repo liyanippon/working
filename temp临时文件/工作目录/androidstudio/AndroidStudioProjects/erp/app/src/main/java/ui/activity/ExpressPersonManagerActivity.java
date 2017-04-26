@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.statistics.Statics;
 import http.AccountManagementHttpPost;
 import http.Constants;
 import portface.LazyLoadFace;
@@ -71,7 +72,7 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
         //searchTime.setOnClickListener(o);
 
         httpPost = new AccountManagementHttpPost();
-        String httpUrl = Constants.AccountManagementSearchUrl;
+        String httpUrl = Statics.AccountManagementSearchUrl;
         //刚进入页面就要显示数据
         //accountManagementAdapter =new AccountManagementAdapter(getApplicationContext());
         //accountLv.setAdapter(accountManagementAdapter);
@@ -98,13 +99,13 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
                 TextView guest = (TextView) layout.findViewById(R.id.guest);//客户
                 TextView remark = (TextView) layout.findViewById(R.id.remark);//备注
                 TextView createuser = (TextView) layout.findViewById(R.id.createuser);//创建人
-                type.setText(Constants.accountManagementList.get(position - 1).getType());
-                classify.setText(Constants.accountManagementList.get(position - 1).getClassify());
-                reason.setText(Constants.accountManagementList.get(position - 1).getReason());
-                price.setText(Constants.accountManagementList.get(position - 1).getSum());
-                guest.setText(Constants.accountManagementList.get(position - 1).getCustomerId());
-                remark.setText(Constants.accountManagementList.get(position - 1).getRemark());
-                createuser.setText(Constants.accountManagementList.get(position - 1).getcreateBy());
+                type.setText(Statics.accountManagementList.get(position - 1).getType());
+                classify.setText(Statics.accountManagementList.get(position - 1).getClassify());
+                reason.setText(Statics.accountManagementList.get(position - 1).getReason());
+                price.setText(Statics.accountManagementList.get(position - 1).getSum());
+                guest.setText(Statics.accountManagementList.get(position - 1).getCustomerId());
+                remark.setText(Statics.accountManagementList.get(position - 1).getRemark());
+                createuser.setText(Statics.accountManagementList.get(position - 1).getCreateBy());
                 //创建人就是用户名
                 builder.setView(layout);
                 back.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +137,7 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
                     page = 1;
                     SearchBoolean = true;
                     httpPost = new AccountManagementHttpPost();
-                    String httpUrl = Constants.AccountManagementSearchUrl;
+                    String httpUrl = Statics.AccountManagementSearchUrl;
                     //String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, reasonSpinnerString, ExpressNumberManagerActivity.this, page);
                     break;
                 case R.id.add:
@@ -151,10 +152,10 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
         Log.d("test", "spinnerType");
         //数据
         //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this);
+        //httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
-        for (int i = 0; i < Constants.accountTypeList.size(); i++) {
-            data_list.add(Constants.accountTypeList.get(i).getName());
+        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
+            data_list.add(Statics.accountTypeList.get(i).getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -165,10 +166,10 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
         data_list = null;
         //数据
         //httpPost =new HttpPost();
-        //httpPost.accountClassifySearchHttp(Constants.AccountClassifyUrl, AccountManagementActivity.this);
+        //httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
-        for (int i = 0; i < Constants.accountClassifyList.size(); i++) {
-            data_list.add(Constants.accountClassifyList.get(i).getName());
+        for (int i = 0; i < Statics.accountClassifyList.size(); i++) {
+            data_list.add(Statics.accountClassifyList.get(i).getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -179,7 +180,7 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                typeSpinnerString = Constants.accountTypeList.get(position).getId();
+                typeSpinnerString = Statics.accountTypeList.get(position).getId();
                 data_list = null;
             }
 
@@ -192,7 +193,7 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
-                classifySpinnerString = Constants.accountClassifyList.get(position).getId();
+                classifySpinnerString = Statics.accountClassifyList.get(position).getId();
 
             }
 
@@ -223,7 +224,7 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
                     classifySpinnerString = "";
                 }
                 httpPost = new AccountManagementHttpPost();
-                String httpUrl = Constants.AccountManagementSearchUrl;
+                String httpUrl = Statics.AccountManagementSearchUrl;
                 //String result = httpPost.searchHttp(httpUrl ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString, ExpressNumberManagerActivity.this,page);
                 onLoad();
             }
@@ -236,13 +237,13 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
             @Override
             public void run() {
                 page++;
-                if (page >= Constants.page) {
-                    page = Constants.page;
+                if (page >= Statics.page) {
+                    page = Statics.page;
                     Toast.makeText(ExpressPersonManagerActivity.this,"已经是最后一页了",Toast.LENGTH_SHORT).show();
                 }
                 //大于总页数，不向下翻页
                 httpPost = new AccountManagementHttpPost();
-                String httpUrl = Constants.AccountManagementSearchUrl;
+                String httpUrl = Statics.AccountManagementSearchUrl;
                 if (!SearchBoolean) {
                     typeSpinnerString = "";
                     classifySpinnerString = "";
@@ -270,7 +271,7 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
     @Override
     protected void onResume() {
         super.onResume();
-        String httpUrl = Constants.AccountManagementSearchUrl;
+        String httpUrl = Statics.AccountManagementSearchUrl;
         httpPost.searchHttp(httpUrl ,"" ,"" ,"",ExpressPersonManagerActivity.this,1);//刷新页面
     }
 

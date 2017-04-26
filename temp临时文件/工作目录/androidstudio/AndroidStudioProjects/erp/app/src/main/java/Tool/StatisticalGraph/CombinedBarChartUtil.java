@@ -21,7 +21,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import http.Constants;
+import Tool.statistics.Statics;
 
 /**
  * Created by admin on 2017/3/22.
@@ -64,7 +64,11 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         mCombinedChart.setNoDataTextDescription("暂时没有数据进行图表展示");
         mCombinedChart.setDescription(description);
         mCombinedChart.setDescriptionColor(Color.WHITE);
-        mCombinedChart.setDescriptionPosition(400f,50f);
+        mCombinedChart.setDescriptionPosition(400f,80f);
+        /*if(Statics.yPositon) {//以后如果描述改变需求在此处更改
+            mCombinedChart.setDescriptionPosition(400f,80f);
+            Statics.yPositon = false;
+        }*/
         mCombinedChart.setDescriptionTextSize(16);
         mCombinedChart.setBackgroundColor(Color.WHITE);
         mCombinedChart.setDrawBorders(false);//是否画边框
@@ -81,28 +85,42 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         mLegend.setComputedLabels(list);
         mLegend.setXOffset(10);
         mLegend.setYOffset(10);
+
         //         * 获取头部信息         *//*
         //setLegend(mCombinedChart.getLegend(), true); 千万不要使用
         //*          *Y轴 右侧数据设置     *//*
         setyAxis(mCombinedChart.getAxisRight(), false);
         //*          *Y轴 左侧数据设置     *//*
         setLeftYAxis(mCombinedChart.getAxisLeft(), true, maxValue, minValue);
+
         //*          *X轴    数据设置      *//*
         setxAxis(mCombinedChart.getXAxis(), true);
         //*           *设置数据            */
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         if(list.get(1)!=null){
             dataSets.add(generateBarData(barEntries,list));
+            for (int i=0;i<list.size();i++){
+                Log.d("list","图例:"+list.get(i));
+            }
             Log.d("broadcast","dataset");
         }
-        dataSets.add(generateBarData1(lineEntries,list));//设置折现图数据
-        Log.d("broadcast","是否按天统计"+Boolean.toString(Constants.dayCount));
-        if(Constants.dayCount&&null!=Constants.Xday){
-            mDateTime = Constants.Xday;
-            Constants.dayCount = false;
+        dataSets.add(generateBarData1(lineEntries,list));
+        Log.d("broadcast","是否按天统计"+Boolean.toString(Statics.dayCount));
+        if(Statics.dayCount&&null!=Statics.Xday){
+            mDateTime = Statics.Xday;
+            Statics.dayCount = false;
         }else{
-            Constants.dayCount = false;
+            Statics.dayCount = false;
         }
+
+        if(Statics.personCount){
+            mDateTime = Statics.xPerson;
+            Statics.personCount=false;
+            for (int i=0;i<Statics.xPerson.length;i++){
+            Log.d("person",Statics.xPerson[i]);
+            }
+        }
+        Log.v("mDateTime","mDateTime:"+mDateTime.length+"");
 
         BarData data = new BarData(mDateTime, dataSets);
         data.setValueTextSize(10f);
@@ -165,18 +183,27 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         LineData d = new LineData();
         ArrayList<String> xValues = new ArrayList<String>();
 
-        if(Constants.dayCount&&Constants.Xday!=null){
-            mDateTime = Constants.Xday;
-            for (int i=1;i<Constants.Xday.length+1;i++){
-                d.addXValue(Constants.Xday[i-1]);
+        if(Statics.dayCount&&Statics.Xday!=null){
+            mDateTime = Statics.Xday;
+            for (int i=1;i<Statics.Xday.length+1;i++){
+                d.addXValue(Statics.Xday[i-1]);
             }
-            //Constants.dayCount = false;
+            //Static.dayCount = false;
 
         }else{
             for (int i=1;i<13;i++){
                 d.addXValue(i+"月");
             }
-            //Constants.dayCount = false;
+            //Static.dayCount = false;
+        }
+
+        if(Statics.yPositon){
+            d=new LineData();
+            d.clearValues();
+            for (int i=0;i<Statics.xPerson.length;i++){
+                d.addXValue(Statics.xPerson[i]);
+            }
+            Statics.yPositon=false;
         }
 
         //ILineDataSet d = new LineData();
@@ -238,7 +265,7 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
     private BarDataSet generateBarData1(ArrayList<BarEntry> entries,List<String> list) {
         String PictureTag ;
         if (list!=null){
-            PictureTag = list.get(0);
+            PictureTag = list.get(1);
         }else{
             PictureTag = "";
         }
@@ -252,7 +279,7 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         set.setHighLightAlpha(50);
         set.setVisible(true);
         //set.setAxisDependency(YAxis.AxisDependency.RIGHT); //最好不要使用
-        Log.d("test","set"+set.getLabel().toString());
+        //Log.d("test","set"+set.getLabel().toString());
         return set;
     }
     public void setBackgroundColor(int color) {

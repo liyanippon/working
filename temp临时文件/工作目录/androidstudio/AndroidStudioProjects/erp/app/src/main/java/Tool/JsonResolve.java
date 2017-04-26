@@ -9,8 +9,14 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
+import Tool.statistics.Statics;
+import broadcast.BroadCastTool;
+import broadcast.TYPE;
 import http.Constants;
 import model.AccountClassify;
 import model.AccountManagement;
@@ -28,6 +34,7 @@ import model.TimeBillingStatistics;
 import model.TimeExpressStatistics;
 import model.XiangxiBillingStatistics;
 import ui.activity.AccountManagementActivity;
+import ui.activity.AddAccountManagerActivity;
 import ui.activity.BillingStatisticsActivity;
 import ui.activity.ExpressNumberManagerActivity;
 import ui.activity.ExpressStatisticsActivity;
@@ -52,10 +59,10 @@ public class JsonResolve {
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
             JSONObject jsonObject1 = jsonArray1.getJSONObject(0);
             String total = jsonObject1.get("total").toString();
-            Log.d("test", "total:" + total);
-            Constants.page = (Integer.parseInt(total) + Integer.parseInt(rows) - 1) / Integer.parseInt(rows);
+            Log.d("test7", "total:" + total);
+            Statics.page = (Integer.parseInt(total) + Integer.parseInt(rows) - 1) / Integer.parseInt(rows);
             JSONArray jsonArray2 = jsonObject1.getJSONArray("rows");
-            Constants.accountManagementList.clear();
+            Statics.accountManagementList.clear();
             for (int k = 0; k < jsonArray2.length(); k++) {
                 JSONObject jsonObject2 = jsonArray2.getJSONObject(k);
                 String id = jsonObject2.getString("id");
@@ -66,11 +73,87 @@ public class JsonResolve {
                 String createBy = jsonObject2.getString("createBy");
                 String customerId = jsonObject2.getString("customerId");
                 String remark = jsonObject2.getString("description");
+
+                //对出账进行处理，去除样式，进账则不用
+                if(!classify.equals("进账")){//以b为分割
+                    classify = "出账";
+                    String typeString[] =type.split("<b>");
+                    Log.d("asda",customerId);
+                    Log.d("asda",remark);
+
+                    String customerIdString[] = customerId.split("<b>");
+                    String remarkString[] = remark.split("<b>");
+                    String reasonString[] = reason.split("<b>");
+                    String createByString[] = createBy.split("<b>");
+
+                    for(int i=0;i<typeString.length;i++){
+                        Log.d("asda",typeString[i]);
+                        if(i==1){
+                            Log.d("asda",typeString[i]);
+                            type=typeString[i].split("</b>")[0];
+                            customerId=customerIdString[i].split("</b>")[0];
+                            remark=remarkString[i].split("</b>")[0];
+                            reason=reasonString[i].split("</b>")[0];
+                            createBy=createByString[i].split("</b>")[0];
+                            Log.d("asda","sss:"+customerId+remark);
+                        }
+                    }
+                }else{
+
+                    Log.d("asllll",remark);
+                    String customerIdString[] = customerId.split(">");
+                    String remarkString[] = remark.split(">");
+                    String reasonString[] = reason.split(">");
+                    String createByString[] = createBy.split(">");
+                    for(int i=0;i<remarkString.length;i++){
+                        Log.d("asda",remarkString[i]);
+                        if(i==1){
+                            Log.d("asda",customerIdString[i]);
+
+                            customerId=customerIdString[i].split("</")[0];
+                            remark=remarkString[i].split("</")[0];
+                            //createBy=createByString[i].split("</span>")[0];
+                            Log.d("asda","sss:"+customerId+remark);
+                        }
+                    }
+
+                }
+
+                //账单时间
+                JSONObject billingObject3 = jsonObject2.getJSONObject("billingTime");
+                String date = billingObject3.getString("date");
+                String month = billingObject3.getString("month");
+                String time = billingObject3.getString("time");
+                String yearString = billingObject3.getString("year");
+                //----------------------------------------------------------------------------------
+                String year = ToolUtils.timeDateFormat(yearString);
+                StringBuffer billingSb=new StringBuffer();
+                int temp = Integer.parseInt(month);
+                billingSb.append(year).append("-").append(++temp).append("-").append(date);
+                Log.d("yeayr",billingSb.toString());
+
+                //创建时间
+                JSONObject createObject3 = jsonObject2.getJSONObject("createTime");
+                String date1 = createObject3.getString("date");
+                String month1 = createObject3.getString("month");
+                String time1 = createObject3.getString("time");
+                String hours = createObject3.getString("hours");
+                String minutes = createObject3.getString("minutes");
+                String seconds = createObject3.getString("seconds");
+                String yearString1 = billingObject3.getString("year");
+                //----------------------------------------------------------------------------------
+                String year1 = ToolUtils.timeDateFormat(yearString1);
+                StringBuffer createSb=new StringBuffer();
+                int temp1 = Integer.parseInt(month);
+                createSb.append(year1).append("/").append(++temp1).append("/").append(date1).append(" ")
+                        .append(hours).append(":").append(minutes).append(":").append(seconds);
+                Log.d("yeayr:",createSb.toString());
                 Log.d("test3", "----------------------------------");
                 Log.d("test3", "sum:" + sum);
                 Log.d("test3", "type:" + type);
-                AccountManagement financialManagement = new AccountManagement(id, type, classify, reason, sum, createBy, customerId, remark);
-                Constants.accountManagementList.add(financialManagement);
+                AccountManagement financialManagement = new AccountManagement(id, type, classify,billingSb.toString()
+                        ,createSb.toString(),reason, sum, createBy, customerId, remark);
+                Statics.accountManagementList.add(financialManagement);
                 financialManagement = null;
             }
             //刷新
@@ -93,29 +176,37 @@ public class JsonResolve {
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.accountReasonList.clear();
+            Statics.accountReasonList.clear();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String id = jsonObject1.getString("id");
                 String name = jsonObject1.getString("name");
                 AccountReason accountReason = new AccountReason(id, name);
-                Constants.accountReasonList.add(accountReason);
+                Statics.accountReasonList.add(accountReason);
                 accountReason = null;
                 Log.v("test2", "name:" + name);
                 Log.v("test2", "------------");
             }
             //刷新
-
-            //ArrayList<String> data_list = new ArrayList<>();
-            Constants.data_list.clear();
-            for (int i = 0; i < Constants.accountReasonList.size(); i++) {
-                Constants.data_list.add(Constants.accountReasonList.get(i).getName());
-                Log.v("test2", "data_list1:" + Constants.accountReasonList.get(i).getName());
+            Statics.data_list.clear();
+            for (int i = 0; i < Statics.accountReasonList.size(); i++) {
+                Statics.data_list.add(Statics.accountReasonList.get(i).getName());
+                Log.v("test2", "data_list1:" + Statics.accountReasonList.get(i).getName());
 
             }
-            AccountManagementActivity accountManagementActivity = new AccountManagementActivity();
-            accountManagementActivity.AdapterRefresh("reasonSpinner");
+            if(AddAccountManagerActivity.addBoolean){//更新add添加页面
+                BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"addReasonSpinner");
+                AddAccountManagerActivity addAccountManagerActivity = new AddAccountManagerActivity();
+                addAccountManagerActivity.AdapterRefresh("reasonSpinner");
+                AddAccountManagerActivity.addBoolean=false;
+                Log.d("aleand","发送广播");
 
+            }else{//更新search显示检索页面
+                BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"SearchReasonSpinner");
+                AccountManagementActivity accountManagementActivity = new AccountManagementActivity();
+                accountManagementActivity.AdapterRefresh("reasonSpinner");
+                Log.d("aleand","发送广播");
+            }
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -130,15 +221,18 @@ public class JsonResolve {
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.accountClassifyList.clear();
+            Statics.accountClassifyList.clear();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String id = jsonObject1.getString("id");
                 String name = jsonObject1.getString("name");
                 AccountClassify accountClassify = new AccountClassify(id, name);
-                Constants.accountClassifyList.add(accountClassify);
+                Statics.accountClassifyList.add(accountClassify);
                 accountClassify = null;
+                Log.d("jizhang","name:"+name);
             }
+            //刷新适配器
+
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -152,13 +246,13 @@ public class JsonResolve {
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.accountTypeList.clear();
+            Statics.accountTypeList.clear();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String id = jsonObject1.getString("id");
                 String name = jsonObject1.getString("name");
                 AccountType accountType = new AccountType(id, name);
-                Constants.accountTypeList.add(accountType);
+                Statics.accountTypeList.add(accountType);
                 accountType = null;
             }
 
@@ -175,14 +269,14 @@ public class JsonResolve {
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.customerList.clear();
+            Statics.customerList.clear();
 
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String id = jsonObject1.getString("id");
                 String name = jsonObject1.getString("name");
                 Customer customer = new Customer(id, name);
-                Constants.customerList.add(customer);
+                Statics.customerList.add(customer);
                 customer = null;
             }
 
@@ -200,7 +294,7 @@ public class JsonResolve {
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.timeBillingStatisticsList.clear();
+            Statics.timeBillingStatisticsList.clear();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String income = jsonObject1.getString("jz1");
@@ -210,7 +304,7 @@ public class JsonResolve {
                 String year = jsonObject1.getString("ye");
                 String month = jsonObject1.getString("mon");
                 TimeBillingStatistics timeBillingStatistics = new TimeBillingStatistics(month, income, outcome, imbanlance);
-                Constants.timeBillingStatisticsList.add(timeBillingStatistics);
+                Statics.timeBillingStatisticsList.add(timeBillingStatistics);
                 timeBillingStatistics = null;
             }
             //刷新异步刷新
@@ -224,18 +318,39 @@ public class JsonResolve {
         }
     }
 
-    public static void jsonSearchYear(String json) {
+    public static void jsonExpressSearchYear(String json) {
         try {
             //解析前先清空
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.year.clear();
+            Statics.expressYear.clear();
 
             for (int i = 0; i < jsonArray1.length(); i++) {
-                Constants.year.add(jsonArray1.get(i).toString());
+                Statics.expressYear.add(jsonArray1.get(i).toString());
                 Log.d("tes99","oni:::"+jsonArray1.get(i).toString());
-                Log.d("tes99","Constants:::"+Constants.year.get(i));
+                Log.d("tes99","Constants:::"+Statics.expressYear.get(i));
+            }
+            //AccountManagementActivity.accountManagementAdapter =new AccountManagementAdapter(context);
+            //AccountManagementActivity.accountLv.setAdapter(AccountManagementActivity.accountManagementAdapter);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static void jsonBillingSearchYear(String json) {
+        try {
+            //解析前先清空
+            JSONArray jsonArray = new JSONArray(json);
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            JSONArray jsonArray1 = jsonObject.getJSONArray("data");
+            Statics.billingYear.clear();
+
+            for (int i = 0; i < jsonArray1.length(); i++) {
+                Statics.billingYear.add(jsonArray1.get(i).toString());
+                Log.d("tes99","oni:::"+jsonArray1.get(i).toString());
+                Log.d("tes99","Constants:::"+Statics.billingYear.get(i));
             }
             //AccountManagementActivity.accountManagementAdapter =new AccountManagementAdapter(context);
             //AccountManagementActivity.accountLv.setAdapter(AccountManagementActivity.accountManagementAdapter);
@@ -252,14 +367,14 @@ public class JsonResolve {
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.expressPieceCountMonthsList.clear();
+            Statics.expressPieceCountMonthsList.clear();
             for (int i=0;i<jsonArray1.length();i++){
                 JSONObject jsonObject2 =jsonArray1.getJSONObject(i);
                 String month = jsonObject2.getString("month");
                 String sum =  jsonObject2.getString("sum");
                 String day =  jsonObject2.getString("day");
                 ExpressPieceCountMonth expressPieceCountMonth =new ExpressPieceCountMonth(month,sum,day);
-                Constants.expressPieceCountMonthsList.add(expressPieceCountMonth);
+                Statics.expressPieceCountMonthsList.add(expressPieceCountMonth);
                 Log.v("sum",sum);
             }
         } catch (JSONException e) {
@@ -277,17 +392,22 @@ public class JsonResolve {
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.epmsXList.clear();
+            Statics.epmsXList=new String[jsonArray1.length()];
+            Log.d("adad",jsonArray1.get(0).toString());
             for (int i=0;i<jsonArray1.length();i++){
+                Statics.epmsXList[i]=jsonArray1.get(i).toString();
+                Log.d("yui",Statics.epmsXList[i]);
+            }
+            /*for (int i=0;i<jsonArray1.length();i++){
                 JSONObject jsonObject2 =jsonArray1.getJSONObject(i);
                 String month = jsonObject2.getString("month");
                 String sum =  jsonObject2.getString("sum");
                 String name_id =  jsonObject2.getString("name_id");
                 String day =  jsonObject2.getString("day");
                 ExpressPersonMonthStatisticsXiangqing epmsx =new ExpressPersonMonthStatisticsXiangqing(month,sum,name_id,day);
-                Constants.epmsXList.add(epmsx);
+                Statics.epmsXList.add(epmsx);
                 Log.v("sum",sum);
-            }
+            }*/
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -304,13 +424,13 @@ public class JsonResolve {
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             String result = jsonObject.getString("message");
             if ("失败！".equals(result)) {//没有数据时的处理
-                Constants.customerBillingStatisticsArrayList.clear();
+                Statics.customerBillingStatisticsArrayList.clear();
                 BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
                 billingStatisticsActivity.AdapterRefresh("customerAdapter");
                 return;
             }
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.customerBillingStatisticsArrayList.clear();
+            Statics.customerBillingStatisticsArrayList.clear();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String income = jsonObject1.getString("jz1");
@@ -321,7 +441,7 @@ public class JsonResolve {
                 String customer = jsonObject1.getString("name");
                 String id = jsonObject1.getString("id");
                 CustomerBillingStatistics customerBillingStatistics = new CustomerBillingStatistics(id, month, customer, income, outcome, imbanlance);
-                Constants.customerBillingStatisticsArrayList.add(customerBillingStatistics);
+                Statics.customerBillingStatisticsArrayList.add(customerBillingStatistics);
                 customerBillingStatistics = null;
             }
             //刷新异步刷新
@@ -340,7 +460,7 @@ public class JsonResolve {
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
 
-            Constants.xiangxiBillingStatisticsArrayList.clear();
+            Statics.xiangxiBillingStatisticsArrayList.clear();
 
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
@@ -348,22 +468,35 @@ public class JsonResolve {
                 String classifyname = jsonObject1.getString("classifyname");//进账
                 String resonname = jsonObject1.getString("resonname");//进账
                 String remark = jsonObject1.getString("description");
+                String type = jsonObject1.getString("type");
                 JSONObject jsonObject2 = jsonObject1.getJSONObject("date");
                 String year = jsonObject2.getString("year");
                 String month = jsonObject2.getString("month");
                 String day = jsonObject2.getString("date");
                 String time = jsonObject2.getString("time");
-                year=ToolUtils.timeDateFormat(Long.parseLong(time));
+
+                year=ToolUtils.timeDateFormat(year);
+
                 StringBuffer sb=new StringBuffer();
                 int temp = Integer.parseInt(month);
                 sb.append(year).append("-").append(++temp).append("-").append(day);
-                XiangxiBillingStatistics xiangxiBillingStatistics = new XiangxiBillingStatistics(classifyname, resonname, sb.toString(), price, remark);
-                Constants.xiangxiBillingStatisticsArrayList.add(xiangxiBillingStatistics);
+                String typeString = null;
+                switch (type){
+                    case "024001":
+                        typeString = "圆通快递";
+                        break;
+                    case "024002":
+                        typeString = "韵达快递";
+                        break;
+                }
+                Log.d("hui","year:"+year+",."+year);
+                XiangxiBillingStatistics xiangxiBillingStatistics = new XiangxiBillingStatistics(classifyname, typeString, resonname, sb.toString(), price, remark);
+                Statics.xiangxiBillingStatisticsArrayList.add(xiangxiBillingStatistics);
                 xiangxiBillingStatistics = null;
             }
-            Log.v("tool", "word:" + Constants.xiangxiBillingStatisticsArrayList.size());
+            Log.v("tool", "word:" + Statics.xiangxiBillingStatisticsArrayList.size());
             //刷新异步刷新
-            Log.v("ToolUtils","yuyu:"+Integer.toString(Constants.xiangxiBillingStatisticsArrayList.size()));
+            Log.v("ToolUtils","yuyu:"+Integer.toString(Statics.xiangxiBillingStatisticsArrayList.size()));
             BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
             billingStatisticsActivity.AdapterRefresh("xiangxiAdapter");
         } catch (JSONException e) {
@@ -381,9 +514,9 @@ public class JsonResolve {
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
             JSONObject jsonObject1 = jsonArray1.getJSONObject(0);
             String total = jsonObject1.get("total").toString();
-            Constants.page = (Integer.parseInt(total) + Integer.parseInt(rows) - 1) / Integer.parseInt(rows);
+            Statics.page = (Integer.parseInt(total) + Integer.parseInt(rows) - 1) / Integer.parseInt(rows);
             JSONArray jsonArray2 = jsonObject1.getJSONArray("rows");
-            Constants.enmList.clear();
+            Statics.enmList.clear();
             for (int k = 0; k < jsonArray2.length(); k++) {
                 JSONObject jsonObject2 = jsonArray2.getJSONObject(k);
                 String id = jsonObject2.getString("id");
@@ -392,21 +525,21 @@ public class JsonResolve {
                 String expressName = jsonObject2.getString("nameId");//name
                 JSONObject jsonObject3 = jsonArray2.getJSONObject(k);
                 JSONObject jsonObject4 = jsonObject3.getJSONObject("billingTime");
-                long billingtime = jsonObject4.getLong("time");
+                String billingtime = jsonObject4.getString("time");
                 String month = jsonObject4.getString("month");
                 String day = jsonObject4.getString("date");
                 String year = jsonObject4.getString("year");
-                Log.d("test4","billingTime"+Long.toString(billingtime));
-                Log.d("test45","ddd"+Long.toString(billingtime));
+                Log.d("test4","billingTime"+billingtime);
+                Log.d("test45","ddd"+billingtime);
                 //----------------------------------------------------------------------------------
-                year = ToolUtils.timeDateFormat(billingtime);
+                year = ToolUtils.timeDateFormat(year);
                 StringBuffer sb=new StringBuffer();
                 int temp = Integer.parseInt(month);
 
                 sb.append(year).append("-").append(++temp).append("-").append(day);
 
                 ExpressNumberManagement expressNumberManagement = new ExpressNumberManagement(id, expressName, type, expresscount, sb.toString());
-                Constants.enmList.add(expressNumberManagement);
+                Statics.enmList.add(expressNumberManagement);
                 expressNumberManagement=null;
             }
             //刷新
@@ -425,13 +558,13 @@ public class JsonResolve {
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.expressPersonsList.clear();
+            Statics.expressPersonsList.clear();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String id = jsonObject1.getString("id");
                 String name = jsonObject1.getString("name");
                 ExpressPerson expressPerson = new ExpressPerson(id, name);
-                Constants.expressPersonsList.add(expressPerson);
+                Statics.expressPersonsList.add(expressPerson);
                 expressPerson = null;
             }
 
@@ -450,14 +583,14 @@ public class JsonResolve {
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.expressTimeList.clear();
+            Statics.expressTimeList.clear();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String month = jsonObject1.getString("month");
                 String year = jsonObject1.getString("year");
                 String sum = jsonObject1.getString("sum");
                 TimeExpressStatistics timeBillingStatistics = new TimeExpressStatistics(month, year, sum);
-                Constants.expressTimeList.add(timeBillingStatistics);
+                Statics.expressTimeList.add(timeBillingStatistics);
                 timeBillingStatistics = null;
             }
             //刷新异步刷新
@@ -479,13 +612,13 @@ public class JsonResolve {
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             String result = jsonObject.getString("message");
             if ("失败！".equals(result)) {//没有数据时的处理
-                Constants.expressPersonStatisticList.clear();
+                Statics.expressPersonStatisticList.clear();
                 ExpressStatisticsActivity expressStatisticsActivity = new ExpressStatisticsActivity();
                 expressStatisticsActivity.AdapterRefresh("expressPersonAdapter");
                 return;
             }
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Constants.expressPersonStatisticList.clear();
+            Statics.expressPersonStatisticList.clear();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String month = jsonObject1.getString("month");
@@ -493,7 +626,7 @@ public class JsonResolve {
                 String sum = jsonObject1.getString("sum");
                 String name_id = jsonObject1.getString("name_id");
                 ExpressPersonStatistic expressPersonStatistic = new ExpressPersonStatistic(name_id ,month, name, sum);
-                Constants.expressPersonStatisticList.add(expressPersonStatistic);
+                Statics.expressPersonStatisticList.add(expressPersonStatistic);
                 expressPersonStatistic = null;
             }
             //刷新异步刷新
@@ -512,7 +645,7 @@ public class JsonResolve {
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
 
-            Constants.epsXList.clear();
+            Statics.epsXList.clear();
             Log.d("tasts","------------------------------");
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
@@ -533,7 +666,7 @@ public class JsonResolve {
                 Log.d("longfei",year+"year"+month+"month"+day+"day");
 
                 //----------------------------------------------------------------------------------
-                year = ToolUtils.timeDateFormat(Long.parseLong(time));
+                year = ToolUtils.timeDateFormat(year);
                 StringBuffer sb=new StringBuffer();
                 int temp = Integer.parseInt(month);
 
@@ -541,7 +674,7 @@ public class JsonResolve {
 
                 ExpressPersonStatisticsXiangqing epsXiangqing = new ExpressPersonStatisticsXiangqing(
                        sb.toString(),name, numeric, description, id, type,type1,name_id);
-                Constants.epsXList.add(epsXiangqing);
+                Statics.epsXList.add(epsXiangqing);
                 epsXiangqing = null;
             }
             //刷新异步刷新

@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Tool.ToolUtils;
+import Tool.statistics.Statics;
 import http.BillingStatisticsHttpPost;
-import http.Constants;
 import model.CustomerBillingStatistics;
 import model.TimeBillingStatistics;
 import model.XiangxiBillingStatistics;
@@ -69,8 +69,8 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
         //首次访问
         progressDialog = ProgressDialog.show(BillingStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
-        billingStatisticsHttpPost.searchTimeHttp(Constants.TimeSearchUrl, "2017", "", BillingStatisticsActivity.this);
-        timeBillingStatisticsList = Constants.timeBillingStatisticsList;
+        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "", BillingStatisticsActivity.this);
+        timeBillingStatisticsList = Statics.timeBillingStatisticsList;
         timeAdapter = new TimeBillingStatisticsAdapter(BillingStatisticsActivity.this, timeBillingStatisticsList);
         timeListView.setAdapter(timeAdapter);
         search.setOnClickListener(o);
@@ -82,19 +82,19 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
                 //选中变色
                 //ToolUtils.selectColor(parent,position);
                 //确定月份
-                final String month = Constants.timeBillingStatisticsList.get(position).getMonth();
-                billingStatisticsHttpPost.searchCustomerHttp(Constants.CustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, BillingStatisticsActivity.this);
-                customerBillingStatisticsList = Constants.customerBillingStatisticsArrayList;
+                final String month = Statics.timeBillingStatisticsList.get(position).getMonth();
+                billingStatisticsHttpPost.searchCustomerHttp(Statics.CustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, BillingStatisticsActivity.this);
+                customerBillingStatisticsList = Statics.customerBillingStatisticsArrayList;
                 customerAdapter = new CustomerBillingStatisticsAdapter(BillingStatisticsActivity.this, customerBillingStatisticsList);
                 customerListView.setAdapter(customerAdapter);
 
                 customerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String customerId = Constants.customerBillingStatisticsArrayList.get(position).getCustomerId();//ID
+                        String customerId = Statics.customerBillingStatisticsArrayList.get(position).getCustomerId();//ID
                         listView = null;
                         //递类型，月份，客户名客户名以检索
-                        billingStatisticsHttpPost.searchXqCustomerHttp(Constants.XqCustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, customerId, BillingStatisticsActivity.this);
+                        billingStatisticsHttpPost.searchXqCustomerHttp(Statics.XqCustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, customerId, BillingStatisticsActivity.this);
                         //显示对话框，在对话框中使用ListView
                         AlertDialog.Builder builder = new AlertDialog.Builder(BillingStatisticsActivity.this);
                         LayoutInflater inflater = getLayoutInflater();
@@ -102,7 +102,7 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
                         listView = (ListView) layout.findViewById(R.id.lv);
                         tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
                         tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
-                        xiangxiBillingStatisticsList = Constants.xiangxiBillingStatisticsArrayList;
+                        xiangxiBillingStatisticsList = Statics.xiangxiBillingStatisticsArrayList;
                         xiangxiAdapter = new XiangxiBillingStatisticsAdapter(BillingStatisticsActivity.this, xiangxiBillingStatisticsList);
                         listView.setAdapter(xiangxiAdapter);
 
@@ -138,8 +138,8 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
                 case R.id.search:
                     Log.v("test2", "R.id.search");
                     progressDialog = ProgressDialog.show(BillingStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                    billingStatisticsHttpPost.searchTimeHttp(Constants.TimeSearchUrl, yearSpinnerString, typeSpinnerString, BillingStatisticsActivity.this);
-                    timeBillingStatisticsList = Constants.timeBillingStatisticsList;
+                    billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString, typeSpinnerString, BillingStatisticsActivity.this);
+                    timeBillingStatisticsList = Statics.timeBillingStatisticsList;
                     timeAdapter = new TimeBillingStatisticsAdapter(BillingStatisticsActivity.this, timeBillingStatisticsList);
                     timeListView.setAdapter(timeAdapter);
                     customerBillingStatisticsList = null;//搜索将下面的数据清空
@@ -159,11 +159,11 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
         Log.d("test", "spinnerType");
         //数据
         //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this);
+        //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; i < Constants.accountTypeList.size(); i++) {
-            data_list.add(Constants.accountTypeList.get(i).getName());
+        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
+            data_list.add(Statics.accountTypeList.get(i).getName());
         }
 
         //适配器
@@ -180,7 +180,7 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
                 if(position == 0){
                     typeSpinnerString = "全部";
                 }else{
-                    typeSpinnerString = Constants.accountTypeList.get(--position).getId();
+                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
                 }
                 data_list = null;
             }
@@ -192,11 +192,11 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
 
         //数据
         //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this);
+        //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
         ArrayList<String> yearlist = new ArrayList<>();
         yearlist.add("全部");
-        for (int i=0;i<Constants.year.size();i++){
-            yearlist.add(Constants.year.get(i));
+        for (int i=0;i<Statics.billingYear.size();i++){
+            yearlist.add(Statics.billingYear.get(i));
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, yearlist);
@@ -211,7 +211,7 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
                 if(position == 0){
                     yearSpinnerString = "全部";
                 }else{
-                    yearSpinnerString = Constants.year.get(--position);
+                    yearSpinnerString = Statics.billingYear.get(--position);
                 }
                 data_list = null;
             }

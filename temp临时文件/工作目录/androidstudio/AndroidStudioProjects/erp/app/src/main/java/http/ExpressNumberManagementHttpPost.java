@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import Tool.JsonResolve;
+import Tool.statistics.Statics;
 import model.ExpressNumberManagement;
 import ui.activity.ExpressNumberManagerActivity;
 
@@ -97,7 +98,7 @@ public class ExpressNumberManagementHttpPost{
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("option", "2");//1查询，2添加，3删除
-        params.put("userName",Constants.LoginId);
+        params.put("userName", Statics.LoginId);
         params.put("type", typeSpinnerString);
         params.put("nameId", expressNameSpinnerString);
         params.put("numeric", numeric);
@@ -111,7 +112,7 @@ public class ExpressNumberManagementHttpPost{
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
 
-                Log.v("test","Constants.userName::"+Constants.userName);
+                Log.v("test","Constants.userName::"+Statics.userName);
                 String result = (String) o;//从从网络端返回数据
                 resultString = "success";
                 Log.v("test", "result：" + result);
@@ -148,7 +149,7 @@ public class ExpressNumberManagementHttpPost{
 
                 //刷新页面
                 Log.v("test","notifyDataSetInvalidated");
-                String httpUrl = Constants.ExpressCountSearch;
+                String httpUrl = Statics.ExpressCountSearch;
                 searchHttp(httpUrl ,"" ,"" ,"",activity,1);//刷新页面
             }
 
@@ -205,7 +206,7 @@ public class ExpressNumberManagementHttpPost{
                 String result = (String) o;//从从网络端返回数据
                 Log.d("yearing", result);
                 resultString = "success";
-                JsonResolve.jsonSearchYear(result);//json解析
+                JsonResolve.jsonExpressSearchYear(result);//json解析
             }
 
             @Override

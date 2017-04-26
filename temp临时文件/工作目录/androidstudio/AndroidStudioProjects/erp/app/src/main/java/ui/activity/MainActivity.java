@@ -27,11 +27,14 @@ import com.example.admin.erp.R;
 import net.tsz.afinal.FinalBitmap;
 
 import java.util.Properties;
+
+import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.AccountManagementHttpPost;
 import http.Constants;
 import portface.LazyLoadFace;
+import ui.activity.menu.MenuFragmentMainActivity;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -103,9 +106,10 @@ public class MainActivity extends AppCompatActivity{
             public void AdapterRefresh(String type) {
                 //具体更新
                 if(type.equals("login")){
-                    in = new Intent(MainActivity.this, CensusActivity.class);
+                    //in = new Intent(MainActivity.this, CensusActivity.class);
+                    in = new Intent(MainActivity.this, MenuFragmentMainActivity.class);
                     flag = false;
-                    Constants.LoginId = userNameString ;
+                    Statics.LoginId = userNameString ;
                     startActivity(in);
                     finish();
                 }
@@ -123,37 +127,40 @@ public class MainActivity extends AppCompatActivity{
         try {
             properties.load(MainActivity.this.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
-            Constants.LoginUrl = IFengLoginUrl + "/identify/login.jhtml";
-            //Constants.LoginUrl = IFengLoginUrl;
+            Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml";
+            //Statics.LoginUrl = IFengLoginUrl;
             String IFengUrl = properties.getProperty("IFengUrl").trim();
-            Constants.AccountManagementSearchUrl = IFengUrl + "/wxApi.ajax";
-            Constants.AllCustomerUrl = IFengUrl + "/getWXAllCustomer.ajax";
-            Constants.AccountReasonUrl = IFengUrl + "/getWXExpenseAccountReason.ajax";
-            Constants.AccountClassifyUrl = IFengUrl + "/getWXExpenseAccountClassify.ajax";
-            Constants.AccountTypeUrl = IFengUrl + "/getWXExpenseAccountType.ajax";
-            Constants.TimeSearchUrl = IFengUrl + "/getWXTjsjList.ajax";
-            Constants.CustomerSearchUrl = IFengUrl + "/getWXCustomerTjsjList.ajax";
-            Constants.YearSearchUrl = IFengUrl + "/getWXYearAccountStatistics.ajax";
-            Constants.XqCustomerSearchUrl = IFengUrl + "/getWXCustomerTjxq.ajax";
-            Constants.ExpressYearSearchUrl = IFengUrl + "/getWXYearNumberStatistics.ajax";
-            Constants.ExpressPersonNameSearchUrl = IFengUrl + "/getWXAllNumber.ajax";
-            Constants.ExpressCountSearch = IFengUrl + "/wxApiNumber.ajax";
-            Constants.TimeStatisticSearchUrl = IFengUrl + "/getWXTjsjListNumber.ajax";
-            Constants.ExpressStatisticSearchUrl = IFengUrl + "/getCustomerTjsjListNumber.ajax";
-            Constants.ExpressXqTimeSearchUrl = IFengUrl + "/getCustomerTjxqNumber.ajax";
-            Constants.ExpressPieceMonthDaySearchUrl = IFengUrl + "/getWxXAxisDay.ajax";
-            Constants.ExpressPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataDay.ajax";
-            Constants.ExpressPersonPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataAmount.ajax";
-            Log.d("55","登录"+Constants.LoginUrl);
-            Log.d("55", Constants.AccountManagementSearchUrl);
-            Log.d("55", Constants.AllCustomerUrl);
-            Log.d("55", Constants.AccountReasonUrl);
-            Log.d("55", Constants.AccountTypeUrl);
-            Log.d("55", Constants.TimeSearchUrl);
-            Log.d("55", Constants.CustomerSearchUrl);
-            Log.d("55", Constants.YearSearchUrl);
-            Log.d("55", Constants.XqCustomerSearchUrl);
-            Log.d("55",Constants.ExpressPersonPieceDaySearchUrl);
+            Statics.AccountManagementSearchUrl = IFengUrl + "/wxApi.ajax";
+            Statics.AllCustomerUrl = IFengUrl + "/getWXAllCustomer.ajax";
+            Statics.AccountReasonUrl = IFengUrl + "/getWXExpenseAccountReason.ajax";
+            Statics.AccountClassifyUrl = IFengUrl + "/getWXExpenseAccountClassify.ajax";
+            Statics.AccountTypeUrl = IFengUrl + "/getWXExpenseAccountType.ajax";
+            Statics.TimeSearchUrl = IFengUrl + "/getWXTjsjList.ajax";
+            Statics.CustomerSearchUrl = IFengUrl + "/getWXCustomerTjsjList.ajax";
+            Statics.YearSearchUrl = IFengUrl + "/getWXYearAccountStatistics.ajax";
+            Statics.XqCustomerSearchUrl = IFengUrl + "/getWXCustomerTjxq.ajax";
+            Statics.ExpressYearSearchUrl = IFengUrl + "/getWXYearNumberStatistics.ajax";
+            Statics.ExpressPersonNameSearchUrl = IFengUrl + "/getWXAllNumber.ajax";
+            Statics.ExpressCountSearch = IFengUrl + "/wxApiNumber.ajax";
+            Statics.TimeStatisticSearchUrl = IFengUrl + "/getWXTjsjListNumber.ajax";
+            Statics.ExpressStatisticSearchUrl = IFengUrl + "/getCustomerTjsjListNumber.ajax";
+            Statics.ExpressXqTimeSearchUrl = IFengUrl + "/getCustomerTjxqNumber.ajax";
+            Statics.ExpressPieceMonthDaySearchUrl = IFengUrl + "/getWxXAxisDay.ajax";
+            Statics.ExpressPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataDay.ajax";
+            Statics.ExpressPersonPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataAmount.ajax";
+            Statics.AttendanceStatisticsSearchUrl = IFengUrl + "/getWxAllAttendanceMonthSum.ajax";
+            Statics.searchYearUrl = IFengUrl + "/getWxAllYears.ajax";
+            Log.d("55","登录"+Statics.LoginUrl);
+            Log.d("55", Statics.AccountManagementSearchUrl);
+            Log.d("55", Statics.AllCustomerUrl);
+            Log.d("55", Statics.AccountReasonUrl);
+            Log.d("55", Statics.AccountTypeUrl);
+            Log.d("55", Statics.TimeSearchUrl);
+            Log.d("55", Statics.CustomerSearchUrl);
+            Log.d("55", Statics.YearSearchUrl);
+            Log.d("55", Statics.XqCustomerSearchUrl);
+            Log.d("55",Statics.ExpressPersonPieceDaySearchUrl);
+            Log.d("55",Statics.ExpressPieceDaySearchUrl);
             Log.d("55","测试");
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,6 +184,7 @@ public class MainActivity extends AppCompatActivity{
 
         private void check() {
             initBroadCast();
+
             flag = true;
             userNameString = userName.getText().toString().trim();
             String password = userPassword.getText().toString().trim();
@@ -203,7 +211,7 @@ public class MainActivity extends AppCompatActivity{
                 editor.commit();
             }
 
-            String urlString = Constants.LoginUrl;
+            String urlString = Statics.LoginUrl;
             httpPost = new AccountManagementHttpPost(getApplicationContext());
             httpPost.LoginHttp(urlString, userNameString, password, MainActivity.this);
         }

@@ -1,6 +1,8 @@
 package ui.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,16 +22,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.statistics.Statics;
+import broadcast.Config;
+import broadcast.FreshenBroadcastReceiver;
 import http.AccountManagementHttpPost;
-import http.Constants;
+import portface.LazyLoadFace;
 
-//import static com.example.admin.erp.R.id.accountLv;
-
-public class AddAccountManagerActivity extends AppCompatActivity {
+public class AddAccountManagerActivity extends AppCompatActivity implements LazyLoadFace{
     private Button add, reset;
-    private Spinner typeSpinner, classifySpinner, reasonSpinner, customSpinner;
+    private static Spinner typeSpinner, classifySpinner, reasonSpinner, customSpinner;
     private EditText price, remark;
-    public static ArrayAdapter<String> arr_adapter;
+    public static ArrayAdapter<String> arr_adapter,arr_adapter1;
     private String typeSpinnerString, classifySpinnerString, reasonSpinnerString, customerSpinnerString, priceString, remarkString,billingTimeString;
     private List<String> data_list;
     private AccountManagementHttpPost httpPost;
@@ -37,6 +40,10 @@ public class AddAccountManagerActivity extends AppCompatActivity {
     private EditText billingTime;
     private int currentYear,currentMon,currentDate;
     private Calendar calendar;
+    public static Boolean addBoolean = false;
+    ArrayList data_list1;
+    static FreshenBroadcastReceiver broadcast;
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,8 @@ public class AddAccountManagerActivity extends AppCompatActivity {
         setTitle("新建账单");
         setContentView(R.layout.activity_add_account_manager);
 
+        context = getApplicationContext();
+        initBroadCast();
         init();
         spinnerType();
         calendar = Calendar.getInstance();
@@ -64,6 +73,10 @@ public class AddAccountManagerActivity extends AppCompatActivity {
                     billingTimeString = billingTime.getText().toString().trim();
                     Log.d("test","billingTimeString:"+billingTimeString);
                     priceString = price.getText().toString().trim();
+                    Log.d("addddd",classifySpinnerString);//进账：023001，出账：023002
+                    /*if("023002".equals(classifySpinnerString)){//出账添加‘-’
+                        priceString = "-"+priceString;
+                    }*/
                     remarkString = remark.getText().toString().trim();
                     if ("".equals(typeSpinnerString) || "".equals(classifySpinnerString) || "".equals(reasonSpinnerString)
                             || "".equals(customerSpinnerString) || "".equals(priceString)
@@ -73,7 +86,7 @@ public class AddAccountManagerActivity extends AppCompatActivity {
                         httpPost = new AccountManagementHttpPost();
                         Log.d("test", typeSpinnerString + "@" + classifySpinnerString + "@" + reasonSpinnerString + "@" + priceString + "@" + remarkString + "@" + customerSpinnerString);
                         if ("success".equals(httpPost.addCountManagerHttp(
-                                Constants.AccountManagementSearchUrl, typeSpinnerString, classifySpinnerString,
+                                Statics.AccountManagementSearchUrl, typeSpinnerString, classifySpinnerString,
                                 reasonSpinnerString, priceString, remarkString, customerSpinnerString ,billingTimeString))) {
                             Toast.makeText(AddAccountManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                             finish();
@@ -110,15 +123,13 @@ public class AddAccountManagerActivity extends AppCompatActivity {
                 mYear, mMonth, mDay).show();
     }
 
-
-
     private void spinnerType() {
         //数据 customer
         httpPost = new AccountManagementHttpPost();
-        httpPost.customerSearchHttp(Constants.AllCustomerUrl);
+        httpPost.customerSearchHttp(Statics.AllCustomerUrl);
         data_list = new ArrayList<>();
-        for (int i = 0; i < Constants.customerList.size(); i++) {
-            data_list.add(Constants.customerList.get(i).getName());
+        for (int i = 0; i < Statics.customerList.size(); i++) {
+            data_list.add(Statics.customerList.get(i).getName());
         }
         for (int j = 0; j < data_list.size(); j++) {
             Log.v("data-list", "--" + data_list.get(j));
@@ -132,7 +143,7 @@ public class AddAccountManagerActivity extends AppCompatActivity {
         customSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                customerSpinnerString = Constants.customerList.get(position).getId();
+                customerSpinnerString = Statics.customerList.get(position).getId();
             }
 
             @Override
@@ -143,10 +154,10 @@ public class AddAccountManagerActivity extends AppCompatActivity {
         Log.d("test", "spinnerType");
         //数据 accountType
         httpPost = new AccountManagementHttpPost();
-        httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl);
+        httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl);
         data_list = new ArrayList<>();
-        for (int i = 0; i < Constants.accountTypeList.size(); i++) {
-            data_list.add(Constants.accountTypeList.get(i).getName());
+        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
+            data_list.add(Statics.accountTypeList.get(i).getName());
         }
         for (int j = 0; j < data_list.size(); j++) {
             Log.v("data-list", "--" + data_list.get(j));
@@ -160,10 +171,10 @@ public class AddAccountManagerActivity extends AppCompatActivity {
         data_list = null;
         //数据 AccountClassify
         httpPost = new AccountManagementHttpPost();
-        httpPost.accountClassifySearchHttp(Constants.AccountClassifyUrl);
+        httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl);
         data_list = new ArrayList<>();
-        for (int i = 0; i < Constants.accountClassifyList.size(); i++) {
-            data_list.add(Constants.accountClassifyList.get(i).getName());
+        for (int i = 0; i < Statics.accountClassifyList.size(); i++) {
+            data_list.add(Statics.accountClassifyList.get(i).getName());
         }
         for (int j = 0; j < data_list.size(); j++) {
             Log.v("data-list", "--" + data_list.get(j));
@@ -177,7 +188,7 @@ public class AddAccountManagerActivity extends AppCompatActivity {
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                typeSpinnerString = Constants.accountTypeList.get(position).getId();
+                typeSpinnerString = Statics.accountTypeList.get(position).getId();
                 data_list = null;
             }
 
@@ -189,28 +200,33 @@ public class AddAccountManagerActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //二级联动
-                classifySpinnerString = Constants.accountClassifyList.get(position).getId();
+                classifySpinnerString = Statics.accountClassifyList.get(position).getId();
+
+                Log.d("select","ss:"+position+"");
+                Log.d("select",classifySpinnerString);
+
                 //数据
+                addBoolean = true;
                 httpPost = new AccountManagementHttpPost();
-                httpPost.accountReasonSearchHttp(Constants.AccountReasonUrl, classifySpinnerString, AddAccountManagerActivity.this);
-                data_list = new ArrayList<>();
-                for (int i = 0; i < Constants.accountReasonList.size(); i++) {
-                    data_list.add(Constants.accountReasonList.get(i).getName());
+                httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, classifySpinnerString, AddAccountManagerActivity.this);
+                data_list1 = new ArrayList<>();
+                for (int i = 0; i < Statics.accountReasonList.size(); i++) {
+                    data_list1.add(Statics.accountReasonList.get(i).getName());
                 }
-                for (int j = 0; j < data_list.size(); j++) {
-                    Log.v("data-list", "--" + data_list.get(j));
-                }
+
                 //适配器
-                arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list);
+                arr_adapter1 = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list1);
                 //设置样式
-                arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+                arr_adapter1.setDropDownViewResource(R.layout.spinner_dropdown_style);
                 //加载适配器
-                reasonSpinner.setAdapter(arr_adapter);
+                reasonSpinner.setAdapter(arr_adapter1);
+
+
 
                 reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        reasonSpinnerString = Constants.accountReasonList.get(position).getId();
+                        reasonSpinnerString = Statics.accountReasonList.get(position).getId();
                     }
 
                     @Override
@@ -239,4 +255,43 @@ public class AddAccountManagerActivity extends AppCompatActivity {
         billingTime = (EditText) findViewById(R.id.billingTime);
     }
 
+    private void initBroadCast() {
+        //广播初始化 必须动态注册才能实现回调
+        broadcast = new FreshenBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Config.BC_ONE);
+        context.registerReceiver(broadcast, intentFilter);
+
+        broadcast.setLazyLoadFace(new LazyLoadFace() {
+            @Override
+            public void AdapterRefresh(String type) {
+                //具体更新
+                if(type.equals("addReasonSpinner")){
+                    Log.d("aleand","收到广播");
+                    //适配器
+                    //arr_adapter1.notifyDataSetChanged();
+                    data_list1 = new ArrayList<>();
+                    for (int i = 0; i < Statics.accountReasonList.size(); i++) {
+                        data_list1.add(Statics.accountReasonList.get(i).getName());
+                    }
+                    //适配器
+                    arr_adapter1 = new ArrayAdapter<>(context, R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list1);
+                    //设置样式
+                    arr_adapter1.setDropDownViewResource(R.layout.spinner_dropdown_style);
+                    //加载适配器
+                    reasonSpinner.setAdapter(arr_adapter1);
+                }
+            }
+
+        });
+    }
+
+    @Override
+    public void AdapterRefresh(String type) {
+        switch (type) {
+            case "reasonSpinner":
+                initBroadCast();
+                break;
+        }
+    }
 }

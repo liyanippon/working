@@ -61,6 +61,7 @@ public class XiangxiBillingStatisticsAdapter extends BaseAdapter {
             viewHolder.id = (TextView) convertView.findViewById(R.id.text_id);//序号
             viewHolder.classifyname = (TextView) convertView.findViewById(R.id.classifyname);
             viewHolder.resonname = (TextView) convertView.findViewById(R.id.resonname);
+            viewHolder.type = (TextView) convertView.findViewById(R.id.type);
             viewHolder.date = (TextView) convertView.findViewById(R.id.date);
             viewHolder.price = (TextView) convertView.findViewById(R.id.price);
             viewHolder.remark = (TextView) convertView.findViewById(R.id.remark);
@@ -75,6 +76,8 @@ public class XiangxiBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.classifyname.setTextSize(13);
         viewHolder.resonname.setText(xiangxiBillingStatistics.getResonname());
         viewHolder.resonname.setTextSize(13);
+        viewHolder.type.setText(xiangxiBillingStatistics.getType());
+        viewHolder.type.setTextSize(13);
         viewHolder.date.setText(xiangxiBillingStatistics.getDate());
         viewHolder.date.setTextSize(13);
         viewHolder.price.setText(xiangxiBillingStatistics.getPrice());
@@ -88,6 +91,7 @@ public class XiangxiBillingStatisticsAdapter extends BaseAdapter {
         public TextView id;
         public TextView classifyname;
         public TextView resonname;
+        public TextView type;
         public TextView date;
         public TextView price;
         public TextView remark;

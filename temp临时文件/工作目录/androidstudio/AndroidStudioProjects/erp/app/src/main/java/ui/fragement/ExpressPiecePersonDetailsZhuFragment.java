@@ -21,6 +21,7 @@ import java.util.Set;
 
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
+import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.Constants;
@@ -57,10 +58,10 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
     private String shijianTime = null;
     private double temp =0.0;
     public ExpressPiecePersonDetailsZhuFragment(){
-        year = Constants.XiangxiChan.get("year");
-        month = Constants.XiangxiChan.get("month");
-        type = Constants.XiangxiChan.get("type");
-        expressPersonId = Constants.XiangxiChan.get("expressPersonId");
+        year = Statics.XiangxiChan.get("year");
+        month = Statics.XiangxiChan.get("month");
+        type = Statics.XiangxiChan.get("type");
+        expressPersonId = Statics.XiangxiChan.get("expressPersonId");
     }
 
     @Override
@@ -73,17 +74,20 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
+        Statics.epmsXList=null;
+
         View view = inflater.inflate(R.layout.fragment_zhu, null);
         mCombinedChart = (BarChart) view.findViewById(R.id.barChart);
 
         initBroadCast();
         //处理月份天数和具体到每日的件数
-        Constants.isBroadCast =true;
-        String ExpressPieceMonthDaySearchUrl = Constants.ExpressPieceMonthDaySearchUrl;
+        Statics.isBroadCast =true;
+        String ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
         expressStatisticsHttpPost =new ExpressStatisticsHttpPost();
         Log.d("test00",month+"月");
         expressStatisticsHttpPost.searchDayCurrentMonth(ExpressPieceMonthDaySearchUrl,year,month);
-        expressStatisticsHttpPost.searchPersonDayCurrentMonthPieceCount(Constants.ExpressPersonPieceDaySearchUrl, year,  month, expressPersonId, getContext());
+        //长按：
+        expressStatisticsHttpPost.searchPersonDayCurrentMonthPieceCount(Statics.ExpressPersonPieceDaySearchUrl, year,  month, expressPersonId, getContext());
         //以快递员数量统计
         setGrayValue();
         initData();
@@ -103,26 +107,26 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
             @Override
             public void AdapterRefresh(String type) {
                 //具体更新
+                Log.d("aaaa","pppppppppppppppppppppppppp");
                 if(type.equals("PersonXq")){
-                    Log.d("broadcast","接收到广播");
-                    Constants.dayCount=true;
+                    Log.d("broadcast","接收到广播sss");
+                    Statics.dayCount=true;
                     Log.d("broadcast","更新界面");
 
-                    for (int i=0;i<Constants.Xday.length;i++){
+                    /*for (int i=0;i<Statics.Xday.length;i++){
                         Log.d("broadcast","00000000000-");
-                    }
-                    //Log.d("shu",Constants.expressPieceCountMonthsList.get(0).getSum());
-                    if(Constants.Xday!=null){
-                        mCount = Constants.Xday.length;
+                    }*/
+                    if(Statics.Xday!=null){
+                        mCount = Statics.Xday.length;
                     }else{
                         mCount=0;
                         Log.d("broadcast","ss"+"sdaf");
                     }
 
-                    Log.d("broadcast",Constants.Xday.length+"sdas");
-                    for (int i=0;i<Constants.epmsXList.size();i++){
-                        Log.d("broadcast",Constants.epmsXList.get(i).getSum());
-                    }
+                    Log.d("broadcast",Statics.Xday.length+"sdas");
+                    /*for (int i=0;i<Statics.epmsXList.size();i++){
+                        Log.d("broadcast",Statics.epmsXList.get(i).getSum());
+                    }*/
 
 
                     setGrayValue();
@@ -143,11 +147,20 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
 
         //统计最大y值
         List<Double> input = new ArrayList<>();
-        for (int i =0;i<Constants.epmsXList.size();i++){
-            input.add(Double.parseDouble(Constants.epmsXList.get(i).getSum()));
-            Log.d("broadcast","统计最大y值："+Constants.epmsXList.get(i).getSum());
-        }
+        /*for (int i =0;i<Statics.epmsXList.size();i++){
+            input.add(Double.parseDouble(Statics.epmsXList.get(i).getSum()));
+            Log.d("broadcast","统计最大y值："+Statics.epmsXList.get(i).getSum());
+        }*/
 
+        if(Statics.epmsXList!=null) {
+
+            for (int i = 0; i < Statics.epmsXList.length; i++) {
+                input.add(Double.parseDouble(Statics.epmsXList[i]));
+                //Log.d("broadcast","统计最大y值："+Statics.epmsXList.get(i).getSum());
+            }
+        }else{
+            input=new ArrayList<>();
+        }
         input.add(temp);
         Log.d("testa","yyy::"+Double.toString(temp));
         int yZhi = ToolUtils.tongJiTuY(input);
@@ -162,44 +175,51 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
         mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
-        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals1,list,"快递数量柱形统计图");
+        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals1,list,"业务员揽件量（客户）");
 
     }
 
     private void setGrayValue() {
 
         Log.d("broadcast","调用数据");
-        Log.d("broadcast","ss:"+Integer.toString(Constants.epmsXList.size()));
+        //Log.d("broadcast","ss:"+Integer.toString(Statics.epmsXList.size()));
         double[] expressPersonPieces = new double[mCount] ;
-        int[] day = new int[Constants.epmsXList.size()];
-        Log.d("broadcast",day.length+"ad");
-        for (int i =0;i< Constants.epmsXList.size();i++){
-            Log.d("broadcast","day[idfd]:"+Constants.epmsXList.get(i).getDay());
-            day[i] = Integer.parseInt(Constants.epmsXList.get(i).getDay());
+        //int[] day = new int[Statics.epmsXList.length];
+        //Log.d("broadcast",day.length+"ad");
+        /*for (int i =0;i< Statics.epmsXList.length;i++){
+            Log.d("broadcast","day[idfd]:"+Statics.epmsXList.length);
+            day[i] = Integer.parseInt(Statics.epmsXList.get(i).getDay());
 
-        }
+        }*/
         Log.d("test20","---------------------");
         Log.d("test20","mCount::"+Integer.toString(mCount));
-        Log.d("test20","day.length::"+Integer.toString(day.length));//有数据的天数
+        //Log.d("test20","day.length::"+Integer.toString(day.length));//有数据的天数
 
-        for (int i =1;i<=mCount;i++ ){//mCount月份天数
+        /*for (int i =1;i<=mCount;i++ ){//mCount月份天数
                 for (int j = 0;j<day.length;j++){
                     Log.d("testss","day::"+Integer.toString(day[j]));
                     if(i == day[j]){
                         Log.d("test20","day[j]::"+Integer.toString(day[j]));
-                        Log.d("test20","getNumeric()::"+Constants.epmsXList.get(j).getSum());
-                        expressPersonPieces[i-1] = Double.parseDouble(Constants.epmsXList.get(j).getSum());
+                        Log.d("test20","getNumeric()::"+Statics.epmsXList.get(j).getSum());
+                        expressPersonPieces[i-1] = Double.parseDouble(Statics.epmsXList.get(j).getSum());
                         Log.d("testss","testss::"+Double.toString(expressPersonPieces[i-1]));
                     }
                 }
 
+        }*/
+        if(Statics.epmsXList!=null&&Statics.epmsXList.length>0){
+            for (int i=0;i<Statics.epmsXList.length;i++){
+                Log.d("tetes","--------------");
+                Log.d("tetes","asdadf"+Statics.epmsXList.length+"");
+                expressPersonPieces[i]=Double.parseDouble(Statics.epmsXList[i]);
+            }
         }
 
 
 
         yVals1 = new ArrayList<>();
         for (int i = 0; i < mCount; i++) {
-            yVals1.add(new BarEntry((float) expressPersonPieces[i], i, Constants.Xday));
+            yVals1.add(new BarEntry((float) expressPersonPieces[i], i, Statics.Xday));
         }
     }
 

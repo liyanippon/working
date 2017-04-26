@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.statistics.Statics;
 import http.Constants;
 import http.ExpressNumberManagementHttpPost;
 import portface.LazyLoadFace;
@@ -86,7 +87,7 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
         });
 
         httpPost = new ExpressNumberManagementHttpPost();
-        String httpUrl = Constants.ExpressCountSearch;
+        String httpUrl = Statics.ExpressCountSearch;
         //刚进入页面就要显示数据
         //accountManagementAdapter =new AccountManagementAdapter(getApplicationContext());
         //accountLv.setAdapter(accountManagementAdapter);
@@ -117,7 +118,7 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
                        SearchBoolean = true;
                        billingTimeString = searchTime.getText().toString();
                        httpPost = new ExpressNumberManagementHttpPost();
-                       String httpUrl = Constants.ExpressCountSearch;
+                       String httpUrl = Statics.ExpressCountSearch;
                        String result = httpPost.searchHttp(httpUrl, expressPersonSpinnerString,typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
                         break;
                    case R.id.add:
@@ -135,8 +136,8 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
         //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; i < Constants.accountTypeList.size(); i++) {
-            data_list.add(Constants.accountTypeList.get(i).getName());
+        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
+            data_list.add(Statics.accountTypeList.get(i).getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -151,23 +152,23 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
         data_list = new ArrayList<>();
         data_list.add("全部");
         String name;
-        for (int i = 0; i < Constants.expressPersonsList.size(); i++) {
+        for (int i = 0; i < Statics.expressPersonsList.size(); i++) {
             //data_list.add(Constants.expressPersonsList.get(i).getName());
-            Log.d("dd",Constants.expressPersonsList.get(i).getName());
-            if(Constants.expressPersonsList.get(i).getName().contains("（")){
-                name = Constants.expressPersonsList.get(i).getName().split("（", 2)[0];//字符串以‘（’截取
+            Log.d("dd",Statics.expressPersonsList.get(i).getName());
+            if(Statics.expressPersonsList.get(i).getName().contains("（")){
+                name = Statics.expressPersonsList.get(i).getName().split("（", 2)[0];//字符串以‘（’截取
                 data_list.add(name);
-            }else if(Constants.expressPersonsList.get(i).getName().contains("(")){
-                name = Constants.expressPersonsList.get(i).getName().split("\\(", 2)[0];//字符串以‘（’截取
+            }else if(Statics.expressPersonsList.get(i).getName().contains("(")){
+                name = Statics.expressPersonsList.get(i).getName().split("\\(", 2)[0];//字符串以‘（’截取
                 data_list.add(name);
             }else{
-                name = Constants.expressPersonsList.get(i).getName();
+                name = Statics.expressPersonsList.get(i).getName();
                 data_list.add(name);
             }
            /* name = Constants.expressPersonsList.get(i).getName().split("（", 2)[0];//字符串以‘（’截取
             data_list.add(name);*/
             name = null;
-            Log.d("dd","ddL:"+Constants.expressPersonsList.get(i).getName().split("（", 2)[0]);
+            Log.d("dd","ddL:"+Statics.expressPersonsList.get(i).getName().split("（", 2)[0]);
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -181,7 +182,7 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
                 if(position == 0){
                     typeSpinnerString = "全部";
                 }else{
-                    typeSpinnerString = Constants.accountTypeList.get(--position).getId();
+                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
                 }
                 data_list = null;
             }
@@ -197,7 +198,7 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
                     if(position == 0){
                         expressPersonSpinnerString = "全部";
                     }else{
-                        expressPersonSpinnerString = Constants.expressPersonsList.get(--position).getId();
+                        expressPersonSpinnerString = Statics.expressPersonsList.get(--position).getId();
                     }
                     data_list = null;
 
@@ -225,7 +226,7 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
             @Override
             public void run() {
                 httpPost = new ExpressNumberManagementHttpPost();
-                String httpUrl = Constants.AccountManagementSearchUrl;
+                String httpUrl = Statics.AccountManagementSearchUrl;
                 String result = httpPost.searchHttp(httpUrl ,expressPersonSpinnerString ,typeSpinnerString ,billingTimeString,ExpressNumberManagerActivity.this,page);
                 onLoad();
             }
@@ -238,13 +239,13 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
             @Override
             public void run() {
                 page++;
-                if (page >= Constants.page) {
-                    page = Constants.page;
+                if (page >= Statics.page) {
+                    page = Statics.page;
                     Toast.makeText(ExpressNumberManagerActivity.this,"已经是最后一页了",Toast.LENGTH_SHORT).show();
                 }
                 //大于总页数，不向下翻页
                 httpPost = new ExpressNumberManagementHttpPost();
-                String httpUrl = Constants.ExpressCountSearch;
+                String httpUrl = Statics.ExpressCountSearch;
                 Log.d("typeyy",expressPersonSpinnerString+typeSpinnerString+billingTimeString);
                 String result = httpPost.searchHttp(httpUrl ,expressPersonSpinnerString ,typeSpinnerString ,billingTimeString,ExpressNumberManagerActivity.this,page);
                 enmAdapter.notifyDataSetChanged();
@@ -277,7 +278,7 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
     @Override
     protected void onResume() {
         super.onResume();
-        String httpUrl = Constants.ExpressCountSearch;
+        String httpUrl = Statics.ExpressCountSearch;
         httpPost.searchHttp(httpUrl ,"" ,"" ,"",ExpressNumberManagerActivity.this,1);//刷新页面
     }
 

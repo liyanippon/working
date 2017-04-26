@@ -84,65 +84,75 @@
             </TableRow>
         </TableLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="#A7A5A5"/>
-
-        <include
-            layout="@layout/billingstatics_yearlist_layout"
-            android:id="@+id/table_title"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1.5dip"
-            android:background="#686867"/>
-        <ListView
-            android:id="@+id/lv"
-            android:divider="#B4B3B3"
-            android:dividerHeight="1.0dip"
-            android:scrollbars="none"
-            android:background="@drawable/listview_bg"
-            android:cacheColorHint="@android:color/transparent"
-            android:fadingEdge="none"
-            android:layout_width="fill_parent"
-            android:listSelector="#ffff00"
-            android:layout_height="wrap_content" >
-        </ListView>
-
-
-        <TextView
-            android:layout_marginTop="5dp"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/customerstatistic"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="#A7A5A5"/>
-
-        <include
-            layout="@layout/billingstatics_customerlist_layout"
-            android:id="@+id/table_title1"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1.5dip"
-            android:background="#686867"/>
-        <ListView
-            android:id="@+id/customerListView"
-            android:divider="#B4B3B3"
-            android:dividerHeight="1.0dip"
-            android:scrollbars="none"
-            android:background="@drawable/listview_bg"
-            android:cacheColorHint="@android:color/transparent"
-            android:fadingEdge="none"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:listSelector="#ffff00"
+            android:orientation="vertical"
             >
-        </ListView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#A7A5A5"/>
+
+            <include
+                layout="@layout/billingstatics_yearlist_layout"
+                android:id="@+id/table_title"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dip"
+                android:background="#686867"/>
+            <ListView
+                android:id="@+id/lv"
+                android:divider="#B4B3B3"
+                android:dividerHeight="1.0dip"
+                android:scrollbars="none"
+                android:background="@drawable/listview_bg"
+                android:cacheColorHint="@android:color/transparent"
+                android:fadingEdge="none"
+                android:layout_width="fill_parent"
+                android:listSelector="#ffff00"
+                android:layout_weight="1"
+                android:layout_height="400dp" >
+            </ListView>
+
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/customerstatistic"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#A7A5A5"/>
+
+            <include
+                layout="@layout/billingstatics_customerlist_layout"
+                android:id="@+id/table_title1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dip"
+                android:background="#686867"/>
+            <ListView
+                android:id="@+id/customerListView"
+                android:divider="#B4B3B3"
+                android:dividerHeight="1.0dip"
+                android:scrollbars="none"
+                android:background="@drawable/listview_bg"
+                android:cacheColorHint="@android:color/transparent"
+                android:fadingEdge="none"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="400dp"
+                android:listSelector="#ffff00"
+                >
+            </ListView>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </RelativeLayout>

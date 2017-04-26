@@ -14,4 +14,15 @@
     <color name="chart_color_FFCE55">#ffce55</color>
     <color name="chart_color_A0D468">#a0d468</color>
     <color name="chart_color_EC87BF">#ec87bf</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="main_top_color">#f7614d</color>
+    <color name="main_top_tab_color">#fcc9c5</color>
+    <color name="main_top_tab_color_2">#ffffff</color>
+    <color name="matrix_color">#ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="gridview_background_color">#f7e472</color>
+    <color name="province_bg">#8daac3</color>
+    <color name="province_bg_2">#ffffff</color>
+    <color name="red">#FFFF1826</color>
 </resources>

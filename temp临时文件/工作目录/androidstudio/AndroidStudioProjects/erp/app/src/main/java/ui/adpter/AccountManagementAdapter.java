@@ -15,8 +15,8 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import Tool.statistics.Statics;
 import http.AccountManagementHttpPost;
-import http.Constants;
 
 /**
  * Created by admin on 2017/2/23.
@@ -35,8 +35,8 @@ public class AccountManagementAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (Constants.accountManagementList.size() != 0) {
-            return Constants.accountManagementList.size();
+        if (Statics.accountManagementList.size() != 0) {
+            return Statics.accountManagementList.size();
         } else {
             return 0;
         }
@@ -64,6 +64,7 @@ public class AccountManagementAdapter extends BaseAdapter {
             vh.number = (TextView) convertView.findViewById(R.id.number);
             vh.type = (TextView) convertView.findViewById(R.id.type);
             vh.classify = (TextView) convertView.findViewById(R.id.classify);
+            vh.billingTime = (TextView) convertView.findViewById(R.id.billingTime);
             vh.sum = (TextView) convertView.findViewById(R.id.sum);
             vh.operate = (TextView) convertView.findViewById(R.id.operate);
             convertView.setTag(vh);
@@ -74,13 +75,15 @@ public class AccountManagementAdapter extends BaseAdapter {
 
         //获取数据和显示数据
         String number = Integer.toString(position + 1);
-        id = Constants.accountManagementList.get(position).getId();
-        String type = Constants.accountManagementList.get(position).getType().trim();
-        String classify = Constants.accountManagementList.get(position).getClassify().trim();
-        String sum = Constants.accountManagementList.get(position).getSum().trim();
+        id = Statics.accountManagementList.get(position).getId();
+        String type = Statics.accountManagementList.get(position).getType().trim();
+        String classify = Statics.accountManagementList.get(position).getClassify().trim();
+        String billingTime = Statics.accountManagementList.get(position).getBillingTime();
+        String sum = Statics.accountManagementList.get(position).getSum().trim();
         vh.number.setText(number);
         vh.type.setText(type);
         vh.classify.setText(classify);
+        vh.billingTime.setText(billingTime);
         vh.sum.setText(sum);
         vh.operate.setOnClickListener(new Click(positions));//解决光标获取不对的问题
         return convertView;
@@ -92,7 +95,7 @@ public class AccountManagementAdapter extends BaseAdapter {
          * @setMessage 设置对话框消息提示
          * setXXX方法返回Dialog对象，因此可以链式设置属性
          */
-        id = Constants.accountManagementList.get(item).getId();
+        id = Statics.accountManagementList.get(item).getId();
         AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(activity);
         normalDialog.setIcon(R.drawable.delete);
@@ -103,7 +106,7 @@ public class AccountManagementAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
-                        if ("success".equals(httpPost.delAccountManagerHttp(Constants.AccountManagementSearchUrl, id,activity))) {
+                        if ("success".equals(httpPost.delAccountManagerHttp(Statics.AccountManagementSearchUrl, id,activity))) {
                             Toast.makeText(activity, "删除成功", Toast.LENGTH_SHORT).show();
 
                         } else {
@@ -141,6 +144,6 @@ public class AccountManagementAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        TextView number, type, classify, sum,operate;
+        TextView number, type, classify,  billingTime, sum, operate;
     }
 }

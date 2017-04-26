@@ -21,6 +21,8 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import Tool.statistics.Statics;
 import http.Constants;
 
 /**
@@ -66,11 +68,11 @@ public class ExpressSpinner extends EditText{
                             }
                             setText(buffer.toString().substring(0, buffer.length()-1),null);
                             for (int i=0;i<buffer.toString().substring(0, buffer.length()-1).length();i++){
-                                Constants.expressType = buffer.toString().substring(0, buffer.length()-1).split(",");
+                                Statics.expressType = buffer.toString().substring(0, buffer.length()-1).split(",");
 
                             }
-                            for (int j=0;j<Constants.expressType.length;j++){
-                                Log.d("test", "::"+Constants.expressType[j]);
+                            for (int j=0;j<Statics.expressType.length;j++){
+                                Log.d("test", "::"+Statics.expressType[j]);
                             }
 
                             //點擊確定要看listView的選擇狀態
@@ -100,10 +102,10 @@ public class ExpressSpinner extends EditText{
                 listView.setAdapter(adapter);
 
                 //复选回显
-                if (Constants.expressType!=null){
-                    for (int i=0;i<Constants.expressType.length;i++){
+                if (Statics.expressType!=null){
+                    for (int i=0;i<Statics.expressType.length;i++){
 
-                        Log.d("uuui","::"+Constants.expressType[i]);
+                        Log.d("uuui","::"+Statics.expressType[i]);
                         listView.setItemChecked(i,true);
                     }
                 }

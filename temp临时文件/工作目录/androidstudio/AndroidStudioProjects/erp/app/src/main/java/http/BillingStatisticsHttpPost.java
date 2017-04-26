@@ -69,9 +69,9 @@ public class BillingStatisticsHttpPost {
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
                 String result = (String) o;//从从网络端返回数据
-                Log.d("test1", result);
+                Log.d("billing", result);
                 resultString = "success";
-                JsonResolve.jsonSearchYear(result);//json解析
+                JsonResolve.jsonBillingSearchYear(result);//json解析
             }
 
             @Override
@@ -148,7 +148,7 @@ public class BillingStatisticsHttpPost {
 
                 String result = (String) o;//从从网络端返回数据
 
-                Log.d("test1", "Xq:" + result);
+                Log.d("test9", "Xq:" + result);
                 resultString = "success";
                 JsonResolve.jsonSearchXiangxi(result, activity);//json解析
             }

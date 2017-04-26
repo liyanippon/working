@@ -8,6 +8,7 @@ import com.example.admin.erp.R;
 
 import java.util.List;
 
+import Tool.statistics.Statics;
 import http.AccountManagementHttpPost;
 import http.BillingStatisticsHttpPost;
 import http.Constants;
@@ -46,19 +47,19 @@ public class CensusActivity extends AppCompatActivity {
         //httpPost = new AccountManagementHttpPost();
         //String httpUrl = Constants.AccountManagementSearchUrl;
         //String result = httpPost.searchHttp(httpUrl ,"" ,"" ,"",AccountManagementActivity.this,page);
-        Constants.year.clear();
+        //Constants.year.clear();
         //账单统计
         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
         //billingStatisticsHttpPost.searchTimeHttp(Constants.TimeSearchUrl,"2016",typeSpinnerString,CensusActivity.this);
-        billingStatisticsHttpPost.searchYearHttp(Constants.YearSearchUrl);
+        billingStatisticsHttpPost.searchYearHttp(Statics.YearSearchUrl);
 
         //快递管理
-        String ExpressPersonNameSearchUrl = Constants.ExpressPersonNameSearchUrl;
+        String ExpressPersonNameSearchUrl = Statics.ExpressPersonNameSearchUrl;
         expressNumberManagementHttpPost =new ExpressNumberManagementHttpPost();
         expressNumberManagementHttpPost.expressPersionSearchHttp(ExpressPersonNameSearchUrl);
         //年份
         expressStatisticsHttpPost = new ExpressStatisticsHttpPost();
-        expressNumberManagementHttpPost.searchExpressYearHttp(Constants.ExpressYearSearchUrl);
+        expressNumberManagementHttpPost.searchExpressYearHttp(Statics.ExpressYearSearchUrl);
 
     }
 
@@ -69,10 +70,10 @@ public class CensusActivity extends AppCompatActivity {
         new Runnable() {
             @Override
             public void run() {
-                httpPost.customerSearchHttp(Constants.AllCustomerUrl);
-                httpPost.accountClassifySearchHttp(Constants.AccountClassifyUrl);
-                httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl);
-                httpPost.accountReasonSearchHttp(Constants.AccountReasonUrl, Constants.accountClassify, CensusActivity.this);
+                httpPost.customerSearchHttp(Statics.AllCustomerUrl);
+                httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl);
+                httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl);
+                httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, Statics.accountClassify, CensusActivity.this);
             }
         }.run();
 

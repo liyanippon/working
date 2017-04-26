@@ -87,7 +87,7 @@ public class CustomerBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.customer.setTextSize(13);
         viewHolder.income.setText(customerBillingStatistics.getIncome());
         viewHolder.income.setTextSize(13);
-        viewHolder.outcome.setText(customerBillingStatistics.getOutcom() + "");
+        viewHolder.outcome.setText("- "+customerBillingStatistics.getOutcom() + "");
         viewHolder.outcome.setTextSize(13);
         viewHolder.imbalance.setText(customerBillingStatistics.getImbalance() + "");
         viewHolder.imbalance.setTextSize(13);

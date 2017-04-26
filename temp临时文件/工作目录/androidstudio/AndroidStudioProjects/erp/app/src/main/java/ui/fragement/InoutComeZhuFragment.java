@@ -17,6 +17,7 @@ import java.util.List;
 
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
+import Tool.statistics.Statics;
 import http.Constants;
 
 /**
@@ -64,9 +65,9 @@ public class InoutComeZhuFragment extends Fragment {
 
         //统计最大y值
         List<Double> input = new ArrayList<>();
-        for (int i =0;i<Constants.timeBillingStatisticsList.size();i++){
-            input.add(Double.parseDouble(Constants.timeBillingStatisticsList.get(i).getIncome()));
-            input.add(Double.parseDouble(Constants.timeBillingStatisticsList.get(i).getOutcom()));
+        for (int i = 0; i< Statics.timeBillingStatisticsList.size(); i++){
+            input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getIncome()));
+            input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getOutcom()));
         }
 
         int yZhi = ToolUtils.tongJiTuY(input);
@@ -90,19 +91,19 @@ public class InoutComeZhuFragment extends Fragment {
 
         double[] income = new double[12];
         double[] outcome = new double[12] ;
-        int[] mon = new int[Constants.timeBillingStatisticsList.size()];
-        for (int i =0;i< Constants.timeBillingStatisticsList.size();i++){
-            mon[i] = Integer.parseInt(Constants.timeBillingStatisticsList.get(i).getMonth());
+        int[] mon = new int[Statics.timeBillingStatisticsList.size()];
+        for (int i =0;i< Statics.timeBillingStatisticsList.size();i++){
+            mon[i] = Integer.parseInt(Statics.timeBillingStatisticsList.get(i).getMonth());
         }
         for (int i =0;i<12;i++ ){
             if(i<12){
                 for (int j = 0;j<mon.length;j++){
                     Log.d("test","mon:"+Integer.toString(i)+"k"+Integer.toString(mon[j]));
                     if(i == mon[j]){
-                        income[i-1] = Double.parseDouble(Constants.timeBillingStatisticsList.get(j).getIncome());//进账
-                        outcome[i-1] = Double.parseDouble(Constants.timeBillingStatisticsList.get(j).getOutcom());//出账
-                        Log.d("test","income:"+Constants.timeBillingStatisticsList.get(j).getIncome());
-                        Log.d("test","outcome:"+Constants.timeBillingStatisticsList.get(j).getOutcom());
+                        income[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getIncome());//进账
+                        outcome[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getOutcom());//出账
+                        Log.d("test","income:"+Statics.timeBillingStatisticsList.get(j).getIncome());
+                        Log.d("test","outcome:"+Statics.timeBillingStatisticsList.get(j).getOutcom());
                     }
                 }
             }

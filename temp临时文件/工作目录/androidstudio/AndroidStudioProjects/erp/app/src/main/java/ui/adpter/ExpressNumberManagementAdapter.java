@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.statistics.Statics;
 import http.Constants;
 import http.ExpressNumberManagementHttpPost;
 
@@ -39,8 +40,8 @@ public class ExpressNumberManagementAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (Constants.enmList.size() != 0) {
-            return Constants.enmList.size();
+        if (Statics.enmList.size() != 0) {
+            return Statics.enmList.size();
         } else {
             return 0;
         }
@@ -78,16 +79,16 @@ public class ExpressNumberManagementAdapter extends BaseAdapter {
         }
 
         //获取数据和显示数据
-        if (Constants.enmList.size() == 0){
+        if (Statics.enmList.size() == 0){
             return convertView;
         }
         String number = Integer.toString(position + 1);
-        id = Constants.enmList.get(position).getId();
-        String expressName = Constants.enmList.get(position).getExpressName().trim();
+        id = Statics.enmList.get(position).getId();
+        String expressName = Statics.enmList.get(position).getExpressName().trim();
         Log.v("test4Adapter","Adapter:expressName"+expressName);
-        String type = Constants.enmList.get(position).getType().trim();
-        String expressCount = Constants.enmList.get(position).getExpressCount().trim();
-        String billingTime = Constants.enmList.get(position).getBillingTime().trim();
+        String type = Statics.enmList.get(position).getType().trim();
+        String expressCount = Statics.enmList.get(position).getExpressCount().trim();
+        String billingTime = Statics.enmList.get(position).getBillingTime().trim();
         vh.number.setText(number);
         vh.type.setText(type);
         vh.expressName.setText(expressName);
@@ -103,7 +104,7 @@ public class ExpressNumberManagementAdapter extends BaseAdapter {
          * @setMessage 设置对话框消息提示
          * setXXX方法返回Dialog对象，因此可以链式设置属性
          */
-        id = Constants.enmList.get(item).getId();
+        id = Statics.enmList.get(item).getId();
         AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(activity);
         normalDialog.setIcon(R.drawable.delete);
@@ -114,7 +115,7 @@ public class ExpressNumberManagementAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
-                        if ("success".equals(httpPost.delExpressManagerHttp(Constants.ExpressCountSearch, id ,activity))) {
+                        if ("success".equals(httpPost.delExpressManagerHttp(Statics.ExpressCountSearch, id ,activity))) {
                             Toast.makeText(activity, "删除成功", Toast.LENGTH_SHORT).show();
 
                         } else {

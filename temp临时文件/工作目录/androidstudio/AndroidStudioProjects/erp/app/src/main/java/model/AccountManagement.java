@@ -8,31 +8,24 @@ public class AccountManagement {
     private String id;
     private String type;
     private String classify;
+    private String billingTime;
+    private String createTime;
     private String reason;
     private String sum;
     private String createBy;
     private String customerId;
     private String remark;
 
-    public AccountManagement(String id, String type, String classify, String reason, String sum, String createBy, String customerId, String remark) {
+    public AccountManagement(String id, String type, String classify, String billingTime, String createTime, String reason, String sum, String createBy, String customerId, String remark) {
         this.id = id;
         this.type = type;
         this.classify = classify;
+        this.billingTime = billingTime;
+        this.createTime = createTime;
         this.reason = reason;
         this.sum = sum;
         this.createBy = createBy;
         this.customerId = customerId;
-        this.remark = remark;
-    }
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
         this.remark = remark;
     }
 
@@ -60,6 +53,22 @@ public class AccountManagement {
         this.classify = classify;
     }
 
+    public String getBillingTime() {
+        return billingTime;
+    }
+
+    public void setBillingTime(String billingTime) {
+        this.billingTime = billingTime;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
     public String getReason() {
         return reason;
     }
@@ -76,7 +85,7 @@ public class AccountManagement {
         this.sum = sum;
     }
 
-    public String getcreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
@@ -90,5 +99,13 @@ public class AccountManagement {
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

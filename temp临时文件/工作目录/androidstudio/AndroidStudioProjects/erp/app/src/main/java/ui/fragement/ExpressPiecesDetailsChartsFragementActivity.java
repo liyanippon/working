@@ -15,6 +15,7 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import Tool.statistics.Statics;
 import http.Constants;
 import http.ExpressStatisticsHttpPost;
 
@@ -54,10 +55,10 @@ public class ExpressPiecesDetailsChartsFragementActivity extends FragmentActivit
         month=intent.getStringExtra("month");
         type=intent.getStringExtra("type");
 
-        Constants.XiangxiChan.clear();
-        Constants.XiangxiChan.put("year",year);
-        Constants.XiangxiChan.put("month",month);
-        Constants.XiangxiChan.put("type",type);
+        Statics.XiangxiChan.clear();
+        Statics.XiangxiChan.put("year",year);
+        Statics.XiangxiChan.put("month",month);
+        Statics.XiangxiChan.put("type",type);
 
         fragmentList=new ArrayList<>();
         zhuFragment=new ExpressPieceDetailsZhuFragment();

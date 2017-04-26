@@ -17,6 +17,7 @@ import java.util.List;
 
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
+import Tool.statistics.Statics;
 import http.Constants;
 
 /**
@@ -61,8 +62,8 @@ public class ExpressPieceZhuFragment extends Fragment {
 
         //统计最大y值
         List<Double> input = new ArrayList<>();
-        for (int i =0;i<Constants.expressTimeList.size();i++){
-            input.add(Double.parseDouble(Constants.expressTimeList.get(i).getSum()));
+        for (int i = 0; i< Statics.expressTimeList.size(); i++){
+            input.add(Double.parseDouble(Statics.expressTimeList.get(i).getSum()));
         }
 
         int yZhi = ToolUtils.tongJiTuY(input);
@@ -76,7 +77,7 @@ public class ExpressPieceZhuFragment extends Fragment {
         mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
-        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals1,list,"快递数量柱形统计图");
+        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals1,list,"业务员揽件量柱形统计图");
     }
 
     /**
@@ -87,17 +88,17 @@ public class ExpressPieceZhuFragment extends Fragment {
 
         //double[] income = new double[12];
         double[] expressPieces = new double[12] ;
-        int[] mon = new int[Constants.expressTimeList.size()];
-        for (int i =0;i< Constants.expressTimeList.size();i++){
-            mon[i] = Integer.parseInt(Constants.expressTimeList.get(i).getMonth());//
+        int[] mon = new int[Statics.expressTimeList.size()];
+        for (int i =0;i< Statics.expressTimeList.size();i++){
+            mon[i] = Integer.parseInt(Statics.expressTimeList.get(i).getMonth());//
         }
         for (int i =0;i<12;i++ ){
             if(i<12){
                 for (int j = 0;j<mon.length;j++){
                     Log.d("test","mon:"+Integer.toString(i)+"k"+Integer.toString(mon[j]));
                     if(i == mon[j]){
-                        expressPieces[i-1] = Double.parseDouble(Constants.expressTimeList.get(j).getSum());
-                        //outcome[i-1] = Double.parseDouble(Constants.timeBillingStatisticsList.get(j).getOutcom());//出账
+                        expressPieces[i-1] = Double.parseDouble(Statics.expressTimeList.get(j).getSum());
+                        //outcome[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getOutcom());//出账
                         Log.v("double","expressP"+Double.toString(expressPieces[i-1]));
                     }
                 }

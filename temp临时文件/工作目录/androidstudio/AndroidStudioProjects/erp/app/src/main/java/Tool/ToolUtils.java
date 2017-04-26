@@ -82,15 +82,14 @@ public class ToolUtils {
     }
 
     //日期处理方法
-    public static String timeDateFormat(Long billingtime) {
+    public static String timeDateFormat(String year) {
 
-        Date dat=new Date(billingtime);
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTime(dat);
-        Log.d("expressXq",billingtime+";");
-        java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy");
-        String sb=format.format(gc.getTime());
-        return sb;
+        Log.d("klll",year);
+        String yearString = year.subSequence(1, 3).toString();
+        StringBuffer sb=new StringBuffer();
+        sb.append("20");
+        sb.append(yearString);
+        return sb.toString();
     }
 
 

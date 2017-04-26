@@ -1,13 +1,14 @@
 package ui.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -23,8 +24,10 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import Tool.statistics.Statics;
+import broadcast.Config;
+import broadcast.FreshenBroadcastReceiver;
 import http.AccountManagementHttpPost;
-import http.Constants;
 import portface.LazyLoadFace;
 import ui.adpter.AccountManagementAdapter;
 import ui.xlistview.XListView;
@@ -38,10 +41,7 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
     private static List<String> data_list;
     public static ArrayAdapter<String> arr_adapter;
     private String typeSpinnerString, classifySpinnerString, reasonSpinnerString;
-    //public static ListView accountLv;
-    //public Context context= getApplicationContext();
     public static AccountManagementAdapter accountManagementAdapter;
-    //xList
     public static XListView mListView, accountLv;
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> items = new ArrayList<>();
@@ -52,21 +52,23 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
     private AccountManagementHttpPost httpPost;
     private AlertDialog dlg;
     private boolean SearchBoolean = false;
-
+    public static Context context;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
+    static FreshenBroadcastReceiver broadcast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("物流账单管理");
         setContentView(R.layout.activity_account_management);
 
-        Log.v("sys","sfa");
+        context = getApplicationContext();
+        initBroadCast();
         init();
         //空查询
         page = 1;//显示页数
 
         httpPost = new AccountManagementHttpPost();
-        String httpUrl = Constants.AccountManagementSearchUrl;
+        String httpUrl = Statics.AccountManagementSearchUrl;
         //刚进入页面就要显示数据
         progressDialog = ProgressDialog.show(AccountManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
         String result = httpPost.searchHttp(httpUrl, "", "", "", AccountManagementActivity.this, page);
@@ -89,13 +91,18 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
                 TextView guest = (TextView) layout.findViewById(R.id.guest);//客户
                 TextView remark = (TextView) layout.findViewById(R.id.remark);//备注
                 TextView createuser = (TextView) layout.findViewById(R.id.createuser);//创建人
-                type.setText(Constants.accountManagementList.get(position - 1).getType());
-                classify.setText(Constants.accountManagementList.get(position - 1).getClassify());
-                reason.setText(Constants.accountManagementList.get(position - 1).getReason());
-                price.setText(Constants.accountManagementList.get(position - 1).getSum());
-                guest.setText(Constants.accountManagementList.get(position - 1).getCustomerId());
-                remark.setText(Constants.accountManagementList.get(position - 1).getRemark());
-                createuser.setText(Constants.accountManagementList.get(position - 1).getcreateBy());
+                TextView billingTime = (TextView) layout.findViewById(R.id.billingTime);//账单时间
+                TextView createTime = (TextView) layout.findViewById(R.id.createTime);//创建时间
+                type.setText(Statics.accountManagementList.get(position - 1).getType());
+                classify.setText(Statics.accountManagementList.get(position - 1).getClassify());
+                reason.setText(Statics.accountManagementList.get(position - 1).getReason());
+                price.setText(Statics.accountManagementList.get(position - 1).getSum());
+                guest.setText(Statics.accountManagementList.get(position - 1).getCustomerId());
+                remark.setText(Statics.accountManagementList.get(position - 1).getRemark());
+                createuser.setText(Statics.accountManagementList.get(position - 1).getCreateBy());
+                billingTime.setText(Statics.accountManagementList.get(position - 1).getBillingTime());
+                createTime.setText(Statics.accountManagementList.get(position - 1).getCreateTime());
+
                 //创建人就是用户名
                 builder.setView(layout);
                 back.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +115,7 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
                 dlg.show();
             }
         });
+
         spinnerType();
 
         search.setOnClickListener(new View.OnClickListener() {//查询
@@ -118,7 +126,7 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
                 progressDialog = ProgressDialog.show(AccountManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
                 SearchBoolean = true;
                 httpPost = new AccountManagementHttpPost();
-                String httpUrl = Constants.AccountManagementSearchUrl;
+                String httpUrl = Statics.AccountManagementSearchUrl;
                 String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, reasonSpinnerString, AccountManagementActivity.this, page);
 
             }
@@ -136,11 +144,11 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
         Log.d("test", "spinnerType");
         //数据
         //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this);
+        //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; i < Constants.accountTypeList.size(); i++) {
-            data_list.add(Constants.accountTypeList.get(i).getName());
+        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
+            data_list.add(Statics.accountTypeList.get(i).getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -151,11 +159,11 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
         data_list = null;
         //数据
         //httpPost =new HttpPost();
-        //httpPost.accountClassifySearchHttp(Constants.AccountClassifyUrl, AccountManagementActivity.this);
+        //httpPost.accountClassifySearchHttp(Static.AccountClassifyUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; i < Constants.accountClassifyList.size(); i++) {
-            data_list.add(Constants.accountClassifyList.get(i).getName());
+        for (int i = 0; i < Statics.accountClassifyList.size(); i++) {
+            data_list.add(Statics.accountClassifyList.get(i).getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -170,7 +178,7 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
                 if(position == 0){
                     typeSpinnerString = "全部";
                 }else{
-                    typeSpinnerString = Constants.accountTypeList.get(--position).getId();
+                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
                 }
                 data_list = null;
             }
@@ -188,19 +196,19 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
                 if(position == 0){
                     classifySpinnerString = "全部";
                 }else{
-                    classifySpinnerString = Constants.accountClassifyList.get(--position).getId();
+                    classifySpinnerString = Statics.accountClassifyList.get(--position).getId();
                 }
                 Log.v("test2", "classifySpinnerString:" + classifySpinnerString);
                 //数据
                 httpPost = new AccountManagementHttpPost();
                 Log.v("test2", "PrereasonSpinner:" + Boolean.toString(AccountManagementActivity.reasonSpinner == null));
-                httpPost.accountReasonSearchHttp(Constants.AccountReasonUrl, classifySpinnerString, AccountManagementActivity.this);
+                httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, classifySpinnerString, AccountManagementActivity.this);
 
                 data_list = new ArrayList<>();
                 data_list.add("全部");
-                for (int i = 0; i < Constants.accountReasonList.size(); i++) {
-                    data_list.add(Constants.accountReasonList.get(i).getName());
-                    Log.v("test2", "data_list:" + Constants.accountReasonList.get(i).getName());
+                for (int i = 0; i < Statics.accountReasonList.size(); i++) {
+                    data_list.add(Statics.accountReasonList.get(i).getName());
+                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
 
                 }
                 //适配器
@@ -214,15 +222,15 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
                 reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (position < Constants.accountReasonList.size()-1) {//需要仔细
+                        if (position < Statics.accountReasonList.size()-1) {//需要仔细
                             if(position == 0){
                                 reasonSpinnerString = "全部";
                             }else{
-                                reasonSpinnerString = Constants.accountReasonList.get(--position).getId();
+                                reasonSpinnerString = Statics.accountReasonList.get(--position).getId();
                             }
                         } else {
                             Log.v("test", "position:" + Integer.toString(position) + "@" +
-                                    "Constants.accountReasonList.size()" + Integer.toString(Constants.accountReasonList.size()));
+                                    "Static.accountReasonList.size()" + Integer.toString(Statics.accountReasonList.size()));
                         }
                     }
                     @Override
@@ -253,7 +261,7 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
             @Override
             public void run() {
                 httpPost = new AccountManagementHttpPost();
-                String httpUrl = Constants.AccountManagementSearchUrl;
+                String httpUrl = Statics.AccountManagementSearchUrl;
                 String result = httpPost.searchHttp(httpUrl ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,AccountManagementActivity.this,page);
                 onLoad();
             }
@@ -266,13 +274,13 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
             @Override
             public void run() {
                 page++;
-                if (page >= Constants.page) {
-                    page = Constants.page;
+                if (page >= Statics.page) {
+                    page = Statics.page;
                     Toast.makeText(AccountManagementActivity.this,"已经是最后一页了",Toast.LENGTH_SHORT).show();
                 }
                 //大于总页数，不向下翻页
                 httpPost = new AccountManagementHttpPost();
-                String httpUrl = Constants.AccountManagementSearchUrl;
+                String httpUrl = Statics.AccountManagementSearchUrl;
                 String result = httpPost.searchHttp(httpUrl ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,AccountManagementActivity.this,page);
                 onLoad();
 
@@ -280,11 +288,10 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
         }, 2000);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        String httpUrl = Constants.AccountManagementSearchUrl;
+        String httpUrl = Statics.AccountManagementSearchUrl;
         httpPost.searchHttp(httpUrl ,"" ,"" ,"",AccountManagementActivity.this,1);//刷新页面
     }
 
@@ -292,6 +299,39 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
         accountLv.stopRefresh();
         accountLv.stopLoadMore();
         accountLv.setRefreshTime("刚刚");
+    }
+
+    private void initBroadCast() {
+        //广播初始化 必须动态注册才能实现回调
+        broadcast = new FreshenBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Config.BC_ONE);
+        context.registerReceiver(broadcast, intentFilter);
+
+        broadcast.setLazyLoadFace(new LazyLoadFace() {
+            @Override
+            public void AdapterRefresh(String type) {
+                //具体更新
+                if(type.equals("SearchReasonSpinner")){
+                    Log.d("aleand","收到广播");
+                    //适配器
+                    //arr_adapter1.notifyDataSetChanged();
+                    data_list = new ArrayList<>();
+                    data_list.add("全部");
+                    for (int i = 0; i < Statics.accountReasonList.size(); i++) {
+                        data_list.add(Statics.accountReasonList.get(i).getName());
+                        Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
+
+                    }
+                    //适配器
+                    arr_adapter = new ArrayAdapter<>(context, R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
+                    //设置样式
+                    arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+                    //加载适配器
+                    reasonSpinner.setAdapter(arr_adapter);
+                }
+            }
+        });
     }
 
     @Override
@@ -305,9 +345,10 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
 
                 break;
             case "reasonSpinner":
-                if (arr_adapter != null) {
+                /*if (arr_adapter != null) {
                     arr_adapter.notifyDataSetChanged();
-                }
+                }*/
+                initBroadCast();
                 break;
         }
 

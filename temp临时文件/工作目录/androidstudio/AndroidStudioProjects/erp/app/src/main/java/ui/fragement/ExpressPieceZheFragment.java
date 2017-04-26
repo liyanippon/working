@@ -17,6 +17,7 @@ import java.util.List;
 
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
+import Tool.statistics.Statics;
 import http.Constants;
 
 /**
@@ -67,8 +68,8 @@ public class ExpressPieceZheFragment extends Fragment {
 
         //统计最大y值
         List<Double> yZhiStatistics = new ArrayList<>();
-        for (int i = 0; i< Constants.expressTimeList.size(); i++){
-            yZhiStatistics.add(Double.parseDouble(Constants.expressTimeList.get(i).getSum()));
+        for (int i = 0; i< Statics.expressTimeList.size(); i++){
+            yZhiStatistics.add(Double.parseDouble(Statics.expressTimeList.get(i).getSum()));
         }
 
         int yZhi = ToolUtils.tongJiTuY(yZhiStatistics);
@@ -81,7 +82,7 @@ public class ExpressPieceZheFragment extends Fragment {
         mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
-        mCombinedChartUtil.setMianCombinedChart1(mCombinedChart, yValues1, yValues1,list,"快递数量折线统计图");
+        mCombinedChartUtil.setMianCombinedChart1(mCombinedChart, yValues1, yValues1,list,"业务员揽件量折线统计图");
     }
 
     /**
@@ -101,15 +102,15 @@ public class ExpressPieceZheFragment extends Fragment {
         yValues1 = new ArrayList<>();
         //数据源构建
         double[] piece = new double[12];
-        int[] mon = new int[Constants.expressTimeList.size()];
-        for (int i =0;i< Constants.expressTimeList.size();i++){
-            mon[i] = Integer.parseInt(Constants.expressTimeList.get(i).getMonth());
+        int[] mon = new int[Statics.expressTimeList.size()];
+        for (int i =0;i< Statics.expressTimeList.size();i++){
+            mon[i] = Integer.parseInt(Statics.expressTimeList.get(i).getMonth());
         }
         for (int i =0;i<12;i++ ){
             if(i<12){
                 for (int j = 0;j<mon.length;j++){
                     if(i == mon[j]){
-                        piece[i-1] = Double.parseDouble(Constants.expressTimeList.get(j).getSum());
+                        piece[i-1] = Double.parseDouble(Statics.expressTimeList.get(j).getSum());
                     }
                 }
             }

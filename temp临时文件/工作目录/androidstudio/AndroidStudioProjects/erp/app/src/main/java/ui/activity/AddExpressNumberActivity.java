@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.statistics.Statics;
 import customercontrol.ExpressSpinner;
 import http.AccountManagementHttpPost;
 import http.Constants;
@@ -71,7 +72,7 @@ public class AddExpressNumberActivity extends AppCompatActivity {
                         httpPost = new ExpressNumberManagementHttpPost();
                         Log.d("test", typeSpinnerString    + "@" + description );
                         if ("success".equals(httpPost.addExpressBillingHttp(
-                                Constants.ExpressCountSearch, typeSpinnerString,
+                                Statics.ExpressCountSearch, typeSpinnerString,
                                 expressNameString, billNumberString,descriptionString ,billingTimeString))) {
                             Toast.makeText(AddExpressNumberActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                             finish();
@@ -108,8 +109,8 @@ public class AddExpressNumberActivity extends AppCompatActivity {
 
         //数据  快递员的名字
         data_list1 = new ArrayList<>();
-        for (int i = 0; i < Constants.expressPersonsList.size(); i++) {
-            data_list1.add(Constants.expressPersonsList.get(i).getName());
+        for (int i = 0; i < Statics.expressPersonsList.size(); i++) {
+            data_list1.add(Statics.expressPersonsList.get(i).getName());
         }
         for (int j = 0; j < data_list1.size(); j++) {
             Log.v("data-list", "--" + data_list1.get(j));
@@ -124,7 +125,7 @@ public class AddExpressNumberActivity extends AppCompatActivity {
         personNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                expressNameString = Constants.expressPersonsList.get(position).getId();
+                expressNameString = Statics.expressPersonsList.get(position).getId();
             }
 
             @Override
@@ -135,10 +136,10 @@ public class AddExpressNumberActivity extends AppCompatActivity {
 
         //expressNameButton.initContent(m);//快递选择
         AccountManagementHttpPost httpPost = new AccountManagementHttpPost();
-        httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl);
+        httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl);
         data_list2 = new ArrayList<>();//快递类型
-        for (int i = 0; i < Constants.accountTypeList.size(); i++) {
-            data_list2.add(Constants.accountTypeList.get(i).getName());
+        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
+            data_list2.add(Statics.accountTypeList.get(i).getName());
         }
 
         //适配器
@@ -150,7 +151,7 @@ public class AddExpressNumberActivity extends AppCompatActivity {
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                typeSpinnerString = Constants.accountTypeList.get(position).getId();
+                typeSpinnerString = Statics.accountTypeList.get(position).getId();
             }
 
             @Override

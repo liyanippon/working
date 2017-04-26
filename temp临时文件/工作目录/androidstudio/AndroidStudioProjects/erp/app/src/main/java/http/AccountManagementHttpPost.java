@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 import net.tsz.afinal.http.AjaxParams;
@@ -13,10 +15,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.*;
+import java.util.Collections;
 
 import Tool.JsonResolve;
+import Tool.statistics.Statics;
+import broadcast.BroadCastTool;
 import broadcast.Config;
 import broadcast.TYPE;
+import model.AccountManagement;
+import model.AttendanceYear;
 import portface.LazyLoadFace;
 import ui.activity.AccountManagementActivity;
 
@@ -64,7 +71,7 @@ public class AccountManagementHttpPost{
                     switch (level){
                         case "error":
                             message = jsonObject.getString("message");
-                            Constants.results=message;
+                            Statics.results=message;
                             Log.v("test","message");
                             Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
                             break;
@@ -73,11 +80,11 @@ public class AccountManagementHttpPost{
                             String sessionid = jsonObject.getString("sessionid");//在添加账单时会用到
                             Log.v("toi",sessionid);
                             //Constants.LoginId=sessionid;
-                            Constants.results=success;
+                            Statics.results=success;
                             //调用接口
                             //lazyLoad.AdapterRefresh("success");
                             //Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
-                            sendMyBroadcast(TYPE.NORMAL);
+                            BroadCastTool.sendMyBroadcast(TYPE.NORMAL,context,"login");//发送广播
                             break;
                     }
 
@@ -93,27 +100,14 @@ public class AccountManagementHttpPost{
 
                 resultString = strMsg;
                 Log.d("test","sssss:"+strMsg);
-                Constants.results="没有网络";
+                Statics.results="没有网络";
 
             }
-
-
 
         });
         return "success";
     }
 
-    private void sendMyBroadcast(TYPE type) {
-        Intent intent = new Intent();
-        switch (type) {
-            case NORMAL:   //普通广播
-                Log.d("broadcast", "send发送广播");
-                intent.putExtra("msg", "login");
-                intent.setAction(Config.BC_ONE);
-                context.sendBroadcast(intent);
-                break;
-        }
-    }
 
     public void AdapterRefresh(LazyLoadFace lazyLoadFace){
 
@@ -153,10 +147,9 @@ public class AccountManagementHttpPost{
                 super.onSuccess(o);
 
                 String results = (String) o;//从从网络端返回数据
-                Log.d("test", "results:" + results);
+                Log.d("jizhang", "results:" + results);
                 resultString = "success";
                 JsonResolve.jsonAccountManager(results, activity, rows);//json解析
-
             }
 
             @Override
@@ -180,12 +173,18 @@ public class AccountManagementHttpPost{
     public String addCountManagerHttp(String httpUrl, String typeSpinnerString, String classifySpinnerString, String reasonSpinnerString, String sum,
                                       String description, String customerId,String billingTime) {//账目查询
 
-        //typeSpinnerString,classifySpinnerString,reasonSpinnerString;
+        Log.d("addmm","-----------------------------------------------------------------");
+        Log.d("addmm","添加账单:"+typeSpinnerString+"/"
+                +classifySpinnerString+
+                "/"+reasonSpinnerString+
+                "/"+sum+"/"+description+
+                "/"+customerId+
+                "/"+billingTime);
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("option", "2");//1查询，2添加，3删除
         //params.put("id","1212"); //Id不用传
-        params.put("userName", Constants.userName);
+        params.put("userName", Statics.userName);
         params.put("type", typeSpinnerString);
         params.put("classify", classifySpinnerString);
         params.put("reason", reasonSpinnerString);
@@ -199,7 +198,7 @@ public class AccountManagementHttpPost{
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
 
-                Log.v("test","Constants.userName::"+Constants.userName);
+                Log.v("test","Constants.userName::"+Statics.userName);
                 String result = (String) o;//从从网络端返回数据
                 //Log.d("test",result);
                 resultString = "success";
@@ -236,7 +235,7 @@ public class AccountManagementHttpPost{
 
                 //刷新页面
                 Log.v("test","notifyDataSetInvalidated");
-                String httpUrl = Constants.AccountManagementSearchUrl;
+                String httpUrl = Statics.AccountManagementSearchUrl;
                 searchHttp(httpUrl ,"" ,"" ,"",activity,1);//刷新页面
             }
 
@@ -282,11 +281,11 @@ public class AccountManagementHttpPost{
 
     public String accountReasonSearchHttp(String httpUrl, String classifyId, final Activity activity) {//customerSearchHttp 账目类型//明细
         Log.d("tesq9","classifyId:"+classifyId);
-        if(Constants.accountClassifyList.size()==0){
+        if(Statics.accountClassifyList.size()==0){
             return null;
         }
         if("全部".equals(classifyId)){//以进账为默认
-            classifyId = Constants.accountClassifyList.get(1).getId();
+            classifyId = Statics.accountClassifyList.get(1).getId();
         }
         finalHttp = new FinalHttp();
         params = new AjaxParams();

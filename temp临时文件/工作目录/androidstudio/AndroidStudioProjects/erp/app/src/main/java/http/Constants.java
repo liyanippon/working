@@ -9,12 +9,17 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import model.AccountClassify;
 import model.AccountManagement;
 import model.AccountReason;
 import model.AccountType;
+import model.AttendanceStatistics;
+import model.AttendanceYear;
 import model.Customer;
 import model.CustomerBillingStatistics;
 import model.ExpressNumberManagement;
@@ -33,7 +38,7 @@ import model.XiangxiBillingStatistics;
 
 public class Constants {
 
-    //账目管理
+    /*//账目管理
     public static String LoginUrl = "http://192.168.1.12:8081/login.jhtml";
     public static String LoginId;
     //public static  String LoginUrl = "http://i.yifeng-dl.com/login.jhtml";//用户登录地址
@@ -56,7 +61,9 @@ public class Constants {
     public static String YearSearchUrl = "http://192.168.1.16:8083/getWXYearAccountStatistics.ajax";//获取年
     public static String XqCustomerSearchUrl = "http://192.168.1.16:8083/getWXCustomerTjxq.ajax";//客户详情
     public static ArrayList<TimeBillingStatistics> timeBillingStatisticsList = new ArrayList<>();
-    public static ArrayList<String> year = new ArrayList<>();
+    public static ArrayList<String> billingYear = new ArrayList<>();
+    public static ArrayList<String> expressYear = new ArrayList<>();
+
     public static ArrayList<CustomerBillingStatistics> customerBillingStatisticsArrayList = new ArrayList<>();
     public static ArrayList<XiangxiBillingStatistics> xiangxiBillingStatisticsArrayList = new ArrayList<>();
 
@@ -87,5 +94,13 @@ public class Constants {
     public static HashMap<String,String>  XiangxiChan= new HashMap<>();//详细查询参数
     //是否需要发送广播
     public static Boolean isBroadCast = false;
+
+    //考勤管理
+    public static String AttendanceStatisticsSearchUrl = "http://192.168.1.55:8083/getWxAllAttendanceMonthSum.ajax";//考勤查询url
+    public static String searchYearUrl = "http://192.168.1.55:8083/getWxAllYears.ajax";//年查询url
+    public static ArrayList<AttendanceStatistics> attendanceStatisticsList = new ArrayList<>();//考勤表格数据
+    public static ArrayList<String> searchNameId = new ArrayList<>(); //员工id
+    public static ArrayList<String> searchName = new ArrayList<>(); //员工姓名
+    public static ArrayList<AttendanceYear> searchYear = new ArrayList<>();//年查询*/
 
 }

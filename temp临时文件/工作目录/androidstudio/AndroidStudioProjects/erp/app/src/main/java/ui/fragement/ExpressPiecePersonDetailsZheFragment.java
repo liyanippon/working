@@ -19,6 +19,7 @@ import java.util.List;
 
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
+import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.Constants;
@@ -57,7 +58,7 @@ public class ExpressPiecePersonDetailsZheFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_zhe, null);
-        Constants.dayCount=true;
+        Statics.dayCount=true;
         mCombinedChart = (LineChart) view.findViewById(R.id.lineChart);
         initBroadCast();
         setGrayValue();
@@ -75,8 +76,15 @@ public class ExpressPiecePersonDetailsZheFragment extends Fragment {
 
         //统计最大y值
         List<Double> yZhiStatistics = new ArrayList<>();
-        for (int i = 0; i< Constants.epmsXList.size(); i++){
-            yZhiStatistics.add(Double.parseDouble(Constants.epmsXList.get(i).getSum()));
+        /*for (int i = 0; i< Statics.epmsXList.size(); i++){
+            yZhiStatistics.add(Double.parseDouble(Statics.epmsXList.get(i).getSum()));
+        }*/
+        if(Statics.epmsXList!=null){
+        for (int i = 0; i< Statics.epmsXList.length; i++){
+            yZhiStatistics.add(Double.parseDouble(Statics.epmsXList[i]));
+        }
+        }else{
+            yZhiStatistics=new ArrayList<>();
         }
 
         int yZhi = ToolUtils.tongJiTuY(yZhiStatistics);
@@ -86,12 +94,12 @@ public class ExpressPiecePersonDetailsZheFragment extends Fragment {
         list.add("数量");
         list.add(null);
 
-        //mCount = Constants.Xday.length;
+        //mCount = Statics.Xday.length;
 
         mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
-        mCombinedChartUtil.setMianCombinedChart1(mCombinedChart, yValues1, yValues1,list,"快递数量折线统计图");
+        mCombinedChartUtil.setMianCombinedChart1(mCombinedChart, yValues1, yValues1,list,"业务员揽件量（客户）");
     }
 
     /**
@@ -111,24 +119,29 @@ public class ExpressPiecePersonDetailsZheFragment extends Fragment {
         yValues1 = new ArrayList<>();
         //数据源构建
         double[] piece = new double[mCount];
-        int[] day = new int[Constants.epmsXList.size()];
-        for (int i =0;i< Constants.epmsXList.size();i++){
-            day[i] = Integer.parseInt(Constants.epmsXList.get(i).getDay());
-        }
-        for (int i =1;i<=mCount;i++ ){
+        //int[] day = new int[Statics.epmsXList.length];
+        /*for (int i =0;i< Statics.epmsXList.size();i++){
+            day[i] = Integer.parseInt(Statics.epmsXList.get(i).getDay());
+        }*/
+        /*for (int i =1;i<=mCount;i++ ){
             if(i<=mCount){
                 for (int j = 0;j<day.length;j++){
                     if(i == day[j]){
-                        piece[i-1] = Double.parseDouble(Constants.epmsXList.get(j).getSum());
+                        piece[i-1] = Double.parseDouble(Statics.epmsXList.get(j).getSum());
                     }
                 }
             }
-        }
+        }*/
 
         yValues1 = new ArrayList<>();
-        for (int i = 0; i < mCount; i++) {
-            yValues1.add(new BarEntry((float) piece[i], i, Constants.Xday));
+        if(Statics.epmsXList!=null){
+            for (int i = 0; i < Statics.epmsXList.length; i++) {
+                yValues1.add(new BarEntry(Float.parseFloat(Statics.epmsXList[i]), i, Statics.Xday));
+            }
         }
+        /*for (int i = 0; i < Statics.epmsXList.length; i++) {
+            yValues1.add(new BarEntry(Float.parseFloat(Statics.epmsXList[i]), i, Statics.Xday));
+        }*/
 
 
     }
@@ -147,11 +160,11 @@ public class ExpressPiecePersonDetailsZheFragment extends Fragment {
             public void AdapterRefresh(String type) {
                 //具体更新
                 if(type.equals("PersonXq")){
-                    Constants.dayCount=true;
+                    Statics.dayCount=true;
                     Log.d("broadcast","更新界面");
-                    //Log.d("shu",Constants.expressPieceCountMonthsList.get(0).getSum());
-                    if(Constants.Xday!=null){
-                        mCount = Constants.Xday.length;
+                    //Log.d("shu",Statics.expressPieceCountMonthsList.get(0).getSum());
+                    if(Statics.Xday!=null){
+                        mCount = Statics.Xday.length;
                     }else{
                         mCount=0;
                     }

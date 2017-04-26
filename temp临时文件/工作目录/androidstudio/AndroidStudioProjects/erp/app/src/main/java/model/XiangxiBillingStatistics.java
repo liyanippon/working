@@ -6,13 +6,15 @@ package model;
 
 public class XiangxiBillingStatistics {
     private String classifyname;
+    private String type;//快递类型，圆通或韵达
     private String resonname;
     private String date;
     private String price;
     private String remark;
 
-    public XiangxiBillingStatistics(String classifyname, String resonname, String date, String price, String remark) {
+    public XiangxiBillingStatistics(String classifyname, String type, String resonname, String date, String price, String remark) {
         this.classifyname = classifyname;
+        this.type = type;
         this.resonname = resonname;
         this.date = date;
         this.price = price;
@@ -25,6 +27,14 @@ public class XiangxiBillingStatistics {
 
     public void setClassifyname(String classifyname) {
         this.classifyname = classifyname;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getResonname() {

@@ -80,7 +80,7 @@ public class TimeBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.month.setTextSize(13);
         viewHolder.income.setText(timeBillingStatistics.getIncome());
         viewHolder.income.setTextSize(13);
-        viewHolder.outcome.setText(timeBillingStatistics.getOutcom() + "");
+        viewHolder.outcome.setText("- "+timeBillingStatistics.getOutcom() + "");
         viewHolder.outcome.setTextSize(13);
         viewHolder.imbalance.setText(timeBillingStatistics.getImbalance() + "");
         viewHolder.imbalance.setTextSize(13);

@@ -13,6 +13,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import Tool.JsonResolve;
+import Tool.statistics.Statics;
+import broadcast.BroadCastTool;
 import broadcast.Config;
 import broadcast.TYPE;
 import ui.activity.ExpressStatisticsActivity;
@@ -79,7 +81,7 @@ public class ExpressStatisticsHttpPost {
                 String result = (String) o;//从从网络端返回数据
                 Log.d("test1", result);
                 resultString = "success";
-                JsonResolve.jsonSearchYear(result);//json解析
+                JsonResolve.jsonExpressSearchYear(result);//json解析
             }
 
             @Override
@@ -164,10 +166,6 @@ public class ExpressStatisticsHttpPost {
                 Log.d("longfei", "Xq:" + result);
                 resultString = "success";
                 JsonResolve.jsonSearchExpressPersonStatisticXiangxi(result);//json解析
-                /*if(Constants.isBroadCast){
-                    sendMyBroadcast(TYPE.NORMAL,"Xq");
-                }*/
-
             }
 
             @Override
@@ -203,10 +201,10 @@ public class ExpressStatisticsHttpPost {
                 Log.d("testt",result);
                 try {
                     JSONArray jsonArray =new JSONArray(result);
-                    Constants.Xday = new String[jsonArray.length()];
+                    Statics.Xday = new String[jsonArray.length()];
                     for(int i=0;i<jsonArray.length();i++){
-                        Constants.Xday[i]=jsonArray.get(i).toString();
-                        Log.v("test6","day:"+Constants.Xday[i]);
+                        Statics.Xday[i]=jsonArray.get(i).toString();
+                        Log.v("test6","day:"+Statics.Xday[i]);
                     }
 
                     //sendMyBroadcast(TYPE.NORMAL,"monthDay");
@@ -227,7 +225,7 @@ public class ExpressStatisticsHttpPost {
         });
         return resultString;
     }
-    public String searchDayCurrentMonthPieceCount(String httpUrl, String year, String month, String type ,Context context) {//查询哪天有快递
+    public String searchDayCurrentMonthPieceCount(String httpUrl, String year, String month, String type , final Context context) {//查询哪天有快递
         if("全部".equals(year)){
             year = "2017";
         }
@@ -254,7 +252,7 @@ public class ExpressStatisticsHttpPost {
                 resultString = "success";
                 if(JsonResolve.jsonSearchPieceCountMonth(result)){
                     //发送广播到fragment
-                    sendMyBroadcast(TYPE.NORMAL,"express");
+                    BroadCastTool.sendMyBroadcast(TYPE.NORMAL,context,"express");
                 }
 
             }
@@ -269,11 +267,11 @@ public class ExpressStatisticsHttpPost {
         return resultString;
     }
 
-    public String searchPersonDayCurrentMonthPieceCount(String httpUrl, String year, String month, String expressPersonId ,Context context) {//查询业务员哪天有快递
+    public String searchPersonDayCurrentMonthPieceCount(String httpUrl, String year, String month, String expressPersonId , final Context context) {//查询业务员哪天有快递
         if("全部".equals(year)){
             year = "2017";
         }
-        Log.d("person",year+"*"+month+"*"+expressPersonId);
+        Log.d("wushuju",year+"*"+month+"*"+expressPersonId +"url:"+httpUrl);
         this.context = context;
         finalHttp = new FinalHttp();
         finalHttp.configRequestExecutionRetryCount(10);// 请求错误重试次数
@@ -290,12 +288,12 @@ public class ExpressStatisticsHttpPost {
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
                 String result = (String) o;//从从网络端返回数据
-                Log.d("person", "piece::"+result);
+                Log.d("wushuju", "apiece::"+result);
                 resultString = "success";
 
                 if(JsonResolve.jsonSearchPersonMonthPiece(result)){
                     //发送广播到fragment
-                    sendMyBroadcast(TYPE.NORMAL,"PersonXq");
+                    BroadCastTool.sendMyBroadcast(TYPE.NORMAL,context,"PersonXq");
                 }
 
             }
@@ -308,17 +306,5 @@ public class ExpressStatisticsHttpPost {
             }
         });
         return resultString;
-    }
-
-    private void sendMyBroadcast(TYPE type,String msg) {
-        intent = new Intent();
-        switch (type) {
-            case NORMAL:   //普通广播
-                Log.d("broadcast", "send发送广播");
-                intent.putExtra("msg", msg);
-                intent.setAction(Config.BC_ONE);
-                context.sendBroadcast(intent);
-                break;
-        }
     }
 }
