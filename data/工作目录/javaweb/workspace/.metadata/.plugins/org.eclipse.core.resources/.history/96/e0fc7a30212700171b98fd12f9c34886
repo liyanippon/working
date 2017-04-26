@@ -1,0 +1,17 @@
+package controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import model.User;
+
+@Controller
+@RequestMapping("/user")
+public class UserController {
+	private Map<String,User> user = new HashMap<String,User>();
+	User user = new User();
+
+}

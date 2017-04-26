@@ -1,0 +1,18 @@
+package controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class LoginController {
+	@RequestMapping("/login")
+	public String login(String username,String password,Model model){  
+        if (username.equals(password))   
+        {  
+            model.addAttribute("username", username);  
+            return "ok.jsp";  
+        } else {  
+            return "no.jsp";  
+        }  
+    }  
+
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.1.xsd
+    http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd" >
+
+
+	<bean id="redisCacheClient" class="com.ds.cache.client.RedisCacheClient">
+		<constructor-arg name="url" value="192.168.1.103"/>
+		<constructor-arg name="port" value="6379"/>
+	</bean>
+	
+	<bean id="messageCache" parent="messageCacheAbstract">
+		<constructor-arg name="p_dra" ref="messageApi"/>
+		<constructor-arg name="p_messageServer" ref="redisCacheClient"/>
+	</bean>
+	
+	<bean id="codeCache" parent="codeCacheAbstract">
+		<constructor-arg name="p_dra" ref="codeApi"/>
+		<constructor-arg name="p_codeServer" ref="redisCacheClient"/>
+	</bean>
+	
+	<bean id="sessionCache" parent="sessionCacheAbstract">
+		<constructor-arg name="p_sessionServer" ref="redisCacheClient"/>
+	</bean>
+	<context:component-scan base-package="com"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+		
+	<import resource="classpath*:conf/ds-cache-context.xml"/>
+	<import resource="classpath*:conf/dubbo-consumer.xml"/>
+ 	<import resource="classpath*:conf/ump-identify.xml"/> 
+ 	<import resource="classpath*:conf/erp-context.xml"/> 
+ 	<import resource="classpath*:conf/ds-httpClient-conf.xml"/> 
+ 	<import resource="classpath*:conf/ds-spring-fw-properties.xml"/>
+ 	
+ 	<bean id="sessionFilter" class="com.ds.business.filter.SessionFilter">
+		<property name="httpClient" ref="httpClientService" />
+		<property name="ssoKey" value="${ssoKey}" />
+		<property name="loginUrl" value="${loginUrl}" />
+		<property name="getUserUrl" value="${getUserUrl}" />
+	</bean>
+	<bean id="httpClientService" class="com.ds.fw.rpc.httpClient.service.HttpClientService">
+	</bean>
+	
+</beans>
