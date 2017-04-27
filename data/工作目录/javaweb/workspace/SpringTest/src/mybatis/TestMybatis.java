@@ -41,12 +41,15 @@ public class TestMybatis {
        
         System.out.println( user.getAge()+":"+user.getName()+":"+user.getId());
         */
-        //添加数据
-        testAdd(sqlSession);
-        //
-        //testDelete();
         
-        //testGetAll();
+        //添加数据
+        //testAdd(sqlSession);
+        //删除数据
+        //testDelete();
+        //更改数据
+        //testUpdate(sqlSession);
+        //查询所有数据
+        testGetAll();
 	}
 	
 	
@@ -67,26 +70,27 @@ public class TestMybatis {
         //执行插入操作  
         int retResult = sqlSession.insert(statement,person);  
         //手动提交事务 
-        //sqlSession.commit();  
+        sqlSession.commit();
         //使用SqlSession执行完SQL之后需要关闭SqlSession  
         sqlSession.close();  
         System.out.println(retResult);
     }  
       
-    public void testUpdate(){  
-        SqlSession sqlSession = sessionFactory.openSession();
+    public static void testUpdate(SqlSession sqlSession){  
+        //SqlSession sqlSession = sessionFactory.openSession();
         /** 
          * 映射sql的标识字符串， 
          * com.edu.hpu.mapping.userMapper是userMapper.xml文件中mapper标签的namespace属性的值， 
          * updateUser是update标签的id属性值，通过update标签的id属性值就可以找到要执行的SQL 
          */  
-        String statement = "me.gacl.mapping.userMapper.updateUser";//映射sql的标识字符串  
+        String statement = "me.gacl.mapping.userMapper.updatePerson";//映射sql的标识字符串  
         Person person = new Person();  
-        person.setId(3);  
+        person.setId(2);  
         person.setName("hello world");  
         person.setAge(25);  
         //执行修改操作  
-        int retResult = sqlSession.update(statement,person);  
+        int retResult = sqlSession.update(statement,person);
+        sqlSession.commit();
         //使用SqlSession执行完SQL之后需要关闭SqlSession  
         sqlSession.close();  
         System.out.println(retResult);  
@@ -102,6 +106,7 @@ public class TestMybatis {
         String statement = "me.gacl.mapping.userMapper.deletePerson";//映射sql的标识字符串  
         //执行删除操作  
         int retResult = sqlSession.delete(statement,6);  
+        sqlSession.commit();
         //使用SqlSession执行完SQL之后需要关闭SqlSession  
         sqlSession.close();  
         System.out.println(retResult);  
