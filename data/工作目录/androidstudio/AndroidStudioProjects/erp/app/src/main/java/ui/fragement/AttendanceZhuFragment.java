@@ -1,5 +1,6 @@
 package ui.fragement;
 
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -83,7 +84,7 @@ public class AttendanceZhuFragment extends Fragment {
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
         Log.d("adad",yVals1.size()+"sdfa"+yVals2.size()+"sss");
-        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals2,list,"考勤时间柱型统计图");
+        mCombinedChartUtil.setMianCombinedChart2(mCombinedChart, yVals1, yVals2,list,"考勤时间柱型统计图");
     }
 
     /**

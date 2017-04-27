@@ -130,6 +130,91 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         mCombinedChart.invalidate();
     }
 
+    //横向柱形图
+    public void setMianCombinedChart2(BarChart mCombinedChart, ArrayList<BarEntry> lineEntries, ArrayList<BarEntry> barEntries ,List<String> list,String description) {
+        // 图表为空时显示
+        mCombinedChart.setNoDataTextDescription("暂时没有数据进行图表展示");
+        mCombinedChart.setDescription(description);
+        mCombinedChart.setDescriptionColor(Color.WHITE);
+        mCombinedChart.setDescriptionPosition(400f,80f);
+        /*if(Statics.yPositon) {//以后如果描述改变需求在此处更改
+            mCombinedChart.setDescriptionPosition(400f,80f);
+            Statics.yPositon = false;
+        }*/
+        if(Statics.yPositon){
+            mCombinedChart.setScaleXEnabled(false);//启用/禁用缩放在x轴上。
+            mCombinedChart.setScaleYEnabled(true);//启用/禁用缩放在y轴。
+        }
+        mCombinedChart.setDescriptionTextSize(16);
+        mCombinedChart.setBackgroundColor(Color.WHITE);
+        mCombinedChart.setDrawBorders(false);//是否画边框
+        mCombinedChart.setDrawGridBackground(false);
+        mCombinedChart.setDrawBarShadow(false);
+        mCombinedChart.setDoubleTapToZoomEnabled(false);
+        mCombinedChart.setBackgroundColor(getColor(mContext, backgroundColor));
+        mCombinedChart.animateX(3000); // 立即执行的动画,x轴
+        /*
+        mCombinedChart.setTouchEnabled(true);//启用/禁用与图表的所有可能的触摸交互。
+        mCombinedChart.setDragEnabled(true);//启用/禁用拖动（平移）图表。
+        mCombinedChart.setScaleEnabled(true);//启用/禁用缩放图表上的两个轴。
+        mCombinedChart.setScaleXEnabled(false);//启用/禁用缩放在x轴上。
+        mCombinedChart.setScaleYEnabled(true);//启用/禁用缩放在y轴。
+        mCombinedChart.setPinchZoom(true);//如果设置为true，捏缩放功能。 如果false，x轴和y轴可分别放大。
+        mCombinedChart.setDoubleTapToZoomEnabled(true);//设置为false以禁止通过在其上双击缩放图表。
+        mCombinedChart.setHighlightPerDragEnabled(true);//设置为true，允许每个图表表面拖过，当它完全缩小突出。 默认值：true
+        mCombinedChart.setHighlightPerTapEnabled(true);//设置为false，以防止值由敲击姿态被突出显示。 值仍然可以通过拖动或编程方式突出显示。 默认值：true*/
+
+        Legend mLegend = mCombinedChart.getLegend(); // 设置比例图标示
+        mLegend.setForm(Legend.LegendForm.SQUARE);// 样式
+        mLegend.setFormSize(6f);// 字体
+        mLegend.setTextColor(Color.WHITE);// 颜色
+        mLegend.setComputedLabels(list);
+        mLegend.setXOffset(10);
+        mLegend.setYOffset(10);
+
+        //         * 获取头部信息         *//*
+        //setLegend(mCombinedChart.getLegend(), true); 千万不要使用
+        //*          *Y轴 右侧数据设置     *//*
+        setyAxis(mCombinedChart.getAxisRight(), false);
+        //*          *Y轴 左侧数据设置     *//*
+        setLeftYAxis(mCombinedChart.getAxisLeft(), true, maxValue, minValue);
+
+        //*          *X轴    数据设置      *//*
+        setxAxis(mCombinedChart.getXAxis(), true);
+        //*           *设置数据            */
+        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+        if(list.get(1)!=null){
+            dataSets.add(generateBarData(barEntries,list));
+            for (int i=0;i<list.size();i++){
+                Log.d("list","图例:"+list.get(i));
+            }
+            Log.d("broadcast","dataset");
+        }
+        dataSets.add(generateBarData1(lineEntries,list));
+        Log.d("broadcast","是否按天统计"+Boolean.toString(Statics.dayCount));
+        if(Statics.dayCount&&null!=Statics.Xday){
+            mDateTime = Statics.Xday;
+            Statics.dayCount = false;
+        }else{
+            Statics.dayCount = false;
+        }
+
+        if(Statics.personCount){
+            mDateTime = Statics.xPerson;
+            Statics.personCount=false;
+            for (int i=0;i<Statics.xPerson.length;i++){
+                Log.d("person",Statics.xPerson[i]);
+            }
+        }
+        Log.v("mDateTime","mDateTime:"+mDateTime.length+"");
+
+        BarData data = new BarData(mDateTime, dataSets);
+        data.setValueTextSize(10f);
+        data.setGroupSpace(200f);//调节柱状图粗细 值越大越细
+        mCombinedChart.setData(data);
+        mCombinedChart.setDrawHighlightArrow(true);
+        mCombinedChart.invalidate();
+    }
 
     public void setMianCombinedChart1(LineChart mCombinedChart, ArrayList<Entry> lineEntries, ArrayList<Entry> barEntries ,List<String> list,String description) {
 
@@ -239,6 +324,7 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
 
         return d;
     }
+
     private BarDataSet generateBarData(ArrayList<BarEntry> entries,List<String> list) {
         if(entries==null) {
             return null;

@@ -30,7 +30,7 @@ public class AttendanceChartsFragmentActivity extends FragmentActivity {
      * 四个Fragment（页面）
      */
     AttendanceZhuFragment zhuFragment;
-    AttendanceZheFragment zheFragement;
+    //AttendanceZheFragment zheFragement;
     //屏幕宽度
     int screenWidth;
     //当前选中的项
@@ -44,9 +44,9 @@ public class AttendanceChartsFragmentActivity extends FragmentActivity {
         mViewPager=(ViewPager) findViewById(R.id.viewpager);
         fragmentList=new ArrayList<>();
         zhuFragment=new AttendanceZhuFragment();
-        zheFragement=new AttendanceZheFragment();
+        //zheFragement=new AttendanceZheFragment();
         fragmentList.add(zhuFragment);
-        fragmentList.add(zheFragement);
+        //fragmentList.add(zheFragement);
         screenWidth=getResources().getDisplayMetrics().widthPixels;
         mViewPager.setAdapter(new AttendanceChartsFragmentActivity.MyFrageStatePagerAdapter(getSupportFragmentManager()));
     }

@@ -123,7 +123,7 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
                         Log.d("broadcast","ss"+"sdaf");
                     }
 
-                    Log.d("broadcast",Statics.Xday.length+"sdas");
+                    //Log.d("broadcast",Statics.Xday.length+"sdas");
                     /*for (int i=0;i<Statics.epmsXList.size();i++){
                         Log.d("broadcast",Statics.epmsXList.get(i).getSum());
                     }*/
