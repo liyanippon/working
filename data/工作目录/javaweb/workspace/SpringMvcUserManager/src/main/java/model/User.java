@@ -2,8 +2,8 @@ package model;
 
 public class User {
 	private int id;
-	private String username;//登录名尽量英文
-	private String zhusername;//中文名字
+	private String username;
+	private String zhusername;
 	private int age;
 	private String address;
 	private String phone;
