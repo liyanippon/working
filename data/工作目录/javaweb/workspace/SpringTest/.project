@@ -3,6 +3,11 @@
 	<name>SpringTest</name>
 	<comment></comment>
 	<projects>
+		<project>erp-web</project>
+		<project>RemoteSystemsTempFiles</project>
+		<project>Servers</project>
+		<project>SpringMvc</project>
+		<project>SpringMvc0</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

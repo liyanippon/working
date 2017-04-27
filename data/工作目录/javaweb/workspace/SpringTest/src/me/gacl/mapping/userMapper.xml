@@ -9,7 +9,7 @@
      
      <!-- 添加数据 -->
      <insert id="addPerson" parameterType="model.Person">  
-        insert into users(name,age) values(#{name},#{age})  
+        insert into users(name,age) values(#{name},#{age})
     </insert>  
       
     <!-- 删除用户(Remove) -->  
