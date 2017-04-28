@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
   <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="me.gacl.mapping.userMapper">
+  <mapper namespace="person.manager.mapping.userMapper">
      <!-- 查询数据 -->
-     <select id="getUser" parameterType="model.User" 
-         resultType="model.Person">
+     <select id="getUser" parameterType="model.User"
+         resultType="model.User">
          select * from users where username=#{username}
      </select>
      

@@ -10,6 +10,43 @@
 <script>
 $(document).ready(function(){
 
+	var flag1 = false;
+    var flag2 = false;
+    $("#username")
+            .blur(
+                    function() {
+                        var userName = $("#username").val();
+                        if ($.trim(userName) == ''
+                                || $.trim(userName).length < 5
+                                || $.trim(userName).length > 15) {
+                            $("#userspan")
+                                    .html(
+                                            "<font color='red'>用户名不能为空，且用户名长度为5-15</font>");
+                            flag1 = false;
+                        }else{
+                        	$("#userspan")
+                            .html(
+                                    "");
+                        }
+                    });
+	
+    $("#password").blur(
+            function() {
+                var inputPassword = $("#password").val();
+                if ($.trim(inputPassword) == "") {
+                    $("#pswspan").html("<font color='red'>密码不能为空</font>");
+                } else if ($.trim(inputPassword).length > 15
+                        || $.trim(inputPassword).length < 5) {
+                    $("#pswspan").html("密码长度必须为5-15").css({
+                        color : "red"
+                    });
+                } else {
+                    $("#pswspan").html("");
+                }
+
+            });
+	
+	
   $("#resetId").click(function(){
 	  $("input[name='username']").val("").focus();
 	  $("#password").val("");
@@ -22,15 +59,14 @@ $(document).ready(function(){
 				  url :'/SpringMvcUserManager/login',
 				  data : {
 						"username" : $("#username").val(),
-						"password" : $("#password").val(),
-						"val_payPlatform" : $('#sexid input[name="sex"]:checked ').val(),
-						"address": $("#addressId").val()
+						"password" : $("#password").val()
 					},
 					success : function(data) {
-						alert(data);
+						
+						 
 					},
 					error: function(request) {  
-		                alert(request);
+		                alert("KKJ");
 		                
 		            }
 				});
@@ -41,8 +77,11 @@ $(document).ready(function(){
 </script>
 </head>
 <style type="text/css">
-    #wrapper {display:table;width:300px;height:300px;background:#000;margin:200px auto;color:red;}
+    #wrapper {display:table;width:1000px;height:200px;background:#000;margin:200px auto;color:red;}
 	#cell{display:table-cell; vertical-align:middle;}
+	#userpass{margin:0 0 0 300px}
+	#title{margin:0 0 0 300px}
+	#submitId{margin:0 0 0 70px}
 </style>
 <body>
 
@@ -50,14 +89,14 @@ $(document).ready(function(){
 <div id="wrapper">
     <div id="cell">
         
-        <div class="text" style=" text-align:center;"><h2>用户登录</h2></div>
-		<div class="text" style=" text-align:center;">
-		用户名<input type="text" name="username" id="username">  
+        <div class="text" id="title"><h2>用户登录</h2></div>
+		<div class="text" id="userpass">
+		用户名<input type="text" name="username" id="username"><span id="userspan"></span>   
     	<br/>  
-          	密&nbsp;&nbsp;&nbsp;码<input type="password" name="password" id="password">  
+          	密&nbsp;&nbsp;&nbsp;码<input type="password" name="password" id="password"><span id="pswspan"></span>  
     	<br/>  
     	<div>
-    	<div class="text" style=" text-align:center;">
+    	<div class="text" >
     	<button id="submitId" class="ui button" type="submit">
 		登录
 		</button>
@@ -71,9 +110,6 @@ $(document).ready(function(){
 
     </div>
 </div>
-
-
-
 
 </body>
 </html>
