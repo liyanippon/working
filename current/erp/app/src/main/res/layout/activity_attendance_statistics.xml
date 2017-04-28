@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ui.activity.AttendanceStatisticsActivity">
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/name"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/nameSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_editor"></Spinner>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/years"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/yearSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_editor"></Spinner>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/months"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/monthSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_editor"></Spinner>
+
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/search" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="统计图"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#0000ff"
+                android:layout_gravity="top"
+                android:id="@+id/zhuXing"
+                android:clickable="true"
+                android:src="@drawable/graph"
+                />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#A7A5A5"/>
+
+        <include
+            layout="@layout/attendance_statistics_title_layout"
+            android:id="@+id/table_title"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dip"
+            android:background="#686867"/>
+        <ListView
+            android:id="@+id/lv"
+            android:divider="#B4B3B3"
+            android:dividerHeight="1.0dip"
+            android:scrollbars="none"
+            android:background="@drawable/listview_bg"
+            android:cacheColorHint="@android:color/transparent"
+            android:fadingEdge="none"
+            android:layout_width="fill_parent"
+            android:listSelector="#ffff00"
+            android:layout_height="wrap_content" >
+        </ListView>
+    </LinearLayout>
+</RelativeLayout>
