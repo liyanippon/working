@@ -103,7 +103,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                                                             @Override
                                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                                 //选中变色
-                                                                //ToolUtils.selectColor(parent,position);
+                                                                ToolUtils.selectColor(parent,position);
                                                                 String expressPersonId = Statics.expressPersonStatisticList.get(position).getName_id();//ID
                                                                 month = Statics.expressPersonStatisticList.get(position).getMonth();
                                                                 Log.d("xiangxixinx","---------------------------------------------------------------");

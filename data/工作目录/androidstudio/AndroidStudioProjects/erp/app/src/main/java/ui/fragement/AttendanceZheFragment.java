@@ -68,7 +68,7 @@ public class AttendanceZheFragment extends Fragment {
      */
     private void initData() {
 
-        //统计最大y值
+        //统计最大y值 y轴显示员工姓名
 
         List<Double> input = new ArrayList<>();
         for (int i = 0; i< Statics.attendanceStatisticsList.size(); i++){//添加应该出勤的小时数，然后推出最大值

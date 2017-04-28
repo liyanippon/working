@@ -175,7 +175,7 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
         mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
-        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals1,list,"业务员揽件量（客户）");
+        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals1,list,"业务员揽件量（每日）");
 
     }
 
