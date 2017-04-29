@@ -20,7 +20,7 @@ git commit -m "[add]添加文件"//提交文件
 git fetch origin master //更新远程代码到本地库
 git pull origin master //从远程获取最新版本并merge到本地
 git push origin master//将本地的master分支推送到origin主机的master分支
-
+git status//查看是否有新添加未提交的文件
 git重命名文件和文件夹
 git mv -f oldfolder newfolder
 git add -u newfolder (-u选项会更新已经追踪的文件和文件夹)
