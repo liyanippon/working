@@ -2,9 +2,16 @@ ubuntu 常用命令
 
 视频剪辑和转码
 -----------------
-<a ffmpeg  -i source.ts -vcodec copy -acodec copy -ss 00:13:57 -to 00:18:44 arashi.ts -y //剪切视频 >
+<a ffmpeg  -i source.ts -vcodec copy -acodec copy -ss 00:10:24 -to 00:18:39 arashi.ts -y //剪切视频 >
 <a ffmpeg -i aa.ts -strict -2 io.avi.mp4 //将ts文件转换成mp4文件>
+ffmpeg  -i source.ts -vcodec copy -acodec copy -ss 00:10:22 -to 00:18:39 arashi.ts -y
+ffmpeg  -i source.ts -vcodec copy -acodec copy -ss 03:23:07 -to 03:25:55 arashi1.ts -y
+ffmpeg  -i source.ts -vcodec copy -acodec copy -ss 03:28:38 -to 03:35:08 arashi2.ts -y
+ffmpeg  -i source.ts -vcodec copy -acodec copy -ss 04:16:28 -to 04:21:01 arashi3.ts -y
+ffmpeg  -i source.ts -vcodec copy -acodec copy -ss 04:34:47 -to 04:39:49 arashi4.ts -y
 
+001024 001839		032307 032555         032838 033508      041628 042101      043447 043949																														
+																																																																																										
 Git命令大全
 -----------------
 git clone https://github.com/liyanippon/working.git //克隆代码
