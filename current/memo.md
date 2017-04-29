@@ -21,6 +21,12 @@ git fetch origin master //更新远程代码到本地库
 git pull origin master //从远程获取最新版本并merge到本地
 git push origin master//将本地的master分支推送到origin主机的master分支
 
+git重命名文件和文件夹
+git mv -f oldfolder newfolder
+git add -u newfolder (-u选项会更新已经追踪的文件和文件夹)
+git commit -m "changed the foldername whaddup"
+git mv foldername tempname && git mv tempname folderName (在大小写不敏感的系统中，如windows，重命名文件的大小写,使用临时文件名)
+git mv -n foldername folderName (显示重命名会发生的改变，不进行重命名操作)
 
 
 
