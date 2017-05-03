@@ -84,7 +84,7 @@ public class AttendanceZhuFragment extends Fragment {
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
         Log.d("adad",yVals1.size()+"sdfa"+yVals2.size()+"sss");
-        mCombinedChartUtil.setMianCombinedChart2(mCombinedChart, yVals1, yVals2,list,"考勤时间柱型统计图");
+        mCombinedChartUtil.setMianCombinedChart2(mCombinedChart, yVals1, yVals2,list,"考勤柱型统计图");
     }
 
     /**
@@ -120,8 +120,10 @@ public class AttendanceZhuFragment extends Fragment {
         //使其反向，以达到和表格一致
         for (int i=Statics.attendanceStatisticsList.size()-1,j=0;i>=0;i--,j++){
             normal[j] = Statics.attendanceStatisticsList.get(i).getNormalHourSum();//正常出勤
-            actual[j] = Statics.attendanceStatisticsList.get(i).getNormalHourSum()
-                    - Statics.attendanceStatisticsList.get(i).getOffworkHoursSum();//实际出勤=正常出勤-请假合计
+            actual[j] = Statics.attendanceStatisticsList.get(i).getNormalHourSum()//实际出勤=正常出勤-请假合计+普通加班+节假日加班
+                    - Statics.attendanceStatisticsList.get(i).getOffworkHoursSum()
+                    +Statics.attendanceStatisticsList.get(i).getOvertimeWorkingHours()
+                    +Statics.attendanceStatisticsList.get(i).getRegularOvertimeHoursSum();
         }
        /* for (int i =0;i<12;i++ ){i
             if(i<12){
