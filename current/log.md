@@ -63,5 +63,7 @@ Gson gson = new Gson();
 JavaBean jsonjava = gson.fromJson(results, JavaBean.class);
 Log.e("GSON", jsonjava.getCustomerId());
 
+eclipse快捷键
+Ctrl+k:自动查找下一个字段
  
  
