@@ -151,7 +151,12 @@ public class JsonResolve {
                 Log.d("test3", "----------------------------------");
                 Log.d("test3", "sum:" + sum);
                 Log.d("test3", "type:" + type);
-                AccountManagement financialManagement = new AccountManagement(id, type, classify,billingSb.toString()
+
+                //type 去除快递2个字
+                String typeString=type.substring(0,2);
+                Log.d("type","typeString:"+typeString);
+
+                AccountManagement financialManagement = new AccountManagement(id, typeString, classify,billingSb.toString()
                         ,createSb.toString(),reason, sum, createBy, customerId, remark);
                 Statics.accountManagementList.add(financialManagement);
                 financialManagement = null;

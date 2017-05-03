@@ -20,7 +20,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import Tool.statistics.Statics;
-import customercontrol.ExpressSpinner;
 import http.AccountManagementHttpPost;
 import http.Constants;
 import http.ExpressNumberManagementHttpPost;
@@ -36,7 +35,6 @@ public class AddExpressNumberActivity extends AppCompatActivity {
     private EditText billingTime;
     private int currentYear,currentMon,currentDate;
     private Calendar calendar;
-    private ExpressSpinner expressNameButton;
 
     //测试数据
     private static final String[] m={"A","B","C","D","E","F","G","其他","其他","其他"};

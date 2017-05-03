@@ -33,6 +33,7 @@ public class AttendanceStatisticsHttpPost {
     public static String resultString = "error";
 
     public String searchStatisticsHttp(String httpUrl, String userId, String year, String month, final Activity activity) {//考勤统计查询
+        Log.d("test-i","httpUrl:"+httpUrl);
         Log.d("test-i",userId+"@"+year+"@"+month);
         if("全部".equals(userId)){
             userId = "";
@@ -166,15 +167,14 @@ public class AttendanceStatisticsHttpPost {
                 Statics.searchYear.clear();
                 AttendanceYear[] as = new Gson().fromJson(result, AttendanceYear[].class);
                 Collections.addAll(Statics.searchYear,as);//转化arrayList
+
             }
 
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
 
-                if(AttendanceStatisticsActivity.progressDialog != null){
-                    AttendanceStatisticsActivity.progressDialog.dismiss();
-                }
+
 
                 resultString = "error";
             }

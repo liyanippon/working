@@ -2,11 +2,8 @@ package http;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
 
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
@@ -15,15 +12,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.*;
-import java.util.Collections;
+
+import javax.crypto.KeyGenerator;
 
 import Tool.JsonResolve;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
-import broadcast.Config;
 import broadcast.TYPE;
-import model.AccountManagement;
-import model.AttendanceYear;
 import portface.LazyLoadFace;
 import ui.activity.AccountManagementActivity;
 
@@ -182,9 +177,13 @@ public class AccountManagementHttpPost{
                 "/"+billingTime);
         finalHttp = new FinalHttp();
         params = new AjaxParams();
+        Log.d("ffff","xxx"+Statics.Name);
+        params.put("id","");
+        params.put("createBy",Statics.Name);
+        params.put("updateBy",Statics.Name);
         params.put("option", "2");//1查询，2添加，3删除
         //params.put("id","1212"); //Id不用传
-        params.put("userName", Statics.userName);
+        params.put("userName", Statics.Name);
         params.put("type", typeSpinnerString);
         params.put("classify", classifySpinnerString);
         params.put("reason", reasonSpinnerString);
@@ -192,6 +191,8 @@ public class AccountManagementHttpPost{
         params.put("description", description);
         params.put("customerId", customerId);
         params.put("billingTime", billingTime);//billingTime 创建时间
+        params.put("updateTime",billingTime);
+
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
 
             @Override
@@ -361,5 +362,7 @@ public class AccountManagementHttpPost{
         });
         return resultString;
     }
+
+
 
 }

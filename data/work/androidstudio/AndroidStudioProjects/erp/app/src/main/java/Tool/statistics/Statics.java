@@ -30,7 +30,7 @@ public class Statics {
 
     //账目管理
     public static String LoginUrl = "http://192.168.1.12:8081/login.jhtml";
-    public static String LoginId;
+    public static String Name;
     //public static  String LoginUrl = "http://i.yifeng-dl.com/login.jhtml";//用户登录地址
     public static String AccountManagementSearchUrl = "http://192.168.1.12:8081/wxApi.ajax";//账目查询地址 添加地址
     public static String AllCustomerUrl = "http://192.168.1.16:8083/getWXAllCustomer.ajax";//客户

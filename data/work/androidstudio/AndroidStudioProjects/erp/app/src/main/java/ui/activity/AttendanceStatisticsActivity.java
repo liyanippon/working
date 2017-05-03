@@ -50,13 +50,14 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
     private Spinner nameSpinner, yearSpinner ,monthSpinner;
     private ImageView search,graph;
     private static List<String> data_list;
-    public static ArrayAdapter<String> arr_adapter ;
-    public static ArrayAdapter<String> arr_adapterName;
+    public static ArrayAdapter<String> arr_adapter ,yearAdapter,monthAdapter,arr_adapterName;
     private String nameSpinnerString = "024001", yearSpinnerString = null, monthSpinnerString = null;
     private List<AttendanceStatistics> attendanceStatisticsList;
     public static AttendanceStatisticsAdapter attendanceAdapter;
     private AlertDialog dlg;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
+    public static ArrayList<String> yearlist;
+    private int monthPosition,yearPosition;
     //考勤统计
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,20 +140,37 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        //数据 年
+        //数据 年 默认显示上个月的
         //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this);
-        ArrayList<String> yearlist = new ArrayList<>();
+        //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this)
+        yearlist = new ArrayList<>();
         yearlist.add("全部");
         for (int i=0;i<Statics.searchYear.size();i++){
             yearlist.add(Statics.searchYear.get(i).getAttendanceYear());
         }
+        //年份回显
+        String year=currentTime("year");
+        for (int i=0;i<yearlist.size();i++){
+            String yearString = yearlist.get(i);
+            Log.d("yearlist","yearString:"+yearString);
+            if(yearSpinner!=null&&year.equals(yearString)){
+                Log.d("yearlist","----------");
+                Log.d("yearlist","i:"+i+"{}"+year+".."+yearString);
+                yearPosition=i;
+                break;
+            }
+        }
+
         //适配器
-        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, yearlist);
+        yearAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, yearlist);
         //设置样式
-        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+        yearAdapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
         //加载适配器
-        yearSpinner.setAdapter(arr_adapter);
+        yearSpinner.setAdapter(yearAdapter);
+        yearAdapter.notifyDataSetChanged();
+        Log.d("yearlist","yearPosition:"+yearPosition);
+        yearSpinner.setSelection(yearPosition);
+
         yearlist = null;
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -176,12 +194,32 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
         for (int i=1;i <= 12;i++){
             monthList.add(i+"");
         }
+
+        //月份回显 上一个月的
+        String month=currentTime("month");
+        for (int i=0;i<monthList.size();i++){
+            String monthString = monthList.get(i);
+            Log.d("monthString","monthString:"+monthString);
+            if(monthSpinner!=null&&month.equals(monthString)){
+                Log.d("monthString","----------");
+                Log.d("monthString","i:"+i+"{}"+year+".."+monthString);
+                monthPosition=i;
+                break;
+            }
+        }
+
+
         //适配器
-        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, monthList);
+        monthAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, monthList);
         //设置样式
-        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+        monthAdapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
         //加载适配器
-        monthSpinner.setAdapter(arr_adapter);
+        monthSpinner.setAdapter(monthAdapter);
+
+        monthAdapter.notifyDataSetChanged();
+        Log.d("yearlist","yearlist:"+monthPosition);
+        monthSpinner.setSelection(monthPosition);
+
         final ArrayList<String> finalMonthList = monthList;
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -199,6 +237,24 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
 
 
     }
+
+    private String currentTime(String type) {
+        //获取当前时间
+        Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+        String year = Integer.toString(c.get(Calendar.YEAR));//取当前年
+        String month = Integer.toString(c.get(Calendar.MONTH));//取上一个月的数据
+        if(type.equals("year")){
+            return year;
+        }else if(type.equals("month")){
+            return month;
+        }
+        else{
+            Log.d("error","出错了");
+        }
+
+        return null;
+    }
+
     public void init() {
         attendListView = (ListView) findViewById(R.id.lv);
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
@@ -219,6 +275,27 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
                 attendanceAdapter.notifyDataSetChanged();
                 progressDialog.dismiss();
                 break;
+            /*case "yearSpinner":
+                //获取当前时间
+                Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+                String year = Integer.toString(c.get(Calendar.YEAR));//取当前年
+                String month = Integer.toString(c.get(Calendar.MONTH));//取上一个月的数据
+                Log.d("yearlist:","currentYear:"+year+"cc"+"currentMonth:"+month);
+                for (int i=0;i<Statics.searchYear.size();i++){
+                    Log.d("yearlist","year:"+Statics.searchYear.get(i).getAttendanceYear());
+                    String yearString = Statics.searchYear.get(i).getAttendanceYear();
+                    Log.d("yearlist","yearString:"+yearString);
+                    if(yearSpinner!=null){
+                        Log.d("yearlist","----------");
+                        yearSpinner.setSelection(i);//设置默认值
+                        break;
+                    }
+                }
+                if(yearAdapter!=null){
+                    yearAdapter.notifyDataSetChanged();
+                }
+
+                break;*/
             case "searchName":
                 data_list = new ArrayList<>();
                 data_list.add(0,"全部");

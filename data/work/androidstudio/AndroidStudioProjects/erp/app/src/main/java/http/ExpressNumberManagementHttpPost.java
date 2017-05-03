@@ -98,7 +98,7 @@ public class ExpressNumberManagementHttpPost{
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("option", "2");//1查询，2添加，3删除
-        params.put("userName", Statics.LoginId);
+        params.put("userName", Statics.Name);
         params.put("type", typeSpinnerString);
         params.put("nameId", expressNameSpinnerString);
         params.put("numeric", numeric);

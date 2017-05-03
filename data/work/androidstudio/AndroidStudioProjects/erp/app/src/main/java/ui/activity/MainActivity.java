@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity{
                     //in = new Intent(MainActivity.this, CensusActivity.class);
                     in = new Intent(MainActivity.this, MenuFragmentMainActivity.class);
                     flag = false;
-                    Statics.LoginId = userNameString ;
+                    Statics.Name = userNameString ;
                     startActivity(in);
                     finish();
                 }

@@ -3,10 +3,13 @@ package ui.adpter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,11 +83,27 @@ public class AccountManagementAdapter extends BaseAdapter {
         String classify = Statics.accountManagementList.get(position).getClassify().trim();
         String billingTime = Statics.accountManagementList.get(position).getBillingTime();
         String sum = Statics.accountManagementList.get(position).getSum().trim();
+        if(!(sum.indexOf("-")<0)){
+            vh.type.setTextColor(Color.RED);
+            vh.classify.setTextColor(Color.RED);
+            vh.billingTime.setTextColor(Color.RED);
+            vh.sum.setTextColor(Color.RED);
+        }else{
+            vh.type.setTextColor(Color.BLACK);
+            vh.classify.setTextColor(Color.BLACK);
+            vh.billingTime.setTextColor(Color.BLACK);
+            vh.sum.setTextColor(Color.BLACK);
+        }
         vh.number.setText(number);
+        vh.number.setGravity(Gravity.CENTER);
         vh.type.setText(type);
+        vh.type.setGravity(Gravity.CENTER);
         vh.classify.setText(classify);
+        vh.classify.setGravity(Gravity.CENTER);
         vh.billingTime.setText(billingTime);
+        vh.billingTime.setGravity(Gravity.CENTER);
         vh.sum.setText(sum);
+        vh.sum.setGravity(Gravity.CENTER);
         vh.operate.setOnClickListener(new Click(positions));//解决光标获取不对的问题
         return convertView;
     }

@@ -306,7 +306,10 @@ public class AccountManagementActivity extends AppCompatActivity implements XLis
         broadcast = new FreshenBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Config.BC_ONE);
-        context.registerReceiver(broadcast, intentFilter);
+        if(context!=null){
+            context.registerReceiver(broadcast, intentFilter);
+
+        }
 
         broadcast.setLazyLoadFace(new LazyLoadFace() {
             @Override
