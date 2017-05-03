@@ -65,7 +65,7 @@ public class TestMybatis {
          */  
         String statement = "me.gacl.mapping.userMapper.addPerson";//映射sql的标识字符串  
         Person person = new Person(); 
-        person.setName("ghj");  
+        //person.setName("ghj");  
         person.setAge(20);  
         //执行插入操作  
         int retResult = sqlSession.insert(statement,person);  
@@ -86,7 +86,7 @@ public class TestMybatis {
         String statement = "me.gacl.mapping.userMapper.updatePerson";//映射sql的标识字符串  
         Person person = new Person();  
         person.setId(2);  
-        person.setName("hello world");  
+        //person.setName("hello world");  
         person.setAge(25);  
         //执行修改操作  
         int retResult = sqlSession.update(statement,person);
@@ -119,12 +119,21 @@ public class TestMybatis {
          * com.edu.hpu.mapping.userMapper是userMapper.xml文件中mapper标签的namespace属性的值， 
          * getAllUsers是select标签的id属性值，通过select标签的id属性值就可以找到要执行的SQL 
          */  
-        String statement = "me.gacl.mapping.userMapper.getAllPerson";//映射sql的标识字符串  
+        String statement = "me.gacl.mapping.userMapper.getAllPerson1";//映射sql的标识字符串  
+        
+        Person person = new Person(); 
+        
+        person.setAge(27);  
+        person.setUsername("admin");
+        
         //执行查询操作，将查询结果自动封装成List<User>返回  
-        List<Person> lstUsers = sqlSession.selectList(statement);  
+        List<Person> lstUsers = sqlSession.selectList(statement,person);
         //使用SqlSession执行完SQL之后需要关闭SqlSession  
-        sqlSession.close();  
-        System.out.println("cha"+lstUsers);  
+        sqlSession.close();
+        for(int i=0;i<lstUsers.size();i++){
+        	System.out.println("cha"+lstUsers.get(i).getUsername()+lstUsers.get(i).getAge()+lstUsers.get(i).getId());  
+        }
+        
     }  
 
     
