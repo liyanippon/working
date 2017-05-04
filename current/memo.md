@@ -24,9 +24,8 @@ git status//查看是否有新添加未提交的文件
 git重命名文件和文件夹
 git mv -f oldfolder newfolder
 git add -u newfolder (-u选项会更新已经追踪的文件和文件夹)
-git commit -m "changed the foldername whaddup"
-git mv foldername tempname && git mv tempname folderName (在大小写不敏感的系统中，如windows，重命名文件的大小写,使用临时文件名)
-git mv -n foldername folderName (显示重命名会发生的改变，不进行重命名操作)
+git commit -m "changed the foldername whaddup"//正常提交
+
 
 
 人生予感
