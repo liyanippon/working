@@ -17,6 +17,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {//自定义layout目录结构
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layout',//系统模块不可缺少
+                            'src/main/res',//系统模块不可缺少
+                            'src/main/res/layout/common/xlistview', //公共 下拉上拉翻刷新
+                            'src/main/res/layout/common/fragement', //公共 fragement
+                            'src/main/res/layout/common/control_widget', //公共 控件样式
+                            'src/main/res/layout/attendance_management_statistics', //考勤统计
+                            'src/main/res/layout/goods_bill_management', //物流账单管理
+                            'src/main/res/layout/goods_bill_statistics',//物流账单统计分析
+                            'src/main/res/layout/salesman_collect_count',//业务员揽件量
+                            'src/main/res/layout/salesman_collect_statistics',//业务员揽件量统计分析
+                            'src/main/res/layout/salesman_manage'//业务员管理（无效）
+                    ]
+        }
+    }
 }
 
 dependencies {

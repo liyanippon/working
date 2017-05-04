@@ -351,7 +351,7 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
     private BarDataSet generateBarData1(ArrayList<BarEntry> entries,List<String> list) {
         String PictureTag ;
         if (list!=null){
-            PictureTag = list.get(1);
+            PictureTag = list.get(0);
         }else{
             PictureTag = "";
         }
