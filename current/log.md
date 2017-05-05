@@ -24,14 +24,21 @@ IFengUrl = http://192.168.1.17:8083
 
 通过‘系统管理’查看开发使用哪个网页
 
-https://192.168.1.3:8006  远程终端 root/!QAZ2wsx
+https://192.168.1.3:8006  远程终端 root/!QAZ2wsx 
 
 
 javaee开发
-web 终端：192.168.1.16 开始-->附件-->远程桌面-->左 密码106
+web 终端：192.168.1.16 开始-->附件-->远程桌面-->左 密码106       206
 
 数据库xml文件查找
 attendanceSumService -->attendanceSum Ctrl+shift+R --> AttendanceSumExtMapper.xml
+
+List<String> yearList = expenseAccountStatisticsService.getYearAccountStatistics();
+对应接口实现类：ExpenseAccountStatisticsServiceImpl
+this.expressAccountExtMapper.getYearAccountStatistics();找到xml文件，对应是erp-core-src包下的xml文件
+getYearAccountStatistics对应在xml文件中的id,必须是getYearAccountStatistics名
+
+
 
 单独方法（供其它sql调用）
 <sql id="Where_Clause">
