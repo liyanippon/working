@@ -28,7 +28,7 @@ https://192.168.1.3:8006  远程终端 root/!QAZ2wsx
 
 
 javaee开发
-web 终端：192.168.1.16 开始-->附件-->远程桌面-->左 密码106       206
+web 终端：192.168.1.16 开始-->附件-->远程桌面-->左 密码106-->206
 
 数据库xml文件查找
 attendanceSumService -->attendanceSum Ctrl+shift+R --> AttendanceSumExtMapper.xml
@@ -72,5 +72,47 @@ Log.e("GSON", jsonjava.getCustomerId());
 
 eclipse快捷键
 Ctrl+k:自动查找下一个字段
+调试:Ctrl+shift+i
+-------------------------------------------------------------------------------------------------------------------
+postgre 
+端口 5432
+密码123456
+
+
+	select b.mon,b.ye,COALESCE(sum(jz),0) as jz1
+		,COALESCE(sum(cz),0) as cz1
+		,COALESCE(sum(jz),0)-COALESCE(sum(cz),0) as ce 
+		from (
+			SELECT(Case when a.classify ='023001' then a.sm end)as jz,
+			(Case When a.classify ='023002'then a.sm end)as cz,
+				a.mon,a.ye
+		from
+			(SELECT  classify ,EXTRACT(MONTH from billing_time) as mon,
+			EXTRACT(YEAR from billing_time) as ye,
+			"sum"("sum") as sm 
+	    from t_express_account te
+			where 1=1
+      <if test="conditions.type!= null and conditions.type!= ''">
+         and type =#{conditions.type}
+      </if>
+	     and to_char(create_time,'yyyy') = #{conditions.year} 
+	     GROUP BY classify ,mon,ye
+	     ORDER BY sm ASC) a
+      ) b
+	GROUP BY b.mon,b.ye
+	ORDER BY b.mon ASC
+	
+	
+	SELECT classify ,EXTRACT(MONTH from billing_time) as month,EXTRACT(YEAR from billing_time) as year,"sum"("sum") from t_express_account
+     where 1=1
+     <if test="conditions.type!= null and conditions.type!= ''">
+         and type =#{conditions.type}
+      </if>
+     <if test="conditions.classify!= null and conditions.classify != ''">
+    		 and classify =#{conditions.classify}
+     </if>
+     and to_char(billing_time,'yyyy') = #{conditions.year} 
+     GROUP BY classify ,month,year
+     ORDER BY month ASC
  
  
