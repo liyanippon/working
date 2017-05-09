@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -109,6 +110,18 @@ public class ToolUtils {
             }
         }
         return set;
+    }
+
+    //去掉ArrayList当中的重复元素，不改变位置
+    public static ArrayList<Object> removeDuplicate(ArrayList<Object> arrayList) {
+        for ( int i = 0 ; i < arrayList.size() - 1 ; i ++ ) {
+            for ( int j = arrayList.size() - 1 ; j > i; j -- ) {
+                if (arrayList.get(j).equals(arrayList.get(i))) {
+                    arrayList.remove(j);
+                }
+            }
+        }
+        return arrayList;
     }
 
 }

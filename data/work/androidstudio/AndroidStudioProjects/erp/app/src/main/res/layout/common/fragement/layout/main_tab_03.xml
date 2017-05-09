@@ -6,15 +6,14 @@
     android:background="#fcfcfc"
     android:orientation="vertical" >
 
-   	<TextView 
-   	    android:layout_width="fill_parent"
-   	    android:layout_height="0dp"
-   	    android:layout_weight="1"
-   	    android:gravity="center"
-   	    android:text="this is third tab !"
-   	    android:textColor="#000000"
-   	    android:textSize="30sp"
-   	    />
+	<GridView
+		android:id="@+id/tab02_grid"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:numColumns="auto_fit"
+		android:columnWidth="80dp"
+		android:stretchMode="columnWidth"
+		></GridView>
 
     
 

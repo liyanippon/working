@@ -5,6 +5,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 import net.tsz.afinal.http.AjaxParams;
@@ -12,13 +14,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.*;
+import java.util.Collections;
 
 import javax.crypto.KeyGenerator;
 
 import Tool.JsonResolve;
 import Tool.statistics.Statics;
+import Tool.statistics.UmlStatic;
 import broadcast.BroadCastTool;
 import broadcast.TYPE;
+import model.AttendanceStatistics;
+import model.LoginUmp;
 import portface.LazyLoadFace;
 import ui.activity.AccountManagementActivity;
 
@@ -42,8 +48,8 @@ public class AccountManagementHttpPost{
         this.context =context;
     }
 
-    public String LoginHttp(String httpUrl, String username, String password, final Activity activity) {//登录验证
-
+    public String LoginHttp(String httpUrl, final String username, String password, final Activity activity) {//登录验证
+        Log.d("uml",httpUrl);
         finalHttp = new FinalHttp();
         finalHttp.configRequestExecutionRetryCount(7);// 请求错误重试次数
         finalHttp.configTimeout(20000);// 超时时间
@@ -74,11 +80,19 @@ public class AccountManagementHttpPost{
                             String success = jsonObject.getString("success");
                             String sessionid = jsonObject.getString("sessionid");//在添加账单时会用到
                             Log.v("toi",sessionid);
+                            if(username.equals("liudongmei")){
+                                //UmlStatic.userType.add("root");
+                            }else{
+                                //UmlStatic.userType.add("user");
+                            }
                             //Constants.LoginId=sessionid;
                             Statics.results=success;
                             //调用接口
                             //lazyLoad.AdapterRefresh("success");
                             //Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                            Log.d("uml","登录成功");
+                            UmlHttp(Statics.UmlUrl ,sessionid,username);
+                            Log.d("uml",sessionid);
                             BroadCastTool.sendMyBroadcast(TYPE.NORMAL,context,"login");//发送广播
                             break;
                     }
@@ -86,6 +100,56 @@ public class AccountManagementHttpPost{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+            }
+
+            @Override
+            public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
+                super.onFailure(t, errorNo, strMsg);
+
+                resultString = strMsg;
+                Log.d("test","sssss:"+strMsg);
+                Statics.results="没有网络";
+
+            }
+
+        });
+        return "success";
+    }
+
+    public String UmlHttp(String httpUrl, final String sessionid,String username) {//登录验证
+
+        Log.d("uml",httpUrl);
+        finalHttp = new FinalHttp();
+        finalHttp.configRequestExecutionRetryCount(7);// 请求错误重试次数
+        finalHttp.configTimeout(20000);// 超时时间
+        params = new AjaxParams();
+        params.put("httpUrl", httpUrl);
+        params.put("sessionid", sessionid);
+        params.put("userName", username);
+        finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
+
+            @Override
+            public void onSuccess(Object o) {//网络请求网络请求成功
+                super.onSuccess(o);
+
+                String result = (String) o;//从从网络端返回数据
+                Log.v("uml","asdf::"+result);
+                //json数据使用Gson框架解析
+                //Statics.attendanceStatisticsList.clear();
+                LoginUmp[] as = new Gson().fromJson(result, LoginUmp[].class);
+
+                /*for (int i=0;i<as.length;i++){
+                    //Log.d("uml",as[i].getText());
+                    for(int j=0;j<as[i].getChildren().size();j++){
+                        Log.d("uml",as[i].getChildren().get(j).getText());
+                    }
+
+                }*/
+                for (int i=0;i<as.length;i++){
+                    Log.d("uml",as[i].getId());
+                }
+                //Collections.addAll(Statics.attendanceStatisticsList,as);//转化arrayList
 
             }
 

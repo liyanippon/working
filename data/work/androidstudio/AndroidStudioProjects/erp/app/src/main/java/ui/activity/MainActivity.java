@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity{
                 if(type.equals("login")){
                     //in = new Intent(MainActivity.this, CensusActivity.class);
                     in = new Intent(MainActivity.this, MenuFragmentMainActivity.class);
+                    Log.d("jmp","登录成功");
                     flag = false;
                     Statics.Name = userNameString ;
                     startActivity(in);
@@ -130,6 +131,8 @@ public class MainActivity extends AppCompatActivity{
             Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml";
             //Statics.LoginUrl = IFengLoginUrl;
             String IFengUrl = properties.getProperty("IFengUrl").trim();
+            String UmpUrl = properties.getProperty("UmpUrl").trim();
+            Statics.UmlUrl = UmpUrl + "/setRoles/loadRoleTree.ajax";
             Statics.AccountManagementSearchUrl = IFengUrl + "/wxApi.ajax";
             Statics.AllCustomerUrl = IFengUrl + "/getWXAllCustomer.ajax";
             Statics.AccountReasonUrl = IFengUrl + "/getWXExpenseAccountReason.ajax";
@@ -151,6 +154,7 @@ public class MainActivity extends AppCompatActivity{
             Statics.AttendanceStatisticsSearchUrl = IFengUrl + "/getWxAllAttendanceMonthSum.ajax";
             Statics.searchYearUrl = IFengUrl + "/getWxAllYears.ajax";
             Log.d("55","登录"+Statics.LoginUrl);
+            Log.d("55","权限"+Statics.UmlUrl);
             Log.d("55", Statics.AccountManagementSearchUrl);
             Log.d("55", Statics.AllCustomerUrl);
             Log.d("55", Statics.AccountReasonUrl);

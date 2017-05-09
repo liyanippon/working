@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import Tool.statistics.Statics;
+import Tool.statistics.UmlStatic;
 import http.AttendanceStatisticsHttpPost;
 import http.Constants;
 import ui.activity.AttendanceStatisticsActivity;
@@ -30,8 +31,11 @@ public class MainTabAttendance extends Fragment {
 	private SimpleAdapter sim_adapter;
 	private Intent in;
 	// 图片封装为一个数组
-	private int[] icon = { R.drawable.kaoqintongji};
-	private String[] iconName = { "考勤统计"};
+	//private int[] icon = { R.drawable.kaoqintongji};
+	//private String[] iconName = { "考勤统计"};
+	//动态菜单
+	private ArrayList<Object> icon;
+	private ArrayList<Object> iconName;
 	private AttendanceStatisticsHttpPost httpPost;
 	@Nullable
 	@Override
@@ -73,10 +77,16 @@ public class MainTabAttendance extends Fragment {
 
 	public List<Map<String, Object>> getData(){
 		//cion和iconName的长度是相同的，这里任选其一都可以
-		for(int i=0;i<icon.length;i++){
+
+		//设定菜单显示(菜单控制)
+		icon = new ArrayList<>();
+		iconName = new ArrayList<>();
+		Map<String,ArrayList<Object>> mapUML= UmlStatic.menuAttendanceController(icon,iconName);//调用财务管理菜单
+
+		for(int i=0;i<icon.size();i++){
 			Map<String, Object> map = new HashMap<>();
-			map.put("image", icon[i]);
-			map.put("text", iconName[i]);
+			map.put("image", mapUML.get("icon").get(i));
+			map.put("text", mapUML.get("iconName").get(i));
 			data_list.add(map);
 		}
 

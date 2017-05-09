@@ -30,6 +30,7 @@ public class Statics {
 
     //账目管理
     public static String LoginUrl = "http://192.168.1.12:8081/login.jhtml";
+    public static String UmlUrl = "http://192.168.1.16:8083/getWXMenuList.ajax";//用户权限url
     public static String Name;
     //public static  String LoginUrl = "http://i.yifeng-dl.com/login.jhtml";//用户登录地址
     public static String AccountManagementSearchUrl = "http://192.168.1.12:8081/wxApi.ajax";//账目查询地址 添加地址
@@ -53,10 +54,8 @@ public class Statics {
     public static ArrayList<TimeBillingStatistics> timeBillingStatisticsList = new ArrayList<>();
     public static ArrayList<String> billingYear = new ArrayList<>();
     public static ArrayList<String> expressYear = new ArrayList<>();
-
     public static ArrayList<CustomerBillingStatistics> customerBillingStatisticsArrayList = new ArrayList<>();
     public static ArrayList<XiangxiBillingStatistics> xiangxiBillingStatisticsArrayList = new ArrayList<>();
-
     public static ArrayList<String> data_list = new ArrayList<>();
     public static String results = null;
     public static String userName = null;

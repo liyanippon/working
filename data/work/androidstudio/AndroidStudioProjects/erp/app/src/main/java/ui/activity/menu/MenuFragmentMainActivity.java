@@ -20,15 +20,15 @@ import android.widget.TextView;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
 import ui.adpter.MFragmentPagerAdapter;
-import ui.fragement.menu.MainTab03;
 import ui.fragement.menu.MainTab04;
 import ui.fragement.menu.MainTabAttendance;
+import ui.fragement.menu.MainTabExpress;
 import ui.fragement.menu.MainTabFinancial;
 
 public class MenuFragmentMainActivity extends AppCompatActivity{
-    private LinearLayout pictureTextView;
-    private LinearLayout movieTextView;
-    private LinearLayout musicTextView;
+    private LinearLayout attendanceTextView;
+    private LinearLayout expressTextView;
+    private LinearLayout financialTextView;
     private LinearLayout setting_layout;
     //实现Tab滑动效果
     private ViewPager mViewPager;
@@ -48,8 +48,8 @@ public class MenuFragmentMainActivity extends AppCompatActivity{
     //管理Fragment
     private android.support.v4.app.FragmentManager fragmentManager;
     public Context context;
-    private ImageButton financial,kaoqin,setting;
-    private TextView financialtext,kaoqintext,settingtext;
+    private ImageButton express,attendance,setting,financial;
+    private TextView expresstext,attendancetext,settingtext,financialtext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,20 +91,21 @@ public class MenuFragmentMainActivity extends AppCompatActivity{
     private void InitTextView(){
 
         //考勤管理
-        kaoqintext = (TextView) findViewById(R.id.kaoqintext);
-        pictureTextView = (LinearLayout) findViewById(R.id.picture_text);
+        attendancetext = (TextView) findViewById(R.id.kaoqintext);
+        attendanceTextView = (LinearLayout) findViewById(R.id.attendance_text);
+        //物流管理
+        expressTextView = (LinearLayout) findViewById(R.id.express_text);
+        expresstext = (TextView) findViewById(R.id.expresstext);
         //财务管理
-        movieTextView = (LinearLayout) findViewById(R.id.movie_text);
-        financialtext = (TextView) findViewById(R.id.financialtext);
-        //音乐头标
-        musicTextView = (LinearLayout) findViewById(R.id.music_text);
-        setting_layout = (LinearLayout) findViewById(R.id.seting_layout);
+        financialtext = (TextView) findViewById(R.id.caiwutext);
+        financialTextView = (LinearLayout) findViewById(R.id.caiwu_text);
         //设置
+        setting_layout = (LinearLayout) findViewById(R.id.seting_layout);
         settingtext = (TextView) findViewById(R.id.settingtext);
         //添加点击事件
-        pictureTextView.setOnClickListener(new MyOnClickListener(0));
-        movieTextView.setOnClickListener(new MyOnClickListener(1));
-        musicTextView.setOnClickListener(new MyOnClickListener(2));
+        attendanceTextView.setOnClickListener(new MyOnClickListener(0));
+        expressTextView.setOnClickListener(new MyOnClickListener(1));
+        financialTextView.setOnClickListener(new MyOnClickListener(2));
         setting_layout.setOnClickListener(new MyOnClickListener(3));
     }
     /**
@@ -122,8 +123,9 @@ public class MenuFragmentMainActivity extends AppCompatActivity{
         //pictureTextView.setTextColor(getResources().getColor(R.color.main_top_tab_color_2));
         //设置viewpager页面滑动监听事件
         mViewPager.setOnPageChangeListener(new MyOnPageChangeListener());
-        financial= (ImageButton) findViewById(R.id.financial);
-        kaoqin = (ImageButton) findViewById(R.id.kaoqin);
+        express= (ImageButton) findViewById(R.id.express);
+        attendance = (ImageButton) findViewById(R.id.kaoqin);
+        financial = (ImageButton) findViewById(R.id.caiwu);
         setting = (ImageButton) findViewById(R.id.setting);
     }
 
@@ -151,8 +153,8 @@ public class MenuFragmentMainActivity extends AppCompatActivity{
     private void InitFragment(){
         fragmentArrayList = new ArrayList<>();
         fragmentArrayList.add(new MainTabAttendance());
+        fragmentArrayList.add(new MainTabExpress());
         fragmentArrayList.add(new MainTabFinancial());
-        fragmentArrayList.add(new MainTab03());
         fragmentArrayList.add(new MainTab04());
         fragmentManager = getSupportFragmentManager();
     }
@@ -184,10 +186,13 @@ public class MenuFragmentMainActivity extends AppCompatActivity{
                 //当前为页卡1
                 case 0:
                     //从页卡1跳转转到页卡2
+
+                    express.setImageResource(R.drawable.wuliu_up);
+                    expresstext.setTextColor(Color.GRAY);
+                    attendance.setImageResource(R.drawable.kaoqin_down);
+                    attendancetext.setTextColor(Color.RED);
                     financial.setImageResource(R.drawable.caiwu_up);
                     financialtext.setTextColor(Color.GRAY);
-                    kaoqin.setImageResource(R.drawable.kaoqin_down);
-                    kaoqintext.setTextColor(Color.RED);
                     setting.setImageResource(R.drawable.setting_up);
                     settingtext.setTextColor(Color.GRAY);
                     if(currIndex == 1){
@@ -203,10 +208,12 @@ public class MenuFragmentMainActivity extends AppCompatActivity{
                     break;
                 //当前为页卡2
                 case 1:
-                    financial.setImageResource(R.drawable.caiwu_down);
-                    financialtext.setTextColor(Color.RED);
-                    kaoqin.setImageResource(R.drawable.kaoqin_up);
-                    kaoqintext.setTextColor(Color.GRAY);
+                    express.setImageResource(R.drawable.wuliu_down);
+                    expresstext.setTextColor(Color.RED);
+                    attendance.setImageResource(R.drawable.kaoqin_up);
+                    attendancetext.setTextColor(Color.GRAY);
+                    financial.setImageResource(R.drawable.caiwu_up);
+                    financialtext.setTextColor(Color.GRAY);
                     setting.setImageResource(R.drawable.setting_up);
                     settingtext.setTextColor(Color.GRAY);
                     //从页卡1跳转转到页卡2
@@ -224,10 +231,12 @@ public class MenuFragmentMainActivity extends AppCompatActivity{
                     break;
                 //当前为页卡3
                 case 2:
-                    financial.setImageResource(R.drawable.caiwu_up);
-                    financialtext.setTextColor(Color.GRAY);
-                    kaoqin.setImageResource(R.drawable.kaoqin_up);
-                    kaoqintext.setTextColor(Color.GRAY);
+                    express.setImageResource(R.drawable.wuliu_up);
+                    expresstext.setTextColor(Color.GRAY);
+                    attendance.setImageResource(R.drawable.kaoqin_up);
+                    attendancetext.setTextColor(Color.GRAY);
+                    financial.setImageResource(R.drawable.caiwu_down);
+                    financialtext.setTextColor(Color.RED);
                     setting.setImageResource(R.drawable.setting_up);
                     settingtext.setTextColor(Color.GRAY);
                     //从页卡1跳转转到页卡2
@@ -244,10 +253,12 @@ public class MenuFragmentMainActivity extends AppCompatActivity{
                     break;
                 //当前为页卡4
                 case 3:
+                    express.setImageResource(R.drawable.wuliu_up);
+                    expresstext.setTextColor(Color.GRAY);
+                    attendance.setImageResource(R.drawable.kaoqin_up);
+                    attendancetext.setTextColor(Color.GRAY);
                     financial.setImageResource(R.drawable.caiwu_up);
                     financialtext.setTextColor(Color.GRAY);
-                    kaoqin.setImageResource(R.drawable.kaoqin_up);
-                    kaoqintext.setTextColor(Color.GRAY);
                     setting.setImageResource(R.drawable.setting_down);
                     settingtext.setTextColor(Color.RED);
                     //从页卡1跳转转到页卡2

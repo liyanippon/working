@@ -4,20 +4,19 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
-
 import com.example.admin.erp.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
 import http.AccountManagementHttpPost;
@@ -29,10 +28,9 @@ import ui.activity.BillingStatisticsActivity;
 import ui.activity.ExpressNumberManagerActivity;
 import ui.activity.ExpressStatisticsActivity;
 
-
 @SuppressLint("NewApi")
-public class MainTabFinancial extends Fragment
-{
+public class MainTabExpress extends Fragment {
+
 	private AccountManagementHttpPost httpPost;
 	private BillingStatisticsHttpPost billingStatisticsHttpPost;
 	private ExpressNumberManagementHttpPost expressNumberManagementHttpPost;
@@ -40,7 +38,7 @@ public class MainTabFinancial extends Fragment
 	private String typeSpinnerString = "024001";
 
 	private GridView gridView;
-	private View newsLayout;
+	private View view;
 	private List<Map<String, Object>> data_list;
 	private SimpleAdapter sim_adapter;
 	private Intent in;
@@ -51,24 +49,19 @@ public class MainTabFinancial extends Fragment
 	//动态菜单
 	private ArrayList<Object> icon;
 	private ArrayList<Object> iconName;
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-
-		newsLayout = inflater.inflate(R.layout.main_tab_financial, container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		view = inflater.inflate(R.layout.main_tab_03, null);
+		//http://www.cnblogs.com/tinyphp/p/3855224.html 可下载
 		spinnerData();
 		init();
-		gridView.setOnItemClickListener(g);
-		return newsLayout;
-	}
 
+		gridView.setOnItemClickListener(g);
+		return view;
+	}
 	private void spinnerData() {
 		//获取数据 下拉菜单
 		httpPost = new AccountManagementHttpPost();
 		spinner();
-
-
 		//账单统计
 		Statics.billingYear.clear();
 		billingStatisticsHttpPost = new BillingStatisticsHttpPost();
@@ -100,7 +93,7 @@ public class MainTabFinancial extends Fragment
 
 
 	private void init() {
-		gridView = (GridView) newsLayout.findViewById(R.id.tab02_grid);
+		gridView = (GridView) view.findViewById(R.id.tab02_grid);
 		//新建List
 		data_list = new ArrayList<Map<String, Object>>();
 		//获取数据
@@ -115,20 +108,22 @@ public class MainTabFinancial extends Fragment
 
 	public List<Map<String, Object>> getData(){
 		//cion和iconName的长度是相同的，这里任选其一都可以
-
 		//设定菜单显示(菜单控制)
 		icon = new ArrayList<>();
 		iconName = new ArrayList<>();
-
-		Map<String,ArrayList<Object>> mapUML= UmlStatic.menuFinancialController(icon,iconName);//调用财务管理菜单
-
-		for(int i=0;i<icon.size();i++){
+		Map<String,ArrayList<Object>> mapUML=UmlStatic.menuFinancialController(icon,iconName);//调用财务管理菜单
+		//去除重复元素
+		ArrayList<Object> reIcon=mapUML.get("icon");
+		ArrayList<Object> reIconName=mapUML.get("iconName");
+		//调用公共方法
+		reIcon= ToolUtils.removeDuplicate(reIcon);
+		reIconName=ToolUtils.removeDuplicate(reIconName);
+		for(int i=0;i<reIcon.size();i++){
 			Map<String, Object> map = new HashMap<>();
-			map.put("image", mapUML.get("icon").get(i));
-			map.put("text", mapUML.get("iconName").get(i));
+			map.put("image", reIcon.get(i));
+			map.put("text",	  reIconName.get(i));
 			data_list.add(map);
 		}
-
 		return data_list;
 	}
 
@@ -144,14 +139,14 @@ public class MainTabFinancial extends Fragment
 					in = new Intent(getActivity(), BillingStatisticsActivity.class);
 					startActivity(in);
 					break;
-				/*case 2:
+				case 2:
 					in = new Intent(getActivity(),ExpressNumberManagerActivity.class);
 					startActivity(in);
 					break;
 				case 3:
 					in = new Intent(getActivity(),ExpressStatisticsActivity.class);
 					startActivity(in);
-					break;*/
+					break;
 			}
 		}
 	};
