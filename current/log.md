@@ -118,31 +118,72 @@ postgre
 翼峰企业邮箱地址 http://mail.yifeng-dl.com/
  8cb65d793df4457cae60484e6973e2d5
  
- http://192.168.1.53:8081/setRoles/loadRoleTree.ajax
- 
- 
-
- 
- [{"checked":false,"children":[{"checked":false,"id":"0813dc3fe2fa40b5955a77fa95c0e345","parentId":"01edb238b51846a0bd0e3865755993dc","sortorder":0,"text":"系统管理员"}],"id":"01edb238b51846a0bd0e3865755993dc","sortorder":0,"state":"open","text":"管理员"},{"checked":false,"children":[{"checked":false,"id":"a6509c7f484b482ab979aff844acbd2f","parentId":"4d24e45a24ff4ae1859137d0c9db17e9","sortorder":0,"text":"BOSS"},{"checked":false,"id":"f8dc2c2f6ece4f38a8df43ab4d4a4c5d","parentId":"4d24e45a24ff4ae1859137d0c9db17e9","sortorder":0,"text":"项目经理"}],"id":"4d24e45a24ff4ae1859137d0c9db17e9","sortorder":0,"state":"open","text":"管理人员"},{"checked":false,"children":[{"checked":false,"id":"0e039933cb7249489c9c840e3aa4f6cd","parentId":"69ee0804f30841ac86204c0b55caff96","sortorder":0,"text":"物流业务员"},{"checked":false,"id":"8cb65d793df4457cae60484e6973e2d5","parentId":"69ee0804f30841ac86204c0b55caff96","sortorder":0,"text":"财务人员"},{"checked":false,"id":"a63711b079154ccba4d4aff08d65b484","parentId":"69ee0804f30841ac86204c0b55caff96","sortorder":0,"text":"开发人员"}],"id":"69ee0804f30841ac86204c0b55caff96","sortorder":0,"state":"open","text":"员工"}]
- 
- 
- 
+ http://192.168.1.53:8081/setRoles/loadRoleTree.ajax 
  http://i.yifeng-dl.com/setRoles/loadRoleTree.ajax
- 
  http://i.yifeng-dl.com/identify/index.jhtml?clientUrl=http://erp.yifeng-dl.com/setRoles/loadRoleTree.ajax
- 
- 
  http://ump.yifeng-dl.com/setRoles/loadRoleTree.ajax?sessionid=3bll5tranb7p26sh94g2rhs3
  
+ 192.168.1.16:8082/setRoles/loadRoleTree.ajax?sessionid="1pzdkyvclecff196st89v75odu"
+ http://192.168.1.16:8082/setRoles/loadRoleTree.ajax?sessionid=%221pzdkyvclecff196st89v75odu%22&userName=%22liudongmei%22
  
  
+ http://192.168.1.16:8081/login.jhtml   本地登录
+ ----------------------------------------------------------------------------------------------------------------------------------------------
  
- 
- 
- 
- 
- 
- 
+ :
+RoleGroupServiceImpl文件public List<RoleGroupDto> selectRoleGroup() {
+		List<RoleGroup> list = this.roleGroupMapper.selectByExample(null);
+		List groupDto = new ArrayList();
+		for (RoleGroup each : list) {
+			RoleGroupDto dto = new RoleGroupDto();
+			BeanUtils.copyProperties(each, dto);
+			groupDto.add(dto);
+		}
+		return groupDto;
+	}
+:
+RoleService文件public abstract List<RoleDto> selectRoleByUserName(PageRequest pageRequest) throws BusinessException;
+:
+SetRolesController文件@RequestMapping({ "/loadRoleUserId.ajax" })
+	@ResponseBody
+	public  List loadRoleUserId(HttpServletRequest request) throws BusinessException {
+		PageRequest pageRequest = new PageRequest();
+		String userId = request.getParameter("user_id");
+		pageRequest.getConditions().put("user_id", userId);
+		
+		Set roleSet = new TreeSet();
+
+		List<RoleGroupDto> roleDtoList = this.roleGroupService.selectRoleGroup();//
+
+		List roleList = new ArrayList();
+		
+		if (StringUtils.isNotBlank(userId)) {
+			roleList = this.roleService.selectRoleByUserName(pageRequest);//
+		}
+		
+		return roleList;
+	}
+:
+UserRoleMappingExample文件public UserRoleMappingExample.Criteria andUserId(PageRequest pageRequest) {
+			addCriterion("user_id =", pageRequest, "userId");
+			return (UserRoleMappingExample.Criteria) this;
+		}
+		
+		
+		@Override
+	public List<RoleDto> selectRoleByUserName(PageRequest pageRequest) throws BusinessException {
+		UserRoleMappingExample example = new UserRoleMappingExample();
+		example.createCriteria().andUserId(pageRequest).andDeleteEqualTo("0");
+		List<UserRoleMapping> userRoleList = this.userRoleMappingMapper.selectByExample(example);
+
+		List roleList = new ArrayList();
+		for (UserRoleMapping userRole : userRoleList) {
+			RoleDto role = new RoleDto();
+			role.setId(userRole.getRoleId());
+			roleList.add(role);
+		}
+		return roleList;
+	}
  
  
  
