@@ -226,7 +226,7 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
             @Override
             public void run() {
                 httpPost = new ExpressNumberManagementHttpPost();
-                String httpUrl = Statics.AccountManagementSearchUrl;
+                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
                 String result = httpPost.searchHttp(httpUrl ,expressPersonSpinnerString ,typeSpinnerString ,billingTimeString,ExpressNumberManagerActivity.this,page);
                 onLoad();
             }

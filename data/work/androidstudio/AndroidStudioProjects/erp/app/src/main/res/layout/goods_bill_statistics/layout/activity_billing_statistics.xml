@@ -102,19 +102,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="1.5dip"
                 android:background="#686867"/>
+
             <ListView
+                android:id="@+id/lv"
+                android:layout_width="fill_parent"
+                android:layout_height="400dp"
+                android:layout_weight="1"
+                android:background="@drawable/listview_bg"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="#B4B3B3"
+                android:dividerHeight="1.0dip"
+                android:fadingEdge="none"
+                android:listSelector="#ffff00"
+                ></ListView>
+            <!--<ListView
                 android:id="@+id/lv"
                 android:divider="#B4B3B3"
                 android:dividerHeight="1.0dip"
                 android:scrollbars="none"
+                android:listSelector="#ffff00"
                 android:background="@drawable/listview_bg"
                 android:cacheColorHint="@android:color/transparent"
                 android:fadingEdge="none"
                 android:layout_width="fill_parent"
-                android:listSelector="#ffff00"
                 android:layout_weight="1"
                 android:layout_height="400dp" >
-            </ListView>
+            </ListView>-->
 
 
             <TextView
@@ -136,20 +149,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="1.5dip"
                 android:background="#686867"/>
+
             <ListView
                 android:id="@+id/customerListView"
-                android:divider="#B4B3B3"
-                android:dividerHeight="1.0dip"
-                android:scrollbars="none"
-                android:background="@drawable/listview_bg"
-                android:cacheColorHint="@android:color/transparent"
-                android:fadingEdge="none"
-                android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="400dp"
+                android:layout_weight="1"
+                android:background="@drawable/listview_bg"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="#B4B3B3"
+                android:dividerHeight="1.0dip"
+                android:fadingEdge="none"
                 android:listSelector="#ffff00"
-                >
-            </ListView>
+                android:scrollbars="none"></ListView>
 
         </LinearLayout>
 

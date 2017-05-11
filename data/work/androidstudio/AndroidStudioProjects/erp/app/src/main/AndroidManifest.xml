@@ -17,15 +17,14 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="ui.activity.AccountManagementActivity"
+            android:name="ui.activity.ExpressBillingManagementActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="ui.activity.AddAccountManagerActivity"
+            android:name="ui.activity.AddExpressBillingManagerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="ui.activity.AddExpressNumberActivity"
@@ -56,6 +55,7 @@
             android:name="ui.activity.menu.MenuFragmentMainActivity"
             android:screenOrientation="portrait" />
         <activity android:name="ui.activity.AttendanceStatisticsActivity" />
+        <activity android:name="ui.activity.FinancialBillingManagementActivity"></activity>
     </application>
 
 </manifest>

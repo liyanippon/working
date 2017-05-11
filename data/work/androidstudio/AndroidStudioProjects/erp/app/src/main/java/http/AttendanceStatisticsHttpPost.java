@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import Tool.statistics.ExceptionUtil;
 import Tool.statistics.Statics;
 import model.AttendanceStatistics;
 import model.AttendanceYear;
@@ -80,6 +81,7 @@ public class AttendanceStatisticsHttpPost {
 
                 AttendanceStatisticsActivity.progressDialog.dismiss();
                 resultString = "error";
+                ExceptionUtil.httpPost("AttendanceStatisticsHttpPost");
             }
         });
 
@@ -145,6 +147,7 @@ public class AttendanceStatisticsHttpPost {
                     AttendanceStatisticsActivity.progressDialog.dismiss();
                 }
                 resultString = "error";
+                ExceptionUtil.httpPost("AttendanceStatisticsHttpPost");
             }
         });
 
@@ -174,9 +177,8 @@ public class AttendanceStatisticsHttpPost {
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
 
-
-
                 resultString = "error";
+                ExceptionUtil.httpPost("AttendanceStatisticsHttpPost");
             }
         });
 

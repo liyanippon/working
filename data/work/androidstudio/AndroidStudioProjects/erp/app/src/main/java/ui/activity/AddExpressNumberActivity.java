@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import Tool.statistics.Statics;
-import http.AccountManagementHttpPost;
+import http.ExpressBillingManagementHttpPost;
 import http.Constants;
 import http.ExpressNumberManagementHttpPost;
 
@@ -133,7 +133,7 @@ public class AddExpressNumberActivity extends AppCompatActivity {
 
 
         //expressNameButton.initContent(m);//快递选择
-        AccountManagementHttpPost httpPost = new AccountManagementHttpPost();
+        ExpressBillingManagementHttpPost httpPost = new ExpressBillingManagementHttpPost();
         httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl);
         data_list2 = new ArrayList<>();//快递类型
         for (int i = 0; i < Statics.accountTypeList.size(); i++) {

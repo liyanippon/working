@@ -9,14 +9,14 @@ import com.example.admin.erp.R;
 import java.util.List;
 
 import Tool.statistics.Statics;
-import http.AccountManagementHttpPost;
+import http.ExpressBillingManagementHttpPost;
 import http.BillingStatisticsHttpPost;
 import http.Constants;
 import http.ExpressNumberManagementHttpPost;
 import http.ExpressStatisticsHttpPost;
 
 public class CensusActivity extends AppCompatActivity {
-    private AccountManagementHttpPost httpPost;
+    private ExpressBillingManagementHttpPost httpPost;
     private List<String> data_list;
     private BillingStatisticsHttpPost billingStatisticsHttpPost;
     private ExpressNumberManagementHttpPost expressNumberManagementHttpPost;
@@ -32,7 +32,7 @@ public class CensusActivity extends AppCompatActivity {
 
 
         //获取数据 下拉菜单
-        httpPost = new AccountManagementHttpPost();
+        httpPost = new ExpressBillingManagementHttpPost();
         spinner();
         //AllCustomer
         /*httpPost =new AccountManagementHttpPost();

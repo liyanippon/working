@@ -67,12 +67,17 @@ public class ToolUtils {
     }
 
     //listView选中变色
-    public static void selectColor(AdapterView<?> parent , int position) {//计算y轴最大值
+    public static void selectColor(AdapterView<?> parent , int position) {
+
+        Log.d("listcolor","条目:"+position+"//"+parent.getCount());
+
         for (int i = 0; i < parent.getCount(); i++) {
+            Log.d("listcolor","条目:"+position+"//"+i);
             View v = parent.getChildAt(i);
 
             if(v!=null){
                 if (position == i) {
+                    Log.d("listcolor",position+"//"+i);
                     v.setBackgroundColor(Color.YELLOW);
                 } else {
                     v.setBackgroundColor(Color.TRANSPARENT);
@@ -114,6 +119,9 @@ public class ToolUtils {
 
     //去掉ArrayList当中的重复元素，不改变位置
     public static ArrayList<Object> removeDuplicate(ArrayList<Object> arrayList) {
+        if(arrayList==null||arrayList.size()==0){
+            return null;
+        }
         for ( int i = 0 ; i < arrayList.size() - 1 ; i ++ ) {
             for ( int j = arrayList.size() - 1 ; j > i; j -- ) {
                 if (arrayList.get(j).equals(arrayList.get(i))) {

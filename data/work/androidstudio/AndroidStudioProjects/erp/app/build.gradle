@@ -32,7 +32,8 @@ android {
                             'src/main/res/layout/goods_bill_statistics',//物流账单统计分析
                             'src/main/res/layout/salesman_collect_count',//业务员揽件量
                             'src/main/res/layout/salesman_collect_statistics',//业务员揽件量统计分析
-                            'src/main/res/layout/salesman_manage'//业务员管理（无效）
+                            'src/main/res/layout/salesman_manage',//业务员管理（无效）
+                            'src/main/res/layout/financial_billing_management'//财务账单管理
                     ]
         }
     }

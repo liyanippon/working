@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import Tool.JsonResolve;
+import Tool.statistics.ExceptionUtil;
 import Tool.statistics.Statics;
 import model.ExpressNumberManagement;
 import ui.activity.ExpressNumberManagerActivity;
@@ -82,7 +83,7 @@ public class ExpressNumberManagementHttpPost{
                     Log.d("test", strMsg);
                 }
                 ExpressNumberManagerActivity.progressDialog.dismiss();
-
+                ExceptionUtil.httpPost("ExpressNumberManagementHttpPost");
             }
 
         });
@@ -124,6 +125,7 @@ public class ExpressNumberManagementHttpPost{
 
                 resultString = "error";
                 Log.d("test", strMsg);
+                ExceptionUtil.httpPost("ExpressNumberManagementHttpPost");
             }
         });
 
@@ -159,6 +161,7 @@ public class ExpressNumberManagementHttpPost{
 
                 resultString = "error";
                 Log.d("test", strMsg);
+                ExceptionUtil.httpPost("ExpressNumberManagementHttpPost");
             }
         });
 
@@ -187,6 +190,7 @@ public class ExpressNumberManagementHttpPost{
                 super.onFailure(t, errorNo, strMsg);
 
                 resultString = "error";
+                ExceptionUtil.httpPost("ExpressNumberManagementHttpPost");
             }
         });
 
@@ -214,6 +218,7 @@ public class ExpressNumberManagementHttpPost{
                 super.onFailure(t, errorNo, strMsg);
                 Log.d("test1", strMsg);
                 resultString = "error";
+                ExceptionUtil.httpPost("ExpressNumberManagementHttpPost");
             }
         });
 

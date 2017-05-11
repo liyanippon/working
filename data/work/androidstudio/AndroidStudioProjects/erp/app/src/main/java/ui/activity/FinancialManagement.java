@@ -35,7 +35,7 @@ public class FinancialManagement extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        in = new Intent(getActivity(), AccountManagementActivity.class);
+                        in = new Intent(getActivity(), ExpressBillingManagementActivity.class);
                         Log.v("ui","----------------");
                         startActivity(in);
                         break;

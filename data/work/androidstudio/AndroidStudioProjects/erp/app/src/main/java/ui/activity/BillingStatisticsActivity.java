@@ -80,7 +80,7 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 //选中变色
-                ToolUtils.selectColor(parent,position);
+                //ToolUtils.selectColor(parent,position);
                 //确定月份
                 final String month = Statics.timeBillingStatisticsList.get(position).getMonth();
                 billingStatisticsHttpPost.searchCustomerHttp(Statics.CustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, BillingStatisticsActivity.this);

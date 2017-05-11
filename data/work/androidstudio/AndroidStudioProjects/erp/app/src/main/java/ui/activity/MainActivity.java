@@ -31,7 +31,7 @@ import java.util.Properties;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
-import http.AccountManagementHttpPost;
+import http.ExpressBillingManagementHttpPost;
 import http.Constants;
 import portface.LazyLoadFace;
 import ui.activity.menu.MenuFragmentMainActivity;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity{
 
     private EditText userName;
     private EditText userPassword;
-    private AccountManagementHttpPost httpPost;
+    private ExpressBillingManagementHttpPost httpPost;
     private Button login;
     private Button reset;
     private Properties properties;
@@ -128,12 +128,12 @@ public class MainActivity extends AppCompatActivity{
         try {
             properties.load(MainActivity.this.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
-            Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml";
-            //Statics.LoginUrl = IFengLoginUrl;
+            Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
+            //Statics.LoginUrl = IFengLoginUrl;//本地登录
             String IFengUrl = properties.getProperty("IFengUrl").trim();
             String UmpUrl = properties.getProperty("UmpUrl").trim();
-            Statics.UmlUrl = UmpUrl + "/setRoles/loadRoleTree.ajax";
-            Statics.AccountManagementSearchUrl = IFengUrl + "/wxApi.ajax";
+            Statics.UmlUrl = UmpUrl + "/setRoles/loadRoleUserId.ajax";
+            Statics.FinancialBillingManagementSearchUrl = IFengUrl + "/wxApi.ajax";
             Statics.AllCustomerUrl = IFengUrl + "/getWXAllCustomer.ajax";
             Statics.AccountReasonUrl = IFengUrl + "/getWXExpenseAccountReason.ajax";
             Statics.AccountClassifyUrl = IFengUrl + "/getWXExpenseAccountClassify.ajax";
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity{
             Statics.searchYearUrl = IFengUrl + "/getWxAllYears.ajax";
             Log.d("55","登录"+Statics.LoginUrl);
             Log.d("55","权限"+Statics.UmlUrl);
-            Log.d("55", Statics.AccountManagementSearchUrl);
+            Log.d("55", Statics.FinancialBillingManagementSearchUrl);
             Log.d("55", Statics.AllCustomerUrl);
             Log.d("55", Statics.AccountReasonUrl);
             Log.d("55", Statics.AccountTypeUrl);
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity{
             }
 
             String urlString = Statics.LoginUrl;
-            httpPost = new AccountManagementHttpPost(getApplicationContext());
+            httpPost = new ExpressBillingManagementHttpPost(getApplicationContext());
             httpPost.LoginHttp(urlString, userNameString, password, MainActivity.this);
         }
     };

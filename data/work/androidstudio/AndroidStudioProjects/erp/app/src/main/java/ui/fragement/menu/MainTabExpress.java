@@ -19,19 +19,19 @@ import java.util.Map;
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
-import http.AccountManagementHttpPost;
+import http.ExpressBillingManagementHttpPost;
 import http.BillingStatisticsHttpPost;
 import http.ExpressNumberManagementHttpPost;
 import http.ExpressStatisticsHttpPost;
-import ui.activity.AccountManagementActivity;
 import ui.activity.BillingStatisticsActivity;
+import ui.activity.ExpressBillingManagementActivity;
 import ui.activity.ExpressNumberManagerActivity;
 import ui.activity.ExpressStatisticsActivity;
 
 @SuppressLint("NewApi")
 public class MainTabExpress extends Fragment {
 
-	private AccountManagementHttpPost httpPost;
+	private ExpressBillingManagementHttpPost httpPost;
 	private BillingStatisticsHttpPost billingStatisticsHttpPost;
 	private ExpressNumberManagementHttpPost expressNumberManagementHttpPost;
 	private ExpressStatisticsHttpPost expressStatisticsHttpPost;
@@ -60,7 +60,7 @@ public class MainTabExpress extends Fragment {
 	}
 	private void spinnerData() {
 		//获取数据 下拉菜单
-		httpPost = new AccountManagementHttpPost();
+		httpPost = new ExpressBillingManagementHttpPost();
 		spinner();
 		//账单统计
 		Statics.billingYear.clear();
@@ -97,9 +97,9 @@ public class MainTabExpress extends Fragment {
 		//新建List
 		data_list = new ArrayList<Map<String, Object>>();
 		//获取数据
-		getData();
+		data_list = getData();
 		//新建适配器
-		String [] from ={"image","text"};
+		String[] from ={"image","text"};
 		int [] to = {R.id.image,R.id.text};
 		sim_adapter = new SimpleAdapter(getActivity(), data_list, R.layout.menu_item, from, to);
 		//配置适配器
@@ -111,17 +111,18 @@ public class MainTabExpress extends Fragment {
 		//设定菜单显示(菜单控制)
 		icon = new ArrayList<>();
 		iconName = new ArrayList<>();
-		Map<String,ArrayList<Object>> mapUML=UmlStatic.menuFinancialController(icon,iconName);//调用财务管理菜单
+		Map<String,ArrayList<Object>> mapUML=UmlStatic.menuExpressController(icon,iconName);//调用物流管理菜单
 		//去除重复元素
 		ArrayList<Object> reIcon=mapUML.get("icon");
 		ArrayList<Object> reIconName=mapUML.get("iconName");
 		//调用公共方法
 		reIcon= ToolUtils.removeDuplicate(reIcon);
 		reIconName=ToolUtils.removeDuplicate(reIconName);
-		for(int i=0;i<reIcon.size();i++){
+		for(int i=0;reIcon!=null&&reIconName!=null&&i<reIcon.size();i++){
 			Map<String, Object> map = new HashMap<>();
 			map.put("image", reIcon.get(i));
 			map.put("text",	  reIconName.get(i));
+			Log.d("umm",reIconName.get(i)+"");
 			data_list.add(map);
 		}
 		return data_list;
@@ -130,20 +131,21 @@ public class MainTabExpress extends Fragment {
 	AdapterView.OnItemClickListener g = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			switch (position){
-				case 0:
-					in = new Intent(getActivity(), AccountManagementActivity.class);
+
+			switch (data_list.get(position).get("text").toString()){
+				case "物流管理":
+					in = new Intent(getActivity(), ExpressBillingManagementActivity.class);
 					startActivity(in);
 					break;
-				case 1:
+				case "物流统计":
 					in = new Intent(getActivity(), BillingStatisticsActivity.class);
 					startActivity(in);
 					break;
-				case 2:
+				case "业务揽件":
 					in = new Intent(getActivity(),ExpressNumberManagerActivity.class);
 					startActivity(in);
 					break;
-				case 3:
+				case "业务统计":
 					in = new Intent(getActivity(),ExpressStatisticsActivity.class);
 					startActivity(in);
 					break;

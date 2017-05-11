@@ -88,7 +88,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //选中变色
-                ToolUtils.selectColor(parent,position);
+                //ToolUtils.selectColor(parent,position);
                 //确定月份
                 month = Statics.expressTimeList.get(position).getMonth();
                 //判断是否点击过查询，若是则typeSpinnerString不变，否则为空

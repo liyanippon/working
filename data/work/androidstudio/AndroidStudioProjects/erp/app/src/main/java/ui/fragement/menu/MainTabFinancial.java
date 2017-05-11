@@ -10,30 +10,26 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
-
 import com.example.admin.erp.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
-import http.AccountManagementHttpPost;
+import http.ExpressBillingManagementHttpPost;
 import http.BillingStatisticsHttpPost;
 import http.ExpressNumberManagementHttpPost;
 import http.ExpressStatisticsHttpPost;
-import ui.activity.AccountManagementActivity;
 import ui.activity.BillingStatisticsActivity;
-import ui.activity.ExpressNumberManagerActivity;
-import ui.activity.ExpressStatisticsActivity;
-
+import ui.activity.FinancialBillingManagementActivity;
 
 @SuppressLint("NewApi")
 public class MainTabFinancial extends Fragment
 {
-	private AccountManagementHttpPost httpPost;
+	private ExpressBillingManagementHttpPost httpPost;
 	private BillingStatisticsHttpPost billingStatisticsHttpPost;
 	private ExpressNumberManagementHttpPost expressNumberManagementHttpPost;
 	private ExpressStatisticsHttpPost expressStatisticsHttpPost;
@@ -44,10 +40,7 @@ public class MainTabFinancial extends Fragment
 	private List<Map<String, Object>> data_list;
 	private SimpleAdapter sim_adapter;
 	private Intent in;
-	// 图片封装为一个数组
-	//private int[] icon = { R.drawable.wuliuguanli, R.drawable.wuliutongji,
-	//		R.drawable.yewuyuanlanjian, R.drawable.yewuyuanfenxi};
-	//private String[] iconName = { "物流管理", "物流统计", "业务揽件", "业务统计" };
+
 	//动态菜单
 	private ArrayList<Object> icon;
 	private ArrayList<Object> iconName;
@@ -65,7 +58,7 @@ public class MainTabFinancial extends Fragment
 
 	private void spinnerData() {
 		//获取数据 下拉菜单
-		httpPost = new AccountManagementHttpPost();
+		httpPost = new ExpressBillingManagementHttpPost();
 		spinner();
 
 
@@ -121,11 +114,16 @@ public class MainTabFinancial extends Fragment
 		iconName = new ArrayList<>();
 
 		Map<String,ArrayList<Object>> mapUML= UmlStatic.menuFinancialController(icon,iconName);//调用财务管理菜单
-
-		for(int i=0;i<icon.size();i++){
+		//去除重复元素
+		ArrayList<Object> reIcon=mapUML.get("icon");
+		ArrayList<Object> reIconName=mapUML.get("iconName");
+		//调用公共方法
+		reIcon= ToolUtils.removeDuplicate(reIcon);
+		reIconName=ToolUtils.removeDuplicate(reIconName);
+		for(int i=0;icon!=null&&iconName!=null&&i<icon.size();i++){
 			Map<String, Object> map = new HashMap<>();
-			map.put("image", mapUML.get("icon").get(i));
-			map.put("text", mapUML.get("iconName").get(i));
+			map.put("image", reIcon.get(i));
+			map.put("text", reIconName.get(i));
 			data_list.add(map);
 		}
 
@@ -137,21 +135,13 @@ public class MainTabFinancial extends Fragment
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			switch (position){
 				case 0:
-					in = new Intent(getActivity(), AccountManagementActivity.class);
+					in = new Intent(getActivity(), FinancialBillingManagementActivity.class);//财务账单管理
 					startActivity(in);
 					break;
 				case 1:
 					in = new Intent(getActivity(), BillingStatisticsActivity.class);
 					startActivity(in);
 					break;
-				/*case 2:
-					in = new Intent(getActivity(),ExpressNumberManagerActivity.class);
-					startActivity(in);
-					break;
-				case 3:
-					in = new Intent(getActivity(),ExpressStatisticsActivity.class);
-					startActivity(in);
-					break;*/
 			}
 		}
 	};

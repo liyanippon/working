@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import Tool.JsonResolve;
+import Tool.statistics.ExceptionUtil;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
 import broadcast.Config;
@@ -62,6 +63,7 @@ public class ExpressStatisticsHttpPost {
                 super.onFailure(t, errorNo, strMsg);
                 ExpressStatisticsActivity.progressDialog.dismiss();
                 resultString = "error";
+                ExceptionUtil.httpPost("ExpressStatisticsHttpPost");
             }
         });
 
@@ -89,6 +91,7 @@ public class ExpressStatisticsHttpPost {
                 super.onFailure(t, errorNo, strMsg);
                 Log.d("test1", strMsg);
                 resultString = "error";
+                ExceptionUtil.httpPost("ExpressStatisticsHttpPost");
             }
         });
 
@@ -126,6 +129,7 @@ public class ExpressStatisticsHttpPost {
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
                 resultString = "error";
+                ExceptionUtil.httpPost("ExpressStatisticsHttpPost");
             }
         });
         return resultString;
@@ -172,6 +176,7 @@ public class ExpressStatisticsHttpPost {
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
                 resultString = "error";
+                ExceptionUtil.httpPost("ExpressStatisticsHttpPost");
             }
         });
         return resultString;
@@ -221,6 +226,7 @@ public class ExpressStatisticsHttpPost {
                 super.onFailure(t, errorNo, strMsg);
 
                 resultString = "error";
+                ExceptionUtil.httpPost("ExpressStatisticsHttpPost");
             }
         });
         return resultString;
@@ -262,6 +268,7 @@ public class ExpressStatisticsHttpPost {
                 super.onFailure(t, errorNo, strMsg);
 
                 resultString = "error";
+                ExceptionUtil.httpPost("ExpressStatisticsHttpPost");
             }
         });
         return resultString;
@@ -303,6 +310,7 @@ public class ExpressStatisticsHttpPost {
                 super.onFailure(t, errorNo, strMsg);
 
                 resultString = "error";
+                ExceptionUtil.httpPost("ExpressStatisticsHttpPost");
             }
         });
         return resultString;

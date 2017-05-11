@@ -36,11 +36,6 @@ public class CustomerBillingStatisticsAdapter extends BaseAdapter {
         this.list = list;
     }
 
-    // 自定义的选中方法
-    public void setSelectID(int position) {
-        selectID = position;
-    }
-
     @Override
     public int getCount() {
         int ret = 0;

@@ -19,7 +19,7 @@ import broadcast.BroadCastTool;
 import broadcast.TYPE;
 import http.Constants;
 import model.AccountClassify;
-import model.AccountManagement;
+import model.ExpressManagement;
 import model.AccountReason;
 import model.AccountType;
 import model.Customer;
@@ -33,9 +33,9 @@ import model.ExpressPieceCountMonth;
 import model.TimeBillingStatistics;
 import model.TimeExpressStatistics;
 import model.XiangxiBillingStatistics;
-import ui.activity.AccountManagementActivity;
-import ui.activity.AddAccountManagerActivity;
+import ui.activity.AddExpressBillingManagerActivity;
 import ui.activity.BillingStatisticsActivity;
+import ui.activity.ExpressBillingManagementActivity;
 import ui.activity.ExpressNumberManagerActivity;
 import ui.activity.ExpressStatisticsActivity;
 import ui.fragement.ExpressPiecesDetailsChartsFragementActivity;
@@ -62,7 +62,7 @@ public class JsonResolve {
             Log.d("test7", "total:" + total);
             Statics.page = (Integer.parseInt(total) + Integer.parseInt(rows) - 1) / Integer.parseInt(rows);
             JSONArray jsonArray2 = jsonObject1.getJSONArray("rows");
-            Statics.accountManagementList.clear();
+            Statics.expressManagementList.clear();
             for (int k = 0; k < jsonArray2.length(); k++) {
                 JSONObject jsonObject2 = jsonArray2.getJSONObject(k);
                 String id = jsonObject2.getString("id");
@@ -156,17 +156,17 @@ public class JsonResolve {
                 String typeString=type.substring(0,2);
                 Log.d("type","typeString:"+typeString);
 
-                AccountManagement financialManagement = new AccountManagement(id, typeString, classify,billingSb.toString()
+                ExpressManagement financialManagement = new ExpressManagement(id, typeString, classify,billingSb.toString()
                         ,createSb.toString(),reason, sum, createBy, customerId, remark);
-                Statics.accountManagementList.add(financialManagement);
+                Statics.expressManagementList.add(financialManagement);
                 financialManagement = null;
             }
             //刷新
             //AccountManagementAdapter accountManagementAdapter =new AccountManagementAdapter(activity);
             //AccountManagementActivity.accountLv.setAdapter(accountManagementAdapter);
             //AccountManagementActivity.accountManagementAdapter.notifyDataSetChanged();
-            AccountManagementActivity accountManagementActivity = new AccountManagementActivity();
-            accountManagementActivity.AdapterRefresh("accountManagementAdapter");
+            ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
+            expressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -199,17 +199,17 @@ public class JsonResolve {
                 Log.v("test2", "data_list1:" + Statics.accountReasonList.get(i).getName());
 
             }
-            if(AddAccountManagerActivity.addBoolean){//更新add添加页面
+            if(AddExpressBillingManagerActivity.addBoolean){//更新add添加页面
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"addReasonSpinner");
-                AddAccountManagerActivity addAccountManagerActivity = new AddAccountManagerActivity();
-                addAccountManagerActivity.AdapterRefresh("reasonSpinner");
-                AddAccountManagerActivity.addBoolean=false;
+                AddExpressBillingManagerActivity addExpressBillingManagerActivity = new AddExpressBillingManagerActivity();
+                addExpressBillingManagerActivity.AdapterRefresh("reasonSpinner");
+                addExpressBillingManagerActivity.addBoolean=false;
                 Log.d("aleand","发送广播");
 
             }else{//更新search显示检索页面
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"SearchReasonSpinner");
-                AccountManagementActivity accountManagementActivity = new AccountManagementActivity();
-                accountManagementActivity.AdapterRefresh("reasonSpinner");
+                ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
+                expressBillingManagementActivity.AdapterRefresh("reasonSpinner");
                 Log.d("aleand","发送广播");
             }
 

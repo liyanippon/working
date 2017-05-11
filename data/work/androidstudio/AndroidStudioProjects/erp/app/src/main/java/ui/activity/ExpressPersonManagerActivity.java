@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import Tool.statistics.Statics;
-import http.AccountManagementHttpPost;
+import http.ExpressBillingManagementHttpPost;
 import http.Constants;
 import portface.LazyLoadFace;
 import ui.adpter.ExpressNumberManagementAdapter;
@@ -47,7 +47,7 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
     private int start = 0;
     private static int refreshCnt = 0;
     private static int page = 1;
-    private AccountManagementHttpPost httpPost;
+    private ExpressBillingManagementHttpPost httpPost;
     private AlertDialog dlg;
     private boolean SearchBoolean = false;
     private Calendar calendar;
@@ -71,8 +71,8 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
         //searchTime.setText(String.format("%d-%d-%d",currentYear,currentMon,currentDate));
         //searchTime.setOnClickListener(o);
 
-        httpPost = new AccountManagementHttpPost();
-        String httpUrl = Statics.AccountManagementSearchUrl;
+        httpPost = new ExpressBillingManagementHttpPost();
+        String httpUrl = Statics.FinancialBillingManagementSearchUrl;
         //刚进入页面就要显示数据
         //accountManagementAdapter =new AccountManagementAdapter(getApplicationContext());
         //accountLv.setAdapter(accountManagementAdapter);
@@ -99,13 +99,13 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
                 TextView guest = (TextView) layout.findViewById(R.id.guest);//客户
                 TextView remark = (TextView) layout.findViewById(R.id.remark);//备注
                 TextView createuser = (TextView) layout.findViewById(R.id.createuser);//创建人
-                type.setText(Statics.accountManagementList.get(position - 1).getType());
-                classify.setText(Statics.accountManagementList.get(position - 1).getClassify());
-                reason.setText(Statics.accountManagementList.get(position - 1).getReason());
-                price.setText(Statics.accountManagementList.get(position - 1).getSum());
-                guest.setText(Statics.accountManagementList.get(position - 1).getCustomerId());
-                remark.setText(Statics.accountManagementList.get(position - 1).getRemark());
-                createuser.setText(Statics.accountManagementList.get(position - 1).getCreateBy());
+                type.setText(Statics.expressManagementList.get(position - 1).getType());
+                classify.setText(Statics.expressManagementList.get(position - 1).getClassify());
+                reason.setText(Statics.expressManagementList.get(position - 1).getReason());
+                price.setText(Statics.expressManagementList.get(position - 1).getSum());
+                guest.setText(Statics.expressManagementList.get(position - 1).getCustomerId());
+                remark.setText(Statics.expressManagementList.get(position - 1).getRemark());
+                createuser.setText(Statics.expressManagementList.get(position - 1).getCreateBy());
                 //创建人就是用户名
                 builder.setView(layout);
                 back.setOnClickListener(new View.OnClickListener() {
@@ -136,8 +136,8 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
                     //条件查询
                     page = 1;
                     SearchBoolean = true;
-                    httpPost = new AccountManagementHttpPost();
-                    String httpUrl = Statics.AccountManagementSearchUrl;
+                    httpPost = new ExpressBillingManagementHttpPost();
+                    String httpUrl = Statics.FinancialBillingManagementSearchUrl;
                     //String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, reasonSpinnerString, ExpressNumberManagerActivity.this, page);
                     break;
                 case R.id.add:
@@ -223,8 +223,8 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
                     typeSpinnerString = "";
                     classifySpinnerString = "";
                 }
-                httpPost = new AccountManagementHttpPost();
-                String httpUrl = Statics.AccountManagementSearchUrl;
+                httpPost = new ExpressBillingManagementHttpPost();
+                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
                 //String result = httpPost.searchHttp(httpUrl ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString, ExpressNumberManagerActivity.this,page);
                 onLoad();
             }
@@ -242,8 +242,8 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
                     Toast.makeText(ExpressPersonManagerActivity.this,"已经是最后一页了",Toast.LENGTH_SHORT).show();
                 }
                 //大于总页数，不向下翻页
-                httpPost = new AccountManagementHttpPost();
-                String httpUrl = Statics.AccountManagementSearchUrl;
+                httpPost = new ExpressBillingManagementHttpPost();
+                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
                 if (!SearchBoolean) {
                     typeSpinnerString = "";
                     classifySpinnerString = "";
@@ -271,7 +271,7 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
     @Override
     protected void onResume() {
         super.onResume();
-        String httpUrl = Statics.AccountManagementSearchUrl;
+        String httpUrl = Statics.FinancialBillingManagementSearchUrl;
         httpPost.searchHttp(httpUrl ,"" ,"" ,"",ExpressPersonManagerActivity.this,1);//刷新页面
     }
 

@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
 import http.AttendanceStatisticsHttpPost;
@@ -82,11 +83,16 @@ public class MainTabAttendance extends Fragment {
 		icon = new ArrayList<>();
 		iconName = new ArrayList<>();
 		Map<String,ArrayList<Object>> mapUML= UmlStatic.menuAttendanceController(icon,iconName);//调用财务管理菜单
-
-		for(int i=0;i<icon.size();i++){
+		//去除重复元素
+		ArrayList<Object> reIcon=mapUML.get("icon");
+		ArrayList<Object> reIconName=mapUML.get("iconName");
+		//调用公共方法
+		reIcon= ToolUtils.removeDuplicate(reIcon);
+		reIconName=ToolUtils.removeDuplicate(reIconName);
+		for(int i=0;reIcon!=null&&reIconName!=null&&i<reIcon.size();i++){
 			Map<String, Object> map = new HashMap<>();
-			map.put("image", mapUML.get("icon").get(i));
-			map.put("text", mapUML.get("iconName").get(i));
+			map.put("image", reIcon.get(i));
+			map.put("text", reIconName.get(i));
 			data_list.add(map);
 		}
 
@@ -96,12 +102,11 @@ public class MainTabAttendance extends Fragment {
 	AdapterView.OnItemClickListener g = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			switch (position){
-				case 0:
+			switch (data_list.get(position).get("text").toString()){
+				case "考勤统计":
 					in = new Intent(getActivity(), AttendanceStatisticsActivity.class);//考勤统计
 					startActivity(in);
 					break;
-
 			}
 		}
 	};
