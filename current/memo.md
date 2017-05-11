@@ -27,8 +27,11 @@ git add -u newfolder (-u选项会更新已经追踪的文件和文件夹)
 git commit -m "changed the foldername whaddup"//正常提交
 
 
-
+心动日剧：http://www.doki8.com/movie/page/24  	rien/arsong19310918
 人生予感
+
+
+https://www.west.cn/manager/vhost/index.asp?module=detail&sid=1079584   虚拟主机
 
 
 
