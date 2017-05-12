@@ -131,6 +131,7 @@ final class FlashlightManager {
       return method.invoke(instance, args);
     } catch (IllegalAccessException e) {
       Log.w(TAG, "Unexpected error while invoking " + method, e);
+
       return null;
     } catch (InvocationTargetException e) {
       Log.w(TAG, "Unexpected error while invoking " + method, e.getCause());
