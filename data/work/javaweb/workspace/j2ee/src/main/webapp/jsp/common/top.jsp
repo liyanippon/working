@@ -30,9 +30,10 @@
 	<!-- end #header -->
 	<div id="menu">
 		<ul>
-			<li class="current_page_item"><a href="#">首页</a></li>
-			<li><a href="#">文章</a></li>
-			<li><a href="#">相册</a></li>
+			<li>
+			<a href="javascript:void(0)" onclick="menubar('home')">首页</a></li>
+			<li><a href="javascript:void(0)" onclick="menubar('catlog')">博文目录</a></li>
+			<li><a href="../catlog/catlog.jsp">相册</a></li>
 			<li><a href="#">关于</a></li>
 			<li><a href="#">链接</a></li>
 			<li><a href="#">联系</a></li>

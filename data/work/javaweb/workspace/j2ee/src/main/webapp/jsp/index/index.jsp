@@ -20,6 +20,26 @@ Released   : 20090830
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>个人博客</title>
 <link href="../../css/style.css" rel="stylesheet" type="text/css" media="screen" />
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+	
+	
+});
+function menubar(menubar){
+	switch(menubar){
+		case "home":
+			self.location="/j2ee/jsp/index/index.jsp"; 
+			break;
+		case "catlog":
+			self.location="/j2ee/jsp/catlog/catlog.jsp"; 
+			break;
+		case "photos":
+			break;
+	}
+  };
+</script>
 </head>
 <body>
 	<jsp:include   page="../common/top.jsp" flush="true"/>  
@@ -34,7 +54,7 @@ Released   : 20090830
 				<div class="entry">
 					<p>This is <strong>Begrimed  </strong>, a free, fully standards-compliant CSS template designed by FreeCssTemplates<a href="http://www.nodethirtythree.com/"></a> for <a href="http://www.freecsstemplates.org/">Free CSS Templates</a>.  This free template is released under a <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Attributions 2.5</a> license, so youâre pretty much free to do whatever you want with it (even use it commercially) provided you keep the links in the footer intact. Aside from that, have fun with it :)</p>
 					<p>想着“<strong>帮佣就是作为出嫁前的新娘进修</strong>”，少女多喜好奇又兴奋地来到了东京。在东京郊外的一座红色屋顶的小楼里，多喜与持重的平井老爷、美丽的夫人，以及可爱乖巧的恭一小少爷，和谐幸福地生活在一起。小小的家中岁月静好，多喜的心头总是萦绕着一份安宁与温柔，她甚至不想嫁人，不愿意回故乡，而将这小小的红顶房子当成了要一辈子留下的家。然而，和乐美满的生活却因一个年轻人的到来，渐渐起了惆怅和纷扰。
-					在有着红色屋顶的小小的家之外，是风云动荡的社会与时代：申奥、兵变、战争、征召令、空袭……在日后无数的跌宕和苦辛里，那个留下了自己青春印记的小小的家总是让多喜魂牵梦绕，惦念一生。</>
+					在有着红色屋顶的小小的家之外，是风云动荡的社会与时代：申奥、兵变、战争、征召令、空袭……在日后无数的跌宕和苦辛里，那个留下了自己青春印记的小小的家总是让多喜魂牵梦绕，惦念一生。</p>
 				</div>
 			</div>
 			<div class="post">
@@ -58,14 +78,12 @@ Released   : 20090830
 		<div style="clear: both;">&nbsp;</div>
 		</div>
 		<!-- end #content -->
-		<jsp:include   page="../common/left.jsp" flush="true"/>  
+		<jsp:include   page="left.jsp" flush="true"/>  
 		<div style="clear: both;">&nbsp;</div>
 	</div>
 	</div>
 	</div>
 	<!-- end #page -->
-</div>
 		<jsp:include   page="../common/bottom.jsp" flush="true"/>  
 </body>
 </html>
-<span style="display:none;"><a href="http://www.mobanwang.com" title="ÍøÒ³Ä£°åÏÂÔØ">ÍøÒ³Ä£°å</a></span>

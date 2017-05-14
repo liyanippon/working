@@ -250,6 +250,14 @@ a:hover {
 	text-align: justify;
 }
 
+.detailed li{
+	text-decoration:underline;
+	border-bottom:1px;
+	solid #111 ;
+	dashed #D1D1D1;
+	padding: 0px 20px 20px 20px;
+}
+
 .links {
 	display: block;
 	width: 100px;
@@ -301,6 +309,7 @@ a:hover {
 	padding: 0;
 	font-size: 11px;
 	font-style: italic;
+	
 }
 
 #sidebar h2 {
