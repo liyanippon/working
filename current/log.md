@@ -129,63 +129,7 @@ postgre
  
  http://192.168.1.16:8081/login.jhtml   本地登录
  ----------------------------------------------------------------------------------------------------------------------------------------------
- 
- :
-RoleGroupServiceImpl文件public List<RoleGroupDto> selectRoleGroup() {
-		List<RoleGroup> list = this.roleGroupMapper.selectByExample(null);
-		List groupDto = new ArrayList();
-		for (RoleGroup each : list) {
-			RoleGroupDto dto = new RoleGroupDto();
-			BeanUtils.copyProperties(each, dto);
-			groupDto.add(dto);
-		}
-		return groupDto;
-	}
-:
-RoleService文件public abstract List<RoleDto> selectRoleByUserName(PageRequest pageRequest) throws BusinessException;
-:
-SetRolesController文件@RequestMapping({ "/loadRoleUserId.ajax" })
-	@ResponseBody
-	public  List loadRoleUserId(HttpServletRequest request) throws BusinessException {
-		PageRequest pageRequest = new PageRequest();
-		String userId = request.getParameter("user_id");
-		pageRequest.getConditions().put("user_id", userId);
-		
-		Set roleSet = new TreeSet();
-
-		List<RoleGroupDto> roleDtoList = this.roleGroupService.selectRoleGroup();//
-
-		List roleList = new ArrayList();
-		
-		if (StringUtils.isNotBlank(userId)) {
-			roleList = this.roleService.selectRoleByUserName(pageRequest);//
-		}
-		
-		return roleList;
-	}
-:
-UserRoleMappingExample文件public UserRoleMappingExample.Criteria andUserId(PageRequest pageRequest) {
-			addCriterion("user_id =", pageRequest, "userId");
-			return (UserRoleMappingExample.Criteria) this;
-		}
-		
-		
-		@Override
-	public List<RoleDto> selectRoleByUserName(PageRequest pageRequest) throws BusinessException {
-		UserRoleMappingExample example = new UserRoleMappingExample();
-		example.createCriteria().andUserId(pageRequest).andDeleteEqualTo("0");
-		List<UserRoleMapping> userRoleList = this.userRoleMappingMapper.selectByExample(example);
-
-		List roleList = new ArrayList();
-		for (UserRoleMapping userRole : userRoleList) {
-			RoleDto role = new RoleDto();
-			role.setId(userRole.getRoleId());
-			roleList.add(role);
-		}
-		return roleList;
-	}
- 
- 
- 
- 
- 
+android 最好用的ui框架：https://github.com/wasabeef/awesome-android-ui
+仿微信扫码登录：http://blog.csdn.net/xiaanming/article/details/10163203
+最全最好用的Android Studio插件整理：http://www.open-open.com/lib/view/open1480329318348.html
+给AppCompatActivity的标题栏上加上返回按钮：http://www.open-open.com/lib/view/open1481788218379.html
