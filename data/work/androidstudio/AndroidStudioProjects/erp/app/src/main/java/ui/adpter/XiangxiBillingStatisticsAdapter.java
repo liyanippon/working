@@ -2,6 +2,7 @@ package ui.adpter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,22 @@ public class XiangxiBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.price.setTextSize(13);
         viewHolder.remark.setText(xiangxiBillingStatistics.getRemark());
         viewHolder.remark.setTextSize(13);
+
+        if(xiangxiBillingStatistics.getClassifyname().equals("出账")){
+            viewHolder.classifyname.setTextColor(Color.RED);
+            viewHolder.resonname.setTextColor(Color.RED);
+            viewHolder.type.setTextColor(Color.RED);
+            viewHolder.date.setTextColor(Color.RED);
+            viewHolder.price.setTextColor(Color.RED);
+            viewHolder.remark.setTextColor(Color.RED);
+        }else{
+            viewHolder.classifyname.setTextColor(Color.BLACK);
+            viewHolder.resonname.setTextColor(Color.BLACK);
+            viewHolder.type.setTextColor(Color.BLACK);
+            viewHolder.date.setTextColor(Color.BLACK);
+            viewHolder.price.setTextColor(Color.BLACK);
+            viewHolder.remark.setTextColor(Color.BLACK);
+        }
         return convertView;
     }
 

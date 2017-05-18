@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity{
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
 
-        background = (RelativeLayout) findViewById(R.id.activity_main2);
 
+        background = (RelativeLayout) findViewById(R.id.activity_main2);
         /*new Runnable() {
             @Override
             public void run() {
@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity{
             Statics.ExpressPersonPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataAmount.ajax";
             Statics.AttendanceStatisticsSearchUrl = IFengUrl + "/getWxAllAttendanceMonthSum.ajax";
             Statics.searchYearUrl = IFengUrl + "/getWxAllYears.ajax";
+
             Log.d("55","登录"+Statics.LoginUrl);
             Log.d("55","权限"+Statics.UmlUrl);
             Log.d("55", Statics.FinancialBillingManagementSearchUrl);

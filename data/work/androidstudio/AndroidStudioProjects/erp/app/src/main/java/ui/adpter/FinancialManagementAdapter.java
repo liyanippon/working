@@ -9,17 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.admin.erp.R;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
+import http.FinancialManagementHttpPost;
 
 /**
  * Created by admin on 2017/2/23.
@@ -28,7 +25,7 @@ import http.ExpressBillingManagementHttpPost;
 public class FinancialManagementAdapter extends BaseAdapter {
     private Activity activity;
     private String id;
-    private ExpressBillingManagementHttpPost httpPost;
+    private FinancialManagementHttpPost httpPost;
     private int positions;
     private ViewHolder vh;
     private List<ViewHolder> holders = new ArrayList<ViewHolder>();
@@ -38,8 +35,8 @@ public class FinancialManagementAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (Statics.expressManagementList.size() != 0) {
-            return Statics.expressManagementList.size();
+        if (Statics.financialManagementList.size() != 0) {
+            return Statics.financialManagementList.size();
         } else {
             return 0;
         }
@@ -62,13 +59,14 @@ public class FinancialManagementAdapter extends BaseAdapter {
         positions = position;
         if (convertView == null) {
             vh = new ViewHolder();
-            convertView = LayoutInflater.from(activity).inflate(R.layout.accountmanagerlist, null);
+            convertView = LayoutInflater.from(activity).inflate(R.layout.financialmanagerlist, null);
             //找控件
             vh.number = (TextView) convertView.findViewById(R.id.number);
-            vh.type = (TextView) convertView.findViewById(R.id.type);
+            vh.account = (TextView) convertView.findViewById(R.id.account);
             vh.classify = (TextView) convertView.findViewById(R.id.classify);
+            vh.content = (TextView) convertView.findViewById(R.id.content);
             vh.billingTime = (TextView) convertView.findViewById(R.id.billingTime);
-            vh.sum = (TextView) convertView.findViewById(R.id.sum);
+            vh.price = (TextView) convertView.findViewById(R.id.price);
             vh.operate = (TextView) convertView.findViewById(R.id.operate);
             convertView.setTag(vh);
             holders.add(vh);
@@ -78,12 +76,13 @@ public class FinancialManagementAdapter extends BaseAdapter {
 
         //获取数据和显示数据
         String number = Integer.toString(position + 1);
-        id = Statics.expressManagementList.get(position).getId();
-        String type = Statics.expressManagementList.get(position).getType().trim();
-        String classify = Statics.expressManagementList.get(position).getClassify().trim();
+        //id = Statics.expressManagementList.get(position).getId();
+        String account = Statics.financialManagementList.get(position).getData().get(position).getFy_name();
+        String classify = Statics.financialManagementList.get(position).getData().get(position).getFy_contact();
+        String content = Statics.financialManagementList.get(position).getData().get(position).getFy_contact();
         String billingTime = Statics.expressManagementList.get(position).getBillingTime();
-        String sum = Statics.expressManagementList.get(position).getSum().trim();
-        if(!(sum.indexOf("-")<0)){
+        String price = Statics.expressManagementList.get(position).getSum().trim();
+        /*if(!(sum.indexOf("-")<0)){
             vh.type.setTextColor(Color.RED);
             vh.classify.setTextColor(Color.RED);
             vh.billingTime.setTextColor(Color.RED);
@@ -93,17 +92,12 @@ public class FinancialManagementAdapter extends BaseAdapter {
             vh.classify.setTextColor(Color.BLACK);
             vh.billingTime.setTextColor(Color.BLACK);
             vh.sum.setTextColor(Color.BLACK);
-        }
+        }*/
         vh.number.setText(number);
-        vh.number.setGravity(Gravity.CENTER);
-        vh.type.setText(type);
-        vh.type.setGravity(Gravity.CENTER);
-        vh.classify.setText(classify);
-        vh.classify.setGravity(Gravity.CENTER);
-        vh.billingTime.setText(billingTime);
-        vh.billingTime.setGravity(Gravity.CENTER);
-        vh.sum.setText(sum);
-        vh.sum.setGravity(Gravity.CENTER);
+        //vh.customerName.setText(type);
+        //vh.phone.setText(classify);
+        //vh.address.setText(billingTime);
+        //vh.remarks.setText(sum);
         vh.operate.setOnClickListener(new Click(positions));//解决光标获取不对的问题
         return convertView;
     }
@@ -156,13 +150,13 @@ public class FinancialManagementAdapter extends BaseAdapter {
 
         @Override
         public void onClick(View v) {
-            httpPost = new ExpressBillingManagementHttpPost();
+            httpPost = new FinancialManagementHttpPost();
             showNormalDialog(item);
         }
 
     }
 
     class ViewHolder {
-        TextView number, type, classify,  billingTime, sum, operate;
+        TextView number, account, classify,  content, billingTime, price, operate;
     }
 }

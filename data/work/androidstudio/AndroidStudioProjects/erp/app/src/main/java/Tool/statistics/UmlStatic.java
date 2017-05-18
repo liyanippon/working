@@ -48,7 +48,7 @@ public class UmlStatic {
         return map;
     }
 
-    //菜单显示控制[财务管理]
+    //菜单显示控制[财务客户]
     public static Map<String,ArrayList<Object>> menuFinancialController(ArrayList<Object> icon, ArrayList<Object> iconName){
         map=new HashMap<>();
         for (UserUmp userUmp:Statics.userUmpsStatisticsList){
@@ -117,7 +117,9 @@ public class UmlStatic {
             case "f8dc2c2f6ece4f38a8df43ab4d4a4c5d"://项目经理
             case "a6509c7f484b482ab979aff844acbd2f"://BOSS
                 icon.add(R.drawable.caiwuguanli);
-                iconName.add("财务管理");
+                icon.add(R.drawable.zhang_mutongji);
+                iconName.add("账目管理");
+                iconName.add("账目统计");
                 map.put("icon", icon);
                 map.put("iconName", iconName);
                 break;

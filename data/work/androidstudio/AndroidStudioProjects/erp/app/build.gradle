@@ -33,7 +33,8 @@ android {
                             'src/main/res/layout/salesman_collect_count',//业务员揽件量
                             'src/main/res/layout/salesman_collect_statistics',//业务员揽件量统计分析
                             'src/main/res/layout/salesman_manage',//业务员管理（无效）
-                            'src/main/res/layout/financial_billing_management'//财务账单管理
+                            'src/main/res/layout/financial_billing_management',//财务账单管理
+                            'src/main/res/layout/financial_billing_statistics'//财务账单统计
                     ]
         }
     }
@@ -56,4 +57,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+    compile files('libs/butterknife-7.0.1.jar')
 }

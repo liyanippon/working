@@ -19,3 +19,10 @@ a63711b079154ccba4d4aff08d65b484|开发人员
 a6509c7f484b482ab979aff844acbd2f|BOSS
 f8dc2c2f6ece4f38a8df43ab4d4a4c5d|项目经理
 -----------------------------------------------
+
+//资料收集
+android 最好用的ui框架：https://github.com/wasabeef/awesome-android-ui
+仿微信扫码登录：http://blog.csdn.net/xiaanming/article/details/10163203
+最全最好用的Android Studio插件整理：http://www.open-open.com/lib/view/open1480329318348.html
+给AppCompatActivity的标题栏上加上返回按钮：http://www.open-open.com/lib/view/open1481788218379.html
+android开发大全：http://blog.csdn.net/coder_pig/article/details/50000773/

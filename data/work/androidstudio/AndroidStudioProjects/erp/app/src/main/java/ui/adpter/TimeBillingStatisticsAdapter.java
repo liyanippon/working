@@ -2,6 +2,7 @@ package ui.adpter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,8 +83,14 @@ public class TimeBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.income.setTextSize(13);
         viewHolder.outcome.setText("- "+timeBillingStatistics.getOutcom() + "");
         viewHolder.outcome.setTextSize(13);
+        viewHolder.outcome.setTextColor(Color.RED);
         viewHolder.imbalance.setText(timeBillingStatistics.getImbalance() + "");
         viewHolder.imbalance.setTextSize(13);
+        if(Integer.parseInt(timeBillingStatistics.getImbalance())<0){
+            viewHolder.imbalance.setTextColor(Color.RED);
+        }else{
+            viewHolder.imbalance.setTextColor(Color.BLACK);
+        }
         Log.v("test2", "convertView");
         return convertView;
     }

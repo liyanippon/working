@@ -3,9 +3,9 @@ package ui.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -18,16 +18,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.example.admin.erp.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
-import http.BillingStatisticsHttpPost;
+import http.FinancialStatisticsHttpPost;
 import model.CustomerBillingStatistics;
 import model.TimeBillingStatistics;
 import model.XiangxiBillingStatistics;
@@ -37,10 +34,11 @@ import ui.adpter.TimeBillingStatisticsAdapter;
 import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
 
-public class BillingStatisticsActivity extends AppCompatActivity implements LazyLoadFace {
+public class FinancialStastisticsActivity extends AppCompatActivity implements LazyLoadFace {
+
     public static ListView timeListView, customerListView;
     private ViewGroup tableTitle, tableTitle1;
-    private BillingStatisticsHttpPost billingStatisticsHttpPost;
+    private FinancialStatisticsHttpPost financialStatisticsHttpPost;
     private Spinner typeSpinner, yearSpinner;
     private ImageView search;
     private List<String> data_list;
@@ -54,15 +52,15 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
     public static XiangxiBillingStatisticsAdapter xiangxiAdapter;
     private AlertDialog dlg;
     private ListView listView;
-    private int count = 0;
+    private int count=0;
     private ImageView zhuXing;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("物流账单统计分析");
-        setContentView(R.layout.activity_billing_statistics);
+        setTitle("财务账单统计");
+        setContentView(R.layout.activity_financial_stastistics);
 
         //添加返回按钮
         ToolUtils.backButton(this);
@@ -71,11 +69,11 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
 
         yearSpinnerString = "2017";//默认赋值
         //首次访问
-        progressDialog = ProgressDialog.show(BillingStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-        billingStatisticsHttpPost = new BillingStatisticsHttpPost();
-        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "", BillingStatisticsActivity.this);
+        //progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
+        financialStatisticsHttpPost = new FinancialStatisticsHttpPost();
+        financialStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "", FinancialStastisticsActivity.this);
         timeBillingStatisticsList = Statics.timeBillingStatisticsList;
-        timeAdapter = new TimeBillingStatisticsAdapter(BillingStatisticsActivity.this, timeBillingStatisticsList);
+        timeAdapter = new TimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
         timeListView.setAdapter(timeAdapter);
         search.setOnClickListener(o);
         zhuXing.setOnClickListener(o);
@@ -87,9 +85,9 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
                 //ToolUtils.selectColor(parent,position);
                 //确定月份
                 final String month = Statics.timeBillingStatisticsList.get(position).getMonth();
-                billingStatisticsHttpPost.searchCustomerHttp(Statics.CustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, BillingStatisticsActivity.this);
+                financialStatisticsHttpPost.searchCustomerHttp(Statics.CustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, FinancialStastisticsActivity.this);
                 customerBillingStatisticsList = Statics.customerBillingStatisticsArrayList;
-                customerAdapter = new CustomerBillingStatisticsAdapter(BillingStatisticsActivity.this, customerBillingStatisticsList);
+                customerAdapter = new CustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, customerBillingStatisticsList);
                 customerListView.setAdapter(customerAdapter);
 
                 customerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -98,16 +96,16 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
                                                                 String customerId = Statics.customerBillingStatisticsArrayList.get(position).getCustomerId();//ID
                                                                 listView = null;
                                                                 //递类型，月份，客户名客户名以检索
-                                                                billingStatisticsHttpPost.searchXqCustomerHttp(Statics.XqCustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, customerId, BillingStatisticsActivity.this);
+                                                                financialStatisticsHttpPost.searchXqCustomerHttp(Statics.XqCustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, customerId, FinancialStastisticsActivity.this);
                                                                 //显示对话框，在对话框中使用ListView
-                                                                AlertDialog.Builder builder = new AlertDialog.Builder(BillingStatisticsActivity.this);
+                                                                AlertDialog.Builder builder = new AlertDialog.Builder(FinancialStastisticsActivity.this);
                                                                 LayoutInflater inflater = getLayoutInflater();
                                                                 final View layout = inflater.inflate(R.layout.billingstatistics_dialog_detailed_item, null);//获取自定义布局
                                                                 listView = (ListView) layout.findViewById(R.id.lv);
                                                                 tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
                                                                 tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
                                                                 xiangxiBillingStatisticsList = Statics.xiangxiBillingStatisticsArrayList;
-                                                                xiangxiAdapter = new XiangxiBillingStatisticsAdapter(BillingStatisticsActivity.this, xiangxiBillingStatisticsList);
+                                                                xiangxiAdapter = new XiangxiBillingStatisticsAdapter(FinancialStastisticsActivity.this, xiangxiBillingStatisticsList);
                                                                 listView.setAdapter(xiangxiAdapter);
 
                                                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -124,7 +122,7 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
                                                                 WindowManager windowManager = getWindowManager();
                                                                 Display display = windowManager.getDefaultDisplay();
                                                                 WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
-                                                                lp.width = (int) (display.getWidth()); //设置宽度
+                                                                lp.width = (int)(display.getWidth()); //设置宽度
                                                                 dlg.getWindow().setAttributes(lp);
                                                             }
                                                         }
@@ -132,7 +130,6 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
             }
         });
     }
-
     //返回按钮事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -143,20 +140,19 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
         }
         return super.onOptionsItemSelected(item);
     }
-
     View.OnClickListener o = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.search:
                     Log.v("test2", "R.id.search");
-                    progressDialog = ProgressDialog.show(BillingStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                    billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString, typeSpinnerString, BillingStatisticsActivity.this);
+                    //progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
+                    financialStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString, typeSpinnerString, FinancialStastisticsActivity.this);
                     timeBillingStatisticsList = Statics.timeBillingStatisticsList;
-                    timeAdapter = new TimeBillingStatisticsAdapter(BillingStatisticsActivity.this, timeBillingStatisticsList);
+                    timeAdapter = new TimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
                     timeListView.setAdapter(timeAdapter);
                     customerBillingStatisticsList = null;//搜索将下面的数据清空
-                    customerAdapter = new CustomerBillingStatisticsAdapter(BillingStatisticsActivity.this, customerBillingStatisticsList);
+                    customerAdapter = new CustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, customerBillingStatisticsList);
                     customerListView.setAdapter(customerAdapter);
                     break;
                 case R.id.zhuXing:
@@ -190,9 +186,9 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
+                if(position == 0){
                     typeSpinnerString = "全部";
-                } else {
+                }else{
                     typeSpinnerString = Statics.accountTypeList.get(--position).getId();
                 }
                 data_list = null;
@@ -208,7 +204,7 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
         //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
         ArrayList<String> yearlist = new ArrayList<>();
         yearlist.add("全部");
-        for (int i = 0; i < Statics.billingYear.size(); i++) {
+        for (int i=0;i<Statics.billingYear.size();i++){
             yearlist.add(Statics.billingYear.get(i));
         }
         //适配器
@@ -221,9 +217,9 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
+                if(position == 0){
                     yearSpinnerString = "全部";
-                } else {
+                }else{
                     yearSpinnerString = Statics.billingYear.get(--position);
                 }
                 data_list = null;
@@ -235,7 +231,6 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
         });
 
     }
-
     public void init() {
         timeListView = (ListView) findViewById(R.id.lv);
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
@@ -252,7 +247,6 @@ public class BillingStatisticsActivity extends AppCompatActivity implements Lazy
 
         zhuXing = (ImageView) findViewById(R.id.zhuXing);
     }
-
     @Override
     public void AdapterRefresh(String type) {//刷新adapter
         switch (type) {

@@ -1,11 +1,11 @@
 package ui.activity;
-
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,19 +15,16 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.admin.erp.R;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
 import portface.LazyLoadFace;
-
 public class AddExpressBillingManagerActivity extends AppCompatActivity implements LazyLoadFace{
     private Button add, reset;
     private static Spinner typeSpinner, classifySpinner, reasonSpinner, customSpinner;
@@ -51,20 +48,34 @@ public class AddExpressBillingManagerActivity extends AppCompatActivity implemen
         setTitle("新建账单");
         setContentView(R.layout.activity_add_account_manager);
 
+        //添加返回按钮
+        ToolUtils.backButton(this);
+
         context = getApplicationContext();
         initBroadCast();
         init();
         spinnerType();
+
         calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         currentMon = calendar.get(Calendar.MONTH)+1;
         currentDate = calendar.get(Calendar.DAY_OF_MONTH);
         billingTime.setText(String.format("%d-%d-%d",currentYear,currentMon,currentDate));
+
         add.setOnClickListener(o);
         reset.setOnClickListener(o);
         billingTime.setOnClickListener(o);
     }
-
+    //返回按钮事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     View.OnClickListener o = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -104,7 +115,6 @@ public class AddExpressBillingManagerActivity extends AppCompatActivity implemen
             }
         }
     };
-
     private void billingTime() {
         //日期选择器
 
@@ -122,7 +132,6 @@ public class AddExpressBillingManagerActivity extends AppCompatActivity implemen
                 },
                 mYear, mMonth, mDay).show();
     }
-
     private void spinnerType() {
         //数据 customer
         httpPost = new ExpressBillingManagementHttpPost();
@@ -240,7 +249,6 @@ public class AddExpressBillingManagerActivity extends AppCompatActivity implemen
             }
         });
     }
-
     private void init() {
 
         reset = (Button) findViewById(R.id.reset);
@@ -254,7 +262,6 @@ public class AddExpressBillingManagerActivity extends AppCompatActivity implemen
         buttonPanel = (RelativeLayout) findViewById(R.id.buttonPanel);
         billingTime = (EditText) findViewById(R.id.billingTime);
     }
-
     private void initBroadCast() {
         //广播初始化 必须动态注册才能实现回调
         broadcast = new FreshenBroadcastReceiver();
@@ -285,7 +292,6 @@ public class AddExpressBillingManagerActivity extends AppCompatActivity implemen
 
         });
     }
-
     @Override
     public void AdapterRefresh(String type) {
         switch (type) {

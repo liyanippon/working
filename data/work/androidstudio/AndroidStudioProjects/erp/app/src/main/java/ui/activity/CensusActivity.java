@@ -26,7 +26,7 @@ public class CensusActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("财务管理");
+        setTitle("账目客户");
         setContentView(R.layout.activity_census);
 
 

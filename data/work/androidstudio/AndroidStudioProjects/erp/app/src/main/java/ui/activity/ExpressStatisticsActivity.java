@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -54,21 +55,22 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
     public static ExpressPersonStatisticsAdapter expressPersionAdapter;
     public static XiangxiExpressPersonStatisticsAdapter xiangxiAdapter;
     private AlertDialog dlg;
-    private ListView mouth_statistic_lv,listView;
+    private ListView mouth_statistic_lv, listView;
     private ImageView zhuXing;
     private String month;
     boolean onsearchclick = false;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("业务员揽件量统计分析");
         setContentView(R.layout.activity_express_statistics);
 
+        //添加返回按钮
+        ToolUtils.backButton(this);
         init();
         spinnerType();
-        if( Statics.expressYear.size() > 0){
+        if (Statics.expressYear.size() > 0) {
             yearSpinnerString = Statics.expressYear.get(0);//默认赋值
         }
         yearSpinnerString = "2017";//默认赋值
@@ -76,7 +78,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
         progressDialog = ProgressDialog.show(ExpressStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
         expressStatisticsHttpPost = new ExpressStatisticsHttpPost();
         expressStatisticsHttpPost.searchTimeHttp(Statics.TimeStatisticSearchUrl, yearSpinnerString, "", ExpressStatisticsActivity.this);
-        timeExpressStatisticsesList =new ArrayList<>();
+        timeExpressStatisticsesList = new ArrayList<>();
         timeExpressStatisticsesList = Statics.expressTimeList;
         timeAdapter = new TimeExpressStatisticsAdapter(ExpressStatisticsActivity.this, timeExpressStatisticsesList);
         timeListView.setAdapter(timeAdapter);
@@ -92,7 +94,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                 //确定月份
                 month = Statics.expressTimeList.get(position).getMonth();
                 //判断是否点击过查询，若是则typeSpinnerString不变，否则为空
-                if(!onsearchclick){
+                if (!onsearchclick) {
                     typeSpinnerString = "";
                 }
                 expressStatisticsHttpPost.searchExpressPersonStatisticsHttp(Statics.ExpressStatisticSearchUrl, yearSpinnerString, typeSpinnerString, month, ExpressStatisticsActivity.this);
@@ -100,45 +102,45 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                 expressPersionAdapter = new ExpressPersonStatisticsAdapter(ExpressStatisticsActivity.this, expressPersonStatisticList);
                 expressPersonListView.setAdapter(expressPersionAdapter);
                 expressPersonListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                            @Override
-                                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                //选中变色
-                                                                ToolUtils.selectColor(parent,position);
-                                                                String expressPersonId = Statics.expressPersonStatisticList.get(position).getName_id();//ID
-                                                                month = Statics.expressPersonStatisticList.get(position).getMonth();
-                                                                Log.d("xiangxixinx","---------------------------------------------------------------");
-                                                                listView = null;
-                                                                //递类型，月份，客户名客户名以检索
-                                                                Log.d("test90","express:"+typeSpinnerString);
-                                                                Log.d("xiangxixinx",yearSpinnerString+"@"+typeSpinnerString+"@"+month+expressPersonId);
-                                                                expressStatisticsHttpPost.searchXqExpressPersonHttp(Statics.ExpressXqTimeSearchUrl, "2017", typeSpinnerString, month, expressPersonId, ExpressStatisticsActivity.this);
-                                                                //显示对话框，在对话框中使用ListView
-                                                                AlertDialog.Builder builder = new AlertDialog.Builder(ExpressStatisticsActivity.this);
-                                                                LayoutInflater inflater = getLayoutInflater();
-                                                                final View layout = inflater.inflate(R.layout.express_person_statistics_dialog_detailed_item, null);//获取自定义布局
-                                                                //Button back = (Button) layout.findViewById(R.id.back);
-                                                                listView = (ListView) layout.findViewById(R.id.lv);
-                                                                tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
-                                                                tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
-                                                                epsXList = Statics.epsXList;
-                                                                for (int i=0;i<epsXList.size();i++){
-                                                                    Log.d("xiangxixinx",epsXList.get(i).getNumeric()+"@"+epsXList.get(i).getTime());
-                                                                }
+                                                                 @Override
+                                                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                     //选中变色
+                                                                     ToolUtils.selectColor(parent, position);
+                                                                     String expressPersonId = Statics.expressPersonStatisticList.get(position).getName_id();//ID
+                                                                     month = Statics.expressPersonStatisticList.get(position).getMonth();
+                                                                     Log.d("xiangxixinx", "---------------------------------------------------------------");
+                                                                     listView = null;
+                                                                     //递类型，月份，客户名客户名以检索
+                                                                     Log.d("test90", "express:" + typeSpinnerString);
+                                                                     Log.d("xiangxixinx", yearSpinnerString + "@" + typeSpinnerString + "@" + month + expressPersonId);
+                                                                     expressStatisticsHttpPost.searchXqExpressPersonHttp(Statics.ExpressXqTimeSearchUrl, "2017", typeSpinnerString, month, expressPersonId, ExpressStatisticsActivity.this);
+                                                                     //显示对话框，在对话框中使用ListView
+                                                                     AlertDialog.Builder builder = new AlertDialog.Builder(ExpressStatisticsActivity.this);
+                                                                     LayoutInflater inflater = getLayoutInflater();
+                                                                     final View layout = inflater.inflate(R.layout.express_person_statistics_dialog_detailed_item, null);//获取自定义布局
+                                                                     //Button back = (Button) layout.findViewById(R.id.back);
+                                                                     listView = (ListView) layout.findViewById(R.id.lv);
+                                                                     tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
+                                                                     tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+                                                                     epsXList = Statics.epsXList;
+                                                                     for (int i = 0; i < epsXList.size(); i++) {
+                                                                         Log.d("xiangxixinx", epsXList.get(i).getNumeric() + "@" + epsXList.get(i).getTime());
+                                                                     }
 
-                                                                xiangxiAdapter = new XiangxiExpressPersonStatisticsAdapter(ExpressStatisticsActivity.this, epsXList);
-                                                                listView.setAdapter(xiangxiAdapter);
-                                                                //创建人就是用户名
-                                                                builder.setView(layout);
+                                                                     xiangxiAdapter = new XiangxiExpressPersonStatisticsAdapter(ExpressStatisticsActivity.this, epsXList);
+                                                                     listView.setAdapter(xiangxiAdapter);
+                                                                     //创建人就是用户名
+                                                                     builder.setView(layout);
 
-                                                                dlg = builder.create();
-                                                                dlg.show();
-                                                                WindowManager windowManager = getWindowManager();
-                                                                Display display = windowManager.getDefaultDisplay();
-                                                                WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
-                                                                lp.width = (int)(display.getWidth()); //设置宽度
-                                                                dlg.getWindow().setAttributes(lp);
-                                                            }
-                                                        }
+                                                                     dlg = builder.create();
+                                                                     dlg.show();
+                                                                     WindowManager windowManager = getWindowManager();
+                                                                     Display display = windowManager.getDefaultDisplay();
+                                                                     WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+                                                                     lp.width = (int) (display.getWidth()); //设置宽度
+                                                                     dlg.getWindow().setAttributes(lp);
+                                                                 }
+                                                             }
                 );
                 expressPersonListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
@@ -149,19 +151,19 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                         listView = null;
                         //递类型，月份，客户名客户名以检索
                         //expressStatisticsHttpPost.searchXqExpressPersonHttp(Statics.ExpressXqTimeSearchUrl, yearSpinnerString, typeSpinnerString, month, expressPersonId, ExpressStatisticsActivity.this);
-                        Log.d("test90","sdfa::"+typeSpinnerString);
-                        Log.d("test90","sdfa::"+yearSpinnerString);
-                        Log.d("test90","position::"+Integer.toString(position));
-                        for (int i =0;i<Statics.expressTimeList.size();i++){
-                            Log.d("test90","getSum::"+Statics.expressTimeList.get(i).getSum());
+                        Log.d("test90", "sdfa::" + typeSpinnerString);
+                        Log.d("test90", "sdfa::" + yearSpinnerString);
+                        Log.d("test90", "position::" + Integer.toString(position));
+                        for (int i = 0; i < Statics.expressTimeList.size(); i++) {
+                            Log.d("test90", "getSum::" + Statics.expressTimeList.get(i).getSum());
                         }
                         month = Statics.expressPersonStatisticList.get(position).getMonth();
-                        Log.d("test00","month:"+month);
+                        Log.d("test00", "month:" + month);
                         Intent in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesPersonDetailsChartsFragementActivity.class);
                         in.putExtra("year", yearSpinnerString);
                         in.putExtra("month", month);
-                        in.putExtra("type",typeSpinnerString);
-                        in.putExtra("expressPersonId",expressPersonId);
+                        in.putExtra("type", typeSpinnerString);
+                        in.putExtra("expressPersonId", expressPersonId);
                         startActivity(in);
                         return true;
                     }
@@ -177,7 +179,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                 Intent in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesDetailsChartsFragementActivity.class);
                 in.putExtra("year", yearSpinnerString);
                 in.putExtra("month", month);
-                in.putExtra("type",typeSpinnerString);
+                in.putExtra("type", typeSpinnerString);
                 startActivity(in);
                 return false;
             }
@@ -185,7 +187,16 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
 
 
     }
-
+    //返回按钮事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     View.OnClickListener o = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -193,7 +204,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                 case R.id.search:
                     Log.v("test2", "R.id.search");
                     progressDialog = ProgressDialog.show(ExpressStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                    onsearchclick=true;
+                    onsearchclick = true;
                     expressStatisticsHttpPost.searchTimeHttp(Statics.TimeStatisticSearchUrl, yearSpinnerString, typeSpinnerString, ExpressStatisticsActivity.this);
                     timeExpressStatisticsesList = Statics.expressTimeList;
                     timeAdapter = new TimeExpressStatisticsAdapter(ExpressStatisticsActivity.this, timeExpressStatisticsesList);
@@ -210,7 +221,6 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
             }
         }
     };
-
     private void spinnerType() {
         //数据
         //httpPost =new HttpPost();
@@ -233,9 +243,9 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
+                if (position == 0) {
                     typeSpinnerString = "全部";
-                }else{
+                } else {
                     typeSpinnerString = Statics.accountTypeList.get(--position).getId();
                 }
             }
@@ -251,7 +261,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
 
         ArrayList<String> yearlist = new ArrayList<>();
         yearlist.add("全部");
-        for (int i=0;i<Statics.expressYear.size();i++){
+        for (int i = 0; i < Statics.expressYear.size(); i++) {
             yearlist.add(Statics.expressYear.get(i));
         }
 
@@ -267,9 +277,9 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
+                if (position == 0) {
                     yearSpinnerString = "全部";
-                }else{
+                } else {
                     yearSpinnerString = Statics.expressYear.get(--position);
                 }
                 data_list = null;
@@ -295,7 +305,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
         tableTitle1.setBackgroundColor(Color.rgb(177, 173, 172));
 
         zhuXing = (ImageView) findViewById(R.id.zhuXing);
-        if(!onsearchclick){
+        if (!onsearchclick) {
             typeSpinnerString = "";
         }
 
@@ -311,7 +321,7 @@ public class ExpressStatisticsActivity extends AppCompatActivity implements Lazy
                 expressPersionAdapter.notifyDataSetChanged();
                 break;
             case "xiangxiAdapter":
-                if(xiangxiAdapter!=null){
+                if (xiangxiAdapter != null) {
                     xiangxiAdapter.notifyDataSetChanged();
                 }
                 break;

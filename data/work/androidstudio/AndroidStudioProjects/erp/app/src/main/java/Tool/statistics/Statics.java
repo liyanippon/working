@@ -18,6 +18,7 @@ import model.ExpressPersonMonthStatisticsXiangqing;
 import model.ExpressPersonStatistic;
 import model.ExpressPersonStatisticsXiangqing;
 import model.ExpressPieceCountMonth;
+import model.FinancialManagement;
 import model.TimeBillingStatistics;
 import model.TimeExpressStatistics;
 import model.UserUmp;
@@ -29,7 +30,10 @@ import model.XiangxiBillingStatistics;
 
 public class Statics {
 
-    //账目管理
+    //登录
+    public static String sessionId ;
+
+    //物流管理
     public static String LoginUrl = "http://192.168.1.12:8081/login.jhtml";
     public static String UmlUrl = "http://192.168.1.16:8083/getWXMenuList.ajax";//用户权限url
     public static String Name;
@@ -47,7 +51,7 @@ public class Statics {
     public static String accountClassify = "023001";//默认为进账，出账：023002
     public static int page = 0;//分页页数
 
-    //账单统计
+    //物流统计
     public static String TimeSearchUrl = "http://192.168.1.16:8083/getWXTjsjList.ajax";//统计列表
     public static String CustomerSearchUrl = "http://192.168.1.16:8083/getWXCustomerTjsjList.ajax";//客户统计列表
     public static String YearSearchUrl = "http://192.168.1.16:8083/getWXYearAccountStatistics.ajax";//获取年
@@ -61,7 +65,7 @@ public class Statics {
     public static String results = null;
     public static String userName = null;
 
-    //快递数量管理      //18 52
+    //业务揽件和业务统计      //18 52
     public static ArrayList<ExpressNumberManagement> enmList = new ArrayList<>();
     public static ArrayList<ExpressPerson> expressPersonsList = new ArrayList<>();
     public static ArrayList<ExpressPersonStatistic> expressPersonStatisticList = new ArrayList<>();////快递员统计解析
@@ -83,6 +87,7 @@ public class Statics {
     public static ArrayList<ExpressPieceCountMonth> expressPieceCountMonthsList = new ArrayList<>();
     public static Boolean dayCount = false;//是否按天统计
     public static HashMap<String,String>  XiangxiChan= new HashMap<>();//详细查询参数
+
     //是否需要发送广播
     public static Boolean isBroadCast = false;
 
@@ -97,6 +102,10 @@ public class Statics {
     public static String[] xPerson;//统计表中纵轴数据
     public static Boolean yPositon = false;//设置y轴显示默认false
 
+    //账目客户
+    public static String FinancialBillingManagementUrl = "http://192.168.1.52:8083/getWXBillCustomer.ajax"; //账目增删查
+    public static ArrayList<FinancialManagement> financialManagementList = new ArrayList<>();//账目客户查询数据
     //用户权限管理
     public static ArrayList<UserUmp> userUmpsStatisticsList = new ArrayList<>();//考勤表格数据
+
 }

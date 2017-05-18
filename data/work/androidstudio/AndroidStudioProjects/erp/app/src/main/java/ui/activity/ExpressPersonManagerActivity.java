@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import http.Constants;
@@ -59,6 +61,8 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_express_person_manager);
 
+        //添加返回按钮
+        ToolUtils.backButton(this);
         init();
         //空查询
         page = 1;//显示页数
@@ -122,7 +126,16 @@ public class ExpressPersonManagerActivity extends AppCompatActivity implements X
         search.setOnClickListener(o);
         add.setOnClickListener(o);
     }
-
+    //返回按钮事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     View.OnClickListener o = new View.OnClickListener() {
         @Override

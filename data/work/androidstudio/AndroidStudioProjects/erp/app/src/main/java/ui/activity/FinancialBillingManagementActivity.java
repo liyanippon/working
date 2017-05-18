@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,11 +24,15 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
 import http.FinancialManagementHttpPost;
+import model.AccountClassify;
+import model.AccountReason;
+import model.AccountType;
 import portface.LazyLoadFace;
 import ui.adpter.FinancialManagementAdapter;
 import ui.xlistview.XListView;
@@ -35,19 +40,14 @@ import ui.xlistview.XListView;
 public class FinancialBillingManagementActivity extends AppCompatActivity implements XListView.IXListViewListener, LazyLoadFace {
     private View search;
     private View add;
-    private Spinner typeSpinner, classifySpinner;//,reasonSpinner;
+    private Spinner typeSpinner, classifySpinner;
     public static Spinner reasonSpinner;
-    //private EditText customerEt;
     private static List<String> data_list;
     public static ArrayAdapter<String> arr_adapter;
     private String typeSpinnerString, classifySpinnerString, reasonSpinnerString;
     public static FinancialManagementAdapter financialManagementAdapter;
-    public static XListView mListView, accountLv;
-    private ArrayAdapter<String> mAdapter;
-    private ArrayList<String> items = new ArrayList<>();
+    public static XListView accountLv;
     private Handler mHandler;
-    private int start = 0;
-    private static int refreshCnt = 0;
     private static int page = 1;
     private FinancialManagementHttpPost httpPost;
     private AlertDialog dlg;
@@ -55,13 +55,15 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
     public static Context context;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
     static FreshenBroadcastReceiver broadcast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("财务账单管理");
+        setTitle("账目管理");
         setContentView(R.layout.activity_financial_billing_management);
 
-
+        //添加返回按钮
+        ToolUtils.backButton(this);
         context = getApplicationContext();
         initBroadCast();
         init();
@@ -69,10 +71,12 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
         page = 1;//显示页数
 
         httpPost = new FinancialManagementHttpPost();
-        String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+        String httpUrl = Statics.FinancialBillingManagementUrl;
         //刚进入页面就要显示数据
         progressDialog = ProgressDialog.show(FinancialBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
+        Log.d("FinancialBillingManagem", "diyici");
         String result = httpPost.searchHttp(httpUrl, "", "", "", FinancialBillingManagementActivity.this, page);
+
         accountLv.setPullLoadEnable(true);
         financialManagementAdapter = new FinancialManagementAdapter(FinancialBillingManagementActivity.this);
         accountLv.setAdapter(financialManagementAdapter);
@@ -127,30 +131,43 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
                 progressDialog = ProgressDialog.show(FinancialBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
                 SearchBoolean = true;
                 httpPost = new FinancialManagementHttpPost();
-                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-                String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, reasonSpinnerString, FinancialBillingManagementActivity.this, page);
+                String httpUrl = Statics.FinancialBillingManagementUrl;
+                //String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, reasonSpinnerString, FinancialBillingManagementActivity.this, page);
 
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(FinancialBillingManagementActivity.this, AddExpressBillingManagerActivity.class);
+                Intent in = new Intent(FinancialBillingManagementActivity.this, AddFinancialBillingManagerActivity.class);
                 startActivity(in);
             }
         });
     }
 
-    private void spinnerType() {
+    //返回按钮事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void spinnerType() {//下拉框
         Log.d("test", "spinnerType");
         //数据
         //httpPost =new HttpPost();
         //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
-            data_list.add(Statics.accountTypeList.get(i).getName());
+
+        for (AccountType at : Statics.accountTypeList) {
+            data_list.add(at.getName());
         }
+
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
         //设置样式
@@ -163,8 +180,8 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
         //httpPost.accountClassifySearchHttp(Static.AccountClassifyUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; i < Statics.accountClassifyList.size(); i++) {
-            data_list.add(Statics.accountClassifyList.get(i).getName());
+        for (AccountClassify ac : Statics.accountClassifyList) {
+            data_list.add(ac.getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -175,10 +192,10 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.v("test8",Integer.toString(position)+"ss");
-                if(position == 0){
+                Log.v("test8", Integer.toString(position) + "ss");
+                if (position == 0) {
                     typeSpinnerString = "全部";
-                }else{
+                } else {
                     typeSpinnerString = Statics.accountTypeList.get(--position).getId();
                 }
                 data_list = null;
@@ -192,11 +209,10 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-
                 //二级联动
-                if(position == 0){
+                if (position == 0) {
                     classifySpinnerString = "全部";
-                }else{
+                } else {
                     classifySpinnerString = Statics.accountClassifyList.get(--position).getId();
                 }
                 Log.v("test2", "classifySpinnerString:" + classifySpinnerString);
@@ -207,11 +223,12 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
 
                 data_list = new ArrayList<>();
                 data_list.add("全部");
-                for (int i = 0; i < Statics.accountReasonList.size(); i++) {
-                    data_list.add(Statics.accountReasonList.get(i).getName());
-                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
 
+                for (AccountReason ar : Statics.accountReasonList) {
+                    data_list.add(ar.getName());
+                    Log.v("test2", "data_list:" + ar.getName());
                 }
+
                 //适配器
                 arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
                 //设置样式
@@ -223,10 +240,10 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
                 reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (position < Statics.accountReasonList.size()-1) {//需要仔细
-                            if(position == 0){
+                        if (position < Statics.accountReasonList.size() - 1) {//需要仔细
+                            if (position == 0) {
                                 reasonSpinnerString = "全部";
-                            }else{
+                            } else {
                                 reasonSpinnerString = Statics.accountReasonList.get(--position).getId();
                             }
                         } else {
@@ -234,6 +251,7 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
                                     "Static.accountReasonList.size()" + Integer.toString(Statics.accountReasonList.size()));
                         }
                     }
+
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
@@ -246,7 +264,7 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
         });
     }
 
-    private void init() {
+    private void init() {//初始化
 
         search = findViewById(R.id.search);
         add = findViewById(R.id.add);
@@ -263,7 +281,7 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
             public void run() {
                 httpPost = new FinancialManagementHttpPost();
                 String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-                String result = httpPost.searchHttp(httpUrl ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,FinancialBillingManagementActivity.this,page);
+                //String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, reasonSpinnerString, FinancialBillingManagementActivity.this, page);
                 onLoad();
             }
         }, 2000);
@@ -277,12 +295,12 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
                 page++;
                 if (page >= Statics.page) {
                     page = Statics.page;
-                    Toast.makeText(FinancialBillingManagementActivity.this,"已经是最后一页了",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FinancialBillingManagementActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
                 }
                 //大于总页数，不向下翻页
                 httpPost = new FinancialManagementHttpPost();
                 String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-                String result = httpPost.searchHttp(httpUrl ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,FinancialBillingManagementActivity.this,page);
+                //String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, reasonSpinnerString, FinancialBillingManagementActivity.this, page);
                 onLoad();
 
             }
@@ -293,7 +311,7 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
     protected void onResume() {
         super.onResume();
         String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-        httpPost.searchHttp(httpUrl ,"" ,"" ,"",FinancialBillingManagementActivity.this,1);//刷新页面
+        //httpPost.searchHttp(httpUrl, "", "", "", FinancialBillingManagementActivity.this, 1);//刷新页面
     }
 
     private void onLoad() {
@@ -307,7 +325,7 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
         broadcast = new FreshenBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Config.BC_ONE);
-        if(context!=null){
+        if (context != null) {
             context.registerReceiver(broadcast, intentFilter);
 
         }
@@ -316,8 +334,8 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
             @Override
             public void AdapterRefresh(String type) {
                 //具体更新
-                if(type.equals("SearchReasonSpinner")){
-                    Log.d("aleand","收到广播");
+                if (type.equals("SearchReasonSpinner")) {
+                    Log.d("aleand", "收到广播");
                     //适配器
                     //arr_adapter1.notifyDataSetChanged();
                     data_list = new ArrayList<>();
@@ -342,7 +360,7 @@ public class FinancialBillingManagementActivity extends AppCompatActivity implem
     public void AdapterRefresh(String type) {
         switch (type) {
             case "FinancialManagementHttpPost":
-                if (financialManagementAdapter != null){
+                if (financialManagementAdapter != null) {
                     financialManagementAdapter.notifyDataSetChanged();
                     progressDialog.dismiss();
                 }

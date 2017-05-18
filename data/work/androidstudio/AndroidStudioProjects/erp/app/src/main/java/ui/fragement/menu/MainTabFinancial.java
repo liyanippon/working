@@ -25,6 +25,7 @@ import http.ExpressNumberManagementHttpPost;
 import http.ExpressStatisticsHttpPost;
 import ui.activity.BillingStatisticsActivity;
 import ui.activity.FinancialBillingManagementActivity;
+import ui.activity.FinancialStastisticsActivity;
 
 @SuppressLint("NewApi")
 public class MainTabFinancial extends Fragment
@@ -139,7 +140,7 @@ public class MainTabFinancial extends Fragment
 					startActivity(in);
 					break;
 				case 1:
-					in = new Intent(getActivity(), BillingStatisticsActivity.class);
+					in = new Intent(getActivity(), FinancialStastisticsActivity.class);
 					startActivity(in);
 					break;
 			}

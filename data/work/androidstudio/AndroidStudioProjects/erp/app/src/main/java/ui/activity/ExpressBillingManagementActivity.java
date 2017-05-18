@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,7 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
@@ -60,6 +62,8 @@ public class ExpressBillingManagementActivity extends AppCompatActivity implemen
         setTitle("物流账单管理");
         setContentView(R.layout.activity_expressbilling_management);
 
+        //添加返回按钮
+        ToolUtils.backButton(this);
         context = getApplicationContext();
         initBroadCast();
         init();
@@ -137,6 +141,17 @@ public class ExpressBillingManagementActivity extends AppCompatActivity implemen
                 startActivity(in);
             }
         });
+    }
+
+    //返回按钮事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void spinnerType() {

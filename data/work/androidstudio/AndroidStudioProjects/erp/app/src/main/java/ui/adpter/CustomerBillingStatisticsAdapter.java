@@ -27,10 +27,7 @@ public class CustomerBillingStatisticsAdapter extends BaseAdapter {
     private Activity activity;
     private List<CustomerBillingStatistics> list;
     private LayoutInflater inflater;
-    private int selectID;
-    private OnMyCheckChangedListener mCheckChange;
     public CustomerBillingStatisticsAdapter(Activity activityBilling, List<CustomerBillingStatistics> list) {
-        //Log.v("test", "CustomerBillingStatisticsAdapter" + list.size());
         inflater = LayoutInflater.from(activityBilling);
         this.activity = activityBilling;
         this.list = list;
@@ -83,44 +80,17 @@ public class CustomerBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.income.setText(customerBillingStatistics.getIncome());
         viewHolder.income.setTextSize(13);
         viewHolder.outcome.setText("- "+customerBillingStatistics.getOutcom() + "");
+        viewHolder.outcome.setTextColor(Color.RED);
         viewHolder.outcome.setTextSize(13);
         viewHolder.imbalance.setText(customerBillingStatistics.getImbalance() + "");
         viewHolder.imbalance.setTextSize(13);
-
-        //核心方法，判断单选按钮被按下的位置与之前的位置是否相等，然后做相应的操作。
-        Log.d("tets","selectID:"+Integer.toString(selectID));
-        Log.d("tets","position:"+Integer.toString(position));
-
-        if (selectID == position) {
-            viewHolder.linearLayout.setBackgroundColor(Color.BLUE);
-        } else {
-            viewHolder.linearLayout.setBackgroundColor(0);
+        if(Integer.parseInt(customerBillingStatistics.getImbalance())<0){
+            viewHolder.imbalance.setTextColor(Color.RED);
+        }else{
+            viewHolder.imbalance.setTextColor(Color.BLACK);
         }
-        //final int finalPosition = position;
-        /*viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                selectID = finalPosition;
-
-                if (mCheckChange != null)
-                    mCheckChange.setSelectID(selectID);
-            }
-        });*/
         return convertView;
     }
-
-    // 回调函数，很类似OnClickListener吧，呵呵
-    public void setOncheckChanged(OnMyCheckChangedListener l) {
-        mCheckChange = l;
-    }
-
-    // 回調接口
-    public interface OnMyCheckChangedListener {
-
-        void setSelectID(int selectID);
-
-    }
-
     public static class ViewHolder {
         public TextView id;
         public TextView month;

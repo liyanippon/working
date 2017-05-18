@@ -1,7 +1,9 @@
 package Tool;
 
 
+import android.app.Activity;
 import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -130,6 +132,16 @@ public class ToolUtils {
             }
         }
         return arrayList;
+    }
+
+
+    //添加返回按钮
+    public static void backButton(AppCompatActivity appCompatActivity) {
+        android.support.v7.app.ActionBar actionBar = appCompatActivity.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 }

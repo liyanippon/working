@@ -1,63 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_billing_statistics"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f0f0f0"
-    tools:context="ui.activity.BillingStatisticsActivity">
+    tools:context="ui.activity.FinancialStastisticsActivity">
     <LinearLayout
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:layout_gravity="center"
-                        android:text="@string/year"
-                        />
-                    <Spinner
-                        android:layout_marginLeft="1dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/yearSpinner"
-                        android:background="@drawable/shape_editor"
-                        android:layout_weight="1"
-                        >
-                    </Spinner>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/type"
-                        android:layout_gravity="center"
-                        android:textSize="16sp"
-                        />
-                    <Spinner
-                        android:layout_marginLeft="2dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/typeSpinner"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_editor"
-                        >
-                    </Spinner>
-                    <ImageView
-                        android:id="@+id/search"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/search"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:text="@string/year"
+                />
+            <Spinner
+                android:layout_marginLeft="1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/yearSpinner"
+                android:background="@drawable/shape_editor"
+                android:layout_weight="1"
+                >
+            </Spinner>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                />
+            <Spinner
+                android:layout_marginLeft="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/typeSpinner"
+                android:layout_weight="1"
+                android:background="@drawable/shape_editor"
+                >
+            </Spinner>
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/search"/>
 
-                </LinearLayout>
+        </LinearLayout>
 
         <TableLayout
             android:layout_width="match_parent"

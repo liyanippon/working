@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -27,6 +28,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.AttendanceStatisticsHttpPost;
 import http.BillingStatisticsHttpPost;
@@ -65,6 +67,8 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
         setTitle("考勤统计");
         setContentView(R.layout.activity_attendance_statistics);
 
+        //添加返回按钮
+        ToolUtils.backButton(this);
 
         init();
         spinnerType();
@@ -86,6 +90,18 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
         graph.setOnClickListener(o);
 
     }
+
+    //返回按钮事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     View.OnClickListener o = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

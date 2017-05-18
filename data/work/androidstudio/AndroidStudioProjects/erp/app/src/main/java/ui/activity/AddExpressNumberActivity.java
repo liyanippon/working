@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import http.Constants;
@@ -44,6 +46,9 @@ public class AddExpressNumberActivity extends AppCompatActivity {
         setTitle("新建快递单");
         setContentView(R.layout.activity_add_express_number);
 
+        //添加返回按钮
+        ToolUtils.backButton(this);
+
         init();
         spinnerType();
         calendar = Calendar.getInstance();
@@ -54,6 +59,17 @@ public class AddExpressNumberActivity extends AppCompatActivity {
         add.setOnClickListener(o);
         reset.setOnClickListener(o);
         billingTime.setOnClickListener(o);
+    }
+
+    //返回按钮事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
     View.OnClickListener o = new View.OnClickListener() {
         @Override

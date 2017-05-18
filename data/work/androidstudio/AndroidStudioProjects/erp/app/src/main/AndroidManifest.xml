@@ -27,6 +27,9 @@
             android:name="ui.activity.AddExpressBillingManagerActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="ui.activity.AddFinancialBillingManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="ui.activity.AddExpressNumberActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -55,7 +58,8 @@
             android:name="ui.activity.menu.MenuFragmentMainActivity"
             android:screenOrientation="portrait" />
         <activity android:name="ui.activity.AttendanceStatisticsActivity" />
-        <activity android:name="ui.activity.FinancialBillingManagementActivity"></activity>
+        <activity android:name="ui.activity.FinancialBillingManagementActivity" />
+        <activity android:name="ui.activity.FinancialStastisticsActivity"></activity>
     </application>
 
 </manifest>

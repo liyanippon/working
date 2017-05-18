@@ -79,7 +79,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="快递类型"
+                android:text="账目"
                 android:layout_weight="1"
                 android:textSize="16sp"
                 android:textColor="#ffffff"
@@ -88,25 +88,34 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="业务分类"
+                android:text="分类"
                 android:layout_weight="1"
                 android:textSize="16sp"
                 android:gravity="center"
                 android:textColor="#ffffff"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="内容"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:layout_weight="1"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="账单时间"
+                android:layout_weight="1"
                 android:textSize="16sp"
                 android:gravity="center"
                 android:textColor="#ffffff"
-                android:layout_weight="1"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="金额(元)"
+                android:text="金额"
                 android:layout_weight="1"
                 android:textSize="16sp"
                 android:gravity="center"

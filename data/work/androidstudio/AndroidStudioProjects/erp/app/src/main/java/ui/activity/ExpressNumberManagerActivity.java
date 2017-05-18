@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.Constants;
 import http.ExpressNumberManagementHttpPost;
@@ -38,12 +40,12 @@ import ui.xlistview.XListView;
  */
 
 public class ExpressNumberManagerActivity extends AppCompatActivity implements XListView.IXListViewListener, LazyLoadFace {
-    private ImageView search,add;
+    private ImageView search, add;
     private Spinner typeSpinner, expressPersonSpinner;
     private EditText searchTime;
     private static List<String> data_list;
     public static ArrayAdapter<String> arr_adapter;
-    private String typeSpinnerString, expressPersonSpinnerString,billingTimeString;
+    private String typeSpinnerString, expressPersonSpinnerString, billingTimeString;
 
     public static ExpressNumberManagementAdapter enmAdapter;
     //xList
@@ -58,22 +60,25 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
     private AlertDialog dlg;
     private boolean SearchBoolean = false;
     private Calendar calendar;
-    private int currentYear,currentMon,currentDate;
+    private int currentYear, currentMon, currentDate;
 
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("业务员揽件量");
         setContentView(R.layout.activity_express_manager);
 
+        //添加返回按钮
+        ToolUtils.backButton(this);
         init();
         //空查询
         page = 1;//显示页数
 
         calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
-        currentMon = calendar.get(Calendar.MONTH)+1;
+        currentMon = calendar.get(Calendar.MONTH) + 1;
         currentDate = calendar.get(Calendar.DAY_OF_MONTH);
         searchTime.setText("全部");
         searchTime.setOnClickListener(o);
@@ -104,28 +109,38 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
         add.setOnClickListener(o);
     }
 
+    //返回按钮事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     View.OnClickListener o = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-               switch (v.getId()){
-                   case R.id.searchTime:
-                       searchTime();
-                        break;
-                   case R.id.search:
-                       //条件查询
-                       page = 1;
-                       SearchBoolean = true;
-                       billingTimeString = searchTime.getText().toString();
-                       httpPost = new ExpressNumberManagementHttpPost();
-                       String httpUrl = Statics.ExpressCountSearch;
-                       String result = httpPost.searchHttp(httpUrl, expressPersonSpinnerString,typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
-                        break;
-                   case R.id.add:
-                       Intent in = new Intent(ExpressNumberManagerActivity.this, AddExpressNumberActivity.class);
-                       startActivity(in);
-                       break;
-               }
+            switch (v.getId()) {
+                case R.id.searchTime:
+                    searchTime();
+                    break;
+                case R.id.search:
+                    //条件查询
+                    page = 1;
+                    SearchBoolean = true;
+                    billingTimeString = searchTime.getText().toString();
+                    httpPost = new ExpressNumberManagementHttpPost();
+                    String httpUrl = Statics.ExpressCountSearch;
+                    String result = httpPost.searchHttp(httpUrl, expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
+                    break;
+                case R.id.add:
+                    Intent in = new Intent(ExpressNumberManagerActivity.this, AddExpressNumberActivity.class);
+                    startActivity(in);
+                    break;
+            }
         }
     };
 
@@ -154,21 +169,21 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
         String name;
         for (int i = 0; i < Statics.expressPersonsList.size(); i++) {
             //data_list.add(Constants.expressPersonsList.get(i).getName());
-            Log.d("dd",Statics.expressPersonsList.get(i).getName());
-            if(Statics.expressPersonsList.get(i).getName().contains("（")){
+            Log.d("dd", Statics.expressPersonsList.get(i).getName());
+            if (Statics.expressPersonsList.get(i).getName().contains("（")) {
                 name = Statics.expressPersonsList.get(i).getName().split("（", 2)[0];//字符串以‘（’截取
                 data_list.add(name);
-            }else if(Statics.expressPersonsList.get(i).getName().contains("(")){
+            } else if (Statics.expressPersonsList.get(i).getName().contains("(")) {
                 name = Statics.expressPersonsList.get(i).getName().split("\\(", 2)[0];//字符串以‘（’截取
                 data_list.add(name);
-            }else{
+            } else {
                 name = Statics.expressPersonsList.get(i).getName();
                 data_list.add(name);
             }
            /* name = Constants.expressPersonsList.get(i).getName().split("（", 2)[0];//字符串以‘（’截取
             data_list.add(name);*/
             name = null;
-            Log.d("dd","ddL:"+Statics.expressPersonsList.get(i).getName().split("（", 2)[0]);
+            Log.d("dd", "ddL:" + Statics.expressPersonsList.get(i).getName().split("（", 2)[0]);
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -179,9 +194,9 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
+                if (position == 0) {
                     typeSpinnerString = "全部";
-                }else{
+                } else {
                     typeSpinnerString = Statics.accountTypeList.get(--position).getId();
                 }
                 data_list = null;
@@ -192,17 +207,17 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
             }
         });
         expressPersonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                    if(position == 0){
-                        expressPersonSpinnerString = "全部";
-                    }else{
-                        expressPersonSpinnerString = Statics.expressPersonsList.get(--position).getId();
-                    }
-                    data_list = null;
-
+                if (position == 0) {
+                    expressPersonSpinnerString = "全部";
+                } else {
+                    expressPersonSpinnerString = Statics.expressPersonsList.get(--position).getId();
                 }
+                data_list = null;
+
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -227,7 +242,7 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
             public void run() {
                 httpPost = new ExpressNumberManagementHttpPost();
                 String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-                String result = httpPost.searchHttp(httpUrl ,expressPersonSpinnerString ,typeSpinnerString ,billingTimeString,ExpressNumberManagerActivity.this,page);
+                String result = httpPost.searchHttp(httpUrl, expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
                 onLoad();
             }
         }, 2000);
@@ -241,13 +256,13 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
                 page++;
                 if (page >= Statics.page) {
                     page = Statics.page;
-                    Toast.makeText(ExpressNumberManagerActivity.this,"已经是最后一页了",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ExpressNumberManagerActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
                 }
                 //大于总页数，不向下翻页
                 httpPost = new ExpressNumberManagementHttpPost();
                 String httpUrl = Statics.ExpressCountSearch;
-                Log.d("typeyy",expressPersonSpinnerString+typeSpinnerString+billingTimeString);
-                String result = httpPost.searchHttp(httpUrl ,expressPersonSpinnerString ,typeSpinnerString ,billingTimeString,ExpressNumberManagerActivity.this,page);
+                Log.d("typeyy", expressPersonSpinnerString + typeSpinnerString + billingTimeString);
+                String result = httpPost.searchHttp(httpUrl, expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
                 enmAdapter.notifyDataSetChanged();
                 onLoad();
 
@@ -267,8 +282,8 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month++;
-                        searchTime.setText(String.format("%d-%02d-%02d",year,month,dayOfMonth));
-                        billingTimeString = String.format("%d-%02d-%02d",year,month,dayOfMonth);
+                        searchTime.setText(String.format("%d-%02d-%02d", year, month, dayOfMonth));
+                        billingTimeString = String.format("%d-%02d-%02d", year, month, dayOfMonth);
                     }
                 },
                 mYear, mMonth, mDay).show();
@@ -279,7 +294,7 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
     protected void onResume() {
         super.onResume();
         String httpUrl = Statics.ExpressCountSearch;
-        httpPost.searchHttp(httpUrl ,"" ,"" ,"",ExpressNumberManagerActivity.this,1);//刷新页面
+        httpPost.searchHttp(httpUrl, "", "", "", ExpressNumberManagerActivity.this, 1);//刷新页面
     }
 
     private void onLoad() {
@@ -292,9 +307,9 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
     public void AdapterRefresh(String type) {
         switch (type) {
             case "accountManagementAdapter":
-                if (enmAdapter != null){
+                if (enmAdapter != null) {
                     enmAdapter.notifyDataSetChanged();
-                    Log.d("test","页面刷新");
+                    Log.d("test", "页面刷新");
                     progressDialog.dismiss();
                 }
 
