@@ -133,3 +133,37 @@ android 最好用的ui框架：https://github.com/wasabeef/awesome-android-ui
 仿微信扫码登录：http://blog.csdn.net/xiaanming/article/details/10163203
 最全最好用的Android Studio插件整理：http://www.open-open.com/lib/view/open1480329318348.html
 给AppCompatActivity的标题栏上加上返回按钮：http://www.open-open.com/lib/view/open1481788218379.html
+
+/getWXAccountsType.ajax //银行账户下拉框
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
