@@ -136,7 +136,9 @@ android 最好用的ui框架：https://github.com/wasabeef/awesome-android-ui
 
 /getWXAccountsType.ajax //银行账户下拉框
 
-
+异常全局处理网址：http://blog.csdn.net/cym_lmy/article/details/24704089 
+http://www.jb51.net/article/78858.htm
+Android 全局异常处理：：http://onewayonelife.iteye.com/blog/1147533
 
 
 
