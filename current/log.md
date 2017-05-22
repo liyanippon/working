@@ -140,7 +140,7 @@ android 最好用的ui框架：https://github.com/wasabeef/awesome-android-ui
 http://www.jb51.net/article/78858.htm
 Android 全局异常处理：：http://onewayonelife.iteye.com/blog/1147533
 
-
+wine高版本安装：http://www.linuxidc.com/Linux/2017-04/143039.htm
 
 
 
