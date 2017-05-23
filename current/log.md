@@ -143,6 +143,13 @@ Android 全局异常处理：：http://onewayonelife.iteye.com/blog/1147533
 wine高版本安装：http://www.linuxidc.com/Linux/2017-04/143039.htm
 
 
+2017.5.24号使用
+:
+/getWXstatisticalData.ajax
+:
+/getWXsettlementMonth.ajax
+
+
 
 
 
