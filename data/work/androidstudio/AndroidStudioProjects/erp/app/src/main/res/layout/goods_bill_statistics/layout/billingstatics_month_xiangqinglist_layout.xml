@@ -8,84 +8,97 @@
         android:id="@+id/text_id"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:lines="1"
+        android:layout_weight="0.5"
+        android:text="" />
+
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/classifyname"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="年" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+    <TextView
+        android:id="@+id/resonname"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="月份" />
+
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dip"
+        android:textColor="#000000"
+        android:paddingTop="10dip"
+        android:textSize="15sp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="账目" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
         android:paddingBottom="10dip"
         android:paddingTop="10dip"
+        android:text="类型"
         android:textColor="#000000"
-        android:textSize="15sp"
-        android:lines="1"
-        android:text="序号" />
+        android:textSize="15sp" />
 
     <View
         android:layout_width="1.5dip"
         android:layout_height="fill_parent"
         android:background="#B4B3B3"/>
+
     <TextView
-        android:id="@+id/month"
+        android:id="@+id/price"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:textColor="#000000"
+        android:lines="1"
+        android:textSize="15sp"
         android:layout_weight="1"
-        android:paddingBottom="10dip"
-        android:paddingTop="10dip"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:lines="1"
         android:gravity="center"
-        android:text="月" />
+        android:text="合计(元)" />
 
-    <View
-        android:layout_width="1.5dip"
-        android:layout_height="fill_parent"
-        android:background="#B4B3B3"/>
-
-    <TextView
-        android:id="@+id/income"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:paddingBottom="10dip"
-        android:textColor="#000000"
-        android:paddingTop="10dip"
-        android:lines="1"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:text="@string/income" />
-
-    <View
-        android:layout_width="1.5dip"
-        android:layout_height="fill_parent"
-        android:background="#B4B3B3"/>
-
-    <TextView
-        android:id="@+id/outcome"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:paddingBottom="10dip"
-        android:paddingTop="10dip"
-        android:textColor="#000000"
-        android:lines="1"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:text="@string/outcome" />
-
-    <View
-        android:layout_width="1.5dip"
-        android:layout_height="fill_parent"
-        android:background="#B4B3B3"/>
-
-    <TextView
-        android:id="@+id/imbalance"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:paddingBottom="10dip"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:lines="1"
-        android:paddingTop="10dip"
-        android:gravity="center"
-        android:text="余额(元)" />
 
 </LinearLayout>

@@ -216,9 +216,6 @@ public class ExpressNumberManagementHttpPost{
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
-                Log.d("test1", strMsg);
-                resultString = "error";
-                ExceptionUtil.httpPost("ExpressNumberManagementHttpPost");
             }
         });
 

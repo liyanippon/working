@@ -29,7 +29,7 @@ import ui.activity.ExpressNumberManagerActivity;
 import ui.activity.ExpressStatisticsActivity;
 
 @SuppressLint("NewApi")
-public class MainTabExpress extends Fragment {
+public class MainTabExpress extends Fragment implements AdapterView.OnItemClickListener{
 
 	private ExpressBillingManagementHttpPost httpPost;
 	private BillingStatisticsHttpPost billingStatisticsHttpPost;
@@ -55,9 +55,11 @@ public class MainTabExpress extends Fragment {
 		spinnerData();
 		init();
 
-		gridView.setOnItemClickListener(g);
+		gridView.setOnItemClickListener(this);
 		return view;
 	}
+
+
 	private void spinnerData() {
 		//获取数据 下拉菜单
 		httpPost = new ExpressBillingManagementHttpPost();
@@ -128,29 +130,25 @@ public class MainTabExpress extends Fragment {
 		return data_list;
 	}
 
-	AdapterView.OnItemClickListener g = new AdapterView.OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-			switch (data_list.get(position).get("text").toString()){
-				case "物流管理":
-					in = new Intent(getActivity(), ExpressBillingManagementActivity.class);
-					startActivity(in);
-					break;
-				case "物流统计":
-					in = new Intent(getActivity(), BillingStatisticsActivity.class);
-					startActivity(in);
-					break;
-				case "业务揽件":
-					in = new Intent(getActivity(),ExpressNumberManagerActivity.class);
-					startActivity(in);
-					break;
-				case "业务统计":
-					in = new Intent(getActivity(),ExpressStatisticsActivity.class);
-					startActivity(in);
-					break;
-			}
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		switch (data_list.get(position).get("text").toString()){
+			case "物流管理":
+				in = new Intent(getActivity(), ExpressBillingManagementActivity.class);
+				startActivity(in);
+				break;
+			case "物流统计":
+				in = new Intent(getActivity(), BillingStatisticsActivity.class);
+				startActivity(in);
+				break;
+			case "业务揽件":
+				in = new Intent(getActivity(),ExpressNumberManagerActivity.class);
+				startActivity(in);
+				break;
+			case "业务统计":
+				in = new Intent(getActivity(),ExpressStatisticsActivity.class);
+				startActivity(in);
+				break;
 		}
-	};
-
+	}
 }

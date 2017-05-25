@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import http.Constants;
@@ -32,7 +33,7 @@ import portface.LazyLoadFace;
 import ui.adpter.ExpressNumberManagementAdapter;
 import ui.xlistview.XListView;
 
-public class ExpressPersonManagerActivity extends AppCompatActivity implements XListView.IXListViewListener, LazyLoadFace {
+public class ExpressPersonManagerActivity extends BaseActivity implements XListView.IXListViewListener, LazyLoadFace {
     private ImageView search,add;
     private Spinner typeSpinner, expressPersonSpinner;
     //private EditText searchTime;

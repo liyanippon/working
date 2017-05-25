@@ -8,32 +8,7 @@ import java.util.List;
 
 public class FinancialManagement {
 
-
-    /**
-     * data : [{"fy_name":"测试","fy_update_by":"liudongmei","fy_create_by":"liudongmei","fy_contact":"110","fy_create_time":{"date":15,"day":1,"hours":11,"minutes":45,"month":4,"nanos":324000000,"seconds":17,"time":1494819917324,"timezoneOffset":-480,"year":117},"fy_address":"地球","id":"09415dcc0ee54a78a9321813dc85f6ab","fy_update_time":{"date":15,"day":1,"hours":11,"minutes":45,"month":4,"nanos":325000000,"seconds":17,"time":1494819917325,"timezoneOffset":-480,"year":117},"delete":"0","fy_description":"呃"},{"fy_name":"这只是一个测试","fy_update_by":"liudongmei","fy_create_by":"liudongmei","fy_contact":"119","fy_create_time":{"date":12,"day":5,"hours":17,"minutes":39,"month":4,"nanos":242000000,"seconds":4,"time":1494581944242,"timezoneOffset":-480,"year":117},"fy_address":"中国","id":"d5848cd1635d461d8b8c566754451d62","fy_update_time":{"date":12,"day":5,"hours":17,"minutes":40,"month":4,"nanos":866000000,"seconds":31,"time":1494582031866,"timezoneOffset":-480,"year":117},"delete":"0","fy_description":"说啥。。"}]
-     * message : 成功！
-     * status : true
-     */
-
-    private String message;
-    private boolean status;
     private List<DataBean> data;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
 
     public List<DataBean> getData() {
         return data;
@@ -45,91 +20,121 @@ public class FinancialManagement {
 
     public static class DataBean {
         /**
-         * fy_name : 测试
-         * fy_update_by : liudongmei
-         * fy_create_by : liudongmei
-         * fy_contact : 110
-         * fy_create_time : {"date":15,"day":1,"hours":11,"minutes":45,"month":4,"nanos":324000000,"seconds":17,"time":1494819917324,"timezoneOffset":-480,"year":117}
-         * fy_address : 地球
-         * id : 09415dcc0ee54a78a9321813dc85f6ab
-         * fy_update_time : {"date":15,"day":1,"hours":11,"minutes":45,"month":4,"nanos":325000000,"seconds":17,"time":1494819917325,"timezoneOffset":-480,"year":117}
+         * billClassification : 测试
+         * billClassify : 出账
+         * billCreateBy : liudongmei
+         * billCreateTime : {"date":18,"day":4,"hours":10,"minutes":31,"month":4,"seconds":10,"time":1495074670673,"timezoneOffset":-480,"year":117}
+         * billCustomerId : 测试
+         * billDescription : 123
+         * billSum : 333
+         * billTime : {"date":18,"day":4,"hours":0,"minutes":0,"month":4,"seconds":0,"time":1495036800000,"timezoneOffset":-480,"year":117}
+         * billType : 现金
+         * billUpdateBy : liudongmei
+         * billUpdateTime : {"date":18,"day":4,"hours":10,"minutes":31,"month":4,"seconds":10,"time":1495074670673,"timezoneOffset":-480,"year":117}
          * delete : 0
-         * fy_description : 呃
+         * id : 5a495735e8b643a5ab24912b8698316d
          */
 
-        private String fy_name;
-        private String fy_update_by;
-        private String fy_create_by;
-        private String fy_contact;
-        private FyCreateTimeBean fy_create_time;
-        private String fy_address;
-        private String id;
-        private FyUpdateTimeBean fy_update_time;
+        private String billClassification;
+        private String billClassify;
+        private String billCreateBy;
+        private BillCreateTimeBean billCreateTime;
+        private String billCustomerId;
+        private String billDescription;
+        private float billSum;
+        private BillTimeBean billTime;
+        private String billType;
+        private String billUpdateBy;
+        private BillUpdateTimeBean billUpdateTime;
         private String delete;
-        private String fy_description;
+        private String id;
 
-        public String getFy_name() {
-            return fy_name;
+        public String getBillClassification() {
+            return billClassification;
         }
 
-        public void setFy_name(String fy_name) {
-            this.fy_name = fy_name;
+        public void setBillClassification(String billClassification) {
+            this.billClassification = billClassification;
         }
 
-        public String getFy_update_by() {
-            return fy_update_by;
+        public String getBillClassify() {
+            return billClassify;
         }
 
-        public void setFy_update_by(String fy_update_by) {
-            this.fy_update_by = fy_update_by;
+        public void setBillClassify(String billClassify) {
+            this.billClassify = billClassify;
         }
 
-        public String getFy_create_by() {
-            return fy_create_by;
+        public String getBillCreateBy() {
+            return billCreateBy;
         }
 
-        public void setFy_create_by(String fy_create_by) {
-            this.fy_create_by = fy_create_by;
+        public void setBillCreateBy(String billCreateBy) {
+            this.billCreateBy = billCreateBy;
         }
 
-        public String getFy_contact() {
-            return fy_contact;
+        public BillCreateTimeBean getBillCreateTime() {
+            return billCreateTime;
         }
 
-        public void setFy_contact(String fy_contact) {
-            this.fy_contact = fy_contact;
+        public void setBillCreateTime(BillCreateTimeBean billCreateTime) {
+            this.billCreateTime = billCreateTime;
         }
 
-        public FyCreateTimeBean getFy_create_time() {
-            return fy_create_time;
+        public String getBillCustomerId() {
+            return billCustomerId;
         }
 
-        public void setFy_create_time(FyCreateTimeBean fy_create_time) {
-            this.fy_create_time = fy_create_time;
+        public void setBillCustomerId(String billCustomerId) {
+            this.billCustomerId = billCustomerId;
         }
 
-        public String getFy_address() {
-            return fy_address;
+        public String getBillDescription() {
+            return billDescription;
         }
 
-        public void setFy_address(String fy_address) {
-            this.fy_address = fy_address;
+        public void setBillDescription(String billDescription) {
+            this.billDescription = billDescription;
         }
 
-        public String getId() {
-            return id;
+        public float getBillSum() {
+            return billSum;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public void setBillSum(int billSum) {
+            this.billSum = billSum;
         }
 
-        public FyUpdateTimeBean getFy_update_time() {
-            return fy_update_time;
+        public BillTimeBean getBillTime() {
+            return billTime;
         }
 
-        public void setFy_update_time(FyUpdateTimeBean fy_update_time) {
-            this.fy_update_time = fy_update_time;
+        public void setBillTime(BillTimeBean billTime) {
+            this.billTime = billTime;
+        }
+
+        public String getBillType() {
+            return billType;
+        }
+
+        public void setBillType(String billType) {
+            this.billType = billType;
+        }
+
+        public String getBillUpdateBy() {
+            return billUpdateBy;
+        }
+
+        public void setBillUpdateBy(String billUpdateBy) {
+            this.billUpdateBy = billUpdateBy;
+        }
+
+        public BillUpdateTimeBean getBillUpdateTime() {
+            return billUpdateTime;
+        }
+
+        public void setBillUpdateTime(BillUpdateTimeBean billUpdateTime) {
+            this.billUpdateTime = billUpdateTime;
         }
 
         public String getDelete() {
@@ -140,24 +145,23 @@ public class FinancialManagement {
             this.delete = delete;
         }
 
-        public String getFy_description() {
-            return fy_description;
+        public String getId() {
+            return id;
         }
 
-        public void setFy_description(String fy_description) {
-            this.fy_description = fy_description;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public static class FyCreateTimeBean {
+        public static class BillCreateTimeBean {
             /**
-             * date : 15
-             * day : 1
-             * hours : 11
-             * minutes : 45
+             * date : 18
+             * day : 4
+             * hours : 10
+             * minutes : 31
              * month : 4
-             * nanos : 324000000
-             * seconds : 17
-             * time : 1494819917324
+             * seconds : 10
+             * time : 1495074670673
              * timezoneOffset : -480
              * year : 117
              */
@@ -167,7 +171,6 @@ public class FinancialManagement {
             private int hours;
             private int minutes;
             private int month;
-            private int nanos;
             private int seconds;
             private long time;
             private int timezoneOffset;
@@ -211,14 +214,6 @@ public class FinancialManagement {
 
             public void setMonth(int month) {
                 this.month = month;
-            }
-
-            public int getNanos() {
-                return nanos;
-            }
-
-            public void setNanos(int nanos) {
-                this.nanos = nanos;
             }
 
             public int getSeconds() {
@@ -254,16 +249,15 @@ public class FinancialManagement {
             }
         }
 
-        public static class FyUpdateTimeBean {
+        public static class BillTimeBean {
             /**
-             * date : 15
-             * day : 1
-             * hours : 11
-             * minutes : 45
+             * date : 18
+             * day : 4
+             * hours : 0
+             * minutes : 0
              * month : 4
-             * nanos : 325000000
-             * seconds : 17
-             * time : 1494819917325
+             * seconds : 0
+             * time : 1495036800000
              * timezoneOffset : -480
              * year : 117
              */
@@ -273,7 +267,6 @@ public class FinancialManagement {
             private int hours;
             private int minutes;
             private int month;
-            private int nanos;
             private int seconds;
             private long time;
             private int timezoneOffset;
@@ -319,12 +312,100 @@ public class FinancialManagement {
                 this.month = month;
             }
 
-            public int getNanos() {
-                return nanos;
+            public int getSeconds() {
+                return seconds;
             }
 
-            public void setNanos(int nanos) {
-                this.nanos = nanos;
+            public void setSeconds(int seconds) {
+                this.seconds = seconds;
+            }
+
+            public long getTime() {
+                return time;
+            }
+
+            public void setTime(long time) {
+                this.time = time;
+            }
+
+            public int getTimezoneOffset() {
+                return timezoneOffset;
+            }
+
+            public void setTimezoneOffset(int timezoneOffset) {
+                this.timezoneOffset = timezoneOffset;
+            }
+
+            public int getYear() {
+                return year;
+            }
+
+            public void setYear(int year) {
+                this.year = year;
+            }
+        }
+
+        public static class BillUpdateTimeBean {
+            /**
+             * date : 18
+             * day : 4
+             * hours : 10
+             * minutes : 31
+             * month : 4
+             * seconds : 10
+             * time : 1495074670673
+             * timezoneOffset : -480
+             * year : 117
+             */
+
+            private int date;
+            private int day;
+            private int hours;
+            private int minutes;
+            private int month;
+            private int seconds;
+            private long time;
+            private int timezoneOffset;
+            private int year;
+
+            public int getDate() {
+                return date;
+            }
+
+            public void setDate(int date) {
+                this.date = date;
+            }
+
+            public int getDay() {
+                return day;
+            }
+
+            public void setDay(int day) {
+                this.day = day;
+            }
+
+            public int getHours() {
+                return hours;
+            }
+
+            public void setHours(int hours) {
+                this.hours = hours;
+            }
+
+            public int getMinutes() {
+                return minutes;
+            }
+
+            public void setMinutes(int minutes) {
+                this.minutes = minutes;
+            }
+
+            public int getMonth() {
+                return month;
+            }
+
+            public void setMonth(int month) {
+                this.month = month;
             }
 
             public int getSeconds() {

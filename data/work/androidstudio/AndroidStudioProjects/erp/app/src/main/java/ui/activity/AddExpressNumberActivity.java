@@ -21,12 +21,13 @@ import java.util.Calendar;
 import java.util.List;
 
 import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import http.Constants;
 import http.ExpressNumberManagementHttpPost;
 
-public class AddExpressNumberActivity extends AppCompatActivity {
+public class AddExpressNumberActivity extends BaseActivity {
     private Button add, reset;
     private Spinner typeSpinner,personNameSpinner,expressTypeSpinner;
     private EditText description,billNumber;

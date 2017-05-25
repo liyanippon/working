@@ -15,28 +15,33 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.List;
 
 import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.FinancialStatisticsHttpPost;
-import model.CustomerBillingStatistics;
-import model.TimeBillingStatistics;
-import model.XiangxiBillingStatistics;
+import model.*;
 import portface.LazyLoadFace;
 import ui.adpter.CustomerBillingStatisticsAdapter;
+import ui.adpter.FinancialTimeBillingStatisticsAdapter;
+import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
 import ui.adpter.TimeBillingStatisticsAdapter;
 import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
 
-public class FinancialStastisticsActivity extends AppCompatActivity implements LazyLoadFace {
+public class FinancialStastisticsActivity extends BaseActivity implements LazyLoadFace {
 
     public static ListView timeListView, customerListView;
+    public static TextView currentMoney;
     private ViewGroup tableTitle, tableTitle1;
     private FinancialStatisticsHttpPost financialStatisticsHttpPost;
     private Spinner typeSpinner, yearSpinner;
@@ -44,12 +49,13 @@ public class FinancialStastisticsActivity extends AppCompatActivity implements L
     private List<String> data_list;
     public static ArrayAdapter<String> arr_adapter;
     private String typeSpinnerString = "024001", yearSpinnerString = null;
-    private List<TimeBillingStatistics> timeBillingStatisticsList;
+    private List<FinancialBillingGetWXsettlementMonth> timeBillingStatisticsList;
     private List<CustomerBillingStatistics> customerBillingStatisticsList;
-    private List<XiangxiBillingStatistics> xiangxiBillingStatisticsList;
-    public static TimeBillingStatisticsAdapter timeAdapter;
+    private List<FinancialBillingGetWXSelectMonthAccount> monthXiangXiBillingStatisticsList;
+    public static FinancialTimeBillingStatisticsAdapter timeAdapter;
     public static CustomerBillingStatisticsAdapter customerAdapter;
     public static XiangxiBillingStatisticsAdapter xiangxiAdapter;
+    public static MonthXiangxiBillingStatisticsAdapter monXiangXiAdapter;
     private AlertDialog dlg;
     private ListView listView;
     private int count=0;
@@ -69,15 +75,27 @@ public class FinancialStastisticsActivity extends AppCompatActivity implements L
 
         yearSpinnerString = "2017";//默认赋值
         //首次访问
-        //progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
+        progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
         financialStatisticsHttpPost = new FinancialStatisticsHttpPost();
-        financialStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "", FinancialStastisticsActivity.this);
-        timeBillingStatisticsList = Statics.timeBillingStatisticsList;
-        timeAdapter = new TimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
+        financialStatisticsHttpPost.searchCurrentMoneyHttp(Statics.FinancialBillingGetCurrentMoneyUrl);//获取当前资金情况
+        financialStatisticsHttpPost.searchTimeHttp(Statics.FinancialBillingGetWXsettlementMonthUrl, "", "", FinancialStastisticsActivity.this);
+        timeBillingStatisticsList = Statics.fbgwxSettlementMonthList;
+        Log.d("FinancialStastisticsAct", "测试点");
+        timeAdapter = new FinancialTimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
         timeListView.setAdapter(timeAdapter);
-        search.setOnClickListener(o);
-        zhuXing.setOnClickListener(o);
-        //listView点击事件
+        search.setOnClickListener(this);
+        zhuXing.setOnClickListener(this);
+
+        timeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                xiangxiAlertDialog(position);//长按显示详细信息
+                return false;
+            }
+        });
+
+        /*//listView点击事件
         timeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -90,7 +108,7 @@ public class FinancialStastisticsActivity extends AppCompatActivity implements L
                 customerAdapter = new CustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, customerBillingStatisticsList);
                 customerListView.setAdapter(customerAdapter);
 
-                customerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                *//*customerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                                             @Override
                                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                                 String customerId = Statics.customerBillingStatisticsArrayList.get(position).getCustomerId();//ID
@@ -126,9 +144,9 @@ public class FinancialStastisticsActivity extends AppCompatActivity implements L
                                                                 dlg.getWindow().setAttributes(lp);
                                                             }
                                                         }
-                );
+                );*//*
             }
-        });
+        });*/
     }
     //返回按钮事件
     @Override
@@ -140,29 +158,67 @@ public class FinancialStastisticsActivity extends AppCompatActivity implements L
         }
         return super.onOptionsItemSelected(item);
     }
-    View.OnClickListener o = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.search:
-                    Log.v("test2", "R.id.search");
-                    //progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                    financialStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString, typeSpinnerString, FinancialStastisticsActivity.this);
-                    timeBillingStatisticsList = Statics.timeBillingStatisticsList;
-                    timeAdapter = new TimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
-                    timeListView.setAdapter(timeAdapter);
-                    customerBillingStatisticsList = null;//搜索将下面的数据清空
-                    customerAdapter = new CustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, customerBillingStatisticsList);
-                    customerListView.setAdapter(customerAdapter);
-                    break;
-                case R.id.zhuXing:
-                    //Intent in = new Intent(BillingStatisticsActivity.this,TongjiGraphActivity.class);
-                    Intent in = new Intent(getApplicationContext(), ChartsFragementActivity.class);
-                    startActivity(in);
-                    break;
+
+    private void xiangxiAlertDialog(int position) {//详细信息对话框
+        String typeString = null;
+        String monthString = null;
+        yearSpinnerString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getYe());//选中年
+        monthString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getMon());//选中月
+        //递类型，月份，客户名客户名以检索
+        financialStatisticsHttpPost.searchXqMonthBillHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl, yearSpinnerString, typeString, monthString);
+        //显示对话框，在对话框中使用ListView
+        AlertDialog.Builder builder = new AlertDialog.Builder(FinancialStastisticsActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View layout = inflater.inflate(R.layout.billingstatistics_month_dialog_detailed_item, null);//获取自定义布局
+        listView = (ListView) layout.findViewById(R.id.lv);
+        tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
+        tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+        monthXiangXiBillingStatisticsList = Statics.fbgwxsmaList;
+        Log.d("FinancialStastisticsAct", monthXiangXiBillingStatisticsList.size() + "ss");
+        monXiangXiAdapter = new MonthXiangxiBillingStatisticsAdapter(FinancialStastisticsActivity.this, monthXiangXiBillingStatisticsList);
+        listView.setAdapter(monXiangXiAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             }
+        });
+
+        //创建人就是用户名
+        builder.setView(layout);
+        dlg = builder.create();
+        dlg.show();
+        //dlg.getWindow().setLayout(1500, 1500);
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+        lp.width = (int) (display.getWidth()); //设置宽度
+        dlg.getWindow().setAttributes(lp);
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.search:
+                Log.v("test2", "R.id.search");
+                progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
+                financialStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString, typeSpinnerString, FinancialStastisticsActivity.this);
+                timeBillingStatisticsList = Statics.fbgwxSettlementMonthList;
+                timeAdapter = new FinancialTimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
+                timeListView.setAdapter(timeAdapter);
+                customerBillingStatisticsList = null;//搜索将下面的数据清空
+                customerAdapter = new CustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, customerBillingStatisticsList);
+                customerListView.setAdapter(customerAdapter);
+                break;
+            case R.id.zhuXing:
+                //Intent in = new Intent(BillingStatisticsActivity.this,TongjiGraphActivity.class);
+                Intent in = new Intent(getApplicationContext(), ChartsFragementActivity.class);
+                in.putExtra("catlog","财务统计分析");
+                startActivity(in);
+                break;
         }
-    };
+    }
 
     private void spinnerType() {
         Log.d("test", "spinnerType");
@@ -246,6 +302,7 @@ public class FinancialStastisticsActivity extends AppCompatActivity implements L
         tableTitle1.setBackgroundColor(Color.rgb(177, 173, 172));
 
         zhuXing = (ImageView) findViewById(R.id.zhuXing);
+        currentMoney = (TextView) findViewById(R.id.currentMoney);
     }
     @Override
     public void AdapterRefresh(String type) {//刷新adapter
@@ -259,6 +316,14 @@ public class FinancialStastisticsActivity extends AppCompatActivity implements L
                 break;
             case "xiangxiAdapter":
                 xiangxiAdapter.notifyDataSetChanged();
+                break;
+            case "monthXiangXiAdapter":
+                Log.d("FinancialStastisticsAct", "刷新");
+                monXiangXiAdapter.notifyDataSetChanged();
+                break;
+            case "currentMoney":
+                Log.d("FinancialStastisticsAct", "余额：" + Statics.CurrentMoney);
+                currentMoney.setText(Statics.CurrentMoney);
                 break;
         }
     }

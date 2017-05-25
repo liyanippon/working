@@ -59,7 +59,7 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         this.maxValue = maxValue;
     }
 
-    public void setMianCombinedChart(BarChart mCombinedChart, ArrayList<BarEntry> lineEntries, ArrayList<BarEntry> barEntries ,List<String> list,String description) {
+    public void setMianCombinedChart(BarChart mCombinedChart, ArrayList<BarEntry> jinEntries, ArrayList<BarEntry> chuEntries ,List<String> list,String description) {
         // 图表为空时显示
         mCombinedChart.setNoDataTextDescription("暂时没有数据进行图表展示");
         mCombinedChart.setDescription(description);
@@ -97,14 +97,16 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         setxAxis(mCombinedChart.getXAxis(), true);
         //*           *设置数据            */
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-        if(list.get(1)!=null){
-            dataSets.add(generateBarData(barEntries,list));
+
+        if(list.get(1)!=null&&!Statics.SingleBoolean){
+            dataSets.add(generateBarData(jinEntries,list));
             for (int i=0;i<list.size();i++){
                 Log.d("list","图例:"+list.get(i));
             }
             Log.d("broadcast","dataset");
         }
-        dataSets.add(generateBarData1(lineEntries,list));
+
+        dataSets.add(generateBarData1(chuEntries,list));
         Log.d("broadcast","是否按天统计"+Boolean.toString(Statics.dayCount));
         if(Statics.dayCount&&null!=Statics.Xday){
             mDateTime = Statics.Xday;
@@ -331,7 +333,7 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         }
         String PictureTag ;
         if (list!=null){
-            PictureTag = list.get(0);
+            PictureTag = list.get(1);
         }else{
             PictureTag = "";
         }

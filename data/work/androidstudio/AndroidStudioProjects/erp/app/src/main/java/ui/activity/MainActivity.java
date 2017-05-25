@@ -28,6 +28,9 @@ import net.tsz.afinal.FinalBitmap;
 
 import java.util.Properties;
 
+import Tool.crash.BaseActivity;
+import Tool.crash.CrashHandler;
+import Tool.crash.LogcatHelper;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
@@ -36,7 +39,7 @@ import http.Constants;
 import portface.LazyLoadFace;
 import ui.activity.menu.MenuFragmentMainActivity;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends BaseActivity{
 
     private EditText userName;
     private EditText userPassword;
@@ -51,12 +54,15 @@ public class MainActivity extends AppCompatActivity{
     private CheckBox rememberMe;
     SharedPreferences sp = null;
     private RelativeLayout background;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LogcatHelper.getInstance(this).start();//系统异常处理
+        initCrashHandler();//保存日志
         super.onCreate(savedInstanceState);
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
-
 
         background = (RelativeLayout) findViewById(R.id.activity_main2);
         /*new Runnable() {
@@ -71,8 +77,8 @@ public class MainActivity extends AppCompatActivity{
         login = (Button) findViewById(R.id.login);
         reset = (Button) findViewById(R.id.reset);
         rememberMe = (CheckBox) findViewById(R.id.rememberMe);
-        login.setOnClickListener(o);
-        reset.setOnClickListener(o);
+        login.setOnClickListener(this);
+        reset.setOnClickListener(this);
 
         new Runnable() {
             @Override
@@ -87,6 +93,12 @@ public class MainActivity extends AppCompatActivity{
             rememberMe.setChecked(true);
         }
 
+    }
+
+    private void initCrashHandler() {
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        // 注册crashHandler
+        crashHandler.init(getApplicationContext());
     }
 
     @Override
@@ -153,6 +165,13 @@ public class MainActivity extends AppCompatActivity{
             Statics.ExpressPersonPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataAmount.ajax";
             Statics.AttendanceStatisticsSearchUrl = IFengUrl + "/getWxAllAttendanceMonthSum.ajax";
             Statics.searchYearUrl = IFengUrl + "/getWxAllYears.ajax";
+            Statics.FinancialAccountCustomerUrl = IFengUrl + "/getWXBillCustomer.ajax";
+            Statics.FinancialBillingManagementUrl = IFengUrl + "/getWXBillRecords.ajax";
+            Statics.FinancialBillingManagementDelUrl = IFengUrl + "/WXdeleteBillRecords.ajax";
+            Statics.AddFinancialBillingUrl = IFengUrl + "/getWXInsertOrUpdateBillRecords.ajax";
+            Statics.FinancialBillingGetWXAccountsTypeUrl = IFengUrl + "/getWXAccountsType.ajax";
+            //Statics.FinancialBillingGetWXsettlementMonthUrl = IFengUrl + "/getWXsettlementMonth.ajax";
+            //Statics.FinancialBillingGetWXSelectMonthAccountUrl = IFengUrl + "/getWXSelectMonthAccount.ajax";
 
             Log.d("55","登录"+Statics.LoginUrl);
             Log.d("55","权限"+Statics.UmlUrl);
@@ -173,53 +192,52 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    View.OnClickListener o = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.login:
-                    check();
-                    break;
-                case R.id.reset:
-                    userName.setText("");
-                    userPassword.setText("");
-                    break;
-            }
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        switch (v.getId()) {
+            case R.id.login:
+                check();
+                break;
+            case R.id.reset:
+                userName.setText("");
+                userPassword.setText("");
+                break;
+        }
+    }
+
+    private void check() { //对输入进行判断性检查
+
+        initBroadCast();
+        flag = true;
+        userNameString = userName.getText().toString().trim();
+        String password = userPassword.getText().toString().trim();
+        if ("".equals(userNameString) || "".equals(password)) {
+            Toast.makeText(MainActivity.this, "用户名或密码不能为空", Toast.LENGTH_LONG).show();
+            return;
         }
 
-        private void check() {
-            initBroadCast();
-
-            flag = true;
-            userNameString = userName.getText().toString().trim();
-            String password = userPassword.getText().toString().trim();
-            if ("".equals(userNameString) || "".equals(password)) {
-                Toast.makeText(MainActivity.this, "用户名或密码不能为空", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            boolean CheckBoxLogin = rememberMe.isChecked();
-            if (CheckBoxLogin)
-            {
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("uname", userNameString);
-                editor.putString("upswd", password);
-                editor.putBoolean("checkboxBoolean", true);
-                editor.commit();
-            }
-            else
-            {
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("uname", null);
-                editor.putString("upswd", null);
-                editor.putBoolean("checkboxBoolean", false);
-                editor.commit();
-            }
-
-            String urlString = Statics.LoginUrl;
-            httpPost = new ExpressBillingManagementHttpPost(getApplicationContext());
-            httpPost.LoginHttp(urlString, userNameString, password, MainActivity.this);
+        boolean CheckBoxLogin = rememberMe.isChecked();
+        if (CheckBoxLogin)
+        {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("uname", userNameString);
+            editor.putString("upswd", password);
+            editor.putBoolean("checkboxBoolean", true);
+            editor.commit();
         }
-    };
+        else
+        {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("uname", null);
+            editor.putString("upswd", null);
+            editor.putBoolean("checkboxBoolean", false);
+            editor.commit();
+        }
+        String urlString = Statics.LoginUrl;
+        httpPost = new ExpressBillingManagementHttpPost(getApplicationContext());
+        httpPost.LoginHttp(urlString, userNameString, password, MainActivity.this);
+    }
 
 }

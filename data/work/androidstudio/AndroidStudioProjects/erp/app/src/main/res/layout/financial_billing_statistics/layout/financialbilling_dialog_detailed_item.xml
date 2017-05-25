@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#0000ff"
     android:layout_margin="10sp"
-    android:layout_height="match_parent">
+    >
+
     <TableRow
         android:layout_margin="1dp"
         android:layout_width="match_parent"
@@ -12,15 +14,16 @@
         android:background="#ffffffff"
         >
         <TextView
+            android:textColor="#0000ff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="详细信息"
             android:textSize="18sp"
-            android:textColor="#0000ff"
             android:background="#ffffffff"
             android:gravity="center"
             />
     </TableRow>
+
 <TableRow
     android:layout_margin="1dp"
     android:layout_width="match_parent"
@@ -30,7 +33,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="快递类型"
+        android:text="账目"
         android:layout_weight="1"
         android:background="#ffffffff"
         android:textColor="#000000"
@@ -40,7 +43,7 @@
         android:layout_marginLeft="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/type"
+        android:id="@+id/account"
         android:layout_weight="1"
         android:background="#ffffffff"
         android:textSize="16sp"
@@ -52,14 +55,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="业务分类"
-            android:background="#ffffffff"
+            android:text="分类"
             android:layout_weight="1"
+            android:background="#ffffffff"
             android:textColor="#000000"
             android:textSize="16sp"
             />
@@ -83,23 +85,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="业务类型"
+            android:text="内容"
+            android:layout_weight="1"
             android:background="#ffffffff"
             android:textColor="#000000"
-            android:layout_weight="1"
             android:textSize="16sp"
             />
+
         <TextView
-            android:layout_marginLeft="2dp"
+            android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="韵达快递"
-            android:background="#ffffffff"
-            android:id="@+id/reason"
+            android:layout_marginLeft="2dp"
             android:layout_weight="1"
-            android:textSize="16sp"
+            android:background="#ffffffff"
+            android:text="韵达快递"
             android:textColor="#000000"
-            />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:layout_margin="1dp"
@@ -111,20 +113,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="账单时间"
-            android:background="#ffffffff"
             android:layout_weight="1"
+            android:background="#ffffffff"
             android:textColor="#000000"
             android:textSize="16sp"
             />
         <TextView
-            android:layout_marginLeft="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="账单时间"
-            android:layout_weight="1"
-            android:background="#ffffffff"
             android:id="@+id/billingTime"
             android:textSize="16sp"
+            android:layout_weight="1"
+            android:layout_marginLeft="2dp"
+            android:background="#ffffffff"
             android:textColor="#000000"
             />
     </TableRow>
@@ -137,7 +139,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="金额"
+            android:text="@string/price"
             android:layout_weight="1"
             android:background="#ffffffff"
             android:textColor="#000000"
@@ -147,11 +149,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="韵达快递"
-            android:layout_weight="1"
-            android:background="#ffffffff"
             android:id="@+id/price"
-            android:layout_marginLeft="2dp"
             android:textSize="16sp"
+            android:layout_weight="1"
+            android:layout_marginLeft="2dp"
+            android:background="#ffffffff"
             android:textColor="#000000"
             />
     </TableRow>
@@ -164,23 +166,51 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="客户"
+            android:text="客户名"
+            android:layout_weight="1"
             android:background="#ffffffff"
             android:textColor="#000000"
-            android:layout_weight="1"
             android:textSize="16sp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="韵达快递"
-            android:background="#ffffffff"
+            android:text="达快递"
             android:layout_weight="1"
             android:textSize="16sp"
+            android:background="#ffffffff"
+            android:id="@+id/customerName"
             android:layout_marginLeft="2dp"
-            android:id="@+id/guest"
             android:textColor="#000000"
             />
+    </TableRow>
+    <TableRow
+        android:layout_margin="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="创建时间"
+            android:textColor="#000000"
+            android:background="#ffffffff"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="韵达快递"
+            android:layout_weight="1"
+            android:layout_marginLeft="2dp"
+            android:textSize="16sp"
+            android:id="@+id/createTime"
+            android:background="#ffffffff"
+            android:textColor="#000000"
+            />
+
     </TableRow>
     <TableRow
         android:layout_margin="1dp"
@@ -192,23 +222,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="备注"
+            android:layout_weight="1"
             android:background="#ffffffff"
             android:textColor="#000000"
-            android:layout_weight="1"
             android:textSize="16sp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="韵达快递"
+            android:text="创建人"
             android:layout_weight="1"
             android:background="#ffffffff"
-            android:textSize="16sp"
             android:id="@+id/remark"
             android:layout_marginLeft="2dp"
+            android:textSize="16sp"
             android:textColor="#000000"
             />
-
     </TableRow>
     <TableRow
         android:layout_margin="1dp"
@@ -220,33 +249,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="用户名"
-            android:background="#ffffffff"
-            android:layout_weight="1"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="创建人"
-            android:layout_weight="1"
-            android:background="#ffffffff"
-            android:id="@+id/createuser"
-            android:textSize="16sp"
-            android:layout_marginLeft="2dp"
-            android:textColor="#000000"
-            />
-    </TableRow>
-    <TableRow
-        android:layout_margin="1dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="创建时间"
             android:layout_weight="1"
             android:background="#ffffffff"
             android:textColor="#000000"
@@ -256,9 +258,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="创建时间"
-            android:background="#ffffffff"
             android:layout_weight="1"
-            android:id="@+id/createTime"
+            android:background="#ffffffff"
+            android:id="@+id/userName"
             android:textSize="16sp"
             android:layout_marginLeft="2dp"
             android:textColor="#000000"
@@ -269,8 +271,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="返回"
-        android:id="@+id/back"
-        android:background="#EE6AA7"
         android:textColor="#ffffff"
+        android:background="#EE6AA7"
+        android:id="@+id/back"
         />
+
 </TableLayout>

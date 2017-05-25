@@ -113,21 +113,12 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
                     Statics.dayCount=true;
                     Log.d("broadcast","更新界面");
 
-                    /*for (int i=0;i<Statics.Xday.length;i++){
-                        Log.d("broadcast","00000000000-");
-                    }*/
                     if(Statics.Xday!=null){
                         mCount = Statics.Xday.length;
                     }else{
                         mCount=0;
                         Log.d("broadcast","ss"+"sdaf");
                     }
-
-                    //Log.d("broadcast",Statics.Xday.length+"sdas");
-                    /*for (int i=0;i<Statics.epmsXList.size();i++){
-                        Log.d("broadcast",Statics.epmsXList.get(i).getSum());
-                    }*/
-
 
                     setGrayValue();
                     initData();
@@ -147,10 +138,6 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
 
         //统计最大y值
         List<Double> input = new ArrayList<>();
-        /*for (int i =0;i<Statics.epmsXList.size();i++){
-            input.add(Double.parseDouble(Statics.epmsXList.get(i).getSum()));
-            Log.d("broadcast","统计最大y值："+Statics.epmsXList.get(i).getSum());
-        }*/
 
         if(Statics.epmsXList!=null) {
 

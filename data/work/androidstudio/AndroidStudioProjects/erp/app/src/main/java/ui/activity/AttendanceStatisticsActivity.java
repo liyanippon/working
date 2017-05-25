@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.AttendanceStatisticsHttpPost;
 import http.BillingStatisticsHttpPost;
@@ -45,7 +46,7 @@ import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.AttendanceChartsFragmentActivity;
 import ui.fragement.ChartsFragementActivity;
 
-public class AttendanceStatisticsActivity extends AppCompatActivity implements LazyLoadFace{
+public class AttendanceStatisticsActivity extends BaseActivity implements LazyLoadFace{
     public static ListView attendListView;
     private ViewGroup tableTitle;
     private AttendanceStatisticsHttpPost attendanceStatisticsHttpPost;
@@ -86,8 +87,8 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
         attendanceStatisticsList = Statics.attendanceStatisticsList;
         attendanceAdapter = new AttendanceStatisticsAdapter(AttendanceStatisticsActivity.this, Statics.attendanceStatisticsList);
         attendListView.setAdapter(attendanceAdapter);
-        search.setOnClickListener(o);
-        graph.setOnClickListener(o);
+        search.setOnClickListener(this);
+        graph.setOnClickListener(this);
 
     }
 
@@ -102,25 +103,25 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
         return super.onOptionsItemSelected(item);
     }
 
-    View.OnClickListener o = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.search:
-                    progressDialog = ProgressDialog.show(AttendanceStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                    attendanceStatisticsHttpPost.searchStatisticsHttp(Statics.AttendanceStatisticsSearchUrl, nameSpinnerString, yearSpinnerString, monthSpinnerString, AttendanceStatisticsActivity.this);
-                    attendanceStatisticsList = Statics.attendanceStatisticsList;
-                    attendanceAdapter = new AttendanceStatisticsAdapter(AttendanceStatisticsActivity.this, attendanceStatisticsList);
-                    attendListView.setAdapter(attendanceAdapter);
-                    break;
-                case R.id.zhuXing:
-                    Log.d("sss","img");
-                    Intent intent = new Intent(AttendanceStatisticsActivity.this,AttendanceChartsFragmentActivity.class);
-                    startActivity(intent);
-                    break;
-            }
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.search:
+                progressDialog = ProgressDialog.show(AttendanceStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
+                attendanceStatisticsHttpPost.searchStatisticsHttp(Statics.AttendanceStatisticsSearchUrl, nameSpinnerString, yearSpinnerString, monthSpinnerString, AttendanceStatisticsActivity.this);
+                attendanceStatisticsList = Statics.attendanceStatisticsList;
+                attendanceAdapter = new AttendanceStatisticsAdapter(AttendanceStatisticsActivity.this, attendanceStatisticsList);
+                attendListView.setAdapter(attendanceAdapter);
+                break;
+            case R.id.zhuXing:
+                Log.d("sss","img");
+                Intent intent = new Intent(AttendanceStatisticsActivity.this,AttendanceChartsFragmentActivity.class);
+                startActivity(intent);
+                break;
         }
-    };
+    }
+
     private void spinnerType() {
 
         //姓名查询
@@ -203,8 +204,6 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
         });
 
         //数据 月
-        //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this);
         ArrayList<String> monthList = new ArrayList<>();
         monthList.add("全部");
         for (int i=1;i <= 12;i++){
@@ -291,27 +290,6 @@ public class AttendanceStatisticsActivity extends AppCompatActivity implements L
                 attendanceAdapter.notifyDataSetChanged();
                 progressDialog.dismiss();
                 break;
-            /*case "yearSpinner":
-                //获取当前时间
-                Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
-                String year = Integer.toString(c.get(Calendar.YEAR));//取当前年
-                String month = Integer.toString(c.get(Calendar.MONTH));//取上一个月的数据
-                Log.d("yearlist:","currentYear:"+year+"cc"+"currentMonth:"+month);
-                for (int i=0;i<Statics.searchYear.size();i++){
-                    Log.d("yearlist","year:"+Statics.searchYear.get(i).getAttendanceYear());
-                    String yearString = Statics.searchYear.get(i).getAttendanceYear();
-                    Log.d("yearlist","yearString:"+yearString);
-                    if(yearSpinner!=null){
-                        Log.d("yearlist","----------");
-                        yearSpinner.setSelection(i);//设置默认值
-                        break;
-                    }
-                }
-                if(yearAdapter!=null){
-                    yearAdapter.notifyDataSetChanged();
-                }
-
-                break;*/
             case "searchName":
                 data_list = new ArrayList<>();
                 data_list.add(0,"全部");

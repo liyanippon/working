@@ -24,10 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.Constants;
 
-public class ZheXianGraphActivity extends Activity {
+public class ZheXianGraphActivity extends BaseActivity {
     //手指按下的点为(x1, y1)手指离开屏幕的点为(x2, y2)
     float x1 = 0;
     float x2 = 0;

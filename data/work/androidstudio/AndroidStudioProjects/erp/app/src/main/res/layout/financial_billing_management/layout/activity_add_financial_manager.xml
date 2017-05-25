@@ -17,7 +17,7 @@
             android:layout_height="40dp"
             android:textSize="20sp"
             android:gravity="center"
-            android:text="添加客户"
+            android:text="新建客户账单"
             />
 
         <View
@@ -36,9 +36,9 @@
             android:background="@null"
             />
         <TableRow
-            android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:orientation="horizontal"
             >
@@ -46,21 +46,53 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="客户名:"
+                android:gravity="left"
+                android:text="账目:"
                 android:textSize="@dimen/activity_add_account_manager"
                 android:id="@+id/textView" />
 
-            <EditText
+            <Spinner
                 android:layout_marginLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_editor"
-                android:id="@+id/customerName"
+                android:id="@+id/account"
                 android:lines="1"
                 android:layout_weight="1"
                 >
-            </EditText>
+            </Spinner>
+        </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2sp"
+            android:background="@null"
+            />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="分类:"
+                android:textSize="@dimen/activity_add_account_manager"
+                 />
+
+            <Spinner
+                android:layout_marginLeft="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_editor"
+                android:id="@+id/classify"
+                android:lines="1"
+                android:layout_weight="1"
+                >
+            </Spinner>
         </TableRow>
         <View
             android:layout_width="match_parent"
@@ -78,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="电话:"
+                android:text="时间:"
                 android:layout_gravity="left"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
@@ -87,7 +119,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/phone"
+                android:id="@+id/time"
                 android:layout_weight="1"
                 android:lines="1"
                 android:inputType="numberDecimal"
@@ -113,19 +145,88 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="地址:"
+                android:text="内容:"
+                android:textSize="@dimen/activity_add_account_manager" />
+            <EditText
+                android:layout_marginLeft="5dp"
+                android:enabled="true"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:id="@+id/content"
+                android:gravity="top"
+                android:layout_weight="1"
+                android:inputType="textMultiLine"
+                android:minLines="8"
+                android:maxLines="20"
+                android:background="@drawable/shape_editor"
+                android:scrollbars="vertical"
+                >
+            </EditText>
+        </TableRow>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2sp"
+            android:background="@null"
+            />
+        <TableRow
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="金额:"
                 android:textSize="@dimen/activity_add_account_manager" />
 
             <EditText
                 android:layout_marginLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/address"
+                android:id="@+id/price"
                 android:layout_weight="1"
-                android:lines="1"
+                android:inputType="number"
                 android:background="@drawable/shape_editor"
                 >
             </EditText>
+        </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2sp"
+            android:background="@null"
+            />
+        <TableRow
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="客户名:"
+                android:textSize="@dimen/activity_add_account_manager"
+                />
+
+            <Spinner
+                android:layout_marginLeft="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_editor"
+                android:id="@+id/customerName"
+                android:lines="1"
+                android:layout_weight="1"
+                >
+            </Spinner>
         </TableRow>
         <View
             android:layout_width="match_parent"
@@ -134,7 +235,7 @@
             />
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             >
             <TextView
@@ -143,32 +244,32 @@
                 android:text="@string/remark"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
+            <EditText
+
+                android:enabled="true"
+                android:layout_marginLeft="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/remark"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:minLines="8"
+                android:maxLines="10"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_editor"
+                android:scrollbars="vertical"
+                >
+            </EditText>
         </TableRow>
         <View
             android:layout_width="match_parent"
             android:layout_height="2sp"
             android:background="@null"
             />
-        <EditText
 
-                android:enabled="true"
-                android:layout_marginLeft="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/remarkId"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:minLines="8"
-                android:maxLines="20"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/shape_editor"
-                android:scrollbars="vertical"
-                >
-            </EditText>
 
     </TableLayout>
-
-
     <RelativeLayout
         android:layout_marginTop="5dp"
         android:id="@+id/buttonPanel"

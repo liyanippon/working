@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.admin.erp.R;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import http.FinancialManagementHttpPost;
+import model.FinancialManagement;
 
 /**
  * Created by admin on 2017/2/23.
@@ -35,8 +39,9 @@ public class FinancialManagementAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (Statics.financialManagementList.size() != 0) {
-            return Statics.financialManagementList.size();
+        if (Statics.financialManagementList.size()!= 0 && Statics.financialManagementList.get(0).getData()!=null
+                && Statics.financialManagementList.get(0).getData().size() != 0) {
+            return Statics.financialManagementList.get(0).getData().size();
         } else {
             return 0;
         }
@@ -77,27 +82,40 @@ public class FinancialManagementAdapter extends BaseAdapter {
         //获取数据和显示数据
         String number = Integer.toString(position + 1);
         //id = Statics.expressManagementList.get(position).getId();
-        String account = Statics.financialManagementList.get(position).getData().get(position).getFy_name();
-        String classify = Statics.financialManagementList.get(position).getData().get(position).getFy_contact();
-        String content = Statics.financialManagementList.get(position).getData().get(position).getFy_contact();
-        String billingTime = Statics.expressManagementList.get(position).getBillingTime();
-        String price = Statics.expressManagementList.get(position).getSum().trim();
-        /*if(!(sum.indexOf("-")<0)){
-            vh.type.setTextColor(Color.RED);
+        String account = Statics.financialManagementList.get(0).getData().get(position).getBillType();//账目
+        String classify = Statics.financialManagementList.get(0).getData().get(position).getBillClassify();//分类
+        String content = Statics.financialManagementList.get(0).getData().get(position).getBillClassification();//内容
+        //账单时间处理
+        FinancialManagement.DataBean.BillTimeBean time = Statics.financialManagementList.get(0).getData().get(position).getBillTime();//账单时间
+        int years = time.getYear();//年
+        int mon = time.getMonth();//月
+        int date= time.getDate();//日
+        String year = ToolUtils.timeDateFormat(Integer.toString(years));
+        StringBuffer billingTimeSb=new StringBuffer();
+        billingTimeSb.append(year).append("-").append(++mon).append("-").append(date);
+        String price = Float.toString(Statics.financialManagementList.get(0).getData().get(position).getBillSum());//金额
+
+        if(classify.equals("出账")){
+            vh.account.setTextColor(Color.RED);
             vh.classify.setTextColor(Color.RED);
+            vh.content.setTextColor(Color.RED);
             vh.billingTime.setTextColor(Color.RED);
-            vh.sum.setTextColor(Color.RED);
+            vh.price.setTextColor(Color.RED);
+            vh.price.setText("-"+price);
         }else{
-            vh.type.setTextColor(Color.BLACK);
+            vh.account.setTextColor(Color.BLACK);
             vh.classify.setTextColor(Color.BLACK);
+            vh.content.setTextColor(Color.BLACK);
             vh.billingTime.setTextColor(Color.BLACK);
-            vh.sum.setTextColor(Color.BLACK);
-        }*/
+            vh.price.setTextColor(Color.BLACK);
+            vh.price.setText(price);
+        }
         vh.number.setText(number);
-        //vh.customerName.setText(type);
-        //vh.phone.setText(classify);
-        //vh.address.setText(billingTime);
-        //vh.remarks.setText(sum);
+        vh.account.setText(account);
+        vh.classify.setText(classify);
+        vh.content.setText(content);
+        vh.billingTime.setText(billingTimeSb.toString());
+
         vh.operate.setOnClickListener(new Click(positions));//解决光标获取不对的问题
         return convertView;
     }
@@ -108,7 +126,8 @@ public class FinancialManagementAdapter extends BaseAdapter {
          * @setMessage 设置对话框消息提示
          * setXXX方法返回Dialog对象，因此可以链式设置属性
          */
-        id = Statics.expressManagementList.get(item).getId();
+        //id = Statics.expressManagementList.get(item).getId();
+        id = Statics.financialManagementList.get(0).getData().get(item).getId();
         AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(activity);
         normalDialog.setIcon(R.drawable.delete);
@@ -119,7 +138,7 @@ public class FinancialManagementAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
-                        if ("success".equals(httpPost.delAccountManagerHttp(Statics.FinancialBillingManagementSearchUrl, id,activity))) {
+                        if ("success".equals(httpPost.delAccountManagerHttp(Statics.FinancialBillingManagementDelUrl, id,activity))) {
                             Toast.makeText(activity, "删除成功", Toast.LENGTH_SHORT).show();
 
                         } else {

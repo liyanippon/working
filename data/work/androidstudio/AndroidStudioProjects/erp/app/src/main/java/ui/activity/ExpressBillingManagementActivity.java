@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
+import Tool.crash.CrashHandler;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
@@ -33,12 +37,11 @@ import portface.LazyLoadFace;
 import ui.adpter.ExpressManagementAdapter;
 import ui.xlistview.XListView;
 
-public class ExpressBillingManagementActivity extends AppCompatActivity implements XListView.IXListViewListener, LazyLoadFace {
+public class ExpressBillingManagementActivity extends BaseActivity implements XListView.IXListViewListener, LazyLoadFace {
     private View search;
     private View add;
     private Spinner typeSpinner, classifySpinner;//,reasonSpinner;
     public static Spinner reasonSpinner;
-    //private EditText customerEt;
     private static List<String> data_list;
     public static ArrayAdapter<String> arr_adapter;
     private String typeSpinnerString, classifySpinnerString, reasonSpinnerString;
@@ -79,6 +82,8 @@ public class ExpressBillingManagementActivity extends AppCompatActivity implemen
         expressManagementAdapter = new ExpressManagementAdapter(ExpressBillingManagementActivity.this);
         accountLv.setAdapter(expressManagementAdapter);
         accountLv.setXListViewListener(this);
+        accountLv.setDivider(new ColorDrawable(Color.BLUE));
+        accountLv.setDividerHeight(1);
         mHandler = new Handler();
         accountLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {//点击时查看详细信息
             @Override

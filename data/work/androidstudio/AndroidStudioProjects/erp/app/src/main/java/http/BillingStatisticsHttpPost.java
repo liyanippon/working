@@ -53,7 +53,6 @@ public class BillingStatisticsHttpPost {
 
                 BillingStatisticsActivity.progressDialog.dismiss();
                 resultString = "error";
-                ExceptionUtil.httpPost("BillingStatisticsHttpPost");
             }
         });
 

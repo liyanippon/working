@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.Constants;
 import http.ExpressStatisticsHttpPost;
@@ -39,7 +40,7 @@ import ui.fragement.ExpressPiecesChartsFragementActivity;
 import ui.fragement.ExpressPiecesDetailsChartsFragementActivity;
 import ui.fragement.ExpressPiecesPersonDetailsChartsFragementActivity;
 
-public class ExpressStatisticsActivity extends AppCompatActivity implements LazyLoadFace {
+public class ExpressStatisticsActivity extends BaseActivity implements LazyLoadFace {
     public static ListView timeListView, expressPersonListView;
     private ViewGroup tableTitle, tableTitle1;
     private ExpressStatisticsHttpPost expressStatisticsHttpPost;

@@ -3,6 +3,8 @@ package ui.activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -28,6 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.Constants;
 import http.ExpressNumberManagementHttpPost;
@@ -39,7 +42,7 @@ import ui.xlistview.XListView;
  * Created by admin on 2017/3/22.
  */
 
-public class ExpressNumberManagerActivity extends AppCompatActivity implements XListView.IXListViewListener, LazyLoadFace {
+public class ExpressNumberManagerActivity extends BaseActivity implements XListView.IXListViewListener, LazyLoadFace {
     private ImageView search, add;
     private Spinner typeSpinner, expressPersonSpinner;
     private EditText searchTime;
@@ -81,7 +84,7 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
         currentMon = calendar.get(Calendar.MONTH) + 1;
         currentDate = calendar.get(Calendar.DAY_OF_MONTH);
         searchTime.setText("全部");
-        searchTime.setOnClickListener(o);
+        searchTime.setOnClickListener(this);
         searchTime.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -103,10 +106,12 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
         enmAdapter = new ExpressNumberManagementAdapter(ExpressNumberManagerActivity.this);
         expressLv.setAdapter(enmAdapter);
         expressLv.setXListViewListener(this);
+        expressLv.setDivider(new ColorDrawable(Color.BLUE));
+        expressLv.setDividerHeight(1);
         mHandler = new Handler();
         spinnerType();
-        search.setOnClickListener(o);
-        add.setOnClickListener(o);
+        search.setOnClickListener(this);
+        add.setOnClickListener(this);
     }
 
     //返回按钮事件
@@ -120,29 +125,28 @@ public class ExpressNumberManagerActivity extends AppCompatActivity implements X
         return super.onOptionsItemSelected(item);
     }
 
-    View.OnClickListener o = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.searchTime:
-                    searchTime();
-                    break;
-                case R.id.search:
-                    //条件查询
-                    page = 1;
-                    SearchBoolean = true;
-                    billingTimeString = searchTime.getText().toString();
-                    httpPost = new ExpressNumberManagementHttpPost();
-                    String httpUrl = Statics.ExpressCountSearch;
-                    String result = httpPost.searchHttp(httpUrl, expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
-                    break;
-                case R.id.add:
-                    Intent in = new Intent(ExpressNumberManagerActivity.this, AddExpressNumberActivity.class);
-                    startActivity(in);
-                    break;
-            }
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.searchTime:
+                searchTime();
+                break;
+            case R.id.search:
+                //条件查询
+                page = 1;
+                SearchBoolean = true;
+                billingTimeString = searchTime.getText().toString();
+                httpPost = new ExpressNumberManagementHttpPost();
+                String httpUrl = Statics.ExpressCountSearch;
+                String result = httpPost.searchHttp(httpUrl, expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
+                break;
+            case R.id.add:
+                Intent in = new Intent(ExpressNumberManagerActivity.this, AddExpressNumberActivity.class);
+                startActivity(in);
+                break;
         }
-    };
+    }
 
     private void spinnerType() {
         Log.d("test", "spinnerType");

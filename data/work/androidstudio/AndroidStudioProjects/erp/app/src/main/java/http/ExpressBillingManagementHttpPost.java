@@ -4,19 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
-
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 import net.tsz.afinal.http.AjaxParams;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.lang.*;
 import java.util.Collections;
-
 import Tool.JsonResolve;
 import Tool.statistics.ExceptionUtil;
 import Tool.statistics.Statics;
@@ -25,7 +20,6 @@ import broadcast.TYPE;
 import model.UserUmp;
 import portface.LazyLoadFace;
 import ui.activity.ExpressBillingManagementActivity;
-
 /**
  * Created by admin on 2017/2/21.
  */
@@ -37,14 +31,11 @@ public class ExpressBillingManagementHttpPost {
     private boolean result = false;
     private Context context;
     private LazyLoadFace lazyLoad;
-
     public ExpressBillingManagementHttpPost() {
     }
-
     public ExpressBillingManagementHttpPost(Context context) {
         this.context = context;
     }
-
     public String LoginHttp(String httpUrl, final String username, String password, final Activity activity) {//登录验证
         Log.d("uml", httpUrl);
         finalHttp = new FinalHttp();

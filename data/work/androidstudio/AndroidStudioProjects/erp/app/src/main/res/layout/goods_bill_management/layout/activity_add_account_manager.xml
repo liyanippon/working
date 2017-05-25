@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
-    tools:context="ui.activity.AddAccountManagerActivity">
+    tools:context="ui.activity.AddExpressBillingManagerActivity">
 
 
     <TableLayout
@@ -219,20 +219,15 @@
                 android:text="@string/remark"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
-        </TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2sp"
-            android:background="@null"
-            />
-        <EditText
+            <EditText
 
                 android:enabled="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/remarkId"
                 android:gravity="top"
+                android:layout_weight="1"
                 android:inputType="textMultiLine"
                 android:minLines="8"
                 android:maxLines="20"
@@ -241,6 +236,7 @@
                 android:scrollbars="vertical"
                 >
             </EditText>
+        </TableRow>
 
     </TableLayout>
 

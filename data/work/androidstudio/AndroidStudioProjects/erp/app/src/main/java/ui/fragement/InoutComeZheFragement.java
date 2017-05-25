@@ -20,6 +20,7 @@ import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.Constants;
+import model.FinancialBillingGetWXsettlementMonth;
 
 /**
  * Created by admin on 2017/3/28.
@@ -42,10 +43,17 @@ public class InoutComeZheFragement extends Fragment {
             "1", "2", "3", "4", "5",
             "6", "7", "8", "9", "10",
             "11", "12"};
+    private String catlog;
+
+    public InoutComeZheFragement(){
+    }
+    public InoutComeZheFragement(String catlog){
+        this.catlog=catlog;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
     }
 
@@ -58,7 +66,6 @@ public class InoutComeZheFragement extends Fragment {
         mCombinedChart = (LineChart) view.findViewById(R.id.lineChart);
         setGrayValue();
         initData();
-
         return view;
     }
 
@@ -69,9 +76,18 @@ public class InoutComeZheFragement extends Fragment {
 
         //统计最大y值
         List<Double> input = new ArrayList<>();
-        for (int i = 0; i< Statics.timeBillingStatisticsList.size(); i++){
-            input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getIncome()));
-            input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getOutcom()));
+
+        if(this.catlog!=null&&this.catlog.equals("财务统计分析")){
+            input = new ArrayList<>();
+            for (FinancialBillingGetWXsettlementMonth fgbgm:Statics.fbgwxSettlementMonthList){
+                input.add(fgbgm.getJz1());
+                input.add(fgbgm.getCz1());
+            }
+        }else{
+            for (int i = 0; i< Statics.timeBillingStatisticsList.size(); i++){
+                input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getIncome()));
+                input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getOutcom()));
+            }
         }
 
         int yZhi = ToolUtils.tongJiTuY(input);
@@ -93,8 +109,6 @@ public class InoutComeZheFragement extends Fragment {
      */
     private void setGrayValue() {
 
-
-
         xValues1 = new ArrayList<>();
         for (int i = 1; i < 13; i++) {
             // x轴显示的数据，这里默认使用数字下标显示
@@ -110,51 +124,50 @@ public class InoutComeZheFragement extends Fragment {
         }
         // y轴的数据
         yValues1 = new ArrayList<>();
-        /*for (int i = 1; i < 13; i++) {
-            float value = (float) (Math.random()*10);
-            yValues1.add(new Entry(value, i-1));
-            Log.d("tt",Float.toString(value));
-        }*/
-
         yValues2 = new ArrayList<>();
-        /*for (int i = 1; i < 13; i++) {
-            float value = (float) (Math.random()*10+50);
-            yValues2.add(new Entry(value, i-1));
-            Log.d("tt",Float.toString(value));
-        }
-*/
+
         //数据源构建
         double[] income = new double[12];
         double[] outcome = new double[12] ;
-        int[] mon = new int[Statics.timeBillingStatisticsList.size()];
-        for (int i =0;i< Statics.timeBillingStatisticsList.size();i++){
-            mon[i] = Integer.parseInt(Statics.timeBillingStatisticsList.get(i).getMonth());
-        }
-        for (int i =0;i<12;i++ ){
-            if(i<12){
-                for (int j = 0;j<mon.length;j++){
-                    Log.d("test","mon:"+Integer.toString(i)+"k"+Integer.toString(mon[j]));
-                    if(i == mon[j]){
-                        income[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getIncome());//进账
-                        outcome[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getOutcom());//出账
+
+        if(this.catlog!=null&&this.catlog.equals("财务统计分析")){
+            int[] mon = new int[Statics.fbgwxSettlementMonthList.size()];
+            for (int i =0;i< Statics.fbgwxSettlementMonthList.size();i++){
+                mon[i] = Statics.fbgwxSettlementMonthList.get(i).getMon();
+            }
+            for (int i =0;i<=12;i++ ){
+                    for (int j = 0;j<mon.length;j++){
+                        if(i == mon[j]){
+                            income[i-1] = Statics.fbgwxSettlementMonthList.get(j).getJz1();//进账
+                            outcome[i-1] = Statics.fbgwxSettlementMonthList.get(j).getCz1();//出账
+                        }
                     }
-                }
+            }
+        }else{//默认是物流统计分析
+            int[] mon = new int[Statics.timeBillingStatisticsList.size()];
+            for (int i =0;i< Statics.timeBillingStatisticsList.size();i++){
+                mon[i] = Integer.parseInt(Statics.timeBillingStatisticsList.get(i).getMonth());
+            }
+            for (int i =0;i<=12;i++ ){
+                    for (int j = 0;j<mon.length;j++){
+                        if(i == mon[j]){
+                            income[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getIncome());//进账
+                            outcome[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getOutcom());//出账
+                        }
+                    }
             }
         }
 
         yValues1 = new ArrayList<>();
         for (int i = 0; i < mCount; i++) {
-            //yVals1.add(new BarEntry(getRandom(maxValue / 2, minValue), i, mDateTime[i]));
             yValues1.add(new BarEntry((float) income[i], i, mDateTime[i]));
         }
         yValues2 = new ArrayList<>();
         for (int i = 0; i < mCount; i++) {
-            //yVals2.add(new BarEntry(getRandom(maxValue / 2, minValue), i, mDateTime[i]));
             yValues2.add(new BarEntry((float) outcome[i], i, mDateTime[i]));
         }
 
     }
-
 
     /**
      * 【功能描述】  ：产生随机数

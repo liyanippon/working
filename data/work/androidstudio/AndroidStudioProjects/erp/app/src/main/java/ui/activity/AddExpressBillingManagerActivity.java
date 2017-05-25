@@ -20,12 +20,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
+import Tool.crash.CrashHandler;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
 import portface.LazyLoadFace;
-public class AddExpressBillingManagerActivity extends AppCompatActivity implements LazyLoadFace{
+public class AddExpressBillingManagerActivity extends BaseActivity implements LazyLoadFace{
     private Button add, reset;
     private static Spinner typeSpinner, classifySpinner, reasonSpinner, customSpinner;
     private EditText price, remark;
@@ -62,10 +64,11 @@ public class AddExpressBillingManagerActivity extends AppCompatActivity implemen
         currentDate = calendar.get(Calendar.DAY_OF_MONTH);
         billingTime.setText(String.format("%d-%d-%d",currentYear,currentMon,currentDate));
 
-        add.setOnClickListener(o);
-        reset.setOnClickListener(o);
-        billingTime.setOnClickListener(o);
+        add.setOnClickListener(this);
+        reset.setOnClickListener(this);
+        billingTime.setOnClickListener(this);
     }
+
     //返回按钮事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -76,45 +79,46 @@ public class AddExpressBillingManagerActivity extends AppCompatActivity implemen
         }
         return super.onOptionsItemSelected(item);
     }
-    View.OnClickListener o = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.add:
-                    billingTimeString = billingTime.getText().toString().trim();
-                    Log.d("test","billingTimeString:"+billingTimeString);
-                    priceString = price.getText().toString().trim();
-                    Log.d("addddd",classifySpinnerString);//进账：023001，出账：023002
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.add:
+                billingTimeString = billingTime.getText().toString().trim();
+                Log.d("test","billingTimeString:"+billingTimeString);
+                priceString = price.getText().toString().trim();
+                Log.d("addddd",classifySpinnerString);//进账：023001，出账：023002
                     /*if("023002".equals(classifySpinnerString)){//出账添加‘-’
                         priceString = "-"+priceString;
                     }*/
-                    remarkString = remark.getText().toString().trim();
-                    if ("".equals(typeSpinnerString) || "".equals(classifySpinnerString) || "".equals(reasonSpinnerString)
-                            || "".equals(customerSpinnerString) || "".equals(priceString)
-                            || "".equals(remarkString)) {
-                        Toast.makeText(AddExpressBillingManagerActivity.this, "所填数据不能为空", Toast.LENGTH_LONG).show();
-                    } else {
-                        httpPost = new ExpressBillingManagementHttpPost();
-                        Log.d("test", typeSpinnerString + "@" + classifySpinnerString + "@" + reasonSpinnerString + "@" + priceString + "@" + remarkString + "@" + customerSpinnerString);
-                        if ("success".equals(httpPost.addCountManagerHttp(
-                                Statics.FinancialBillingManagementSearchUrl, typeSpinnerString, classifySpinnerString,
-                                reasonSpinnerString, priceString, remarkString, customerSpinnerString ,billingTimeString))) {
-                            Toast.makeText(AddExpressBillingManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
+                remarkString = remark.getText().toString().trim();
+                if ("".equals(typeSpinnerString) || "".equals(classifySpinnerString) || "".equals(reasonSpinnerString)
+                        || "".equals(customerSpinnerString) || "".equals(priceString)
+                        || "".equals(remarkString)) {
+                    Toast.makeText(AddExpressBillingManagerActivity.this, "所填数据不能为空", Toast.LENGTH_LONG).show();
+                } else {
+                    httpPost = new ExpressBillingManagementHttpPost();
+                    Log.d("test", typeSpinnerString + "@" + classifySpinnerString + "@" + reasonSpinnerString + "@" + priceString + "@" + remarkString + "@" + customerSpinnerString);
+                    if ("success".equals(httpPost.addCountManagerHttp(
+                            Statics.FinancialBillingManagementSearchUrl, typeSpinnerString, classifySpinnerString,
+                            reasonSpinnerString, priceString, remarkString, customerSpinnerString ,billingTimeString))) {
+                        Toast.makeText(AddExpressBillingManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
-                    break;
-                case R.id.reset:
-                    price.setText("");
-                    remark.setText("");
-                    billingTime.setText(String.format("%d-%d-%d",currentYear,currentMon+1,currentDate));
-                    break;
-                case R.id.billingTime:
-                    billingTime();
-                    break;
-            }
+                }
+                break;
+            case R.id.reset:
+                price.setText("");
+                remark.setText("");
+                billingTime.setText(String.format("%d-%d-%d",currentYear,currentMon+1,currentDate));
+                break;
+            case R.id.billingTime:
+                billingTime();
+                break;
         }
-    };
+    }
+
     private void billingTime() {
         //日期选择器
 

@@ -19,6 +19,7 @@ import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.Constants;
+import model.FinancialBillingGetWXsettlementMonth;
 
 /**
  * Created by admin on 2017/3/28.
@@ -40,6 +41,14 @@ public class InoutComeZhuFragment extends Fragment {
             "1月", "2月", "3月", "4月", "5月",
             "6月", "7月", "8月", "9月", "10月",
             "11月", "12月"};
+    private String catlog;
+    List<String> list =new ArrayList<>();//图例
+    List<Double> input;//y轴最大值
+    InoutComeZhuFragment( ){}
+    InoutComeZhuFragment(String catlog){
+        this.catlog=catlog;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,24 +72,40 @@ public class InoutComeZhuFragment extends Fragment {
      */
     private void initData() {
 
-        //统计最大y值
-        List<Double> input = new ArrayList<>();
-        for (int i = 0; i< Statics.timeBillingStatisticsList.size(); i++){
-            input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getIncome()));
-            input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getOutcom()));
-        }
+        Statics.SingleBoolean = false;
 
+        if(this.catlog!=null&&this.catlog.equals("财务统计分析")){
+            //统计最大y值
+            input = new ArrayList<>();
+            for(FinancialBillingGetWXsettlementMonth fbg:Statics.fbgwxSettlementMonthList){
+                input.add(fbg.getJz1());//进账
+                input.add(fbg.getCz1());//出账
+                Log.d("InoutComeZhuFragment", "进账" + fbg.getJz1());
+                Log.d("InoutComeZhuFragment", "出账" + fbg.getCz1());
+            }
+            list =new ArrayList<>();//图例
+            list.add("出账");
+            list.add("进账");
+
+        }else{
+            //统计最大y值
+            input = new ArrayList<>();
+            for (int i = 0; i< Statics.timeBillingStatisticsList.size(); i++){
+                input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getIncome()));
+                input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getOutcom()));
+            }
+
+            list =new ArrayList<>();//图例
+            list.add("出账");
+            list.add("进账");
+        }
         int yZhi = ToolUtils.tongJiTuY(input);
         maxValue=(float) yZhi;
-
-        List<String> list =new ArrayList<>();//图例
-        list.add("出账");
-        list.add("进账");
-
         mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
         mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals2,list,"进账出账柱型统计图");
+
     }
 
     /**
@@ -90,36 +115,55 @@ public class InoutComeZhuFragment extends Fragment {
     private void setGrayValue() {
 
         double[] income = new double[12];
-        double[] outcome = new double[12] ;
-        int[] mon = new int[Statics.timeBillingStatisticsList.size()];
-        for (int i =0;i< Statics.timeBillingStatisticsList.size();i++){
-            mon[i] = Integer.parseInt(Statics.timeBillingStatisticsList.get(i).getMonth());
-        }
-        for (int i =0;i<12;i++ ){
-            if(i<12){
-                for (int j = 0;j<mon.length;j++){
-                    Log.d("test","mon:"+Integer.toString(i)+"k"+Integer.toString(mon[j]));
-                    if(i == mon[j]){
-                        income[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getIncome());//进账
-                        outcome[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getOutcom());//出账
-                        Log.d("test","income:"+Statics.timeBillingStatisticsList.get(j).getIncome());
-                        Log.d("test","outcome:"+Statics.timeBillingStatisticsList.get(j).getOutcom());
-                    }
-                }
-            }
-
-        }
-
+        double[] outcome = new double[12];
         yVals1 = new ArrayList<>();
         yVals2 = new ArrayList<>();
-        /*for (int i = 0; i < mCount; i++) {
-            yVals1.add(new BarEntry(getRandom(maxValue / 2, minValue), i, mDateTime[i]));
-            yVals1.add(new BarEntry((float) income[i], i, mDateTime[i]));
-        }*/
-        for (int i = 0; i < mCount; i++) {
-            yVals1.add(new BarEntry((float) income[i], i, mDateTime[i]));
-            yVals2.add(new BarEntry((float) outcome[i], i, mDateTime[i]));//没问题
+        if(this.catlog!=null&&this.catlog.equals("财务统计分析")){
+            int[] mon = new int[Statics.fbgwxSettlementMonthList.size()];
+            for (int i =0;i< Statics.fbgwxSettlementMonthList.size();i++){
+                mon[i] = Statics.fbgwxSettlementMonthList.get(i).getMon();
+            }
+
+            for (int i =0;i<=12;i++ ){
+                    for (int j = 0;j<mon.length;j++){
+                        Log.d("test","mon:"+Integer.toString(i)+"k"+Integer.toString(mon[j]));
+                        if(i == mon[j]){
+                            income[i-1] = Statics.fbgwxSettlementMonthList.get(j).getJz1();//进账
+                            outcome[i-1] = Statics.fbgwxSettlementMonthList.get(j).getCz1();//出账
+                        }
+                    }
+
+
+            }
+            for (int i = 0; i < mCount; i++) {
+                yVals1.add(new BarEntry((float) income[i], i, mDateTime[i]));
+                yVals2.add(new BarEntry((float) outcome[i], i, mDateTime[i]));//
+            }
+
+        }else{//物流账单统计分析
+            int[] mon = new int[Statics.timeBillingStatisticsList.size()];
+            for (int i =0;i< Statics.timeBillingStatisticsList.size();i++){
+                mon[i] = Integer.parseInt(Statics.timeBillingStatisticsList.get(i).getMonth());
+            }
+            for (int i =0;i<=12;i++ ){
+                    for (int j = 0;j<mon.length;j++){
+                        Log.d("test","mon:"+Integer.toString(i)+"k"+Integer.toString(mon[j]));
+                        if(i == mon[j]){
+                            income[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getIncome());//进账
+                            outcome[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getOutcom());//出账
+                            Log.d("test","income:"+Statics.timeBillingStatisticsList.get(j).getIncome());
+                            Log.d("test","outcome:"+Statics.timeBillingStatisticsList.get(j).getOutcom());
+                        }
+                    }
+
+            }
+
+            for (int i = 0; i < mCount; i++) {
+                yVals1.add(new BarEntry((float) income[i], i, mDateTime[i]));
+                yVals2.add(new BarEntry((float) outcome[i], i, mDateTime[i]));//没问题
+            }
         }
+
     }
 
 

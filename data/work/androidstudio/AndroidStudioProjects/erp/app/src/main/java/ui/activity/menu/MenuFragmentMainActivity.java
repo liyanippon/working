@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -19,13 +20,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
+
+import Tool.crash.BaseActivity;
+import Tool.crash.CrashHandler;
+import Tool.statistics.Statics;
 import ui.adpter.MFragmentPagerAdapter;
 import ui.fragement.menu.MainTab04;
 import ui.fragement.menu.MainTabAttendance;
 import ui.fragement.menu.MainTabExpress;
 import ui.fragement.menu.MainTabFinancial;
 
-public class MenuFragmentMainActivity extends AppCompatActivity{
+public class MenuFragmentMainActivity extends BaseActivity{
     private LinearLayout attendanceTextView;
     private LinearLayout expressTextView;
     private LinearLayout financialTextView;
@@ -68,6 +73,7 @@ public class MenuFragmentMainActivity extends AppCompatActivity{
         //初始化ViewPager
         InitViewPager();
     }
+
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
 

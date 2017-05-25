@@ -19,13 +19,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.admin.erp.R;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.BillingStatisticsHttpPost;
 import model.CustomerBillingStatistics;
@@ -37,7 +35,7 @@ import ui.adpter.TimeBillingStatisticsAdapter;
 import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
 
-public class BillingStatisticsActivity extends AppCompatActivity implements LazyLoadFace {
+public class BillingStatisticsActivity extends BaseActivity implements LazyLoadFace {
     public static ListView timeListView, customerListView;
     private ViewGroup tableTitle, tableTitle1;
     private BillingStatisticsHttpPost billingStatisticsHttpPost;
