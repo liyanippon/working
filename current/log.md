@@ -142,13 +142,19 @@ Android 全局异常处理：：http://onewayonelife.iteye.com/blog/1147533
 
 wine高版本安装：http://www.linuxidc.com/Linux/2017-04/143039.htm
 
-
 2017.5.24号使用
 :
 /getWXstatisticalData.ajax
 :
 /getWXsettlementMonth.ajax
 
+财务分析数据:
+[{"data":["0","0","0","0","2257.00","0","0","0","0","0","0","2341.00"]
+,"name":"进账","type":"bar"}
+,{"data":["0","0","0","0","1234.00","321.00","0","0","0","0","3212.00","0"]
+,"name":"出账","type":"bar"}]
+
+<span  style='color:#ff0000'><b>出账</b><span>"}]
 
 
 
