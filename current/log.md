@@ -156,6 +156,9 @@ wine高版本安装：http://www.linuxidc.com/Linux/2017-04/143039.htm
 
 <span  style='color:#ff0000'><b>出账</b><span>"}]
 
+异步任务处理网络请求
+http://blog.csdn.net/l631768226/article/details/51858554
+
 
 
 
