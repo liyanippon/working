@@ -86,12 +86,11 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
         search.setOnClickListener(this);
         zhuXing.setOnClickListener(this);
 
-        timeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        timeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                xiangxiAlertDialog(position);//长按显示详细信息
-                return false;
+                xiangxiAlertDialog(position);//点击显示详细信息
             }
         });
 
@@ -172,7 +171,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
         final View layout = inflater.inflate(R.layout.billingstatistics_month_dialog_detailed_item, null);//获取自定义布局
         listView = (ListView) layout.findViewById(R.id.lv);
         tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
-        tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+        tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         monthXiangXiBillingStatisticsList = Statics.fbgwxsmaList;
         Log.d("FinancialStastisticsAct", monthXiangXiBillingStatisticsList.size() + "ss");
         monXiangXiAdapter = new MonthXiangxiBillingStatisticsAdapter(FinancialStastisticsActivity.this, monthXiangXiBillingStatisticsList);
@@ -290,16 +289,16 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
     public void init() {
         timeListView = (ListView) findViewById(R.id.lv);
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
-        tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+        tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));//Color.rgb(177, 173, 172)e6f0ff
         typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
         yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
         search = (ImageView) findViewById(R.id.search);
         customerListView = (ListView) findViewById(R.id.customerListView);
 
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
-        tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+        tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         tableTitle1 = (ViewGroup) findViewById(R.id.table_title1);
-        tableTitle1.setBackgroundColor(Color.rgb(177, 173, 172));
+//        tableTitle1.setBackgroundColor(Color.rgb(177, 173, 172));
 
         zhuXing = (ImageView) findViewById(R.id.zhuXing);
         currentMoney = (TextView) findViewById(R.id.currentMoney);
