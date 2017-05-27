@@ -27,7 +27,6 @@ import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
-import http.Constants;
 import http.ExpressStatisticsHttpPost;
 import model.ExpressPersonStatistic;
 import model.ExpressPersonStatisticsXiangqing;
@@ -121,8 +120,8 @@ public class ExpressStatisticsActivity extends BaseActivity implements LazyLoadF
                                                                      final View layout = inflater.inflate(R.layout.express_person_statistics_dialog_detailed_item, null);//获取自定义布局
                                                                      //Button back = (Button) layout.findViewById(R.id.back);
                                                                      listView = (ListView) layout.findViewById(R.id.lv);
-                                                                     tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
-                                                                     tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+                                                                     //tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
+                                                                     //tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
                                                                      epsXList = Statics.epsXList;
                                                                      for (int i = 0; i < epsXList.size(); i++) {
                                                                          Log.d("xiangxixinx", epsXList.get(i).getNumeric() + "@" + epsXList.get(i).getTime());
@@ -295,15 +294,15 @@ public class ExpressStatisticsActivity extends BaseActivity implements LazyLoadF
     public void init() {
         timeListView = (ListView) findViewById(R.id.timeListView);
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
-        tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+        tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
         yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
         search = (ImageView) findViewById(R.id.search);
         expressPersonListView = (ListView) findViewById(R.id.expressPersonListView);
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
-        tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+        tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         tableTitle1 = (ViewGroup) findViewById(R.id.table_title1);
-        tableTitle1.setBackgroundColor(Color.rgb(177, 173, 172));
+        tableTitle1.setBackgroundColor(Color.rgb(230, 240, 255));
 
         zhuXing = (ImageView) findViewById(R.id.zhuXing);
         if (!onsearchclick) {

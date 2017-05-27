@@ -18,7 +18,6 @@ import java.util.List;
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
-import http.Constants;
 
 /**
  * Created by admin on 2017/3/28.

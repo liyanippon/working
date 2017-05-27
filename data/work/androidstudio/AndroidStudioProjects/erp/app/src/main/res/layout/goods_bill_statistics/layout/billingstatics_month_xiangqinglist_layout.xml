@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@drawable/linearlayout_shape_corner_center"
     >
-    <View
-        android:layout_width="2dip"
+    <!--<View
+        android:layout_width="2dp"
         android:layout_height="fill_parent"
-        android:background="#686867"/>
+        android:background="#686867"/>-->
     <TextView
         android:id="@+id/text_id"
         android:layout_width="0dip"
@@ -104,10 +105,10 @@
         android:gravity="center"
         android:text="合计(元)" />
 
-    <View
-        android:layout_width="2dip"
+    <!--<View
+        android:layout_width="2dp"
         android:layout_height="fill_parent"
-        android:background="#686867"/>
+        android:background="#686867"/>-->
 
 
 </LinearLayout>

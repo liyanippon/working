@@ -32,7 +32,6 @@ import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
-import http.Constants;
 import http.ExpressNumberManagementHttpPost;
 import portface.LazyLoadFace;
 import ui.adpter.ExpressNumberManagementAdapter;

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.admin.erp.R;
-import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
-import http.ExpressBillingManagementHttpPost;
-import http.FinancialManagementHttpPost;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 import model.FinancialManagement;
 
 /**
@@ -29,13 +27,13 @@ import model.FinancialManagement;
 public class FinancialManagementAdapter extends BaseAdapter {
     private Activity activity;
     private String id;
-    private FinancialManagementHttpPost httpPost;
     private int positions;
     private ViewHolder vh;
     private List<ViewHolder> holders = new ArrayList<ViewHolder>();
     public FinancialManagementAdapter(Activity accactivity) {
         this.activity = accactivity;
     }
+    private HashMap<String,String> param;
 
     @Override
     public int getCount() {
@@ -138,13 +136,14 @@ public class FinancialManagementAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
-                        if ("success".equals(httpPost.delAccountManagerHttp(Statics.FinancialBillingManagementDelUrl, id,activity))) {
+                        param=new HashMap<>();
+                        param.put("id", id);
+                        if ("success".equals(HttpBasePost.postHttp(Statics.FinancialBillingManagementDelUrl, param, HttpTypeConstants.FinancialBillingManagementDelUrlType))) {
                             Toast.makeText(activity, "删除成功", Toast.LENGTH_SHORT).show();
 
                         } else {
                             Toast.makeText(activity, "删除失败", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
         normalDialog.setNegativeButton("取消",
@@ -169,7 +168,6 @@ public class FinancialManagementAdapter extends BaseAdapter {
 
         @Override
         public void onClick(View v) {
-            httpPost = new FinancialManagementHttpPost();
             showNormalDialog(item);
         }
 

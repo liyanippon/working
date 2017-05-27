@@ -123,7 +123,7 @@
                 android:id="@+id/lv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#eaf2ff"
+                android:background="#ffffff"
                 android:cacheColorHint="@android:color/transparent"
                 android:divider="#B4B3B3"
                 android:dividerHeight="1.0dip"

@@ -18,7 +18,6 @@ import java.util.List;
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
-import http.Constants;
 import model.FinancialBillingGetWXsettlementMonth;
 
 /**
@@ -71,8 +70,6 @@ public class InoutComeZhuFragment extends Fragment {
      * 初始化数据
      */
     private void initData() {
-
-        Statics.SingleBoolean = false;
 
         if(this.catlog!=null&&this.catlog.equals("财务统计分析")){
             //统计最大y值

@@ -3,12 +3,10 @@ package ui.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,19 +18,16 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.admin.erp.R;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
-import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
-import http.ExpressBillingManagementHttpPost;
-import http.FinancialManagementHttpPost;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 import model.*;
 import model.FinancialManagement;
 import portface.LazyLoadFace;
@@ -51,13 +46,12 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
     public static XListView accountLv;
     private Handler mHandler;
     private static int page = 1;
-    private FinancialManagementHttpPost httpPost;
     private AlertDialog dlg;
     private boolean SearchBoolean = false;
     public static Context context;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
     static FreshenBroadcastReceiver broadcast;
-
+    private HashMap<String,String> param;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,11 +65,11 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         //空查询
         page = 1;//显示页数
 
-        httpPost = new FinancialManagementHttpPost();
         String httpUrl = Statics.FinancialBillingManagementUrl;
         //刚进入页面就要显示数据
         progressDialog = ProgressDialog.show(FinancialBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-        String result = httpPost.searchHttp(httpUrl, "", "", "", FinancialBillingManagementActivity.this, page);
+        HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,null,HttpTypeConstants.FinancialBillingManagementUrlType);
+        //String result = httpPost.searchHttp(httpUrl, "", "", "", FinancialBillingManagementActivity.this, page);
         accountLv.setPullLoadEnable(true);
         financialManagementAdapter = new FinancialManagementAdapter(FinancialBillingManagementActivity.this);
         accountLv.setAdapter(financialManagementAdapter);
@@ -99,10 +93,27 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                 page = 1;
                 progressDialog = ProgressDialog.show(FinancialBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
                 SearchBoolean = true;
-                httpPost = new FinancialManagementHttpPost();
                 String httpUrl = Statics.FinancialBillingManagementUrl;
                 Log.d("FinancialBillingManagem", typeSpinnerString + classifySpinnerString + customerNameSpinner);
-                String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, customerNameSpinnerString, FinancialBillingManagementActivity.this, page);
+                if("全部".equals(typeSpinnerString)){
+                    typeSpinnerString = "";
+                }
+                if("全部".equals(classifySpinnerString)){
+                    classifySpinnerString = "";
+                }
+                if("全部".equals(customerNameSpinnerString)){
+                    customerNameSpinnerString = "";
+                }
+                Log.d("FinancialBillingManagem", "参数验证"+typeSpinnerString+"&"+classifySpinnerString+"&"+customerNameSpinnerString);
+                param=new HashMap<>();
+                param.put("billType",typeSpinnerString);
+                param.put("billClassify",classifySpinnerString);
+                param.put("billCustomerId",customerNameSpinnerString);
+                param.put("page",Integer.toString(page));
+                param.put("option","1");
+                param.put("rows","50");
+                HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
+                //String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, customerNameSpinnerString, FinancialBillingManagementActivity.this, page);
 
             }
         });
@@ -176,7 +187,10 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
     protected void onResume() {
         super.onResume();
         String httpUrl = Statics.FinancialBillingManagementUrl;
-        httpPost.searchHttp(httpUrl ,"" ,"" ,"",FinancialBillingManagementActivity.this,1);//刷新页面
+        //httpPost.searchHttp(httpUrl ,"" ,"" ,"",FinancialBillingManagementActivity.this,1);//刷新页面
+        Log.d("FinancialBillingManagem", "添加后刷新");
+        HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,null,HttpTypeConstants.FinancialBillingManagementUrlType);
+
     }
     //返回按钮事件
     @Override
@@ -309,9 +323,24 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                httpPost = new FinancialManagementHttpPost();
-                String httpUrl = Statics.FinancialBillingManagementUrl;
-                String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, customerNameSpinnerString, FinancialBillingManagementActivity.this, page);
+                if("全部".equals(typeSpinnerString)){
+                    typeSpinnerString = "";
+                }
+                if("全部".equals(classifySpinnerString)){
+                    classifySpinnerString = "";
+                }
+                if("全部".equals(customerNameSpinnerString)){
+                    customerNameSpinnerString = "";
+                }
+                param=new HashMap<>();
+                param.put("billType",typeSpinnerString);
+                param.put("billClassify",classifySpinnerString);
+                param.put("billCustomerId",customerNameSpinnerString);
+                param.put("page",Integer.toString(page));
+                param.put("option","1");
+                param.put("rows","50");
+                Log.d("FinancialBillingManagem", "下拉刷新"+typeSpinnerString+":"+classifySpinnerString+":"+customerNameSpinnerString+page);
+                HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
                 onLoad();
             }
         }, 2000);
@@ -328,9 +357,23 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                     Toast.makeText(FinancialBillingManagementActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
                 }
                 //大于总页数，不向下翻页
-                httpPost = new FinancialManagementHttpPost();
-                String httpUrl = Statics.FinancialBillingManagementUrl;
-                String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, customerNameSpinnerString, FinancialBillingManagementActivity.this, page);
+                if("全部".equals(typeSpinnerString)){
+                    typeSpinnerString = "";
+                }
+                if("全部".equals(classifySpinnerString)){
+                    classifySpinnerString = "";
+                }
+                if("全部".equals(customerNameSpinnerString)){
+                    customerNameSpinnerString = "";
+                }
+                param=new HashMap<>();
+                param.put("billType",typeSpinnerString);
+                param.put("billClassify",classifySpinnerString);
+                param.put("billCustomerId",customerNameSpinnerString);
+                param.put("page",Integer.toString(page));
+                param.put("option","1");
+                param.put("rows","50");
+                HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
                 onLoad();
 
             }

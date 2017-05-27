@@ -4,52 +4,34 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-
 import com.example.admin.erp.R;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
-
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
-import http.AttendanceStatisticsHttpPost;
-import http.BillingStatisticsHttpPost;
-import http.Constants;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 import model.AttendanceStatistics;
-import model.CustomerBillingStatistics;
-import model.TimeBillingStatistics;
-import model.XiangxiBillingStatistics;
 import portface.LazyLoadFace;
 import ui.adpter.AttendanceStatisticsAdapter;
-import ui.adpter.CustomerBillingStatisticsAdapter;
-import ui.adpter.TimeBillingStatisticsAdapter;
-import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.AttendanceChartsFragmentActivity;
-import ui.fragement.ChartsFragementActivity;
 
 public class AttendanceStatisticsActivity extends BaseActivity implements LazyLoadFace{
     public static ListView attendListView;
     private ViewGroup tableTitle;
-    private AttendanceStatisticsHttpPost attendanceStatisticsHttpPost;
     private Spinner nameSpinner, yearSpinner ,monthSpinner;
     private ImageView search,graph;
     private static List<String> data_list;
@@ -61,6 +43,9 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
     public static ArrayList<String> yearlist;
     private int monthPosition,yearPosition;
+    private HashMap<String,String> param;
+    private int month;
+    private Calendar now;
     //考勤统计
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +61,30 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         yearSpinnerString = "2017";//默认赋值
         //首次访问
         //获取当前年月，默认查询当月
-        Calendar now = Calendar.getInstance();
-        int month =now.get(Calendar.MONTH)+1;
+        now = Calendar.getInstance();
+        month =now.get(Calendar.MONTH)+1;
         month--;//默认显示上个月的数据
         System.out.println("月: " + (now.get(Calendar.MONTH) + 1) + "");
         progressDialog = ProgressDialog.show(AttendanceStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-        attendanceStatisticsHttpPost = new AttendanceStatisticsHttpPost();
-        attendanceStatisticsHttpPost.searchStatisticsHttp(Statics.AttendanceStatisticsSearchUrl, "", Integer.toString(now.get(Calendar.YEAR)), Integer.toString(month), AttendanceStatisticsActivity.this);
+
+        //okHttp //上传参数
+        if("全部".equals(Integer.toString(now.get(Calendar.YEAR)))){
+            yearSpinnerString = "2017";
+        }else{
+            yearSpinnerString = Integer.toString(now.get(Calendar.YEAR));
+        }
+        if("全部".equals(monthSpinnerString)){
+            monthSpinnerString = "";
+        }else{
+            monthSpinnerString = Integer.toString(month);
+        }
+        param=new HashMap<>();
+        param.put("userId","");
+        param.put("year",yearSpinnerString);
+        param.put("month",monthSpinnerString);
+
+        HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
+        //attendanceStatisticsHttpPost.searchStatisticsHttp(Statics.AttendanceStatisticsSearchUrl, "", Integer.toString(now.get(Calendar.YEAR)), Integer.toString(month), AttendanceStatisticsActivity.this);
         attendanceStatisticsList =new ArrayList<>();
         attendanceStatisticsList = Statics.attendanceStatisticsList;
         attendanceAdapter = new AttendanceStatisticsAdapter(AttendanceStatisticsActivity.this, Statics.attendanceStatisticsList);
@@ -109,7 +111,28 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         switch (v.getId()) {
             case R.id.search:
                 progressDialog = ProgressDialog.show(AttendanceStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                attendanceStatisticsHttpPost.searchStatisticsHttp(Statics.AttendanceStatisticsSearchUrl, nameSpinnerString, yearSpinnerString, monthSpinnerString, AttendanceStatisticsActivity.this);
+                //okHttp //上传参数
+                if("全部".equals(nameSpinnerString)){
+                    nameSpinnerString = "";
+                }else{
+
+                }
+                /*if("全部".equals(Integer.toString(now.get(Calendar.YEAR)))){
+                    yearSpinnerString = "2017";
+                }else{
+                    yearSpinnerString = Integer.toString(now.get(Calendar.YEAR));
+                }
+                if("全部".equals(monthSpinnerString)){
+                    monthSpinnerString = "";
+                }else{
+                    monthSpinnerString = Integer.toString(month);
+                }*/
+                param=new HashMap<>();
+                param.put("userId",nameSpinnerString);
+                param.put("year",yearSpinnerString);
+                param.put("month",monthSpinnerString);
+                HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
+                //attendanceStatisticsHttpPost.searchStatisticsHttp(Statics.AttendanceStatisticsSearchUrl, nameSpinnerString, yearSpinnerString, monthSpinnerString, AttendanceStatisticsActivity.this);
                 attendanceStatisticsList = Statics.attendanceStatisticsList;
                 attendanceAdapter = new AttendanceStatisticsAdapter(AttendanceStatisticsActivity.this, attendanceStatisticsList);
                 attendListView.setAdapter(attendanceAdapter);
@@ -125,13 +148,19 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
     private void spinnerType() {
 
         //姓名查询
-        AttendanceStatisticsHttpPost ash = new AttendanceStatisticsHttpPost();
-        ash.searchStaffNameHttp(Statics.AttendanceStatisticsSearchUrl,AttendanceStatisticsActivity.this);
+        /*AttendanceStatisticsHttpPost ash = new AttendanceStatisticsHttpPost();
+        ash.searchStaffNameHttp(Statics.AttendanceStatisticsSearchUrl,AttendanceStatisticsActivity.this);*/
+        //HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,null,HttpTypeConstants.SearchYearUrlType);
         //数据 员工姓名
         data_list = new ArrayList<>();
         data_list.add(0,"全部");
         for (int i=0;i<Statics.searchName.size();i++){
             data_list .add(Statics.searchName.get(i));
+            Log.d("AttendanceStatisticsAct", "全部姓名：" + Statics.searchName.get(i).toString());
+        }
+        for (int i=0;i<Statics.searchNameId.size();i++){
+            //data_list .add(Statics.searchNameId.get(i));
+            Log.d("AttendanceStatisticsAct", "全部Id：" + Statics.searchNameId.get(i).toString());
         }
         //适配器
         arr_adapterName = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list);
@@ -143,12 +172,15 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         nameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("AttendanceStatisticsAct", "校对姓名：" + Statics.searchNameId.get(1).toString());
                 if(position == 0){
                     nameSpinnerString = "全部";
                 }else{
                     nameSpinnerString = Statics.searchNameId.get(--position);
+                    Log.d("AttendanceStatisticsAct", "选中姓名：" + nameSpinnerString);
                     for (int i=0;i<Statics.searchNameId.size();i++){
-                        Log.d("jjjj",Statics.searchNameId.get(i));
+                        Log.d("AttendanceStatisticsAct",Statics.searchNameId.get(i));
+                        Log.d("AttendanceStatisticsAct","下拉："+Statics.searchName.get(i));
                     }
                 }
                 data_list = null;
@@ -273,7 +305,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
     public void init() {
         attendListView = (ListView) findViewById(R.id.lv);
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
-        tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+        tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         nameSpinner = (Spinner) findViewById(R.id.nameSpinner);
         yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
         monthSpinner = (Spinner) findViewById(R.id.monthSpinner);

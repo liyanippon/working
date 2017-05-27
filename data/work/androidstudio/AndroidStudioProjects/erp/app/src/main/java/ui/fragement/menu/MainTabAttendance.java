@@ -20,8 +20,8 @@ import java.util.Map;
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
-import http.AttendanceStatisticsHttpPost;
-import http.Constants;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 import ui.activity.AttendanceStatisticsActivity;
 
 @SuppressLint("NewApi")
@@ -37,7 +37,6 @@ public class MainTabAttendance extends Fragment {
 	//动态菜单
 	private ArrayList<Object> icon;
 	private ArrayList<Object> iconName;
-	private AttendanceStatisticsHttpPost httpPost;
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -51,13 +50,14 @@ public class MainTabAttendance extends Fragment {
 
 	private void spinnerData() {
 		//获取数据 下拉菜单
-		httpPost = new AttendanceStatisticsHttpPost();
 		//年份查询
-		httpPost.searchTimeYearHttp(Statics.searchYearUrl,getActivity());
+		//httpPost.searchTimeYearHttp(Statics.searchYearUrl,getActivity());
 		new Runnable() {
 			@Override
 			public void run() {
-				httpPost.searchStaffNameHttp(Statics.AttendanceStatisticsSearchUrl,getActivity());
+				//httpPost.searchStaffNameHttp(Statics.AttendanceStatisticsSearchUrl,getActivity());
+				HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,null, HttpTypeConstants.SearchStuffName);//员工姓名
+				HttpBasePost.postHttp(Statics.searchYearUrl,null,HttpTypeConstants.SearchYearUrlType);//年份查询
 			}
 		}.run();
 	}

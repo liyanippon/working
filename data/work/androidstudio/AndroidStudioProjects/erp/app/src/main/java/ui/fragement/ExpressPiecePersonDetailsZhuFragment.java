@@ -24,7 +24,6 @@ import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
-import http.Constants;
 import http.ExpressStatisticsHttpPost;
 import portface.LazyLoadFace;
 import ui.activity.ExpressStatisticsActivity;

@@ -102,8 +102,8 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
                                                                 LayoutInflater inflater = getLayoutInflater();
                                                                 final View layout = inflater.inflate(R.layout.billingstatistics_dialog_detailed_item, null);//获取自定义布局
                                                                 listView = (ListView) layout.findViewById(R.id.lv);
-                                                                tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
-                                                                tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+                                                                //tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
+                                                                //tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
                                                                 xiangxiBillingStatisticsList = Statics.xiangxiBillingStatisticsArrayList;
                                                                 xiangxiAdapter = new XiangxiBillingStatisticsAdapter(BillingStatisticsActivity.this, xiangxiBillingStatisticsList);
                                                                 listView.setAdapter(xiangxiAdapter);
@@ -237,16 +237,16 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
     public void init() {
         timeListView = (ListView) findViewById(R.id.lv);
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
-        tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+        tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
         yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
         search = (ImageView) findViewById(R.id.search);
         customerListView = (ListView) findViewById(R.id.customerListView);
 
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
-        tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
+        tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         tableTitle1 = (ViewGroup) findViewById(R.id.table_title1);
-        tableTitle1.setBackgroundColor(Color.rgb(177, 173, 172));
+        tableTitle1.setBackgroundColor(Color.rgb(230, 240, 255));
 
         zhuXing = (ImageView) findViewById(R.id.zhuXing);
     }

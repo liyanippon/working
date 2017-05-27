@@ -3,7 +3,6 @@ package ui.activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,27 +16,28 @@ import android.widget.Toast;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
-import http.FinancialManagementHttpPost;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 import model.AccountClassify;
 import model.FinancialAccount;
 import model.FinancialCustomer;
 
-public class AddFinancialBillingManagerActivity extends BaseActivity{
+public class AddFinancialBillingManagerActivity extends BaseActivity {
     private Button add, reset;
     private EditText time, content,price,remark;
     private Spinner accountSpinner,classifySpinner,customerNameSpinner;
     private String accountSpinnerString,classifySpinnerString,customerNameSpinnerString;
-    private FinancialManagementHttpPost httpPost;
     public static Context context;
     private List<String> data_list,data_type,data_classify;
     public static ArrayAdapter<String> arr_adapter;
     private int currentYear,currentMon,currentDate;
     private Calendar calendar;
-
+    private HashMap<String,String> param;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,13 +84,31 @@ public class AddFinancialBillingManagerActivity extends BaseActivity{
                             || "".equals(remarkString)) {
                         Toast.makeText(AddFinancialBillingManagerActivity.this, "所填数据不能为空", Toast.LENGTH_LONG).show();
                     } else {
-                        httpPost = new FinancialManagementHttpPost();
-                        if ("success".equals(httpPost.addCountManagerHttp(Statics.AddFinancialBillingUrl,accountSpinnerString
+                        param=new HashMap<>();
+                        param.put("id","");
+                        param.put("createBy",Statics.Name);
+                        param.put("updateBy",Statics.Name);
+                        param.put("userName", Statics.Name);
+                        param.put("option", "2");//1查询，2添加，3删除
+                        param.put("billType",accountSpinnerString);
+                        param.put("billClassify",classifySpinnerString);
+                        param.put("billTime2",timeString);
+                        param.put("billClassification",contentString);
+                        param.put("billSum",priceString);
+                        param.put("billCustomerId",customerNameSpinnerString);
+                        param.put("billDescription",remarkString);
+                        param.put("updateTime",timeString);
+                        Log.d("AddFinancialBillingMana", "customerId" + customerNameSpinnerString);
+                        if ("success".equals(HttpBasePost.postHttp(Statics.AddFinancialBillingUrl,param, HttpTypeConstants.AddFinancialBillingUrlType))) {
+                            Toast.makeText(AddFinancialBillingManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                        /*if ("success".equals(httpPost.addCountManagerHttp(Statics.AddFinancialBillingUrl,accountSpinnerString
                                 ,classifySpinnerString,timeString,contentString
                                 ,priceString,customerNameSpinnerString,remarkString))) {
                             Toast.makeText(AddFinancialBillingManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                             finish();
-                        }
+                        }*/
                     }
                     break;
                 case R.id.reset:

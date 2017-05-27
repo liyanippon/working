@@ -28,7 +28,6 @@ import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
-import http.Constants;
 import portface.LazyLoadFace;
 import ui.adpter.ExpressNumberManagementAdapter;
 import ui.xlistview.XListView;

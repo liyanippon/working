@@ -23,11 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.example.admin.erp.R;
-
 import net.tsz.afinal.FinalBitmap;
-
 import java.util.Properties;
-
 import Tool.crash.BaseActivity;
 import Tool.crash.CrashHandler;
 import Tool.crash.LogcatHelper;
@@ -35,7 +32,6 @@ import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
-import http.Constants;
 import portface.LazyLoadFace;
 import ui.activity.menu.MenuFragmentMainActivity;
 
@@ -55,11 +51,10 @@ public class MainActivity extends BaseActivity{
     SharedPreferences sp = null;
     private RelativeLayout background;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LogcatHelper.getInstance(this).start();//保存日志
-        initCrashHandler();//系统异常处理
+        LogcatHelper.getInstance(this).start();//系统异常处理
+        initCrashHandler();//保存日志
         super.onCreate(savedInstanceState);
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
@@ -79,22 +74,18 @@ public class MainActivity extends BaseActivity{
         rememberMe = (CheckBox) findViewById(R.id.rememberMe);
         login.setOnClickListener(this);
         reset.setOnClickListener(this);
-
         new Runnable() {
             @Override
             public void run() {
                 init();
             }
         }.run();
-
         if (sp.getBoolean("checkboxBoolean", false)){
             userName.setText(sp.getString("uname", null));
             userPassword.setText(sp.getString("upswd", null));
             rememberMe.setChecked(true);
         }
-
     }
-
     private void initCrashHandler() {
         CrashHandler crashHandler = CrashHandler.getInstance();
         // 注册crashHandler
@@ -127,14 +118,11 @@ public class MainActivity extends BaseActivity{
                     finish();
                 }
             }
-
         });
     }
 
     private void init() {
-
         //handler = new MyHandler();
-
         //读取配置文件
         properties = new Properties();
         try {
@@ -170,9 +158,8 @@ public class MainActivity extends BaseActivity{
             Statics.FinancialBillingManagementDelUrl = IFengUrl + "/WXdeleteBillRecords.ajax";
             Statics.AddFinancialBillingUrl = IFengUrl + "/getWXInsertOrUpdateBillRecords.ajax";
             Statics.FinancialBillingGetWXAccountsTypeUrl = IFengUrl + "/getWXAccountsType.ajax";
-            //Statics.FinancialBillingGetWXsettlementMonthUrl = IFengUrl + "/getWXsettlementMonth.ajax";
-            //Statics.FinancialBillingGetWXSelectMonthAccountUrl = IFengUrl + "/getWXSelectMonthAccount.ajax";
-
+            Statics.FinancialBillingGetWXsettlementMonthUrl = IFengUrl + "/getWXsettlementMonth.ajax";
+            Statics.FinancialBillingGetWXSelectMonthAccountUrl = IFengUrl + "/getWXSelectMonthAccount.ajax";
             Log.d("55","登录"+Statics.LoginUrl);
             Log.d("55","权限"+Statics.UmlUrl);
             Log.d("55", Statics.FinancialBillingManagementSearchUrl);
@@ -189,7 +176,6 @@ public class MainActivity extends BaseActivity{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -206,9 +192,7 @@ public class MainActivity extends BaseActivity{
                 break;
         }
     }
-
     private void check() { //对输入进行判断性检查
-
         initBroadCast();
         flag = true;
         userNameString = userName.getText().toString().trim();
@@ -217,7 +201,6 @@ public class MainActivity extends BaseActivity{
             Toast.makeText(MainActivity.this, "用户名或密码不能为空", Toast.LENGTH_LONG).show();
             return;
         }
-
         boolean CheckBoxLogin = rememberMe.isChecked();
         if (CheckBoxLogin)
         {

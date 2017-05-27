@@ -109,28 +109,25 @@ public class Statics {
     public static Boolean yPositon = false;//设置y轴显示默认false
 
     /**财务管理**/
-    public static String FinancialAccountCustomerUrl = "http://192.168.1.52:8083/getWXBillCustomer.ajax"; //账目客户名
+    public static String FinancialAccountCustomerUrl = "http://192.168.1.53:8083/getWXBillCustomer.ajax"; //账目客户名
     public static ArrayList<FinancialCustomer> financialCustomersList = new ArrayList<>();//账目客户
     //账目管理
-    public static String FinancialBillingManagementUrl = "http://192.168.1.52:8083/getWXBillRecords.ajax"; //账目统计增删查
-    public static String FinancialBillingManagementDelUrl = "http://192.168.1.52:8083/WXdeleteBillRecords.ajax";//删除账目统计
+    public static String FinancialBillingManagementUrl = "http://192.168.1.53:8083/getWXBillRecords.ajax"; //账目统计查询
+    public static String FinancialBillingManagementDelUrl = "http://192.168.1.53:8083/WXdeleteBillRecords.ajax";//删除账目统计
     public static ArrayList<FinancialManagement> financialManagementList = new ArrayList<>();//账目客户查询数据
-    public static String AddFinancialBillingUrl = "http://192.168.1.52:8083/getWXInsertOrUpdateBillRecords.ajax";//添加账单
+    public static String AddFinancialBillingUrl = "http://192.168.1.53:8083/getWXInsertOrUpdateBillRecords.ajax";//添加账单
     //银行账目下拉框
     public static String FinancialBillingGetWXAccountsTypeUrl = "http://192.168.1.53:8083/getWXAccountsType.ajax";//银行账目下拉框
     public static ArrayList<FinancialAccount> financialAccountList = new ArrayList<>();//账目下拉框
     //账目统计
-    public static String FinancialBillingGetWXstatisticalDataUrl = "http://192.168.1.53:8083/getWXstatisticalData.ajax";//年月统计表（按时间统计）
+    public static String FinancialBillingGetWXstatisticalDataUrl = "http://192.168.1.54:8083/getWXstatisticalData.ajax";//年月统计表（按时间统计）
     public static List<FinancialBilingGetXWstatisticalData> fbgxwStatisticalDataList = new ArrayList<>();//时间查询数据
-    public static String FinancialBillingGetWXsettlementMonthUrl = "http://192.168.1.53:8083/getWXsettlementMonth.ajax";//时间统计表
+    public static String FinancialBillingGetWXsettlementMonthUrl = "http://192.168.1.54:8083/getWXsettlementMonth.ajax";//时间统计表
     public static List<FinancialBillingGetWXsettlementMonth> fbgwxSettlementMonthList = new ArrayList<>();//时间查询数据
-    public static String FinancialBillingGetWXSelectMonthAccountUrl ="http://192.168.1.53:8083/getWXSelectMonthAccount.ajax";//月份账目明细
+    public static String FinancialBillingGetWXSelectMonthAccountUrl ="http://192.168.1.54:8083/getWXSelectMonthAccount.ajax";//月份账目明细
     public static List<FinancialBillingGetWXSelectMonthAccount> fbgwxsmaList = new ArrayList<>();
-    public static String FinancialBillingGetCurrentMoneyUrl ="http://192.168.1.53:8083/getWXSelectAll.ajax";//查看现在金额
+    public static String FinancialBillingGetCurrentMoneyUrl ="http://192.168.1.54:8083/getWXSelectAll.ajax";//查看现在金额
     public static String CurrentMoney = null;
     /**用户权限管理**/
     public static ArrayList<UserUmp> userUmpsStatisticsList = new ArrayList<>();//考勤表格数据
-
-    public static Boolean SingleBoolean = true;//统计图是几路数据（默认两路）
-
 }

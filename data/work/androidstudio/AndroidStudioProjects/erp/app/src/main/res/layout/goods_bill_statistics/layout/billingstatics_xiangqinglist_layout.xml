@@ -4,6 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     >
+    <View
+        android:layout_width="2dp"
+        android:layout_height="fill_parent"
+        android:background="#686867"/>
     <TextView
         android:id="@+id/text_id"
         android:layout_width="0dip"
@@ -116,5 +120,8 @@
         android:layout_weight="3"
         android:gravity="center"
         android:text="@string/remark_information" />
-
+    <View
+        android:layout_width="2dp"
+        android:layout_height="fill_parent"
+        android:background="#686867"/>
 </LinearLayout>

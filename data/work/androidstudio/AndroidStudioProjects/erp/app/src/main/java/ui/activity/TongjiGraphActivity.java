@@ -29,7 +29,6 @@ import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
-import http.Constants;
 
 public class TongjiGraphActivity extends BaseActivity{
 

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -15,35 +14,31 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.admin.erp.R;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
-import http.FinancialStatisticsHttpPost;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 import model.*;
 import portface.LazyLoadFace;
 import ui.adpter.CustomerBillingStatisticsAdapter;
 import ui.adpter.FinancialTimeBillingStatisticsAdapter;
 import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
-import ui.adpter.TimeBillingStatisticsAdapter;
 import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
-
 public class FinancialStastisticsActivity extends BaseActivity implements LazyLoadFace {
 
     public static ListView timeListView, customerListView;
     public static TextView currentMoney;
     private ViewGroup tableTitle, tableTitle1;
-    private FinancialStatisticsHttpPost financialStatisticsHttpPost;
     private Spinner typeSpinner, yearSpinner;
     private ImageView search;
     private List<String> data_list;
@@ -56,6 +51,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
     public static CustomerBillingStatisticsAdapter customerAdapter;
     public static XiangxiBillingStatisticsAdapter xiangxiAdapter;
     public static MonthXiangxiBillingStatisticsAdapter monXiangXiAdapter;
+    private HashMap<String,String> param;
     private AlertDialog dlg;
     private ListView listView;
     private int count=0;
@@ -76,11 +72,11 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
         yearSpinnerString = "2017";//默认赋值
         //首次访问
         progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-        financialStatisticsHttpPost = new FinancialStatisticsHttpPost();
-        financialStatisticsHttpPost.searchCurrentMoneyHttp(Statics.FinancialBillingGetCurrentMoneyUrl);//获取当前资金情况
-        financialStatisticsHttpPost.searchTimeHttp(Statics.FinancialBillingGetWXsettlementMonthUrl, "", "", FinancialStastisticsActivity.this);
+        //financialStatisticsHttpPost.searchCurrentMoneyHttp(Statics.FinancialBillingGetCurrentMoneyUrl);//获取当前资金情况
+        HttpBasePost.postHttp(Statics.FinancialBillingGetCurrentMoneyUrl,null, HttpTypeConstants.FinancialBillingGetCurrentMoneyUrlType);//获取当前资金情况
+        HttpBasePost.postHttp(Statics.FinancialBillingGetWXsettlementMonthUrl,null, HttpTypeConstants.FinancialBillingGetWXsettlementMonthUrlType);
+        //financialStatisticsHttpPost.searchTimeHttp(Statics.FinancialBillingGetWXsettlementMonthUrl, "", "", FinancialStastisticsActivity.this);//
         timeBillingStatisticsList = Statics.fbgwxSettlementMonthList;
-        Log.d("FinancialStastisticsAct", "测试点");
         timeAdapter = new FinancialTimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
         timeListView.setAdapter(timeAdapter);
         search.setOnClickListener(this);
@@ -93,59 +89,6 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
                 xiangxiAlertDialog(position);//点击显示详细信息
             }
         });
-
-        /*//listView点击事件
-        timeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                //选中变色
-                //ToolUtils.selectColor(parent,position);
-                //确定月份
-                final String month = Statics.timeBillingStatisticsList.get(position).getMonth();
-                financialStatisticsHttpPost.searchCustomerHttp(Statics.CustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, FinancialStastisticsActivity.this);
-                customerBillingStatisticsList = Statics.customerBillingStatisticsArrayList;
-                customerAdapter = new CustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, customerBillingStatisticsList);
-                customerListView.setAdapter(customerAdapter);
-
-                *//*customerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                            @Override
-                                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                String customerId = Statics.customerBillingStatisticsArrayList.get(position).getCustomerId();//ID
-                                                                listView = null;
-                                                                //递类型，月份，客户名客户名以检索
-                                                                financialStatisticsHttpPost.searchXqCustomerHttp(Statics.XqCustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, customerId, FinancialStastisticsActivity.this);
-                                                                //显示对话框，在对话框中使用ListView
-                                                                AlertDialog.Builder builder = new AlertDialog.Builder(FinancialStastisticsActivity.this);
-                                                                LayoutInflater inflater = getLayoutInflater();
-                                                                final View layout = inflater.inflate(R.layout.billingstatistics_dialog_detailed_item, null);//获取自定义布局
-                                                                listView = (ListView) layout.findViewById(R.id.lv);
-                                                                tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
-                                                                tableTitle.setBackgroundColor(Color.rgb(177, 173, 172));
-                                                                xiangxiBillingStatisticsList = Statics.xiangxiBillingStatisticsArrayList;
-                                                                xiangxiAdapter = new XiangxiBillingStatisticsAdapter(FinancialStastisticsActivity.this, xiangxiBillingStatisticsList);
-                                                                listView.setAdapter(xiangxiAdapter);
-
-                                                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                                    @Override
-                                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                    }
-                                                                });
-
-                                                                //创建人就是用户名
-                                                                builder.setView(layout);
-                                                                dlg = builder.create();
-                                                                dlg.show();
-                                                                //dlg.getWindow().setLayout(1500, 1500);
-                                                                WindowManager windowManager = getWindowManager();
-                                                                Display display = windowManager.getDefaultDisplay();
-                                                                WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
-                                                                lp.width = (int)(display.getWidth()); //设置宽度
-                                                                dlg.getWindow().setAttributes(lp);
-                                                            }
-                                                        }
-                );*//*
-            }
-        });*/
     }
     //返回按钮事件
     @Override
@@ -164,14 +107,19 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
         yearSpinnerString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getYe());//选中年
         monthString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getMon());//选中月
         //递类型，月份，客户名客户名以检索
-        financialStatisticsHttpPost.searchXqMonthBillHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl, yearSpinnerString, typeString, monthString);
+        param=new HashMap<>();
+        param.put("type",typeString);
+        param.put("year",yearSpinnerString);
+        param.put("month",monthString);
+        HttpBasePost.postHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl,param,HttpTypeConstants.FinancialBillingGetWXSelectMonthAccountUrlType);
+        //financialStatisticsHttpPost.searchXqMonthBillHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl, yearSpinnerString, typeString, monthString);//
         //显示对话框，在对话框中使用ListView
         AlertDialog.Builder builder = new AlertDialog.Builder(FinancialStastisticsActivity.this);
         LayoutInflater inflater = getLayoutInflater();
         final View layout = inflater.inflate(R.layout.billingstatistics_month_dialog_detailed_item, null);//获取自定义布局
         listView = (ListView) layout.findViewById(R.id.lv);
-        tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
-        tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
+        //tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
+        //tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         monthXiangXiBillingStatisticsList = Statics.fbgwxsmaList;
         Log.d("FinancialStastisticsAct", monthXiangXiBillingStatisticsList.size() + "ss");
         monXiangXiAdapter = new MonthXiangxiBillingStatisticsAdapter(FinancialStastisticsActivity.this, monthXiangXiBillingStatisticsList);
@@ -202,7 +150,8 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
             case R.id.search:
                 Log.v("test2", "R.id.search");
                 progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                financialStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString, typeSpinnerString, FinancialStastisticsActivity.this);
+                //financialStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString, typeSpinnerString, FinancialStastisticsActivity.this);//
+                HttpBasePost.postHttp(Statics.FinancialBillingGetWXsettlementMonthUrl,null, HttpTypeConstants.FinancialBillingGetWXsettlementMonthUrlType);
                 timeBillingStatisticsList = Statics.fbgwxSettlementMonthList;
                 timeAdapter = new FinancialTimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
                 timeListView.setAdapter(timeAdapter);
@@ -298,7 +247,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
         tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         tableTitle1 = (ViewGroup) findViewById(R.id.table_title1);
-//        tableTitle1.setBackgroundColor(Color.rgb(177, 173, 172));
+//      tableTitle1.setBackgroundColor(Color.rgb(177, 173, 172));
 
         zhuXing = (ImageView) findViewById(R.id.zhuXing);
         currentMoney = (TextView) findViewById(R.id.currentMoney);

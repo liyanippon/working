@@ -24,7 +24,6 @@ import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
-import http.Constants;
 import http.ExpressNumberManagementHttpPost;
 
 public class AddExpressNumberActivity extends BaseActivity {

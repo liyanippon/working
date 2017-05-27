@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Tool.statistics.Statics;
-import http.Constants;
 import http.ExpressStatisticsHttpPost;
 
 public class ExpressPiecesPersonDetailsChartsFragementActivity extends FragmentActivity {

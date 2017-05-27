@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +19,13 @@ import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
 import http.ExpressBillingManagementHttpPost;
-import http.BillingStatisticsHttpPost;
-import http.ExpressNumberManagementHttpPost;
-import http.ExpressStatisticsHttpPost;
-import http.FinancialManagementHttpPost;
-import ui.activity.BillingStatisticsActivity;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 import ui.activity.FinancialBillingManagementActivity;
 import ui.activity.FinancialStastisticsActivity;
 @SuppressLint("NewApi")
 public class MainTabFinancial extends Fragment {
     private ExpressBillingManagementHttpPost expreBillingHttpPost;
-    private FinancialManagementHttpPost financialManagementHttpPost;
     private GridView gridView;
     private View newsLayout;
     private List<Map<String, Object>> data_list;
@@ -52,13 +47,12 @@ public class MainTabFinancial extends Fragment {
 
     private void spinnerData() {
         //获取数据 下拉菜单
-        financialManagementHttpPost = new FinancialManagementHttpPost();
         expreBillingHttpPost = new ExpressBillingManagementHttpPost();
         new Runnable() {
             @Override
             public void run() {
-                financialManagementHttpPost.searchAccount(Statics.FinancialBillingGetWXAccountsTypeUrl);//账目下拉框
-                financialManagementHttpPost.searchCustomName(Statics.FinancialAccountCustomerUrl);//客户名
+                HttpBasePost.postHttp(Statics.FinancialBillingGetWXAccountsTypeUrl,null, HttpTypeConstants.FinancialBillingGetWXAccountsTypeUrlType);//账目下拉框
+                HttpBasePost.postHttp(Statics.FinancialAccountCustomerUrl,null, HttpTypeConstants.FinancialAccountCustomerUrlType);//账目下拉框
                 expreBillingHttpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl);//分类 进账出账保留
             }
         }.run();
