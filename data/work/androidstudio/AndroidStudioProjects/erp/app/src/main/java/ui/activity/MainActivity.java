@@ -35,7 +35,7 @@ import http.ExpressBillingManagementHttpPost;
 import portface.LazyLoadFace;
 import ui.activity.menu.MenuFragmentMainActivity;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity {
 
     private EditText userName;
     private EditText userPassword;
@@ -53,8 +53,8 @@ public class MainActivity extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LogcatHelper.getInstance(this).start();//系统异常处理
-        initCrashHandler();//保存日志
+        LogcatHelper.getInstance(this).start();//保存日志
+        initCrashHandler();//系统异常处理
         super.onCreate(savedInstanceState);
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
@@ -74,12 +74,9 @@ public class MainActivity extends BaseActivity{
         rememberMe = (CheckBox) findViewById(R.id.rememberMe);
         login.setOnClickListener(this);
         reset.setOnClickListener(this);
-        new Runnable() {
-            @Override
-            public void run() {
-                init();
-            }
-        }.run();
+
+        init();
+
         if (sp.getBoolean("checkboxBoolean", false)){
             userName.setText(sp.getString("uname", null));
             userPassword.setText(sp.getString("upswd", null));

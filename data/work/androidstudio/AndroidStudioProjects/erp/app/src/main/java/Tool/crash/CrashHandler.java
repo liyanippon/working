@@ -51,7 +51,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final String STACK_TRACE = "STACK_TRACE";
     /** 错误报告文件的扩展名 */
     private static final String CRASH_REPORTER_EXTENSION = ".cr";
-
+    private boolean exceptionBoolean = true;
     /** 保证只有一个CrashHandler实例 */
     private CrashHandler() {
     }
@@ -113,6 +113,13 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (ex == null) {
             return true;
         }
+
+        Log.d(TAG, "输出异常类型ex：：" + ex.getCause());
+        if(!exceptionFilter(ex.getCause().toString().trim())){//过滤掉无法处理的异常){
+            return false;
+        }
+
+
         final String msg = ex.getLocalizedMessage();
         // 使用Toast来显示异常信息
         new Thread() {
@@ -131,6 +138,15 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         // 发送错误报告到服务器
         //sendCrashReportsToServer(mContext);
         return true;
+    }
+
+    private boolean exceptionFilter(String exception) {//过滤掉某些无法处理的异常
+        switch (exception){
+            case "java.lang.IllegalThreadStateException: Thread already started":
+                exceptionBoolean = false;
+                break;
+        }
+        return exceptionBoolean;
     }
 
     /**

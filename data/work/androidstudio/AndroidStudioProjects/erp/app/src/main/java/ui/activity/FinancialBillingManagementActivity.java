@@ -45,7 +45,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
     public static FinancialManagementAdapter financialManagementAdapter;
     public static XListView accountLv;
     private Handler mHandler;
-    private static int page = 1;
+    public static int page = 1;
     private AlertDialog dlg;
     private boolean SearchBoolean = false;
     public static Context context;

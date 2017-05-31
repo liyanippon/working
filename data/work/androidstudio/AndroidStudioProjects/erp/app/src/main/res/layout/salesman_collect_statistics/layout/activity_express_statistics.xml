@@ -90,8 +90,8 @@
             >
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:background="#A7A5A5"/>
+                android:layout_height="2dip"
+                android:background="#686867"/>
 
             <include
                 layout="@layout/express_statics_yearlist_layout"
@@ -99,7 +99,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1.5dip"
+                android:layout_height="2dip"
                 android:background="#686867"/>
             <ListView
                 android:id="@+id/timeListView"
@@ -126,16 +126,16 @@
                 />
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:background="#A7A5A5"/>
+                android:layout_height="2dip"
+                android:background="#686867"/>
 
             <include
-                layout="@layout/express_person_staticslist_layout"
-                android:id="@+id/table_title1"/>
+                android:id="@+id/table_title1"
+                layout="@layout/express_person_staticslist_layout" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1.5dip"
+                android:layout_height="2dip"
                 android:background="#686867"/>
             <ListView
                 android:id="@+id/expressPersonListView"

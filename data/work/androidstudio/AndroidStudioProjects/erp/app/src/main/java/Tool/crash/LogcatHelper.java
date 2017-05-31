@@ -61,7 +61,11 @@ public class LogcatHelper {
     public void start() {
         if (mLogDumper == null)
             mLogDumper = new LogDumper(String.valueOf(mPId), PATH_LOGCAT);
-        mLogDumper.start();
+        if(mLogDumper != null){
+            mLogDumper.start();
+        }else{
+            stop();
+        }
     }
 
     public void stop() {
@@ -83,11 +87,15 @@ public class LogcatHelper {
         public LogDumper(String pid, String dir) {
             mPID = pid;
             try {
-                out = new FileOutputStream(new File(dir, "erp-"
+
+                out = new FileOutputStream(new File(dir, "erp-" 
                         + MyDate.getFileName() + ".log"));
+
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                Log.d("LogDumper", "文件不存在");
+                out = null;
             }
 
             /**

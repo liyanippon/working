@@ -57,6 +57,7 @@ public class JsonResolve {
             String total = jsonObject1.get("total").toString();
             Log.d("test7", "total:" + total);
             Statics.page = (Integer.parseInt(total) + Integer.parseInt(rows) - 1) / Integer.parseInt(rows);
+
             JSONArray jsonArray2 = jsonObject1.getJSONArray("rows");
             Statics.expressManagementList.clear();
             for (int k = 0; k < jsonArray2.length(); k++) {

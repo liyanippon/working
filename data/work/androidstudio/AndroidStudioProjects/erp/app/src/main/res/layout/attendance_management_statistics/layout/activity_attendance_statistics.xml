@@ -94,8 +94,8 @@
         </LinearLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="#A7A5A5"/>
+            android:layout_height="2dip"
+            android:background="#686867"/>
 
         <include
             layout="@layout/attendance_statistics_title_layout"
@@ -103,7 +103,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1.5dip"
+            android:layout_height="2dip"
             android:background="#686867"/>
         <ListView
             android:id="@+id/lv"

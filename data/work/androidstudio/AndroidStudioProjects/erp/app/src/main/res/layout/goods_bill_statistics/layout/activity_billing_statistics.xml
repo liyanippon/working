@@ -93,16 +93,16 @@
             >
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:background="#A7A5A5"/>
+                android:layout_height="2dip"
+                android:background="#686867"/>
 
             <include
-                layout="@layout/billingstatics_yearlist_layout"
-                android:id="@+id/table_title"/>
+                android:id="@+id/table_title"
+                layout="@layout/billingstatics_yearlist_layout" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1.5dip"
+                android:layout_height="2dip"
                 android:background="#686867"/>
 
             <ListView
@@ -128,8 +128,8 @@
                 />
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:background="#A7A5A5"/>
+                android:layout_height="2dip"
+                android:background="#686867"/>
 
             <include
                 layout="@layout/billingstatics_customerlist_layout"
@@ -137,7 +137,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1.5dip"
+                android:layout_height="2dip"
                 android:background="#686867"/>
 
             <ListView

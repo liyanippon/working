@@ -52,7 +52,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     private Handler mHandler;
     private int start = 0;
     private static int refreshCnt = 0;
-    private static int page = 1;
+    public static int page = 1;
     private ExpressBillingManagementHttpPost httpPost;
     private AlertDialog dlg;
     private boolean SearchBoolean = false;

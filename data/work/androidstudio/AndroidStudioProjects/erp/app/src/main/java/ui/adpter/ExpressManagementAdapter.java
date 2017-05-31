@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
+import ui.activity.ExpressBillingManagementActivity;
 
 /**
  * Created by admin on 2017/2/23.
@@ -76,7 +78,7 @@ public class ExpressManagementAdapter extends BaseAdapter {
         }
 
         //获取数据和显示数据
-        String number = Integer.toString(position + 1);
+        String number = Integer.toString((ExpressBillingManagementActivity.page-1)*50 + position+1);
         id = Statics.expressManagementList.get(position).getId();
         String type = Statics.expressManagementList.get(position).getType().trim();
         String classify = Statics.expressManagementList.get(position).getClassify().trim();

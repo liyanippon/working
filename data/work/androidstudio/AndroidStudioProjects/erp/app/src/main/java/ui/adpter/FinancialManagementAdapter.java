@@ -19,6 +19,8 @@ import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
 import model.FinancialManagement;
+import ui.activity.ExpressNumberManagerActivity;
+import ui.activity.FinancialBillingManagementActivity;
 
 /**
  * Created by admin on 2017/2/23.
@@ -78,7 +80,7 @@ public class FinancialManagementAdapter extends BaseAdapter {
         }
 
         //获取数据和显示数据
-        String number = Integer.toString(position + 1);
+        String number = Integer.toString((FinancialBillingManagementActivity.page-1)*50 + position+1);
         //id = Statics.expressManagementList.get(position).getId();
         String account = Statics.financialManagementList.get(0).getData().get(position).getBillType();//账目
         String classify = Statics.financialManagementList.get(0).getData().get(position).getBillClassify();//分类

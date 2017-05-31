@@ -57,7 +57,7 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
     private Handler mHandler;
     private int start = 0;
     private static int refreshCnt = 0;
-    private static int page = 1;
+    public static int page = 1;
     private ExpressNumberManagementHttpPost httpPost;
     private AlertDialog dlg;
     private boolean SearchBoolean = false;

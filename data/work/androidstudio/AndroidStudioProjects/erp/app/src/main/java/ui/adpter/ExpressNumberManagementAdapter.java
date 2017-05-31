@@ -19,6 +19,8 @@ import java.util.List;
 
 import Tool.statistics.Statics;
 import http.ExpressNumberManagementHttpPost;
+import ui.activity.ExpressBillingManagementActivity;
+import ui.activity.ExpressNumberManagerActivity;
 
 /**
  * Created by admin on 2017/2/23.
@@ -81,7 +83,7 @@ public class ExpressNumberManagementAdapter extends BaseAdapter {
         if (Statics.enmList.size() == 0){
             return convertView;
         }
-        String number = Integer.toString(position + 1);
+        String number = Integer.toString((ExpressNumberManagerActivity.page-1)*50 + position+1);
         id = Statics.enmList.get(position).getId();
         String expressName = Statics.enmList.get(position).getExpressName().trim();
         Log.v("test4Adapter","Adapter:expressName"+expressName);

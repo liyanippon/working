@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -140,7 +141,9 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
         lp.width = (int) (display.getWidth()); //设置宽度
+        lp.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         dlg.getWindow().setAttributes(lp);
+
     }
 
     @Override
