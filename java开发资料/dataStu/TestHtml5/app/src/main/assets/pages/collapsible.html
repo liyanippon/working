@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="../js/jquery-1.7.2.min.js"></script>
+        <title>
+                                     技术测试页面
+        </title>
+        
+        <style type="text/css">
+        	.bar_normal {
+			    width: 100%; 
+			    height: 40px;
+			    background: gray; 
+			}
+			
+			.item_normal {
+			    width: 100%; 
+			    height: 50px;
+			    background: transparent; 
+			    overflow:hidden;
+				line-height:50px;
+				text-align: center;
+			}
+
+			.sep {
+				  list-style:none;
+				  width:100%;
+				  height:1px;
+				  background:#c00;
+				  overflow:hidden;
+				  line-height:1px;
+				  margin:0px;
+				  padding:0px;
+			      font-size:0px;
+			 }
+		</style>
+    </head>
+    
+    <body style="margin-left: 0px; margin-right: 0px;">
+    	<div id="collapsile"></div>
+    	
+    	<script type="text/javascript">    	
+    		var lastStressedIndex = -1;
+
+    		for (var i = 0; i < 10; i++) {
+    			var containerId = 'container' + i;
+    			var barId = containerId + '_bar';
+    			var iconId = 'icon' + i;
+    			var listviewId= 'listview' + i;
+    			
+    			var container = '<div id="'+containerId+'"><div>';   			
+    			var header = '<table class="bar_normal" id="header" index="'+i+'">'
+		    					+'<tr>'
+		    					+'<td style="width:10%; padding-left:5px;"><img id="'+iconId+'" src="../images/up.png" states="up" style="width:24px; height:24px;"/></td>'
+		    					+'<td style="width:80%;">伸缩栏</td>'
+		    					+'<td style="width:10%;">12</td>'
+		    					+'</tr>'
+		    					+'<table>';		
+    			var listview = '<div id='+listviewId+'></div>';
+    			
+    			$('#collapsile').append(container);
+    			$('#'+containerId).append(header).append(listview);
+    		}
+		  
+			$('div div table').live('click', function(event) {   			
+    			var index = $(this).attr('index');
+    			var icon = $('#icon' + index);
+    			if (icon.attr('states') == 'up') {
+    				// 收拢上次展开的header
+    				if (lastStressedIndex >= 0) {
+    					hideListView(lastStressedIndex);
+    				}
+
+    				showListView(index);
+    			} else {
+    				hideListView(index);
+    			}
+    			return false; //阻止事件往上传递
+			});
+    		
+    		$('div div table').bind("touchstart", function(e){ 
+    			$(this).css('background','yellow');
+			}); 
+			
+			$('div div table').bind("touchend", function(e){ 
+				$(this).css('background','gray');
+			}); 
+			
+			$('div div table').bind("touchmove", function(e){ 
+				$(this).css('background','gray');
+			}); 
+			
+			$('div div div div[id=item]').live('click', function(event) {  								
+				var param = $(this).attr('flag');
+    			$$.info(param);
+    			return false; //阻止事件往上传递
+			});
+			
+    		$('div div div div[id=item]').live("touchstart", function(e){ 
+    			$(this).css('background','blue');
+			}); 
+			
+			$('div div div div[id=item]').live("touchend", function(e){ 
+				$(this).css('background','transparent');
+			}); 
+			
+			$('div div div div[id=item]').live("touchmove", function(e){ 
+				$(this).css('background','transparent');
+			}); 
+			
+			// 组合 布局
+			function getListView(index) {
+				var data = getList(index).data;
+				var len = data.length;	
+				var html = '';
+				var seprator = '<div id="divider" class="sep"></div>';
+				for (var i = 0; i < len; i++) {
+					var item = data[i];
+					html += '<div id="item" flag='+item.id+' class="item_normal">'+item.title+'</div>';
+					if (i < len - 1) {
+						html += seprator;
+					}
+				}	
+				return html;
+			}
+			
+			// 模拟json数据
+			function getList(index) {
+				var myJson = {data: []};
+				for (var j = 0; j < 5; j++) {
+					myJson.data.push({id: 'itemId', title: '父目录'+index+' 第'+j+'行'});
+				}
+
+				return myJson;
+			}
+			
+			// 展开当前header
+			function showListView(index) {	
+				var icon = $('#icon' + index);
+				icon.attr('src','../images/down.png');
+				icon.attr('states','down');   				
+				$('#listview'+index).append(getListView(index));				
+				lastStressedIndex = index;
+			}
+			
+			// 收拢header
+			function hideListView(index) {
+				$('#listview'+index).empty();
+				var icon = $('#icon' + index);
+				icon.attr('src','../images/up.png');
+				icon.attr('states','up');				
+				lastStressedIndex = -1;
+			}
+			
+		</script>
+    </body>
+    
+</html>
+

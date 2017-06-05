@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <style type="text/css">
+div {
+	 align: center;
+}
+</style>
+    <script type="text/javascript">
+    function btnLogin() {
+        var name = document.getElementById("name").value;
+        var psd = document.getElementById("psd").value;
+        login(name,psd);
+	}
+    function login(name,psd){
+    	 myObj.fun2(name,psd);
+    }
+    function btnRegister(){
+    	 myObj.registerController("register");
+    }
+					
+</script>
+</head>
+<body>
+<div id="pid">
+    账号登录
+    <br/>
+    <br/>
+    账号 : <input id="name" type="text"></div>
+<br/>
+密码 : <input id="psd" type="password"></div>
+<br/>
+<br/>
+记住密码<input type="checkbox"/> <a href="http://blog.csdn.net/qq_25193681/article/details/52117281" target="_blank">忘记密码</a>
+<br/>
+<br/>
+
+<button onclick="btnLogin()">登录</button>
+<button onclick="btnRegister()">注册</button>
+</div>
+</body>
+</html>

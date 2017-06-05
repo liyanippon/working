@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="../js/jquery-1.7.2.min.js"></script>
+        <title>
+                                     技术测试页面
+        </title>
+        
+        <style type="text/css">
+			.item_normal {
+			    width: 100%; 
+			    height: 50px;
+			    background: transparent; 
+			    overflow:hidden;
+				line-height:50px;
+				text-align: center;
+			}
+
+			.sep {
+				  list-style:none;
+				  width:100%;
+				  height:1px;
+				  background:#c00;
+				  overflow:hidden;
+				  line-height:1px;
+				  margin:0px;
+				  padding:0px;
+			      font-size:0px;
+			 }
+		</style>
+    </head>
+    
+    <body style="margin-left: 0px; margin-right: 0px;">
+    	<div id="listview"></div>
+    	
+    	<script type="text/javascript">
+    		for ( var i = 0; i < 100; i++) {
+				var html = '<div id="'+i+'" class="item_normal">这是第'+i+'行<button type="button" id="111btn">Click Me!</button></div>';
+				var seprator = '<div class="sep"></div>';
+				$('#listview').append(html).append(seprator);		
+			}
+    		
+    		$('div div').bind('click', function(event) {
+    			
+    			var id = $(this).attr('id');
+				$$.info('点击:'+id)
+				return false;
+			});
+    		
+    		$('div div').bind("touchstart",function(e){ 
+    			if (e.target.id != '111btn') {
+    				$(this).css('background','blue');
+    			}
+			}); 
+			
+			$('div div').bind("touchend",function(e){ 
+				if (e.target.id != '111btn') {
+					$(this).css('background','transparent');
+				}
+			}); 
+			
+			$('div div').bind("touchmove",function(e){ 
+				if (e.target.id != '111btn') {
+					$(this).css('background','transparent');
+				}
+			}); 
+
+			$('div div button').bind('click', function(event) {
+				$$.info('点击按钮！');
+				return false; //阻止往上传递
+			});
+			
+		</script>
+    </body>
+    
+</html>
+
