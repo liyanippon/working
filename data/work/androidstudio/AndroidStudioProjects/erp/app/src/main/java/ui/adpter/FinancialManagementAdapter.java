@@ -69,7 +69,7 @@ public class FinancialManagementAdapter extends BaseAdapter {
             vh.number = (TextView) convertView.findViewById(R.id.number);
             vh.account = (TextView) convertView.findViewById(R.id.account);
             vh.classify = (TextView) convertView.findViewById(R.id.classify);
-            vh.content = (TextView) convertView.findViewById(R.id.content);
+            //vh.content = (TextView) convertView.findViewById(R.id.content);
             vh.billingTime = (TextView) convertView.findViewById(R.id.billingTime);
             vh.price = (TextView) convertView.findViewById(R.id.price);
             vh.operate = (TextView) convertView.findViewById(R.id.operate);
@@ -98,14 +98,14 @@ public class FinancialManagementAdapter extends BaseAdapter {
         if(classify.equals("出账")){
             vh.account.setTextColor(Color.RED);
             vh.classify.setTextColor(Color.RED);
-            vh.content.setTextColor(Color.RED);
+//            vh.content.setTextColor(Color.RED);
             vh.billingTime.setTextColor(Color.RED);
             vh.price.setTextColor(Color.RED);
             vh.price.setText("-"+price);
         }else{
             vh.account.setTextColor(Color.BLACK);
             vh.classify.setTextColor(Color.BLACK);
-            vh.content.setTextColor(Color.BLACK);
+ //           vh.content.setTextColor(Color.BLACK);
             vh.billingTime.setTextColor(Color.BLACK);
             vh.price.setTextColor(Color.BLACK);
             vh.price.setText(price);
@@ -113,7 +113,7 @@ public class FinancialManagementAdapter extends BaseAdapter {
         vh.number.setText(number);
         vh.account.setText(account);
         vh.classify.setText(classify);
-        vh.content.setText(content);
+//        vh.content.setText(content);
         vh.billingTime.setText(billingTimeSb.toString());
 
         vh.operate.setOnClickListener(new Click(positions));//解决光标获取不对的问题

@@ -11,9 +11,11 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -91,10 +93,10 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 AlertDialog.Builder builder = new AlertDialog.Builder(ExpressBillingManagementActivity.this);
                 LayoutInflater inflater = getLayoutInflater();
                 final View layout = inflater.inflate(R.layout.accountmanager_dialog_detailed_item, null);//获取自定义布局
-                Button back = (Button) layout.findViewById(R.id.back);
                 TextView type = (TextView) layout.findViewById(R.id.type);//快递类型
                 TextView classify = (TextView) layout.findViewById(R.id.classify);//业务分类
                 TextView reason = (TextView) layout.findViewById(R.id.reason);//业务类型
+                TextView payMethod = (TextView) layout.findViewById(R.id.pay_method);//支付方式
                 TextView price = (TextView) layout.findViewById(R.id.price);//金额
                 TextView guest = (TextView) layout.findViewById(R.id.guest);//客户
                 TextView remark = (TextView) layout.findViewById(R.id.remark);//备注
@@ -104,23 +106,37 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 type.setText(Statics.expressManagementList.get(position - 1).getType());
                 classify.setText(Statics.expressManagementList.get(position - 1).getClassify());
                 reason.setText(Statics.expressManagementList.get(position - 1).getReason());
+                payMethod.setText(Statics.expressManagementList.get(position - 1).getPaymentMethod());
                 price.setText(Statics.expressManagementList.get(position - 1).getSum());
                 guest.setText(Statics.expressManagementList.get(position - 1).getCustomerId());
                 remark.setText(Statics.expressManagementList.get(position - 1).getRemark());
                 createuser.setText(Statics.expressManagementList.get(position - 1).getCreateBy());
                 billingTime.setText(Statics.expressManagementList.get(position - 1).getBillingTime());
                 createTime.setText(Statics.expressManagementList.get(position - 1).getCreateTime());
+                if("出账".equals(Statics.expressManagementList.get(position - 1).getClassify())){
+                    type.setTextColor(Color.RED);
+                    classify.setTextColor(Color.RED);
+                    reason.setTextColor(Color.RED);
+                    payMethod.setTextColor(Color.RED);
+                    price.setTextColor(Color.RED);
+                    guest.setTextColor(Color.RED);
+                    remark.setTextColor(Color.RED);
+                    createuser.setTextColor(Color.RED);
+                    billingTime.setTextColor(Color.RED);
+                    createTime.setTextColor(Color.RED);
+                }else {
 
+                }
                 //创建人就是用户名
                 builder.setView(layout);
-                back.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dlg.dismiss();
-                    }
-                });
                 dlg = builder.create();
                 dlg.show();
+                //dlg.getWindow().setLayout(1500, 1500);
+                WindowManager windowManager = getWindowManager();
+                Display display = windowManager.getDefaultDisplay();
+                WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+                lp.width = (int) (display.getWidth()); //设置宽度
+                dlg.getWindow().setAttributes(lp);
             }
         });
 
@@ -135,6 +151,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 SearchBoolean = true;
                 httpPost = new ExpressBillingManagementHttpPost();
                 String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+                Log.d("ExpressBillingManagemen", "业务类型："+reasonSpinnerString);
                 String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, reasonSpinnerString, ExpressBillingManagementActivity.this, page);
 
             }
@@ -228,6 +245,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 for (int i = 0; i < Statics.accountReasonList.size(); i++) {
                     data_list.add(Statics.accountReasonList.get(i).getName());
                     Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
+                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getId());
 
                 }
                 //适配器
@@ -241,15 +259,20 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (position < Statics.accountReasonList.size()-1) {//需要仔细
+                        if (position <= Statics.accountReasonList.size()) {//需要仔细
                             if(position == 0){
                                 reasonSpinnerString = "全部";
+                                Log.d("ExpressBillingManagemen", "代号："+"全部");
+
                             }else{
                                 reasonSpinnerString = Statics.accountReasonList.get(--position).getId();
+                                Log.d("ExpressBillingManagemen", "代号："+reasonSpinnerString);
                             }
                         } else {
                             Log.v("test", "position:" + Integer.toString(position) + "@" +
                                     "Static.accountReasonList.size()" + Integer.toString(Statics.accountReasonList.size()));
+                            Log.d("ExpressBillingManagemen", "代号："+"都不是");
+                            Log.d("ExpressBillingManagemen","代号::"+position+"@@"+Integer.toString(Statics.accountReasonList.size()-1));
                         }
                     }
                     @Override

@@ -96,7 +96,7 @@ public class ExpressBillingManagementHttpPost {
 
     public String UmlHttp(String httpUrl, final String sessionid, String username) {//登录验证
 
-        Log.d("uml", httpUrl);
+        Log.d("uml", httpUrl+"sss");
         finalHttp = new FinalHttp();
         finalHttp.configRequestExecutionRetryCount(7);// 请求错误重试次数
         finalHttp.configTimeout(20000);// 超时时间
@@ -186,22 +186,22 @@ public class ExpressBillingManagementHttpPost {
                     resultString = "error";
                     Log.d("test", strMsg);
                 }
-                Log.d("testst", "kkkkk");
                 ExpressBillingManagementActivity.progressDialog.dismiss();
-                ExceptionUtil.httpPost("AccountManagementHttpPost");
             }
         });
         return resultString;
     }
 
     public String addCountManagerHttp(String httpUrl, String typeSpinnerString, String classifySpinnerString, String reasonSpinnerString, String sum,
-                                      String description, String customerId, String billingTime) {
+                                      String description, String customerId, String billingTime ,String payMethodString) {
         Log.d("addmm", "添加账单:" + typeSpinnerString + "/"
                 + classifySpinnerString +
                 "/" + reasonSpinnerString +
                 "/" + sum + "/" + description +
                 "/" + customerId +
-                "/" + billingTime);
+                "/" + billingTime+
+                "/" + payMethodString
+        );
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         Log.d("ffff", "xxx" + Statics.Name);
@@ -219,13 +219,11 @@ public class ExpressBillingManagementHttpPost {
         params.put("customerId", customerId);
         params.put("billingTime", billingTime);//billingTime 创建时间
         params.put("updateTime", billingTime);
-
+        params.put("paymentMethod",payMethodString);//支付方式
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
-
                 Log.v("test", "Constants.userName::" + Statics.userName);
                 String result = (String) o;//从从网络端返回数据
                 //Log.d("test",result);
@@ -236,13 +234,10 @@ public class ExpressBillingManagementHttpPost {
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
-
                 resultString = "error";
-                Log.d("test", strMsg);
-                ExceptionUtil.httpPost("AccountManagementHttpPost");
+                Log.d("ExpressBillingManagemen", "添加失败" + strMsg);
             }
         });
-
         return resultString;
     }
 

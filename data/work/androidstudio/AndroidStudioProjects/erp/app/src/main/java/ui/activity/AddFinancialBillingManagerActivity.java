@@ -3,6 +3,9 @@ package ui.activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +44,7 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("添加客户");
+        setTitle("添加账目");
         setContentView(R.layout.activity_add_financial_manager);
 
         //添加返回按钮
@@ -76,12 +79,12 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.add:
-                    String contentString =content.getText().toString().trim();
+                    //String contentString =content.getText().toString().trim();
                     String priceString = price.getText().toString().trim();
                     String remarkString = remark.getText().toString().trim();
                     String timeString = time.getText().toString();
-                    if ( "".equals(contentString)||"".equals(priceString)
-                            || "".equals(remarkString)) {
+                    if ( "".equals(priceString)
+                            ) {
                         Toast.makeText(AddFinancialBillingManagerActivity.this, "所填数据不能为空", Toast.LENGTH_LONG).show();
                     } else {
                         param=new HashMap<>();
@@ -93,10 +96,10 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
                         param.put("billType",accountSpinnerString);
                         param.put("billClassify",classifySpinnerString);
                         param.put("billTime2",timeString);
-                        param.put("billClassification",contentString);
+                        //param.put("billClassification",contentString);
                         param.put("billSum",priceString);
                         param.put("billCustomerId",customerNameSpinnerString);
-                        param.put("billDescription",remarkString);
+                        param.put("billClassification",remarkString);
                         param.put("updateTime",timeString);
                         Log.d("AddFinancialBillingMana", "customerId" + customerNameSpinnerString);
                         if ("success".equals(HttpBasePost.postHttp(Statics.AddFinancialBillingUrl,param, HttpTypeConstants.AddFinancialBillingUrlType))) {
@@ -112,7 +115,7 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
                     }
                     break;
                 case R.id.reset:
-                    content.setText("");
+                    //content.setText("");
                     price.setText("");
                     remark.setText("");
                     break;
@@ -243,9 +246,50 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
         classifySpinner = (Spinner) findViewById(R.id.classify);
         remark = (EditText) findViewById(R.id.remark);
         time = (EditText) findViewById(R.id.time);
-        content = (EditText) findViewById(R.id.content);
+        //content = (EditText) findViewById(R.id.content);
         price = (EditText) findViewById(R.id.price);
+        price.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        setPoint(price);//设置金额输入位数
         remark = (EditText) findViewById(R.id.remark);
     }
 
+    public void setPoint(EditText point) {//限制输入小数位数
+        point.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 2+1);
+                        price.setText(s);
+                        price.setSelection(s.length());
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    price.setText(s);
+                    price.setSelection(2);
+                }
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        price.setText(s.subSequence(0, 1));
+                        price.setSelection(1);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
 }

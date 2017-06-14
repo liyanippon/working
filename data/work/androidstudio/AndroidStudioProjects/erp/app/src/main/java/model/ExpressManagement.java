@@ -15,8 +15,9 @@ public class ExpressManagement {
     private String createBy;
     private String customerId;
     private String remark;
+    private String paymentMethod;
 
-    public ExpressManagement(String id, String type, String classify, String billingTime, String createTime, String reason, String sum, String createBy, String customerId, String remark) {
+    public ExpressManagement(String id, String type, String classify, String billingTime, String createTime, String reason, String sum, String createBy, String customerId, String remark ,String paymentMethod) {
         this.id = id;
         this.type = type;
         this.classify = classify;
@@ -27,6 +28,15 @@ public class ExpressManagement {
         this.createBy = createBy;
         this.customerId = customerId;
         this.remark = remark;
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
     public String getId() {

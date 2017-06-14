@@ -47,9 +47,14 @@ public class HttpBasePost {
                                 String result = (String) o;//从从网络端返回数据
                                 resultString = "success";
                                 Log.d("HttpBasePost", "结果" + result);
-                                if(httpType.equals("100400")||httpType.equals("100401")||httpType.equals("100402")){//考勤模块
+                                if(httpType.equals("100204")||httpType.equals("100205")){//物流模块
+                                        HttpTypeUtil.expressType(result,httpType);
+                                }else if(httpType.equals("100400")||httpType.equals("100401")
+                                        ||httpType.equals("100402")||httpType.equals("100403")){//考勤模块
                                         HttpTypeUtil.attendanceType(result,httpType);
-                                }else if(httpType.equals("100500")||httpType.equals("100501")||httpType.equals("100502")||httpType.equals("100503")||httpType.equals("100504")||httpType.equals("100506")||httpType.equals("100507")||httpType.equals("100508")){
+                                }else if(httpType.equals("100500")||httpType.equals("100501")//财务模块
+                                        ||httpType.equals("100502")||httpType.equals("100503")||httpType.equals("100504")
+                                        ||httpType.equals("100506")||httpType.equals("100507")||httpType.equals("100508")){
                                         resultString = HttpTypeUtil.financialType(result,httpType);
                                 }
 

@@ -1,45 +1,6 @@
 package http;
 
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
-import model.AccountClassify;
-import model.ExpressManagement;
-import model.AccountReason;
-import model.AccountType;
-import model.AttendanceStatistics;
-import model.AttendanceYear;
-import model.Customer;
-import model.CustomerBillingStatistics;
-import model.ExpressNumberManagement;
-import model.ExpressPerson;
-import model.ExpressPersonMonthStatisticsXiangqing;
-import model.ExpressPersonStatistic;
-import model.ExpressPersonStatisticsXiangqing;
-import model.ExpressPieceCountMonth;
-import model.FinancialAccount;
-import model.FinancialBilingGetXWstatisticalData;
-import model.FinancialBillingGetWXSelectMonthAccount;
-import model.FinancialBillingGetWXsettlementMonth;
-import model.FinancialCustomer;
-import model.FinancialManagement;
-import model.TimeBillingStatistics;
-import model.TimeExpressStatistics;
-import model.UserUmp;
-import model.XiangxiBillingStatistics;
-
 /**
  * Created by admin on 2017/2/21.
  */
@@ -59,6 +20,8 @@ public class HttpTypeConstants {
     public static final String ExpressCustomerSearchUrlType = "100201";//客户统计列表
     public static final String YearSearchUrlType = "100201";//获取年
     public static final String ExpressXqCustomerSearchUrlType = "100203";//客户详情
+    public static final String ExpressGetWXPaymentMethod = "100204";//查看现在资金信息
+    public static final String ExpressGetWXExpenseAccountPaymentMethod = "100205";
     /**业务揽件和业务统计**/
     public static final String ExpressYearSearchUrlType = "100300";//年份
     public static final String ExpressPersonNameSearchUrlType = "100301";//业务员
@@ -74,6 +37,7 @@ public class HttpTypeConstants {
     public static final String AttendanceStatisticsSearchUrlType = "100400";//考勤查询url
     public static final String SearchYearUrlType = "100401";//年查询url
     public static final String SearchStuffName = "100402";//查询员工姓名
+    public static final String GetWXAttendanceDetaSearchUrl = "100403";//每个人考勤详细信息
     /**财务管理**/
     public static final String FinancialAccountCustomerUrlType = "100500"; //账目客户名
     //账目管理

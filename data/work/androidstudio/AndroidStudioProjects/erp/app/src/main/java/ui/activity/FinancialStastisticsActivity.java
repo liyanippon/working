@@ -38,6 +38,7 @@ import ui.fragement.ChartsFragementActivity;
 public class FinancialStastisticsActivity extends BaseActivity implements LazyLoadFace {
 
     public static ListView timeListView, customerListView;
+    public LinearLayout linear;//设置隐藏
     public static TextView currentMoney;
     private ViewGroup tableTitle, tableTitle1;
     private Spinner typeSpinner, yearSpinner;
@@ -62,13 +63,13 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("财务账单统计");
+        setTitle("账目统计");
         setContentView(R.layout.activity_financial_stastistics);
 
         //添加返回按钮
         ToolUtils.backButton(this);
         init();
-        spinnerType();
+        //spinnerType();
 
         yearSpinnerString = "2017";//默认赋值
         //首次访问
@@ -80,7 +81,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
         timeBillingStatisticsList = Statics.fbgwxSettlementMonthList;
         timeAdapter = new FinancialTimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
         timeListView.setAdapter(timeAdapter);
-        search.setOnClickListener(this);
+        //search.setOnClickListener(this);
         zhuXing.setOnClickListener(this);
 
         timeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,33 +116,26 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
         HttpBasePost.postHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl,param,HttpTypeConstants.FinancialBillingGetWXSelectMonthAccountUrlType);
         //financialStatisticsHttpPost.searchXqMonthBillHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl, yearSpinnerString, typeString, monthString);//
         //显示对话框，在对话框中使用ListView
+        listView = null;
         AlertDialog.Builder builder = new AlertDialog.Builder(FinancialStastisticsActivity.this);
         LayoutInflater inflater = getLayoutInflater();
-        final View layout = inflater.inflate(R.layout.billingstatistics_month_dialog_detailed_item, null);//获取自定义布局
-        listView = (ListView) layout.findViewById(R.id.lv);
+        final View customerLayout = inflater.inflate(R.layout.billingstatistics_month_dialog_detailed_item, null);//获取自定义布局
+        listView = (ListView) customerLayout.findViewById(R.id.month_lv);
         //tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
         //tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         monthXiangXiBillingStatisticsList = Statics.fbgwxsmaList;
         Log.d("FinancialStastisticsAct", monthXiangXiBillingStatisticsList.size() + "ss");
         monXiangXiAdapter = new MonthXiangxiBillingStatisticsAdapter(FinancialStastisticsActivity.this, monthXiangXiBillingStatisticsList);
         listView.setAdapter(monXiangXiAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            }
-        });
-
         //创建人就是用户名
-        builder.setView(layout);
+        builder.setView(customerLayout);
+
         dlg = builder.create();
         dlg.show();
-        //dlg.getWindow().setLayout(1500, 1500);
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
-        lp.width = (int) (display.getWidth()); //设置宽度
-        lp.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        lp.width = display.getWidth(); //设置宽度
         dlg.getWindow().setAttributes(lp);
 
     }
@@ -254,6 +248,8 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
 
         zhuXing = (ImageView) findViewById(R.id.zhuXing);
         currentMoney = (TextView) findViewById(R.id.currentMoney);
+        //linear = (LinearLayout) findViewById(R.id.linear);
+
     }
     @Override
     public void AdapterRefresh(String type) {//刷新adapter

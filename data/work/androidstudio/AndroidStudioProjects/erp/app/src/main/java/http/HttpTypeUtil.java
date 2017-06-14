@@ -7,6 +7,7 @@ import java.util.Collections;
 import Tool.statistics.Statics;
 import model.AttendanceStatistics;
 import model.AttendanceYear;
+import model.ExpressExpensePayMethod;
 import model.FinancialAccount;
 import model.FinancialBillingGetWXSelectMonthAccount;
 import model.FinancialBillingGetWXsettlementMonth;
@@ -14,6 +15,7 @@ import model.FinancialCustomer;
 import model.FinancialManagement;
 import ui.activity.AddFinancialBillingManagerActivity;
 import ui.activity.AttendanceStatisticsActivity;
+import ui.activity.BillingStatisticsActivity;
 import ui.activity.FinancialBillingManagementActivity;
 import ui.activity.FinancialStastisticsActivity;
 
@@ -23,12 +25,32 @@ import ui.activity.FinancialStastisticsActivity;
 
 public class HttpTypeUtil {
 
+    public static void expressType(String result,String httpType) {//物流模块
+        ExpressExpensePayMethod[] as;
+        switch (httpType){
+            case "100204":
+                //json数据使用Gson框架解析
+                Statics.CurrentPayStatistic = result;
+                //刷新异步刷新
+                BillingStatisticsActivity bsActivity = new BillingStatisticsActivity();
+                bsActivity.AdapterRefresh("CurrentPayStatistic");
+                break;
+            case "100205":
+                Log.d("HttpTypeUtil", "支付方式字段获取：：" + result);
+                Statics.expressPaymentMethodArrayList.clear();
+                as = new Gson().fromJson(result, ExpressExpensePayMethod[].class);
+                Collections.addAll(Statics.expressPaymentMethodArrayList,as);//转化arrayList
+                break;
+        }
+
+    }
 
     public static void attendanceType(String result,String httpType) {//考勤模块
         AttendanceStatistics[] as;
         AttendanceYear[] ay;
         switch (httpType){
             case "100400":
+                Log.d("HttpTypeUtil", "results" + result);
                 //json数据使用Gson框架解析
                 Statics.attendanceStatisticsList.clear();
                 as = new Gson().fromJson(result, AttendanceStatistics[].class);
@@ -77,6 +99,10 @@ public class HttpTypeUtil {
                     Log.d("hihi",searchNameId.get(i));
                 }
                 break;
+
+            case "100403":
+                Log.d("HttpTypeUtil", "考勤统计详细信息:"+result);
+                break;
         }
 
     }
@@ -113,7 +139,7 @@ public class HttpTypeUtil {
                 break;
             case "100504":
                 //json数据使用Gson框架解析
-                Statics.financialManagementList.clear();
+                Statics.financialAccountList.clear();
                 FinancialAccount[] fa = new Gson().fromJson(result, FinancialAccount[].class);
                 Collections.addAll(Statics.financialAccountList,fa);//转化arrayList
                 break;
@@ -140,6 +166,7 @@ public class HttpTypeUtil {
                 fsa.AdapterRefresh("currentMoney");
                 break;
         }
+
         return result;
     }
 }

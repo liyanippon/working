@@ -26,13 +26,14 @@ import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
+import model.ExpressExpensePayMethod;
 import portface.LazyLoadFace;
 public class AddExpressBillingManagerActivity extends BaseActivity implements LazyLoadFace{
     private Button add, reset;
-    private static Spinner typeSpinner, classifySpinner, reasonSpinner, customSpinner;
+    private static Spinner typeSpinner, classifySpinner, reasonSpinner, customSpinner, payMethodSpinner;
     private EditText price, remark;
     public static ArrayAdapter<String> arr_adapter,arr_adapter1;
-    private String typeSpinnerString, classifySpinnerString, reasonSpinnerString, customerSpinnerString, priceString, remarkString,billingTimeString;
+    private String typeSpinnerString, classifySpinnerString, reasonSpinnerString, customerSpinnerString, priceString, remarkString,billingTimeString, payMethodSpinnerString;
     private List<String> data_list;
     private ExpressBillingManagementHttpPost httpPost;
     private RelativeLayout buttonPanel;
@@ -52,12 +53,10 @@ public class AddExpressBillingManagerActivity extends BaseActivity implements La
 
         //添加返回按钮
         ToolUtils.backButton(this);
-
         context = getApplicationContext();
         initBroadCast();
         init();
         spinnerType();
-
         calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         currentMon = calendar.get(Calendar.MONTH)+1;
@@ -95,14 +94,14 @@ public class AddExpressBillingManagerActivity extends BaseActivity implements La
                 remarkString = remark.getText().toString().trim();
                 if ("".equals(typeSpinnerString) || "".equals(classifySpinnerString) || "".equals(reasonSpinnerString)
                         || "".equals(customerSpinnerString) || "".equals(priceString)
-                        || "".equals(remarkString)) {
+                        || "".equals(remarkString)||"".equals(payMethodSpinnerString)) {
                     Toast.makeText(AddExpressBillingManagerActivity.this, "所填数据不能为空", Toast.LENGTH_LONG).show();
                 } else {
                     httpPost = new ExpressBillingManagementHttpPost();
                     Log.d("test", typeSpinnerString + "@" + classifySpinnerString + "@" + reasonSpinnerString + "@" + priceString + "@" + remarkString + "@" + customerSpinnerString);
                     if ("success".equals(httpPost.addCountManagerHttp(
                             Statics.FinancialBillingManagementSearchUrl, typeSpinnerString, classifySpinnerString,
-                            reasonSpinnerString, priceString, remarkString, customerSpinnerString ,billingTimeString))) {
+                            reasonSpinnerString, priceString, remarkString, customerSpinnerString ,billingTimeString,payMethodSpinnerString))) {
                         Toast.makeText(AddExpressBillingManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -234,8 +233,6 @@ public class AddExpressBillingManagerActivity extends BaseActivity implements La
                 //加载适配器
                 reasonSpinner.setAdapter(arr_adapter1);
 
-
-
                 reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -252,6 +249,31 @@ public class AddExpressBillingManagerActivity extends BaseActivity implements La
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+
+        //数据源
+        data_list = new ArrayList<>();
+        for(ExpressExpensePayMethod eepm:Statics.expressPaymentMethodArrayList){
+            data_list.add(eepm.getLabel());
+        }
+        //适配器
+        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list);
+        //设置样式
+        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+        //加载适配器
+        payMethodSpinner.setAdapter(arr_adapter);
+        payMethodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                payMethodSpinnerString = Statics.expressPaymentMethodArrayList.get(position).getCode();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
     private void init() {
 
@@ -260,6 +282,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity implements La
         typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
         classifySpinner = (Spinner) findViewById(R.id.classifySpinner);
         reasonSpinner = (Spinner) findViewById(R.id.reasonSpinner);
+        payMethodSpinner = (Spinner) findViewById(R.id.payMethodSpinner);
         price = (EditText) findViewById(R.id.priceId);
         remark = (EditText) findViewById(R.id.remarkId);
         customSpinner = (Spinner) findViewById(R.id.customerId);

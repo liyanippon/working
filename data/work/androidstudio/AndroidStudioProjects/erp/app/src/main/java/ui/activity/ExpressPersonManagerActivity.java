@@ -95,7 +95,7 @@ public class ExpressPersonManagerActivity extends BaseActivity implements XListV
                 AlertDialog.Builder builder = new AlertDialog.Builder(ExpressPersonManagerActivity.this);
                 LayoutInflater inflater = getLayoutInflater();
                 final View layout = inflater.inflate(R.layout.accountmanager_dialog_detailed_item, null);//获取自定义布局
-                Button back = (Button) layout.findViewById(R.id.back);
+                //Button back = (Button) layout.findViewById(R.id.back);
                 TextView type = (TextView) layout.findViewById(R.id.type);//快递类型
                 TextView classify = (TextView) layout.findViewById(R.id.classify);//业务分类
                 TextView reason = (TextView) layout.findViewById(R.id.reason);//业务类型
@@ -112,12 +112,12 @@ public class ExpressPersonManagerActivity extends BaseActivity implements XListV
                 createuser.setText(Statics.expressManagementList.get(position - 1).getCreateBy());
                 //创建人就是用户名
                 builder.setView(layout);
-                back.setOnClickListener(new View.OnClickListener() {
+               /* back.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dlg.dismiss();
                     }
-                });
+                });*/
                 dlg = builder.create();
                 dlg.show();
             }

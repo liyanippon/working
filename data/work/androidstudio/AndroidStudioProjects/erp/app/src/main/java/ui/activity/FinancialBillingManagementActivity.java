@@ -9,9 +9,11 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -130,10 +132,10 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         AlertDialog.Builder builder = new AlertDialog.Builder(FinancialBillingManagementActivity.this);
         LayoutInflater inflater = getLayoutInflater();
         final View layout = inflater.inflate(R.layout.financialbilling_dialog_detailed_item, null);//获取自定义布局
-        Button back = (Button) layout.findViewById(R.id.back);
+        //Button back = (Button) layout.findViewById(R.id.back);
         TextView account = (TextView) layout.findViewById(R.id.account);//账目
         TextView classify = (TextView) layout.findViewById(R.id.classify);//分类
-        TextView content = (TextView) layout.findViewById(R.id.content);//内容
+        //TextView content = (TextView) layout.findViewById(R.id.content);//内容
         TextView billingTime = (TextView) layout.findViewById(R.id.billingTime);//账单时间
         TextView price = (TextView) layout.findViewById(R.id.price);//金额
         TextView customerName = (TextView) layout.findViewById(R.id.customerName);//客户名
@@ -143,7 +145,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         List<FinancialManagement.DataBean> fm = Statics.financialManagementList.get(0).getData();
         account.setText(fm.get(position - 1).getBillType());
         classify.setText(fm.get(position - 1).getBillClassify());
-        content.setText(fm.get(position - 1).getBillClassification());
+        //content.setText(fm.get(position - 1).getBillClassification());
         //账单时间 fm.get(position - 1).getBillCreateTime()
         FinancialManagement.DataBean.BillTimeBean fdb = fm.get(position - 1).getBillTime();
         int years = fdb.getYear();//年
@@ -153,8 +155,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         StringBuffer billingTimeSb=new StringBuffer();
         billingTimeSb.append(year).append("-").append(++mon).append("-").append(date);
         billingTime.setText(billingTimeSb.toString());
-        price.setText(Float.toString(fm.get(position - 1).getBillSum()));
-        remark.setText(fm.get(position - 1).getBillDescription());//备注
+        remark.setText(fm.get(position - 1).getBillClassification());//备注
         customerName.setText(fm.get(position - 1).getBillCustomerId());
         //创建时间 fm.get(position - 1).getBillCreateTime()
         FinancialManagement.DataBean.BillCreateTimeBean fdb1 = fm.get(position - 1).getBillCreateTime();
@@ -170,17 +171,28 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                 .append(date).append(" ").append(hours).append(":").append(min).append(":").append(second);
         createTime.setText(billingTimeSb.toString());
         userName.setText(fm.get(position - 1).getBillCreateBy().toString());//创建人就是用户名
-
+        if("出账".equals(fm.get(position - 1).getBillClassify())){
+            price.setText(" - "+Float.toString(fm.get(position - 1).getBillSum()));
+            account.setTextColor(Color.RED);
+            classify.setTextColor(Color.RED);
+            billingTime.setTextColor(Color.RED);
+            remark.setTextColor(Color.RED);
+            customerName.setTextColor(Color.RED);
+            createTime.setTextColor(Color.RED);
+            userName.setTextColor(Color.RED);
+            price.setTextColor(Color.RED);
+        }else{
+            price.setText(Float.toString(fm.get(position - 1).getBillSum()));
+        }
         //创建人就是用户名
         builder.setView(layout);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dlg.dismiss();
-            }
-        });
         dlg = builder.create();
         dlg.show();
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+        lp.width = (int) (display.getWidth()); //设置宽度
+        dlg.getWindow().setAttributes(lp);
     }
 
     @Override
@@ -190,7 +202,6 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         //httpPost.searchHttp(httpUrl ,"" ,"" ,"",FinancialBillingManagementActivity.this,1);//刷新页面
         Log.d("FinancialBillingManagem", "添加后刷新");
         HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,null,HttpTypeConstants.FinancialBillingManagementUrlType);
-
     }
     //返回按钮事件
     @Override

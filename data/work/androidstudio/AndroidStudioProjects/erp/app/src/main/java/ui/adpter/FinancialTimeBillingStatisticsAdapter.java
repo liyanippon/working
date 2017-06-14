@@ -89,6 +89,11 @@ public class FinancialTimeBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.outcome.setTextColor(Color.RED);
         viewHolder.imbalance.setText(list.get(position).getCe() + "");
         viewHolder.imbalance.setTextSize(13);
+        if(list.get(position).getCe()<0){
+            viewHolder.imbalance.setTextColor(Color.RED);
+        }else{
+            viewHolder.imbalance.setTextColor(Color.BLACK);
+        }
         viewHolder.id.setText(Integer.toString(++position));
         viewHolder.id.setTextSize(13);
         Log.v("test2", "convertView");

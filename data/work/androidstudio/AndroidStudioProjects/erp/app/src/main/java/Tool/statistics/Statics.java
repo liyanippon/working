@@ -6,16 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import model.AccountClassify;
-import model.ExpressManagement;
+import model.ExpressExpensePayMethod;
 import model.AccountReason;
 import model.AccountType;
 import model.AttendanceStatistics;
 import model.AttendanceYear;
 import model.Customer;
 import model.CustomerBillingStatistics;
+import model.ExpressManagement;
 import model.ExpressNumberManagement;
 import model.ExpressPerson;
-import model.ExpressPersonMonthStatisticsXiangqing;
 import model.ExpressPersonStatistic;
 import model.ExpressPersonStatisticsXiangqing;
 import model.ExpressPieceCountMonth;
@@ -70,7 +70,10 @@ public class Statics {
     public static ArrayList<String> data_list = new ArrayList<>();
     public static String results = null;
     public static String userName = null;
-
+    public static String ExpressGetWXPaymentMethod = "http://192.168.1.51:8083/getWXPaymentMethod.ajax";
+    public static String CurrentPayStatistic = null;
+    public static String ExpressGetWXExpenseAccountPaymentMethod = "http://192.168.1.51:8083/getWXExpenseAccountPaymentMethod.ajax";
+    public static ArrayList<ExpressExpensePayMethod> expressPaymentMethodArrayList = new ArrayList<>();
     /**业务揽件和业务统计**/      //18 52
     public static ArrayList<ExpressNumberManagement> enmList = new ArrayList<>();
     public static ArrayList<ExpressPerson> expressPersonsList = new ArrayList<>();
@@ -107,6 +110,7 @@ public class Statics {
     public static Boolean personCount = false;//是否按人员统计
     public static String[] xPerson;//统计表中纵轴数据
     public static Boolean yPositon = false;//设置y轴显示默认false
+    public static String GetWXAttendanceDetaSearchUrl = "http://192.168.1.54:8083/getWXAttendanceDeta.ajax";//每个人考勤详细信息
 
     /**财务管理**/
     public static String FinancialAccountCustomerUrl = "http://192.168.1.53:8083/getWXBillCustomer.ajax"; //账目客户名

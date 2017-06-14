@@ -71,6 +71,7 @@ public class InoutComeZhuFragment extends Fragment {
      */
     private void initData() {
 
+        String description = "进账出账柱型统计图";
         if(this.catlog!=null&&this.catlog.equals("财务统计分析")){
             //统计最大y值
             input = new ArrayList<>();
@@ -83,6 +84,7 @@ public class InoutComeZhuFragment extends Fragment {
             list =new ArrayList<>();//图例
             list.add("出账");
             list.add("进账");
+            description = "财务账目柱型统计图";
 
         }else{
             //统计最大y值
@@ -95,13 +97,14 @@ public class InoutComeZhuFragment extends Fragment {
             list =new ArrayList<>();//图例
             list.add("出账");
             list.add("进账");
+            description = "进账出账柱型统计图";
         }
         int yZhi = ToolUtils.tongJiTuY(input);
         maxValue=(float) yZhi;
         mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
-        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals2,list,"进账出账柱型统计图");
+        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals2,list,description);
 
     }
 

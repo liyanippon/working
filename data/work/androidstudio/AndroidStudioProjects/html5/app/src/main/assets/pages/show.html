@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <style type="text/css">
+div {
+	 align: center;
+}
+</style>
+    <script src="../js/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="../js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.css">
+    <script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.js"></script>
+    <script type="text/javascript">
+    function btnRegister(){
+        var name = document.getElementById("name").value;
+        var psd = document.getElementById("psd").value;
+        var age = document.getElementById("age").value;
+        var phone = document.getElementById("phone").value;
+        var address = document.getElementById("address").value;
+        var sel = 0;
+        for (var i = 0; i < document.getElementsByName("sex").length; i++){
+   　　   if(document.getElementsByName("sex")[i].checked){
+    　　　　sel = i+"";
+   　　       }
+　      }
+        myObj.register(name,psd,sel,age,phone,address);
+    }
+    function reset(){
+        document.getElementById("name").value="";
+        document.getElementById("psd").value="";
+        document.getElementById("age").value="";
+        document.getElementById("phone").value="";
+        document.getElementById("address").value="";
+    }
+    function showMessage(){
+        myObj.showMessage();
+    }
+
+</script>
+</head>
+<body>
+<h3 class="item-title">只读列表</h3>
+<ul data-role="listview">
+    <li>列表项A</li>
+    <li>列表项B</li>
+</ul>
+<h3 class="item-title">基本的列表</h3>
+<ul data-role="listview">
+    <li><a href="#page2">列表项A</a></li>
+    <li><a href="#page2">列表项B</a></li>
+</ul>
+<h3 class="item-title">分割列表</h3>
+<ul data-role="listview">
+    <li data-role="list-divider">老师</li>
+    <li><a href="#page2">老师A</a></li>
+    <li><a href="#page2">老师B</a></li>
+    <li data-role="list-divider">学生</li>
+    <li><a href="#page2">学生A</a></li>
+    <li><a href="#page2">学生B</a></li>
+</ul>
+<button onclick="showMessage()">Click Me!</button>
+</body>
+</html>

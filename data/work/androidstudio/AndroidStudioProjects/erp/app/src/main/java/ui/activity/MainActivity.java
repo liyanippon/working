@@ -53,8 +53,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LogcatHelper.getInstance(this).start();//保存日志
-        initCrashHandler();//系统异常处理
+        //LogcatHelper.getInstance(this).start();//保存日志
+        //initCrashHandler();//系统异常处理
         super.onCreate(savedInstanceState);
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
@@ -157,6 +157,9 @@ public class MainActivity extends BaseActivity {
             Statics.FinancialBillingGetWXAccountsTypeUrl = IFengUrl + "/getWXAccountsType.ajax";
             Statics.FinancialBillingGetWXsettlementMonthUrl = IFengUrl + "/getWXsettlementMonth.ajax";
             Statics.FinancialBillingGetWXSelectMonthAccountUrl = IFengUrl + "/getWXSelectMonthAccount.ajax";
+            Statics.FinancialBillingGetCurrentMoneyUrl = IFengUrl + "/getWXSelectAll.ajax";
+            Statics.ExpressGetWXPaymentMethod = IFengUrl + "/getWXPaymentMethod.ajax";
+            Statics.ExpressGetWXExpenseAccountPaymentMethod = IFengUrl + "/getWXExpenseAccountPaymentMethod.ajax";
             Log.d("55","登录"+Statics.LoginUrl);
             Log.d("55","权限"+Statics.UmlUrl);
             Log.d("55", Statics.FinancialBillingManagementSearchUrl);

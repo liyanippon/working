@@ -10,6 +10,24 @@ public class ExpressNumberManagement {
     private String type;
     private String expressCount;
     private String billingTime;
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public ExpressNumberManagement(String id, String expressName, String type, String expressCount, String billingTime, String remark) {
+        this.id = id;
+        this.expressName = expressName;
+        this.type = type;
+        this.expressCount = expressCount;
+        this.billingTime = billingTime;
+        this.remark = remark;
+    }
 
     public ExpressNumberManagement(String id, String expressName, String type, String expressCount, String billingTime) {
         this.id = id;

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <style type="text/css">
+div {
+	 align: center;
+}
+</style>
+    <script src="../js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+    function btnRegister(){
+        var name = document.getElementById("name").value;
+        var psd = document.getElementById("psd").value;
+        var age = document.getElementById("age").value;
+        var phone = document.getElementById("phone").value;
+        var address = document.getElementById("address").value;
+        var sel = 0;
+        for (var i = 0; i < document.getElementsByName("sex").length; i++){
+   　　   if(document.getElementsByName("sex")[i].checked){
+    　　　　sel = i+"";
+   　　       }
+　      }
+        myObj.register(name,psd,sel,age,phone,address);
+    }
+    function reset(){
+        document.getElementById("name").value="";
+        document.getElementById("psd").value="";
+        document.getElementById("age").value="";
+        document.getElementById("phone").value="";
+        document.getElementById("address").value="";
+    }
+
+					
+</script>
+</head>
+<body>
+<div id="pid" class="container">
+    <br/>
+    用户注册
+    <br/>
+    账号 : <input id="name" type="text">
+    <br/>
+    密码 : <input id="psd" type="password">
+    <br/>
+    性别 : <input type="radio" name="sex" checked="checked" />男
+    <input type="radio" name="sex"/>女
+    <br/>
+    年龄 : <input id="age" type="text">
+    <br/>
+    电话 : <input id="phone" type="text">
+    <br/>
+    地址 : <input id="address" type="text">
+    <br/>
+    <button class="a_demo_two" onclick="btnRegister()">注册</button>
+    <button class="a_demo_two" onclick="reset()">重置</button>
+</div>
+</body>
+</html>

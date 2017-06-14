@@ -23,6 +23,8 @@ import http.ExpressBillingManagementHttpPost;
 import http.BillingStatisticsHttpPost;
 import http.ExpressNumberManagementHttpPost;
 import http.ExpressStatisticsHttpPost;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 import ui.activity.BillingStatisticsActivity;
 import ui.activity.ExpressBillingManagementActivity;
 import ui.activity.ExpressNumberManagerActivity;
@@ -81,18 +83,15 @@ public class MainTabExpress extends Fragment implements AdapterView.OnItemClickL
 	private void spinner() {
 		//获取数据 下拉菜单
 		//AllCustomer
-
-		new Runnable() {
-			@Override
-			public void run() {
 				httpPost.customerSearchHttp(Statics.AllCustomerUrl);
 				httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl);
 				httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl);
 				httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, Statics.accountClassify, getActivity());
-			}
-		}.run();
-	}
+				Log.d("MainTabExpress", "支付方式");
+				HttpBasePost.postHttp(Statics.ExpressGetWXExpenseAccountPaymentMethod //支付方式下拉菜单
+				,null, HttpTypeConstants.ExpressGetWXExpenseAccountPaymentMethod);
 
+	}
 
 	private void init() {
 		gridView = (GridView) view.findViewById(R.id.tab02_grid);

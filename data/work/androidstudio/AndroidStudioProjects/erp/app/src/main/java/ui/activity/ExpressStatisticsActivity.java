@@ -108,7 +108,6 @@ public class ExpressStatisticsActivity extends BaseActivity implements LazyLoadF
                                                                      ToolUtils.selectColor(parent, position);
                                                                      String expressPersonId = Statics.expressPersonStatisticList.get(position).getName_id();//ID
                                                                      month = Statics.expressPersonStatisticList.get(position).getMonth();
-                                                                     Log.d("xiangxixinx", "---------------------------------------------------------------");
                                                                      listView = null;
                                                                      //递类型，月份，客户名客户名以检索
                                                                      Log.d("test90", "express:" + typeSpinnerString);
@@ -260,7 +259,7 @@ public class ExpressStatisticsActivity extends BaseActivity implements LazyLoadF
         //httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl, AccountManagementActivity.this);
 
         ArrayList<String> yearlist = new ArrayList<>();
-        yearlist.add("全部");
+        //yearlist.add("全部");
         for (int i = 0; i < Statics.expressYear.size(); i++) {
             yearlist.add(Statics.expressYear.get(i));
         }
@@ -277,11 +276,12 @@ public class ExpressStatisticsActivity extends BaseActivity implements LazyLoadF
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
+                /*if (position == 0) {
                     yearSpinnerString = "全部";
                 } else {
                     yearSpinnerString = Statics.expressYear.get(--position);
-                }
+                }*/
+                yearSpinnerString = Statics.expressYear.get(position);
                 data_list = null;
             }
 

@@ -6,14 +6,18 @@ import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,6 +31,8 @@ import http.HttpTypeConstants;
 import model.AttendanceStatistics;
 import portface.LazyLoadFace;
 import ui.adpter.AttendanceStatisticsAdapter;
+import ui.adpter.AttendanceXiangxiStatisticsAdapter;
+import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
 import ui.fragement.AttendanceChartsFragmentActivity;
 
 public class AttendanceStatisticsActivity extends BaseActivity implements LazyLoadFace{
@@ -46,6 +52,8 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
     private HashMap<String,String> param;
     private int month;
     private Calendar now;
+    private ListView listView;
+    private AttendanceXiangxiStatisticsAdapter axsAdapter;
     //考勤统计
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +63,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
 
         //添加返回按钮
         ToolUtils.backButton(this);
-
         init();
         spinnerType();
         yearSpinnerString = "2017";//默认赋值
@@ -89,9 +96,54 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         attendanceStatisticsList = Statics.attendanceStatisticsList;
         attendanceAdapter = new AttendanceStatisticsAdapter(AttendanceStatisticsActivity.this, Statics.attendanceStatisticsList);
         attendListView.setAdapter(attendanceAdapter);
+        attendListView.setOnItemClickListener(ao);
         search.setOnClickListener(this);
         graph.setOnClickListener(this);
+    }
 
+    //显示详情
+    AdapterView.OnItemClickListener ao = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            param=new HashMap<>();
+            param.put("userId","");
+            param.put("year",yearSpinnerString);
+            param.put("month",monthSpinnerString);
+            //HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
+            //xiangxiAlertDialog(position);
+        }
+    };
+
+    private void xiangxiAlertDialog(int position) {//详细信息对话框
+        String yearString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumYear();//选中年
+        String monthString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumMonth();//选中月
+        String userId = Statics.attendanceStatisticsList.get(position).getUserId();
+        //String projectId = Statics.attendanceStatisticsList.get(position).//暂时先不考虑
+        //年，月份，员工姓名
+        param=new HashMap<>();
+        param.put("year",yearString);
+        param.put("month",monthString);
+        //param.put("projectId",monthString);
+        param.put("userId",userId);
+        HttpBasePost.postHttp(Statics.GetWXAttendanceDetaSearchUrl,param,HttpTypeConstants.GetWXAttendanceDetaSearchUrl);
+        //显示对话框，在对话框中使用ListView
+        listView = null;
+        AlertDialog.Builder builder = new AlertDialog.Builder(AttendanceStatisticsActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View customerLayout = inflater.inflate(R.layout.attendancestatistics_month_dialog_detailed_item, null);//获取自定义布局
+        listView = (ListView) customerLayout.findViewById(R.id.month_lv);
+        //monthXiangXiBillingStatisticsList = Statics.fbgwxsmaList;
+        axsAdapter = new AttendanceXiangxiStatisticsAdapter(AttendanceStatisticsActivity.this, null);
+        listView.setAdapter(axsAdapter);
+        //创建人就是用户名
+        builder.setView(customerLayout);
+        dlg = builder.create();
+        dlg.show();
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+        lp.width = display.getWidth(); //设置宽度
+        dlg.getWindow().setAttributes(lp);
     }
 
     //返回按钮事件
@@ -136,6 +188,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
                 attendanceStatisticsList = Statics.attendanceStatisticsList;
                 attendanceAdapter = new AttendanceStatisticsAdapter(AttendanceStatisticsActivity.this, attendanceStatisticsList);
                 attendListView.setAdapter(attendanceAdapter);
+
                 break;
             case R.id.zhuXing:
                 Log.d("sss","img");
@@ -172,7 +225,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         nameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("AttendanceStatisticsAct", "校对姓名：" + Statics.searchNameId.get(1).toString());
+                //Log.d("AttendanceStatisticsAct", "校对姓名：" + Statics.searchNameId.get(1).toString());
                 if(position == 0){
                     nameSpinnerString = "全部";
                 }else{
@@ -193,7 +246,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         //httpPost =new HttpPost();
         //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this)
         yearlist = new ArrayList<>();
-        yearlist.add("全部");
+        //yearlist.add("全部");
         for (int i=0;i<Statics.searchYear.size();i++){
             yearlist.add(Statics.searchYear.get(i).getAttendanceYear());
         }
@@ -224,11 +277,12 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
+                /*if(position == 0){
                     yearSpinnerString = "全部";
                 }else{
                     yearSpinnerString = Statics.searchYear.get(--position).getAttendanceYear();
-                }
+                }*/
+                yearSpinnerString = Statics.searchYear.get(position).getAttendanceYear();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -237,7 +291,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
 
         //数据 月
         ArrayList<String> monthList = new ArrayList<>();
-        monthList.add("全部");
+        //monthList.add("全部");
         for (int i=1;i <= 12;i++){
             monthList.add(i+"");
         }
@@ -271,11 +325,12 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
+                /*if(position == 0){
                     monthSpinnerString = "全部";
                 }else{
                     monthSpinnerString = finalMonthList.get(position);
-                }
+                }*/
+                monthSpinnerString = finalMonthList.get(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

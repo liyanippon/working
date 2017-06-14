@@ -51,19 +51,39 @@
         <activity
             android:name="ui.activity.ExpressStatisticsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="ui.activity.TongjiGraphActivity" />
-        <activity android:name="ui.activity.ZheXianGraphActivity" />
-        <activity android:name="ui.fragement.ChartsFragementActivity" />
-        <activity android:name="ui.fragement.ExpressPiecesChartsFragementActivity" />
-        <activity android:name="ui.fragement.ExpressPiecesDetailsChartsFragementActivity" />
-        <activity android:name="ui.fragement.ExpressPiecesPersonDetailsChartsFragementActivity" />
-        <activity android:name="ui.fragement.AttendanceChartsFragmentActivity" />
+        <activity android:name="ui.activity.TongjiGraphActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.ZheXianGraphActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.fragement.ChartsFragementActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.fragement.ExpressPiecesChartsFragementActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.fragement.ExpressPiecesDetailsChartsFragementActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.fragement.ExpressPiecesPersonDetailsChartsFragementActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.fragement.AttendanceChartsFragmentActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name="ui.activity.menu.MenuFragmentMainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="ui.activity.AttendanceStatisticsActivity" />
-        <activity android:name="ui.activity.FinancialBillingManagementActivity" />
-        <activity android:name="ui.activity.FinancialStastisticsActivity"></activity>
+        <activity android:name="ui.activity.AttendanceStatisticsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.FinancialBillingManagementActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.FinancialStastisticsActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

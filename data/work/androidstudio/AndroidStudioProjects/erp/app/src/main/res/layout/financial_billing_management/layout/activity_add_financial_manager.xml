@@ -17,7 +17,7 @@
             android:layout_height="40dp"
             android:textSize="20sp"
             android:gravity="center"
-            android:text="新建客户账单"
+            android:text="添加账目"
             />
 
         <View
@@ -132,7 +132,7 @@
             android:layout_height="2sp"
             android:background="@null"
             />
-        <TableRow
+        <!--<TableRow
             android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -158,11 +158,12 @@
                 android:inputType="textMultiLine"
                 android:minLines="8"
                 android:maxLines="20"
+                android:maxLength="30"
                 android:background="@drawable/shape_editor"
                 android:scrollbars="vertical"
                 >
             </EditText>
-        </TableRow>
+        </TableRow>-->
 
 
         <View
@@ -191,7 +192,6 @@
                 android:layout_height="match_parent"
                 android:id="@+id/price"
                 android:layout_weight="1"
-                android:inputType="number"
                 android:background="@drawable/shape_editor"
                 >
             </EditText>
@@ -256,6 +256,7 @@
                 android:minLines="8"
                 android:maxLines="10"
                 android:layout_weight="1"
+                android:maxLength="100"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/shape_editor"
                 android:scrollbars="vertical"

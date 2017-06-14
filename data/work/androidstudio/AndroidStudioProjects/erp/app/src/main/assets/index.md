@@ -8,7 +8,6 @@ UmpUrl = http://192.168.1.52:8082 //权限控制
 IFengLoginUrl = http://i.yifeng-dl.com   //登录
 IFengUrl = http://erp.yifeng-dl.com //业务模块
 UmpUrl = http://ump.yifeng-dl.com //权限模块
-
 权限代号
                             roid|中文解释
 -----------------------------------------------
@@ -19,7 +18,6 @@ a63711b079154ccba4d4aff08d65b484|开发人员
 a6509c7f484b482ab979aff844acbd2f|BOSS
 f8dc2c2f6ece4f38a8df43ab4d4a4c5d|项目经理
 -----------------------------------------------
-
 //资料收集
 android 最好用的ui框架：https://github.com/wasabeef/awesome-android-ui
 仿微信扫码登录：http://blog.csdn.net/xiaanming/article/details/10163203

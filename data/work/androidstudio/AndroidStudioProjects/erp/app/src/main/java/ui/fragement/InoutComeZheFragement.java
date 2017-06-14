@@ -73,6 +73,8 @@ public class InoutComeZheFragement extends Fragment {
      */
     private void initData() {
 
+        String description = "进账出账折线统计图";
+
         //统计最大y值
         List<Double> input = new ArrayList<>();
 
@@ -82,11 +84,13 @@ public class InoutComeZheFragement extends Fragment {
                 input.add(fgbgm.getJz1());
                 input.add(fgbgm.getCz1());
             }
+            description = "财务账目折线统计图";
         }else{
             for (int i = 0; i< Statics.timeBillingStatisticsList.size(); i++){
                 input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getIncome()));
                 input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getOutcom()));
             }
+            description = "进账出账折线统计图";
         }
 
         int yZhi = ToolUtils.tongJiTuY(input);
@@ -99,7 +103,7 @@ public class InoutComeZheFragement extends Fragment {
         mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
-        mCombinedChartUtil.setMianCombinedChart1(mCombinedChart, yValues1, yValues2,list,"进账出账折线统计图");
+        mCombinedChartUtil.setMianCombinedChart1(mCombinedChart, yValues1, yValues2,list,description);
     }
 
     /**
@@ -137,8 +141,8 @@ public class InoutComeZheFragement extends Fragment {
             for (int i =0;i<=12;i++ ){
                     for (int j = 0;j<mon.length;j++){
                         if(i == mon[j]){
-                            income[i-1] = Statics.fbgwxSettlementMonthList.get(j).getJz1();//进账
-                            outcome[i-1] = Statics.fbgwxSettlementMonthList.get(j).getCz1();//出账
+                            outcome[i-1] = Statics.fbgwxSettlementMonthList.get(j).getJz1();//进账 为了图形显示正确，数组名字
+                            income[i-1] = Statics.fbgwxSettlementMonthList.get(j).getCz1();//出账
                         }
                     }
             }
@@ -150,8 +154,8 @@ public class InoutComeZheFragement extends Fragment {
             for (int i =0;i<=12;i++ ){
                     for (int j = 0;j<mon.length;j++){
                         if(i == mon[j]){
-                            income[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getIncome());//进账
-                            outcome[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getOutcom());//出账
+                            outcome[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getIncome());//出账
+                            income[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getOutcom());//进账
                         }
                     }
             }

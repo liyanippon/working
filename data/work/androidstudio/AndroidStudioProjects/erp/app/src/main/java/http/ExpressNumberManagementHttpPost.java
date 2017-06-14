@@ -6,6 +6,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 import net.tsz.afinal.http.AjaxParams;
@@ -14,10 +16,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
+
 import Tool.JsonResolve;
 import Tool.statistics.ExceptionUtil;
 import Tool.statistics.Statics;
-import model.ExpressNumberManagement;
+import model.ExpressExpensePayMethod;
 import ui.activity.ExpressNumberManagerActivity;
 
 /**
@@ -70,7 +74,10 @@ public class ExpressNumberManagementHttpPost{
                 String results = (String) o;//从从网络端返回数据
                 resultString = "success";
                 Log.d("yusdi","ss:"+results);
-                JsonResolve.jsonExpressionSearchCount(results, activity, rows);//json解析
+                try {
+                    JsonResolve.jsonExpressionSearchCount(results, activity, rows);//json解析
+                }catch (Exception e){
+                }
 
             }
 

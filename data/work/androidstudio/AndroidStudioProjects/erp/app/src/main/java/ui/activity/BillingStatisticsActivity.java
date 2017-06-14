@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.BillingStatisticsHttpPost;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 import model.CustomerBillingStatistics;
 import model.TimeBillingStatistics;
 import model.XiangxiBillingStatistics;
@@ -55,6 +58,7 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
     private int count = 0;
     private ImageView zhuXing;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
+    public static TextView currentMoneyStatistics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,8 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
         yearSpinnerString = "2017";//默认赋值
         //首次访问
         progressDialog = ProgressDialog.show(BillingStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
+
+        HttpBasePost.postHttp(Statics.ExpressGetWXPaymentMethod,null, HttpTypeConstants.ExpressGetWXPaymentMethod);//获取当前资金情况
         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
         billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "", BillingStatisticsActivity.this);
         timeBillingStatisticsList = Statics.timeBillingStatisticsList;
@@ -205,7 +211,7 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
         //httpPost =new HttpPost();
         //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
         ArrayList<String> yearlist = new ArrayList<>();
-        yearlist.add("全部");
+        //yearlist.add("全部");
         for (int i = 0; i < Statics.billingYear.size(); i++) {
             yearlist.add(Statics.billingYear.get(i));
         }
@@ -216,14 +222,16 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
         //加载适配器
         yearSpinner.setAdapter(arr_adapter);
         data_list = null;
+        yearSpinner.setSelection(1, true);
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
+                /*if (position == 0) {
                     yearSpinnerString = "全部";
                 } else {
-                    yearSpinnerString = Statics.billingYear.get(--position);
-                }
+                    yearSpinnerString = Statics.billingYear.get(position);
+                }*/
+                yearSpinnerString = Statics.billingYear.get(position);
                 data_list = null;
             }
 
@@ -242,13 +250,12 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
         yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
         search = (ImageView) findViewById(R.id.search);
         customerListView = (ListView) findViewById(R.id.customerListView);
-
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
         tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         tableTitle1 = (ViewGroup) findViewById(R.id.table_title1);
         tableTitle1.setBackgroundColor(Color.rgb(230, 240, 255));
-
         zhuXing = (ImageView) findViewById(R.id.zhuXing);
+        currentMoneyStatistics = (TextView) findViewById(R.id.currentMoneyStatistics);
     }
 
     @Override
@@ -263,6 +270,9 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
                 break;
             case "xiangxiAdapter":
                 xiangxiAdapter.notifyDataSetChanged();
+                break;
+            case  "CurrentPayStatistic":
+                currentMoneyStatistics.setText(Statics.CurrentPayStatistic);
                 break;
         }
     }
