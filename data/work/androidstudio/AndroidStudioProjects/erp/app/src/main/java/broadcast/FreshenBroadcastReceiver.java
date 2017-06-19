@@ -14,7 +14,6 @@ import portface.LazyLoadFace;
 public class FreshenBroadcastReceiver extends BroadcastReceiver {
     private LazyLoadFace lazyLoadFace;
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
 

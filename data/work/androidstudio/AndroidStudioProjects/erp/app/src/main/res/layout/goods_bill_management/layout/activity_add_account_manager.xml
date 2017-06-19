@@ -267,10 +267,11 @@
                 android:layout_weight="1"
                 android:inputType="textMultiLine"
                 android:minLines="8"
-                android:maxLines="20"
+                android:maxLines="10"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/shape_editor"
                 android:scrollbars="vertical"
+                android:maxLength="100"
                 >
             </EditText>
     </TableLayout>

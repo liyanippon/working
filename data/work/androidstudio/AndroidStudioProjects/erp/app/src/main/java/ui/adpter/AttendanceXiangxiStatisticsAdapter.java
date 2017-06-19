@@ -2,6 +2,7 @@ package ui.adpter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +11,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.admin.erp.R;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import model.AttendanceWxDetaSearch;
 import model.FinancialBillingGetWXsettlementMonth;
 
 /**
@@ -20,17 +26,15 @@ import model.FinancialBillingGetWXsettlementMonth;
 public class AttendanceXiangxiStatisticsAdapter extends BaseAdapter {
     private Context context;
     private Activity activity;
-    private List<FinancialBillingGetWXsettlementMonth> list;
+    private List<AttendanceWxDetaSearch> list;
     private LayoutInflater inflater;
-
-    public AttendanceXiangxiStatisticsAdapter(Activity activityBilling, List<FinancialBillingGetWXsettlementMonth> list) {
+    public AttendanceXiangxiStatisticsAdapter(Activity activityBilling, ArrayList<AttendanceWxDetaSearch> list) {
         Log.v("test2", "TimeBillingStatisticsAdapter");
         inflater = LayoutInflater.from(activityBilling);
         this.activity = activityBilling;
         this.list = list;
         Log.d("FinancialTimeBillingSta", "adpater" + list.size());
     }
-
     @Override
     public int getCount() {
         int ret = 0;
@@ -39,65 +43,60 @@ public class AttendanceXiangxiStatisticsAdapter extends BaseAdapter {
         }
         return ret;
     }
-
     @Override
     public Object getItem(int position) {
         return list.get(position);
     }
-
     @Override
     public long getItemId(int position) {
         return position;
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Log.v("test2", "getView");
-        FinancialTimeBillingStatisticsAdapter.ViewHolder viewHolder;
-
+        AttendanceXiangxiStatisticsAdapter.ViewHolder viewHolder;
         if (convertView == null) {
-
-            viewHolder = new FinancialTimeBillingStatisticsAdapter.ViewHolder();
-
-            convertView = inflater.inflate(R.layout.financial_billingstatics_yearlist_layout, null);
-            viewHolder.id = (TextView) convertView.findViewById(R.id.text_id);//序号
-            viewHolder.year = (TextView) convertView.findViewById(R.id.years);//年
-            viewHolder.month = (TextView) convertView.findViewById(R.id.month);//月份
-            viewHolder.income = (TextView) convertView.findViewById(R.id.income);//进账
-            viewHolder.outcome = (TextView) convertView.findViewById(R.id.outcome);//出账
-            viewHolder.imbalance = (TextView) convertView.findViewById(R.id.imbalance);//差额
-
+            viewHolder = new AttendanceXiangxiStatisticsAdapter.ViewHolder();
+            convertView = inflater.inflate(R.layout.attendance_staffxiangxi_list_layout, null);
+            viewHolder.id = (TextView) convertView.findViewById(R.id.text_id);
+            viewHolder.dateTime = (TextView) convertView.findViewById(R.id.date_time);//考勤日期
+            viewHolder.normalTime = (TextView) convertView.findViewById(R.id.normal_time);//正常工时
+            viewHolder.overTime = (TextView) convertView.findViewById(R.id.over_time);//普通加班工时
+            viewHolder.festivalTime = (TextView) convertView.findViewById(R.id.festival_time);//节假日加班工时
+            viewHolder.askLeaveTime = (TextView) convertView.findViewById(R.id.ask_leave_time);//请假工时
+            viewHolder.pendingStatus = (TextView) convertView.findViewById(R.id.pendings_tatus);//审核状态
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (FinancialTimeBillingStatisticsAdapter.ViewHolder) convertView.getTag();
+            viewHolder = (AttendanceXiangxiStatisticsAdapter.ViewHolder) convertView.getTag();
         }
-
-
-        Log.d("FinancialTimeBillingSta", "year:" + list.get(position).getYe());
-        viewHolder.year.setText(Integer.toString(list.get(position).getYe()));
-        viewHolder.year.setTextSize(13);
-        viewHolder.month.setText(Integer.toString(list.get(position).getMon()));
-        viewHolder.month.setTextSize(13);
-        viewHolder.income.setText(Double.toString(list.get(position).getJz1()));
-        viewHolder.income.setTextSize(13);
-        viewHolder.outcome.setText("- "+list.get(position).getCz1() + "");
-        viewHolder.outcome.setTextSize(13);
-        viewHolder.outcome.setTextColor(Color.RED);
-        viewHolder.imbalance.setText(list.get(position).getCe() + "");
-        viewHolder.imbalance.setTextSize(13);
+        //几号
+        long dateCurrent = list.get(position).getAttendanceDate();
+        Date date = new Date(dateCurrent);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd");
+        String dateStr = sdf.format(date);
+        viewHolder.dateTime.setText(list.get(position).getAttendanceYear()+"-"+list.get(position).getAttendanceMonth()+"-"+dateStr);//日期后期做
+        viewHolder.dateTime.setTextSize(13);
+        viewHolder.normalTime.setText(Double.toString(list.get(position).getNormalHour()));
+        viewHolder.normalTime.setTextSize(13);
+        viewHolder.overTime.setText(Double.toString(list.get(position).getRegularOvertimeHours()));
+        viewHolder.overTime.setTextSize(13);
+        viewHolder.festivalTime.setText(Double.toString(list.get(position).getOvertimeWorkingHours()));
+        viewHolder.festivalTime.setTextSize(13);
+        viewHolder.askLeaveTime.setText(Double.toString(list.get(position).getOffworkhours()));
+        viewHolder.askLeaveTime.setTextSize(13);
+        viewHolder.pendingStatus.setText(list.get(position).getStatusName());
+        viewHolder.pendingStatus.setTextSize(13);
         viewHolder.id.setText(Integer.toString(++position));
         viewHolder.id.setTextSize(13);
-        Log.v("test2", "convertView");
         return convertView;
     }
-
     public static class ViewHolder {
         public TextView id;
-        public TextView year;
-        public TextView month;
-        public TextView income;
-        public TextView outcome;
-        public TextView imbalance;
+        public TextView dateTime;
+        public TextView normalTime;
+        public TextView overTime;
+        public TextView festivalTime;
+        public TextView askLeaveTime;
+        public TextView pendingStatus;
     }
-
 }

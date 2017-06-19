@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import Tool.statistics.Statics;
 import model.AttendanceStatistics;
+import model.AttendanceWxDetaSearch;
 import model.AttendanceYear;
 import model.ExpressExpensePayMethod;
 import model.FinancialAccount;
@@ -48,9 +49,10 @@ public class HttpTypeUtil {
     public static void attendanceType(String result,String httpType) {//考勤模块
         AttendanceStatistics[] as;
         AttendanceYear[] ay;
+        AttendanceWxDetaSearch[] awds;
         switch (httpType){
             case "100400":
-                Log.d("HttpTypeUtil", "results" + result);
+                Log.d("HttpTypeUtil", "统计信息：：" + result);
                 //json数据使用Gson框架解析
                 Statics.attendanceStatisticsList.clear();
                 as = new Gson().fromJson(result, AttendanceStatistics[].class);
@@ -102,6 +104,21 @@ public class HttpTypeUtil {
 
             case "100403":
                 Log.d("HttpTypeUtil", "考勤统计详细信息:"+result);
+                if(result!=null&&!result.equals("")){
+                    Statics.attendanceWxDetaSearchArrayList.clear();
+                    Log.d("HttpTypeUtil", "考勤统计详细信ss息:"+result);
+                    awds = new Gson().fromJson(result, AttendanceWxDetaSearch[].class);
+                    Collections.addAll(Statics.attendanceWxDetaSearchArrayList,awds);//转化arrayList
+                    //刷新异步刷新
+                    AttendanceStatisticsActivity attendanceStatisticsActivity1 = new AttendanceStatisticsActivity();
+                    attendanceStatisticsActivity1.AdapterRefresh("attendXiangxi");
+                }else{
+                    Statics.attendanceWxDetaSearchArrayList.clear();
+                    //刷新异步刷新
+                    AttendanceStatisticsActivity attendanceStatisticsActivity1 = new AttendanceStatisticsActivity();
+                    attendanceStatisticsActivity1.AdapterRefresh("attendXiangxi");
+                }
+
                 break;
         }
 
@@ -166,7 +183,6 @@ public class HttpTypeUtil {
                 fsa.AdapterRefresh("currentMoney");
                 break;
         }
-
         return result;
     }
 }

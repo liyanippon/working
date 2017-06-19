@@ -70,7 +70,7 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
         ToolUtils.backButton(this);
         init();
         spinnerType();
-
+        Log.d("BillingStatisticsActivi", "test");
         yearSpinnerString = "2017";//默认赋值
         //首次访问
         progressDialog = ProgressDialog.show(BillingStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条

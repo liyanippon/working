@@ -208,6 +208,7 @@
                 android:layout_weight="1"
                 android:lines="1"
                 android:inputType="numberDecimal"
+                android:maxLength="10"
                 android:background="@drawable/shape_editor"
                 >
             </EditText>
@@ -236,7 +237,6 @@
             android:background="@null"
             />
         <EditText
-
             android:enabled="true"
             android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
@@ -246,6 +246,7 @@
             android:inputType="textMultiLine"
             android:minLines="8"
             android:maxLines="20"
+            android:maxLength="100"
             android:layout_marginRight="10dp"
             android:background="@drawable/shape_editor"
             android:scrollbars="vertical"

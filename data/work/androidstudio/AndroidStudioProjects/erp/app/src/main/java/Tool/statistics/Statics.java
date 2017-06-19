@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import model.AccountClassify;
+import model.AttendanceWxDetaSearch;
 import model.ExpressExpensePayMethod;
 import model.AccountReason;
 import model.AccountType;
@@ -38,7 +39,6 @@ public class Statics {
 
     /**登录**/
     public static String sessionId ;
-
     /**物流管理**/
     public static String LoginUrl = "http://192.168.1.12:8081/login.jhtml";
     public static String UmlUrl = "http://192.168.1.16:8083/getWXMenuList.ajax";//用户权限url
@@ -56,7 +56,6 @@ public class Statics {
     public static ArrayList<AccountType> accountTypeList = new ArrayList<>();
     public static String accountClassify = "023001";//默认为进账，出账：023002
     public static int page = 0;//分页页数
-
     /**物流统计**/
     public static String TimeSearchUrl = "http://192.168.1.16:8083/getWXTjsjList.ajax";//统计列表
     public static String CustomerSearchUrl = "http://192.168.1.16:8083/getWXCustomerTjsjList.ajax";//客户统计列表
@@ -96,10 +95,8 @@ public class Statics {
     public static ArrayList<ExpressPieceCountMonth> expressPieceCountMonthsList = new ArrayList<>();
     public static Boolean dayCount = false;//是否按天统计
     public static HashMap<String,String>  XiangxiChan= new HashMap<>();//详细查询参数
-
     //是否需要发送广播
     public static Boolean isBroadCast = false;
-
     /**考勤管理**/
     public static String AttendanceStatisticsSearchUrl = "http://192.168.1.55:8083/getWxAllAttendanceMonthSum.ajax";//考勤查询url
     public static String searchYearUrl = "http://192.168.1.55:8083/getWxAllYears.ajax";//年查询url
@@ -111,7 +108,7 @@ public class Statics {
     public static String[] xPerson;//统计表中纵轴数据
     public static Boolean yPositon = false;//设置y轴显示默认false
     public static String GetWXAttendanceDetaSearchUrl = "http://192.168.1.54:8083/getWXAttendanceDeta.ajax";//每个人考勤详细信息
-
+    public static ArrayList<AttendanceWxDetaSearch> attendanceWxDetaSearchArrayList = new ArrayList<>();
     /**财务管理**/
     public static String FinancialAccountCustomerUrl = "http://192.168.1.53:8083/getWXBillCustomer.ajax"; //账目客户名
     public static ArrayList<FinancialCustomer> financialCustomersList = new ArrayList<>();//账目客户
