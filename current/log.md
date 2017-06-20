@@ -160,8 +160,12 @@ wine高版本安装：http://www.linuxidc.com/Linux/2017-04/143039.htm
 http://blog.csdn.net/l631768226/article/details/51858554
 
 
-
-
+考勤统计详细信息：（项目id）
+	var projectId = "8f0e04e31b444c8595ea34c4cc630989";//财务项目id liuchao liudongmei(5月之前)
+		}else if(userId=='zhangqi'){
+			var projectId = "d717f5c7f316439992c28061b03124a0";//物流项目id zhangqi
+		}else if(userId=='majikai'||userId=='liyan'){
+			var projectId = "b8f9da13246e4f2e9a62a17ff377e3a4";//erp项目id majikai liyan liudongmei(6月后)
 
 
 
