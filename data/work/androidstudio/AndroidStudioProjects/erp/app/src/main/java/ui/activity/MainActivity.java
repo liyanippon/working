@@ -1,5 +1,4 @@
 package ui.activity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -34,9 +33,7 @@ import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
 import portface.LazyLoadFace;
 import ui.activity.menu.MenuFragmentMainActivity;
-
 public class MainActivity extends BaseActivity {
-
     private EditText userName;
     private EditText userPassword;
     private ExpressBillingManagementHttpPost httpPost;
@@ -50,7 +47,6 @@ public class MainActivity extends BaseActivity {
     private CheckBox rememberMe;
     SharedPreferences sp = null;
     private RelativeLayout background;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LogcatHelper.getInstance(this).start();//保存日志
@@ -74,9 +70,7 @@ public class MainActivity extends BaseActivity {
         rememberMe = (CheckBox) findViewById(R.id.rememberMe);
         login.setOnClickListener(this);
         reset.setOnClickListener(this);
-
         init();
-
         if (sp.getBoolean("checkboxBoolean", false)){
             userName.setText(sp.getString("uname", null));
             userPassword.setText(sp.getString("upswd", null));
@@ -108,7 +102,6 @@ public class MainActivity extends BaseActivity {
                 if(type.equals("login")){
                     //in = new Intent(MainActivity.this, CensusActivity.class);
                     in = new Intent(MainActivity.this, MenuFragmentMainActivity.class);
-                    Log.d("jmp","登录成功");
                     flag = false;
                     Statics.Name = userNameString ;
                     startActivity(in);
@@ -118,9 +111,10 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /*
+    * 读取配置文件 拼接所有的url
+    */
     private void init() {
-        //handler = new MyHandler();
-        //读取配置文件
         properties = new Properties();
         try {
             properties.load(MainActivity.this.getAssets().open("property1.properties"));
@@ -160,19 +154,8 @@ public class MainActivity extends BaseActivity {
             Statics.FinancialBillingGetCurrentMoneyUrl = IFengUrl + "/getWXSelectAll.ajax";
             Statics.ExpressGetWXPaymentMethod = IFengUrl + "/getWXPaymentMethod.ajax";
             Statics.ExpressGetWXExpenseAccountPaymentMethod = IFengUrl + "/getWXExpenseAccountPaymentMethod.ajax";
-            Log.d("55","登录"+Statics.LoginUrl);
-            Log.d("55","权限"+Statics.UmlUrl);
-            Log.d("55", Statics.FinancialBillingManagementSearchUrl);
-            Log.d("55", Statics.AllCustomerUrl);
-            Log.d("55", Statics.AccountReasonUrl);
-            Log.d("55", Statics.AccountTypeUrl);
-            Log.d("55", Statics.TimeSearchUrl);
-            Log.d("55", Statics.CustomerSearchUrl);
-            Log.d("55", Statics.YearSearchUrl);
-            Log.d("55", Statics.XqCustomerSearchUrl);
-            Log.d("55",Statics.ExpressPersonPieceDaySearchUrl);
-            Log.d("55",Statics.ExpressPieceDaySearchUrl);
-            Log.d("55","测试");
+            Statics.GetWXAttendanceDetaSearchUrl = IFengUrl + "/getWXAttendanceDeta.ajax";
+            Statics.GetWXProjectSearchUrl = IFengUrl + "/getWXProject.ajax";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -222,5 +205,4 @@ public class MainActivity extends BaseActivity {
         httpPost = new ExpressBillingManagementHttpPost(getApplicationContext());
         httpPost.LoginHttp(urlString, userNameString, password, MainActivity.this);
     }
-
 }

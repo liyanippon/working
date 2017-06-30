@@ -50,7 +50,8 @@ public class HttpBasePost {
                                 if(httpType.equals("100204")||httpType.equals("100205")){//物流模块
                                         HttpTypeUtil.expressType(result,httpType);
                                 }else if(httpType.equals("100400")||httpType.equals("100401")
-                                        ||httpType.equals("100402")||httpType.equals("100403")){//考勤模块
+                                        ||httpType.equals("100402")||httpType.equals("100403")
+                                        ||httpType.equals("100404")){//考勤模块
                                         HttpTypeUtil.attendanceType(result,httpType);
                                 }else if(httpType.equals("100500")||httpType.equals("100501")//财务模块
                                         ||httpType.equals("100502")||httpType.equals("100503")||httpType.equals("100504")
@@ -86,25 +87,6 @@ public class HttpBasePost {
 
                 return "success";
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /*public static void postHttp(String httpUrl, HashMap<String,String> param, final String httpType){ //okhttp不支持直接刷新UI  client = new OkHttpClient();
                 FormEncodingBuilder  builder  = new FormEncodingBuilder();

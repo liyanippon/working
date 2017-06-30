@@ -67,8 +67,8 @@ public class ExpressPersonStatisticsAdapter extends BaseAdapter {
         } else {
             viewHolder = (ExpressPersonStatisticsAdapter.ViewHolder) convertView.getTag();
         }
-        viewHolder.id.setText(Integer.toString(++position));
-        viewHolder.id.setTextSize(13);
+       /* viewHolder.id.setText(Integer.toString(++position));
+        viewHolder.id.setTextSize(13);*/
         viewHolder.month.setText(expressPersonStatistic.getMonth());
         viewHolder.month.setTextSize(13);
         viewHolder.expressPerson.setText(expressPersonStatistic.getName());

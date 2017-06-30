@@ -1,11 +1,9 @@
 package Tool.statistics;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import model.AccountClassify;
+import model.AttendanceStaffBelongProject;
 import model.AttendanceWxDetaSearch;
 import model.ExpressExpensePayMethod;
 import model.AccountReason;
@@ -30,11 +28,9 @@ import model.TimeBillingStatistics;
 import model.TimeExpressStatistics;
 import model.UserUmp;
 import model.XiangxiBillingStatistics;
-
 /**
  * Created by admin on 2017/2/21.
  */
-
 public class Statics {
 
     /**登录**/
@@ -108,7 +104,9 @@ public class Statics {
     public static String[] xPerson;//统计表中纵轴数据
     public static Boolean yPositon = false;//设置y轴显示默认false
     public static String GetWXAttendanceDetaSearchUrl = "http://192.168.1.54:8083/getWXAttendanceDeta.ajax";//每个人考勤详细信息
+    public static String GetWXProjectSearchUrl = "http://192.168.1.53:8083/getWXProject.ajax";//获取项目id 得到所在项目组
     public static ArrayList<AttendanceWxDetaSearch> attendanceWxDetaSearchArrayList = new ArrayList<>();
+    public static ArrayList<AttendanceStaffBelongProject> staffBelongProjectArrayList = new ArrayList<>();
     /**财务管理**/
     public static String FinancialAccountCustomerUrl = "http://192.168.1.53:8083/getWXBillCustomer.ajax"; //账目客户名
     public static ArrayList<FinancialCustomer> financialCustomersList = new ArrayList<>();//账目客户

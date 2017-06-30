@@ -28,9 +28,11 @@ import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
+import model.AttendanceStaffBelongProject;
 import model.AttendanceStatistics;
 import model.AttendanceWxDetaSearch;
 import portface.LazyLoadFace;
+import ui.adpter.AttendanceBelongProjectStatisticsAdapter;
 import ui.adpter.AttendanceStatisticsAdapter;
 import ui.adpter.AttendanceXiangxiStatisticsAdapter;
 import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
@@ -47,15 +49,18 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
     private List<AttendanceStatistics> attendanceStatisticsList;
     public static AttendanceStatisticsAdapter attendanceAdapter;
     private AlertDialog dlg;
+    private AlertDialog projectDlg;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
     public static ArrayList<String> yearlist;
     private int monthPosition,yearPosition;
     private HashMap<String,String> param;
     private int month;
     private Calendar now;
-    private ListView listView;
+    private ListView listView,XiangxilistView;
     private static AttendanceXiangxiStatisticsAdapter axsAdapter;
+    private static AttendanceBelongProjectStatisticsAdapter abpsAdapter;
     private ArrayList<AttendanceWxDetaSearch> awds ;
+    private ArrayList<AttendanceStaffBelongProject> asbp;
     //考勤统计
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,28 +113,75 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
     AdapterView.OnItemClickListener ao = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            xiangxiAlertDialog(position);
+            //xiangxiAlertDialog(position);
+            //显示所在项目组对话框
+            belongProjectAlertDialog(position);
         }
     };
-    private void xiangxiAlertDialog(int position) {//详细信息对话框
-        String yearString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumYear();//选中年
-        String monthString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumMonth();//选中月
-        String userId = Statics.attendanceStatisticsList.get(position).getUserId();
+
+    private void belongProjectAlertDialog(int position){//获取员工所在项目组
+        final String yearString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumYear();//选中年
+        final String monthString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumMonth();//选中月
+        final String userId = Statics.attendanceStatisticsList.get(position).getUserId();
         //年，月份，员工姓名
         param=new HashMap<>();
         param.put("year",yearString);
         param.put("month",monthString);
         param.put("userId",userId);
-        HttpBasePost.postHttp(Statics.GetWXAttendanceDetaSearchUrl,param,HttpTypeConstants.GetWXAttendanceDetaSearchUrl);
+        HttpBasePost.postHttp(Statics.GetWXProjectSearchUrl,param,HttpTypeConstants.GetWXProjectSearchUrl);
         //显示对话框，在对话框中使用ListView
         listView = null;
         AlertDialog.Builder builder = new AlertDialog.Builder(AttendanceStatisticsActivity.this);
         LayoutInflater inflater = getLayoutInflater();
+        final View staffLayout = inflater.inflate(R.layout.attendancestatistics_staffproject_dialog_item, null);//获取自定义布局
+        listView = (ListView) staffLayout.findViewById(R.id.project_lv);
+        asbp = new ArrayList<>();
+        asbp = Statics.staffBelongProjectArrayList;
+        abpsAdapter = new AttendanceBelongProjectStatisticsAdapter(AttendanceStatisticsActivity.this, asbp);
+        Log.d("AttendanceStatisticsAct", "第几次");
+        listView.setAdapter(abpsAdapter);
+        //创建人就是用户名
+        builder.setView(staffLayout);
+        projectDlg = builder.create();
+        projectDlg.show();
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lps = projectDlg.getWindow().getAttributes();
+        lps.width = display.getWidth(); //设置宽度
+        projectDlg.getWindow().setAttributes(lps);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String ida = Statics.staffBelongProjectArrayList.get(position).getId();
+                xiangxiAlertDialog(yearString,monthString,userId,position,ida);
+            }
+        });
+    }
+
+    private void xiangxiAlertDialog(String yearString, String monthString, String userId, int positon, String ida) {//详细信息对话框
+        //String yearString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumYear();//选中年
+        //String monthString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumMonth();//选中月
+        //String userId = Statics.attendanceStatisticsList.get(position).getUserId();
+        Log.d("AttendanceStatisticsAct", "--"+ida);
+        Log.d("AttendanceStatisticsAct", yearString);
+        Log.d("AttendanceStatisticsAct", monthString);
+        Log.d("AttendanceStatisticsAct", userId);
+        //年，月份，员工姓名
+        param=new HashMap<>();
+        param.put("year",yearString);
+        param.put("month",monthString);
+        param.put("userId",userId);
+        param.put("projectId",ida);
+        HttpBasePost.postHttp(Statics.GetWXAttendanceDetaSearchUrl,param,HttpTypeConstants.GetWXAttendanceDetaSearchUrl);
+        //显示对话框，在对话框中使用ListView
+        XiangxilistView = null;
+        AlertDialog.Builder builder = new AlertDialog.Builder(AttendanceStatisticsActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
         final View customerLayout = inflater.inflate(R.layout.attendancestatistics_month_dialog_detailed_item, null);//获取自定义布局
-        listView = (ListView) customerLayout.findViewById(R.id.month_lv);
+        XiangxilistView = (ListView) customerLayout.findViewById(R.id.month_lv);
         awds = Statics.attendanceWxDetaSearchArrayList;
         axsAdapter = new AttendanceXiangxiStatisticsAdapter(AttendanceStatisticsActivity.this, awds);
-        listView.setAdapter(axsAdapter);
+        XiangxilistView.setAdapter(axsAdapter);
         //创建人就是用户名
         builder.setView(customerLayout);
         dlg = builder.create();
@@ -194,7 +246,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
     }
 
     private void spinnerType() {
-
         //姓名查询
         /*AttendanceStatisticsHttpPost ash = new AttendanceStatisticsHttpPost();
         ash.searchStaffNameHttp(Statics.AttendanceStatisticsSearchUrl,AttendanceStatisticsActivity.this);*/
@@ -257,7 +308,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
                 break;
             }
         }
-
         //适配器
         yearAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, yearlist);
         //设置样式
@@ -267,7 +317,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         yearAdapter.notifyDataSetChanged();
         Log.d("yearlist","yearPosition:"+yearPosition);
         yearSpinner.setSelection(yearPosition);
-
         yearlist = null;
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -283,14 +332,12 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
         //数据 月
         ArrayList<String> monthList = new ArrayList<>();
         //monthList.add("全部");
         for (int i=1;i <= 12;i++){
             monthList.add(i+"");
         }
-
         //月份回显 上一个月的
         String month=currentTime("month");
         for (int i=0;i<monthList.size();i++){
@@ -303,19 +350,15 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
                 break;
             }
         }
-
-
         //适配器
         monthAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, monthList);
         //设置样式
         monthAdapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
         //加载适配器
         monthSpinner.setAdapter(monthAdapter);
-
         monthAdapter.notifyDataSetChanged();
         Log.d("yearlist","yearlist:"+monthPosition);
         monthSpinner.setSelection(monthPosition);
-
         final ArrayList<String> finalMonthList = monthList;
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -331,8 +374,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-
     }
 
     private String currentTime(String type) {
@@ -348,7 +389,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         else{
             Log.d("error","出错了");
         }
-
         return null;
     }
 
@@ -361,8 +401,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
         search = (ImageView) findViewById(R.id.search);
         graph = (ImageView) findViewById(R.id.zhuXing);
-
-
     }
     @Override
     public void AdapterRefresh(String type) {//刷新adapter
@@ -382,6 +420,10 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
                 break;
             case "attendXiangxi":
                 axsAdapter.notifyDataSetChanged();
+                break;
+            case "staffBelongProject":
+                Log.d("AttendanceStatisticsAct", "notify");
+                abpsAdapter.notifyDataSetChanged();
                 break;
         }
     }

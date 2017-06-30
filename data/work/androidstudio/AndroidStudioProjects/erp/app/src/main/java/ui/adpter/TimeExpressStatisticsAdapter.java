@@ -69,8 +69,8 @@ public class TimeExpressStatisticsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.id.setText(Integer.toString(++position));
-        viewHolder.id.setTextSize(13);
+        /*viewHolder.id.setText(Integer.toString(++position));
+        viewHolder.id.setTextSize(13);*/
         viewHolder.month.setText(timeExpressStatistics.getMonth());
         viewHolder.month.setTextSize(13);
         viewHolder.count.setText(timeExpressStatistics.getSum());

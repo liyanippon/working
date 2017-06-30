@@ -26,7 +26,6 @@ public class FinancialTimeBillingStatisticsAdapter extends BaseAdapter {
     private Activity activity;
     private List<FinancialBillingGetWXsettlementMonth> list;
     private LayoutInflater inflater;
-
     public FinancialTimeBillingStatisticsAdapter(Activity activityBilling, List<FinancialBillingGetWXsettlementMonth> list) {
         Log.v("test2", "TimeBillingStatisticsAdapter");
         inflater = LayoutInflater.from(activityBilling);
@@ -34,7 +33,6 @@ public class FinancialTimeBillingStatisticsAdapter extends BaseAdapter {
         this.list = list;
         Log.d("FinancialTimeBillingSta", "adpater" + list.size());
     }
-
     @Override
     public int getCount() {
         int ret = 0;
@@ -43,26 +41,20 @@ public class FinancialTimeBillingStatisticsAdapter extends BaseAdapter {
         }
         return ret;
     }
-
     @Override
     public Object getItem(int position) {
         return list.get(position);
     }
-
     @Override
     public long getItemId(int position) {
         return position;
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Log.v("test2", "getView");
         ViewHolder viewHolder;
-
         if (convertView == null) {
-
             viewHolder = new ViewHolder();
-
             convertView = inflater.inflate(R.layout.financial_billingstatics_yearlist_layout, null);
             viewHolder.id = (TextView) convertView.findViewById(R.id.text_id);//序号
             viewHolder.year = (TextView) convertView.findViewById(R.id.years);//年
@@ -70,13 +62,10 @@ public class FinancialTimeBillingStatisticsAdapter extends BaseAdapter {
             viewHolder.income = (TextView) convertView.findViewById(R.id.income);//进账
             viewHolder.outcome = (TextView) convertView.findViewById(R.id.outcome);//出账
             viewHolder.imbalance = (TextView) convertView.findViewById(R.id.imbalance);//差额
-
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
-
         Log.d("FinancialTimeBillingSta", "year:" + list.get(position).getYe());
         viewHolder.year.setText(Integer.toString(list.get(position).getYe()));
         viewHolder.year.setTextSize(13);
@@ -94,8 +83,8 @@ public class FinancialTimeBillingStatisticsAdapter extends BaseAdapter {
         }else{
             viewHolder.imbalance.setTextColor(Color.BLACK);
         }
-        viewHolder.id.setText(Integer.toString(++position));
-        viewHolder.id.setTextSize(13);
+        /*viewHolder.id.setText(Integer.toString(++position));
+        viewHolder.id.setTextSize(13);*/
         Log.v("test2", "convertView");
         return convertView;
     }
@@ -108,5 +97,4 @@ public class FinancialTimeBillingStatisticsAdapter extends BaseAdapter {
         public TextView outcome;
         public TextView imbalance;
     }
-
 }

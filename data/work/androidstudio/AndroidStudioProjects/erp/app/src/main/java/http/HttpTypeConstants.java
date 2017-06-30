@@ -37,7 +37,8 @@ public class HttpTypeConstants {
     public static final String AttendanceStatisticsSearchUrlType = "100400";//考勤查询url
     public static final String SearchYearUrlType = "100401";//年查询url
     public static final String SearchStuffName = "100402";//查询员工姓名
-    public static final String GetWXAttendanceDetaSearchUrl = "100403";//每个人考勤详细信息
+    public static final String GetWXAttendanceDetaSearchUrl = "100403";//考勤详细信息
+    public static final String GetWXProjectSearchUrl = "100404";//员工所在项目组
     /**财务管理**/
     public static final String FinancialAccountCustomerUrlType = "100500"; //账目客户名
     //账目管理

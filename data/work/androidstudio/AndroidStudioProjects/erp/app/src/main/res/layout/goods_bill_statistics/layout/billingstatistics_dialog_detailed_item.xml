@@ -41,9 +41,8 @@
                 android:paddingTop="10dip"
                 android:textColor="#000000"
                 android:textSize="15sp"
-                android:lines="1"
                 android:layout_weight="1"
-                android:text="" />
+                android:text="序号" />
 
             <View
                 android:layout_width="1.5dip"

@@ -75,8 +75,8 @@ public class TimeBillingStatisticsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.id.setText(Integer.toString(++position));
-        viewHolder.id.setTextSize(13);
+        /*viewHolder.id.setText(Integer.toString(++position));
+        viewHolder.id.setTextSize(13);*/
         viewHolder.month.setText(timeBillingStatistics.getMonth());
         viewHolder.month.setTextSize(13);
         viewHolder.income.setText(timeBillingStatistics.getIncome());

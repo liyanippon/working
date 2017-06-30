@@ -71,8 +71,8 @@ public class CustomerBillingStatisticsAdapter extends BaseAdapter {
         } else {
             viewHolder = (CustomerBillingStatisticsAdapter.ViewHolder) convertView.getTag();
         }
-        viewHolder.id.setText(Integer.toString(++position));
-        viewHolder.id.setTextSize(13);
+        /*viewHolder.id.setText(Integer.toString(++position));
+        viewHolder.id.setTextSize(13);*/
         viewHolder.month.setText(customerBillingStatistics.getMonth());
         viewHolder.month.setTextSize(13);
         viewHolder.customer.setText(customerBillingStatistics.getCustomer());

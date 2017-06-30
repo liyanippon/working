@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collections;
 import Tool.statistics.Statics;
+import model.AttendanceStaffBelongProject;
 import model.AttendanceStatistics;
 import model.AttendanceWxDetaSearch;
 import model.AttendanceYear;
@@ -14,7 +15,6 @@ import model.FinancialBillingGetWXSelectMonthAccount;
 import model.FinancialBillingGetWXsettlementMonth;
 import model.FinancialCustomer;
 import model.FinancialManagement;
-import ui.activity.AddFinancialBillingManagerActivity;
 import ui.activity.AttendanceStatisticsActivity;
 import ui.activity.BillingStatisticsActivity;
 import ui.activity.FinancialBillingManagementActivity;
@@ -50,6 +50,7 @@ public class HttpTypeUtil {
         AttendanceStatistics[] as;
         AttendanceYear[] ay;
         AttendanceWxDetaSearch[] awds;
+        AttendanceStaffBelongProject[] abp;
         switch (httpType){
             case "100400":
                 Log.d("HttpTypeUtil", "统计信息：：" + result);
@@ -118,7 +119,18 @@ public class HttpTypeUtil {
                     AttendanceStatisticsActivity attendanceStatisticsActivity1 = new AttendanceStatisticsActivity();
                     attendanceStatisticsActivity1.AdapterRefresh("attendXiangxi");
                 }
-
+                break;
+            case "100404":
+                Log.d("HttpTypeUtil", "员工所在项目组:"+result);
+                Statics.staffBelongProjectArrayList.clear();
+                abp = new Gson().fromJson(result, AttendanceStaffBelongProject[].class);
+                Collections.addAll(Statics.staffBelongProjectArrayList,abp);//转化arrayList
+                for (int i=0 ; i<Statics.staffBelongProjectArrayList.size() ;i++){
+                    Log.d("HttpTypeUtil", "shushu::" + Statics.staffBelongProjectArrayList.get(i).getProject_name());
+                }
+                //刷新异步刷新
+                AttendanceStatisticsActivity attendanceStatisticsActivity2 = new AttendanceStatisticsActivity();
+                attendanceStatisticsActivity2.AdapterRefresh("staffBelongProject");
                 break;
         }
 

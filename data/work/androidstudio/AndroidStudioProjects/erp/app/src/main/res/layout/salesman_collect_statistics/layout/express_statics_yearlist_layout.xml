@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     >
-    <TextView
+   <!-- <TextView
         android:id="@+id/text_id"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
     <View
         android:layout_width="1.5dip"
         android:layout_height="fill_parent"
-        android:background="#B4B3B3"/>
+        android:background="#B4B3B3"/>-->
 
     <TextView
         android:id="@+id/month"

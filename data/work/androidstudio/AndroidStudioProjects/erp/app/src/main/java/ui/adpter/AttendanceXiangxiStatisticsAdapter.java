@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import Tool.ToolUtils;
 import model.AttendanceWxDetaSearch;
 import model.FinancialBillingGetWXsettlementMonth;
 
@@ -88,6 +90,25 @@ public class AttendanceXiangxiStatisticsAdapter extends BaseAdapter {
         viewHolder.pendingStatus.setTextSize(13);
         viewHolder.id.setText(Integer.toString(++position));
         viewHolder.id.setTextSize(13);
+        //如果周六周日染红
+        if("星期六".equals(ToolUtils.getWeekOfDate(date))||"星期日".equals(ToolUtils.getWeekOfDate(date))){
+            viewHolder.dateTime.setTextColor(Color.RED);
+            viewHolder.normalTime.setTextColor(Color.RED);
+            viewHolder.overTime.setTextColor(Color.RED);
+            viewHolder.festivalTime.setTextColor(Color.RED);
+            viewHolder.askLeaveTime.setTextColor(Color.RED);
+            viewHolder.pendingStatus.setTextColor(Color.RED);
+            viewHolder.id.setTextColor(Color.RED);
+        }else{
+            viewHolder.dateTime.setTextColor(Color.BLACK);
+            viewHolder.normalTime.setTextColor(Color.BLACK);
+            viewHolder.overTime.setTextColor(Color.BLACK);
+            viewHolder.festivalTime.setTextColor(Color.BLACK);
+            viewHolder.askLeaveTime.setTextColor(Color.BLACK);
+            viewHolder.pendingStatus.setTextColor(Color.BLACK);
+            viewHolder.id.setTextColor(Color.BLACK);
+        }
+
         return convertView;
     }
     public static class ViewHolder {
