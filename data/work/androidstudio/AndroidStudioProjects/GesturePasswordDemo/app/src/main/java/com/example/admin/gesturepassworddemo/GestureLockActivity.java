@@ -52,6 +52,7 @@ public class GestureLockActivity extends AppCompatActivity implements View.OnCli
             intent.putExtra("gesturePsw", gesturePsw);
             intent.putExtra("phoneNumber", "15852188888");
             startActivity(intent);
+            finish();
         }
         setUpViews();
         setUpListeners();
@@ -108,12 +109,10 @@ public class GestureLockActivity extends AppCompatActivity implements View.OnCli
                 }
                 mIsFirstInput = false;
             }
-
             @Override
             public void checkedSuccess() {
 
             }
-
             @Override
             public void checkedFail() {
 
@@ -135,7 +134,6 @@ public class GestureLockActivity extends AppCompatActivity implements View.OnCli
         }
         return true;
     }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){

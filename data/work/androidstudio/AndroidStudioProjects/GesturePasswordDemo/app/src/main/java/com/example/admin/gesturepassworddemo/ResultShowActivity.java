@@ -1,6 +1,7 @@
 package com.example.admin.gesturepassworddemo;
 
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -24,16 +25,16 @@ public class ResultShowActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            onDestroy();
-        }
-        return false;
-    }
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         AppManager.getAppManager().finishAllActivity();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+
     }
 }
