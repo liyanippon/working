@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="../js/jquery-1.7.2.min.js"></script>
+        <title>
+                                     技术测试页面
+        </title>
+        
+        <style type="text/css">
+			.button_normal {
+			    background:url(../images/btn_search2.png); 
+			    width: 72px; 
+			    height: 39px; 
+			    margin-top: 10px;
+			    overflow:hidden;
+				line-height:39px;
+				text-align: center;
+				font-size: 14px;
+				color: white;
+			}
+
+		</style>
+    </head>
+    
+    <body style="margin-left: 0px; margin-right: 0px;">
+    	<div id="btn" class="button_normal">button</div>
+    	
+    	<script type="text/javascript">    		
+    		$('#btn').live('click', function(event) {
+				$$.info('点击了！')
+				return false;
+			});
+    		
+    		$('#btn').bind("touchstart",function(e){ 
+    			$(this).css('background','url(../images/btn_search.png)');
+			}); 
+			
+			$('#btn').bind("touchend",function(e){ 
+				$(this).css('background','url(../images/btn_search2.png)');
+			}); 
+			
+			$('#btn').bind("touchmove",function(e){ 
+				$(this).css('background','url(../images/btn_search2.png)');
+			}); 
+		</script>
+    </body>
+</html>
+
