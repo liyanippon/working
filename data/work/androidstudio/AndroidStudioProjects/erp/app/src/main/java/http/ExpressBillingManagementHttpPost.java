@@ -17,9 +17,14 @@ import Tool.statistics.ExceptionUtil;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
 import broadcast.TYPE;
+import model.AttendanceStatistics;
+import model.ExpressClassify;
+import model.TransferAccountClassify;
 import model.UserUmp;
 import portface.LazyLoadFace;
 import ui.activity.ExpressBillingManagementActivity;
+import ui.activity.TransferAccountActivity;
+
 /**
  * Created by admin on 2017/2/21.
  */
@@ -30,6 +35,7 @@ public class ExpressBillingManagementHttpPost {
     public static String resultString = "error";
     private boolean result = false;
     private Context context;
+    private Activity activitys ;
     private LazyLoadFace lazyLoad;
     public ExpressBillingManagementHttpPost() {
     }
@@ -141,8 +147,9 @@ public class ExpressBillingManagementHttpPost {
         Log.d("test", Boolean.toString(lazyLoad == null));
     }
 
-    public String searchHttp(String httpUrl, String typeSpinnerString, String classifySpinnerString, String reasonSpinnerString, final Activity activity, int page) {//账目查询
+    public String searchHttp(String httpUrl, String typeSpinnerString, String classifySpinnerString, String reasonSpinnerString,Activity activity, int page) {//账目查询
         Log.d("search", typeSpinnerString + "@" + classifySpinnerString + "@" + reasonSpinnerString);
+        activitys = activity;
         if ("全部".equals(typeSpinnerString)) {
             typeSpinnerString = "";
         }
@@ -175,7 +182,7 @@ public class ExpressBillingManagementHttpPost {
                 String results = (String) o;//从从网络端返回数据
                 Log.d("jizhang", "results:" + results);
                 resultString = "success";
-                JsonResolve.jsonAccountManager(results, activity, rows);//json解析
+                JsonResolve.jsonAccountManager(results, activitys, rows);//json解析
             }
 
             @Override
@@ -191,7 +198,6 @@ public class ExpressBillingManagementHttpPost {
         });
         return resultString;
     }
-
     public String addCountManagerHttp(String httpUrl, String typeSpinnerString, String classifySpinnerString, String reasonSpinnerString, String sum,
                                       String description, String customerId, String billingTime ,String payMethodString) {
         Log.d("addmm", "添加账单:" + typeSpinnerString + "/"
@@ -230,7 +236,6 @@ public class ExpressBillingManagementHttpPost {
                 resultString = "success";
                 Log.v("test", "result：" + result);
             }
-
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
@@ -241,26 +246,64 @@ public class ExpressBillingManagementHttpPost {
         return resultString;
     }
 
+    public String transferAccountHttp(String httpUrl, String classifySpinnerString, String reasonSpinnerString, String sum,
+                                      String description, String billingTime ) {
+
+        Log.d("ExpressBillingManagemen", httpUrl + "00" + "00" + classifySpinnerString + "00" + reasonSpinnerString + "00" + sum + "00" + description + "00" + billingTime);
+        finalHttp = new FinalHttp();
+        params = new AjaxParams();
+        params.put("id", "");
+        params.put("createBy", Statics.Name);
+        params.put("updateBy", Statics.Name);
+        params.put("option", "2");//1查询，2添加，3删除
+        params.put("userName", Statics.Name);
+        //params.put("type", typeSpinnerString);
+        params.put("classify", classifySpinnerString);
+        params.put("reason", reasonSpinnerString);
+        params.put("sum", sum);
+        params.put("description", description);
+        //params.put("customerId", customerId);
+        params.put("billingTime", billingTime);//billingTime 创建时间
+        params.put("updateTime", billingTime);
+
+        finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {//网络请求网络请求成功
+                super.onSuccess(o);
+                Log.v("test", "Constants.userName::" + Statics.userName);
+                String result = (String) o;//从从网络端返回数据
+                //Log.d("test",result);
+                resultString = "success";
+                Log.v("test", "result：" + result);
+            }
+            @Override
+            public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
+                super.onFailure(t, errorNo, strMsg);
+                resultString = "error";
+                Log.d("ExpressBillingManagemen", "添加失败" + strMsg);
+            }
+        });
+        return resultString;
+    }
+
+
     public String delAccountManagerHttp(String httpUrl, String id, final Activity activity) {//账目删除
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("option", "3");//1查询，2添加，3删除
         params.put("id", id);
-
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
-
                 String result = (String) o;//从从网络端返回数据
                 Log.d("test", "delete" + result);
                 resultString = "success";
-
                 //刷新页面
                 Log.v("test", "notifyDataSetInvalidated");
                 String httpUrl = Statics.FinancialBillingManagementSearchUrl;
                 searchHttp(httpUrl, "", "", "", activity, 1);//刷新页面
+
             }
 
             @Override
@@ -272,23 +315,20 @@ public class ExpressBillingManagementHttpPost {
                 ExceptionUtil.httpPost("AccountManagementHttpPost");
             }
         });
-
         return resultString;
     }
-
     //下拉菜单
     public String customerSearchHttp(String httpUrl) {//customerSearchHttp 顾客
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("httpUrl", httpUrl);
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
 
                 String result = (String) o;//从从网络端返回数据
-                Log.d("menu", result);
+                Log.d("jijijij", result);
                 resultString = "success";
                 JsonResolve.jsonCustomerAllSearch(result);//json解析
             }
@@ -301,24 +341,24 @@ public class ExpressBillingManagementHttpPost {
                 ExceptionUtil.httpPost("AccountManagementHttpPost");
             }
         });
-
         return resultString;
     }
-
     public String accountReasonSearchHttp(String httpUrl, String classifyId, final Activity activity) {//customerSearchHttp 账目类型//明细
         Log.d("tesq9", "classifyId:" + classifyId);
-        if (Statics.accountClassifyList.size() == 0) {
+        /*if (Statics.accountClassifyList.size() == 0) {
             return null;
         }
         if ("全部".equals(classifyId)) {//以进账为默认
             classifyId = Statics.accountClassifyList.get(1).getId();
+        }*/
+        if ("全部".equals(classifyId)) {//以进账为默认
+            classifyId = Statics.expressClassifyList.get(0).getData().get(1).getId();
         }
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("httpUrl", httpUrl);
         params.put("id", classifyId);
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
@@ -327,7 +367,6 @@ public class ExpressBillingManagementHttpPost {
                 resultString = "success";
                 JsonResolve.jsonAccountReasonSearch(result, activity);//json解析
             }
-
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
@@ -339,7 +378,49 @@ public class ExpressBillingManagementHttpPost {
         return resultString;
     }
 
-    public String accountClassifySearchHttp(String httpUrl) {//accountClassifySearchHttp 账目类型//进账出账
+    //转账业务类型
+    public String accountTransferSearchHttp(String httpUrl, String classifyId, final Activity activity) {//customerSearchHttp 账目类型//明细
+        Log.d("tesq9", "classifyId:" + classifyId);
+        /*if (Statics.accountClassifyList.size() == 0) {
+            return null;
+        }
+        if ("全部".equals(classifyId)) {//以进账为默认
+            classifyId = Statics.accountClassifyList.get(1).getId();
+        }*/
+        if ("全部".equals(classifyId)) {//以进账为默认
+            classifyId = Statics.expressClassifyList.get(0).getData().get(1).getId();
+        }
+        finalHttp = new FinalHttp();
+        params = new AjaxParams();
+        params.put("httpUrl", httpUrl);
+        params.put("id", classifyId);
+        finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {//网络请求网络请求成功
+                super.onSuccess(o);
+                String result = (String) o;//从从网络端返回数据
+                Log.d("转账类型", result);
+                resultString = "success";
+                //JsonResolve.jsonAccountReasonSearch(result, activity);//json解析
+                Statics.transferAccountClassifiesList.clear();
+                TransferAccountClassify[] as = new Gson().fromJson(result, TransferAccountClassify[].class);
+                Collections.addAll(Statics.transferAccountClassifiesList,as);//转化arrayList
+                BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"TransferAccount");
+                TransferAccountActivity transferAccountActivity = new TransferAccountActivity();
+                transferAccountActivity.AdapterRefresh("transfer");
+                Log.d("aleand","发送广播");
+            }
+            @Override
+            public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
+                super.onFailure(t, errorNo, strMsg);
+
+                resultString = "error";
+                ExceptionUtil.httpPost("AccountManagementHttpPost");
+            }
+        });
+        return resultString;
+    }
+    /*public String accountClassifySearchHttp(String httpUrl) {//accountClassifySearchHttp 账目类型//进账出账
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("httpUrl", httpUrl);
@@ -347,39 +428,66 @@ public class ExpressBillingManagementHttpPost {
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
-
                 String result = (String) o;//从从网络端返回数据
-                Log.d("menu", result);
+                Log.d("ahj", result);
                 resultString = "success";
-                JsonResolve.jsonAccountClassifySearch(result);//json解析
+                Statics.expressClassifyList.clear();
+                ExpressClassify[] as = new Gson().fromJson(result, ExpressClassify[].class);
+                Collections.addAll(Statics.expressClassifyList,as);//转化arrayList
+                //Statics.accountClassifyList.add(accountClassify);
+                //JsonResolve.jsonAccountClassifySearch(result);//json解析
             }
 
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
                 resultString = "error";
-                ExceptionUtil.httpPost("AccountManagementHttpPost");
             }
         });
         return resultString;
-    }
+    }*/
+    /*public String accountClassifySearchHttp(String httpUrl,String option) {//accountClassifySearchHttp 账目类型//进账出账
+        finalHttp = new FinalHttp();
+        params = new AjaxParams();
+        Log.d("转账", "http" + httpUrl + "&" + option + "&" + Statics.sessionId);
+        params.put("httpUrl", httpUrl);
+        params.put("option", option);
+        //params.put("sessionid",Statics.sessionId);
+        finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
+            @Override
+            public void onSuccess(Object o) {//网络请求网络请求成功
+                super.onSuccess(o);
+
+                String result = (String) o;//从从网络端返回数据
+                Log.d("转账", result);
+                resultString = "success";
+                Statics.expressClassifyList2.clear();
+                ExpressClassify[] as = new Gson().fromJson(result, ExpressClassify[].class);
+                Collections.addAll(Statics.expressClassifyList2,as);//转化arrayList
+            }
+
+            @Override
+            public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
+                super.onFailure(t, errorNo, strMsg);
+                resultString = "error";
+            }
+        });
+        return resultString;
+    }*/
 
     public String accountTypeSearchHttp(String httpUrl) {//accountTypeSearchHttp 快递类型 圆通韵达
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("httpUrl", httpUrl);
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
-
                 String result = (String) o;//从从网络端返回数据
                 Log.d("menu", result);
                 resultString = "success";
                 JsonResolve.jsonAccountTypeSearch(result);//json解析
             }
-
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
@@ -389,5 +497,4 @@ public class ExpressBillingManagementHttpPost {
         });
         return resultString;
     }
-
 }

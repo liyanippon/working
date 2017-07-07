@@ -181,8 +181,8 @@ public class ExpressPersonManagerActivity extends BaseActivity implements XListV
         //httpPost =new HttpPost();
         //httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
-        for (int i = 0; i < Statics.accountClassifyList.size(); i++) {
-            data_list.add(Statics.accountClassifyList.get(i).getName());
+        for (int i = 0; i < Statics.expressClassifyList.get(0).getData().size(); i++) {
+            data_list.add(Statics.expressClassifyList.get(0).getData().get(i).getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -206,7 +206,7 @@ public class ExpressPersonManagerActivity extends BaseActivity implements XListV
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
-                classifySpinnerString = Statics.accountClassifyList.get(position).getId();
+                classifySpinnerString = Statics.expressClassifyList.get(0).getData().get(position).getId();
 
             }
 

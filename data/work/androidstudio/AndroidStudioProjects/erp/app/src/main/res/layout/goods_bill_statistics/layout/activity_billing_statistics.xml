@@ -98,6 +98,7 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="false"
                 android:text="现金 : 0元 , 银行 : 0元 ，支付宝：0元，微信：0元"
                 />
         </TableLayout>

@@ -66,7 +66,6 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         init();
         //空查询
         page = 1;//显示页数
-
         String httpUrl = Statics.FinancialBillingManagementUrl;
         //刚进入页面就要显示数据
         progressDialog = ProgressDialog.show(FinancialBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
@@ -116,7 +115,6 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                 param.put("rows","50");
                 HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
                 //String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, customerNameSpinnerString, FinancialBillingManagementActivity.this, page);
-
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
@@ -198,6 +196,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
     @Override
     protected void onResume() {
         super.onResume();
+
         String httpUrl = Statics.FinancialBillingManagementUrl;
         //httpPost.searchHttp(httpUrl ,"" ,"" ,"",FinancialBillingManagementActivity.this,1);//刷新页面
         Log.d("FinancialBillingManagem", "添加后刷新");
@@ -235,7 +234,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         //数据
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (AccountClassify ac:Statics.accountClassifyList) {
+        for (ExpressClassify.DataBean ac:Statics.expressClassifyList.get(0).getData()) {
             Log.d("FinancialBillingManagem", "label:" + ac.getName().toString());
             data_list.add(ac.getName().toString());
         }
@@ -274,7 +273,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                     classifySpinnerString = "全部";
                 } else {
                     //typeSpinnerString = Statics.accountTypeList.get(--position).getId();
-                    classifySpinnerString = Statics.accountClassifyList.get(--position).getId();
+                    classifySpinnerString = Statics.expressClassifyList.get(0).getData().get(--position).getId();
                 }
                 data_list = null;
             }

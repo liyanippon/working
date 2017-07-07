@@ -5,6 +5,7 @@ import java.util.List;
 import model.AccountClassify;
 import model.AttendanceStaffBelongProject;
 import model.AttendanceWxDetaSearch;
+import model.ExpressClassify;
 import model.ExpressExpensePayMethod;
 import model.AccountReason;
 import model.AccountType;
@@ -26,13 +27,13 @@ import model.FinancialCustomer;
 import model.FinancialManagement;
 import model.TimeBillingStatistics;
 import model.TimeExpressStatistics;
+import model.TransferAccountClassify;
 import model.UserUmp;
 import model.XiangxiBillingStatistics;
 /**
  * Created by admin on 2017/2/21.
  */
 public class Statics {
-
     /**登录**/
     public static String sessionId ;
     /**物流管理**/
@@ -48,10 +49,15 @@ public class Statics {
     public static ArrayList<ExpressManagement> expressManagementList = new ArrayList<>();
     public static ArrayList<Customer> customerList = new ArrayList<>();
     public static ArrayList<AccountReason> accountReasonList = new ArrayList<>();
-    public static ArrayList<AccountClassify> accountClassifyList = new ArrayList<>();
+    public static ArrayList<ExpressClassify> expressClassifyList = new ArrayList<>();
+    public static ArrayList<ExpressClassify> expressClassifyList2 = new ArrayList<>();
     public static ArrayList<AccountType> accountTypeList = new ArrayList<>();
     public static String accountClassify = "023001";//默认为进账，出账：023002
     public static int page = 0;//分页页数
+    public static String GetWXExpenseAccountReasonUrl;//转账业务类型
+    public static String GetWXNewAddUrl;//转账提交表单
+    public static ArrayList<TransferAccountClassify> transferAccountClassifiesList =new ArrayList<>();//转账类型
+
     /**物流统计**/
     public static String TimeSearchUrl = "http://192.168.1.16:8083/getWXTjsjList.ajax";//统计列表
     public static String CustomerSearchUrl = "http://192.168.1.16:8083/getWXCustomerTjsjList.ajax";//客户统计列表

@@ -18,7 +18,7 @@
         android:lines="1"
         android:text="" />
 
-    <View
+    <!--<View
         android:layout_width="1.5dip"
         android:layout_height="fill_parent"
         android:background="#B4B3B3"/>
@@ -33,9 +33,9 @@
         android:textColor="#000000"
         android:textSize="15sp"
         android:gravity="center"
-        android:text="年" />
+        android:text="年" />-->
 
-    <View
+    <!--<View
         android:layout_width="1.5dip"
         android:layout_height="fill_parent"
         android:background="#B4B3B3"/>
@@ -50,7 +50,7 @@
         android:textColor="#000000"
         android:textSize="15sp"
         android:gravity="center"
-        android:text="月份" />
+        android:text="月份" />-->
 
     <View
         android:layout_width="1.5dip"
@@ -99,6 +99,37 @@
         android:textSize="15sp"
         android:gravity="center"
         android:text="合计(元)" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
+    <TextView
+        android:id="@+id/date_time"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_weight="1"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:text="日期" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/remarkId"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_weight="1"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:text="备注实打实地方手动阀是打发斯蒂芬速度" />
 
 </LinearLayout>

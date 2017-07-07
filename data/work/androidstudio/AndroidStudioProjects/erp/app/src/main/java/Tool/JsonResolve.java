@@ -143,10 +143,12 @@ public class JsonResolve {
                 Log.d("test3", "----------------------------------");
                 Log.d("test3", "sum:" + sum);
                 Log.d("test3", "type:" + type);
-
+                String typeString = "";
                 //type 去除快递2个字
-                String typeString=type.substring(0,2);
-                Log.d("type","typeString:"+typeString);
+                if(type!=null&&!"".equals(type)){
+                    typeString=type.substring(0,2);
+                    Log.d("type","typeString:"+typeString);
+                }
 
                 ExpressManagement financialManagement = new ExpressManagement(id, typeString, classify,billingSb.toString()
                         ,createSb.toString(),reason, sum, createBy, customerId, remark,paymentMethod);
@@ -191,14 +193,14 @@ public class JsonResolve {
                 Log.v("test2", "data_list1:" + Statics.accountReasonList.get(i).getName());
 
             }
-            if(AddExpressBillingManagerActivity.addBoolean){//更新add添加页面
+            if(AddExpressBillingManagerActivity.expressType.equals("addExpress")){//更新add添加页面
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"addReasonSpinner");
                 AddExpressBillingManagerActivity addExpressBillingManagerActivity = new AddExpressBillingManagerActivity();
                 addExpressBillingManagerActivity.AdapterRefresh("reasonSpinner");
-                addExpressBillingManagerActivity.addBoolean=false;
+                addExpressBillingManagerActivity.expressType="search";
                 Log.d("aleand","发送广播");
 
-            }else{//更新search显示检索页面
+            }else if(AddExpressBillingManagerActivity.expressType.equals("search")){//更新search显示检索页面
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"SearchReasonSpinner");
                 ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
                 expressBillingManagementActivity.AdapterRefresh("reasonSpinner");
@@ -212,7 +214,7 @@ public class JsonResolve {
 
     }
 
-    public static void jsonAccountClassifySearch(String json) {//分类
+    /*public static void jsonAccountClassifySearch(String json) {//分类
         try {
             //解析前先清空
             JSONArray jsonArray = new JSONArray(json);
@@ -234,7 +236,7 @@ public class JsonResolve {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
+    }*/
 
 
     public static void jsonAccountTypeSearch(String json) {//快递类型 圆通韵达

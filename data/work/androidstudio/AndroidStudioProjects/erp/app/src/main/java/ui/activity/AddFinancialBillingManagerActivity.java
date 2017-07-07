@@ -27,6 +27,7 @@ import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
 import model.AccountClassify;
+import model.ExpressClassify;
 import model.FinancialAccount;
 import model.FinancialCustomer;
 
@@ -165,9 +166,9 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
         //httpPost =new HttpPost();
         //httpPost.accountClassifySearchHttp(Static.AccountClassifyUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
-        for (AccountClassify ac:Statics.accountClassifyList) {
-            Log.d("FinancialBillingManagem", "label:" + ac.getName().toString());
-            data_list.add(ac.getName().toString());
+        for (ExpressClassify.DataBean ac:Statics.expressClassifyList.get(0).getData()) {
+            Log.d("FinancialBillingManagem", "label:" + ac.getName());
+            data_list.add(ac.getName());
         }
         data_classify = new ArrayList<>();
         data_classify = data_list;
@@ -199,7 +200,7 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.v("test8", Integer.toString(position) + "ss");
 
-                classifySpinnerString = Statics.accountClassifyList.get(position).getId();
+                classifySpinnerString = Statics.expressClassifyList.get(0).getData().get(position).getId();
                 data_list = null;
             }
 

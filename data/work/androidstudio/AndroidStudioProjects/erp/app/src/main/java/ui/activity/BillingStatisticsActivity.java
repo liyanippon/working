@@ -272,7 +272,10 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
                 xiangxiAdapter.notifyDataSetChanged();
                 break;
             case  "CurrentPayStatistic":
-                currentMoneyStatistics.setText(Statics.CurrentPayStatistic);
+                String currentString = Statics.CurrentPayStatistic;
+                currentString = currentString.split(",")[0]+","
+                        +currentString.split(",")[1]+"\n"+currentString.split(",")[2].trim();
+                currentMoneyStatistics.setText(currentString);
                 break;
         }
     }

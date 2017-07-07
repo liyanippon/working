@@ -47,7 +47,9 @@ public class HttpBasePost {
                                 String result = (String) o;//从从网络端返回数据
                                 resultString = "success";
                                 Log.d("HttpBasePost", "结果" + result);
-                                if(httpType.equals("100204")||httpType.equals("100205")){//物流模块
+                                if(httpType.equals("100106")||httpType.equals("100108")//物流模块
+                                        ||httpType.equals("100109")||httpType.equals("100110")
+                                        ||httpType.equals("100204")||httpType.equals("100205")){
                                         HttpTypeUtil.expressType(result,httpType);
                                 }else if(httpType.equals("100400")||httpType.equals("100401")
                                         ||httpType.equals("100402")||httpType.equals("100403")

@@ -119,8 +119,8 @@ public class MainActivity extends BaseActivity {
         try {
             properties.load(MainActivity.this.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
-            Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
-            //Statics.LoginUrl = IFengLoginUrl;//本地登录
+            //Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
+            Statics.LoginUrl = IFengLoginUrl;//本地登录
             String IFengUrl = properties.getProperty("IFengUrl").trim();
             String UmpUrl = properties.getProperty("UmpUrl").trim();
             Statics.UmlUrl = UmpUrl + "/setRoles/loadRoleUserId.ajax";
@@ -156,6 +156,8 @@ public class MainActivity extends BaseActivity {
             Statics.ExpressGetWXExpenseAccountPaymentMethod = IFengUrl + "/getWXExpenseAccountPaymentMethod.ajax";
             Statics.GetWXAttendanceDetaSearchUrl = IFengUrl + "/getWXAttendanceDeta.ajax";
             Statics.GetWXProjectSearchUrl = IFengUrl + "/getWXProject.ajax";
+            Statics.GetWXExpenseAccountReasonUrl = IFengUrl + "/getWXExpenseAccountReason.ajax";//转账业务类型
+            Statics.GetWXNewAddUrl = IFengUrl + "/getWXNewAdd.ajax";//转账提交单
         } catch (Exception e) {
             e.printStackTrace();
         }

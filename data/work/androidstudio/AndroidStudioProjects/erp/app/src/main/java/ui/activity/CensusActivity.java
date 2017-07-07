@@ -70,7 +70,7 @@ public class CensusActivity extends AppCompatActivity {
             @Override
             public void run() {
                 httpPost.customerSearchHttp(Statics.AllCustomerUrl);
-                httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl);
+                //httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl);
                 httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl);
                 httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, Statics.accountClassify, CensusActivity.this);
             }

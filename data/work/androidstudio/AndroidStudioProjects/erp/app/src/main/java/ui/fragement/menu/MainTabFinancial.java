@@ -25,7 +25,6 @@ import ui.activity.FinancialBillingManagementActivity;
 import ui.activity.FinancialStastisticsActivity;
 @SuppressLint("NewApi")
 public class MainTabFinancial extends Fragment {
-    private ExpressBillingManagementHttpPost expreBillingHttpPost;
     private GridView gridView;
     private View newsLayout;
     private List<Map<String, Object>> data_list;
@@ -47,20 +46,19 @@ public class MainTabFinancial extends Fragment {
 
     private void spinnerData() {
         //获取数据 下拉菜单
-        expreBillingHttpPost = new ExpressBillingManagementHttpPost();
         new Runnable() {
             @Override
             public void run() {
                 HttpBasePost.postHttp(Statics.FinancialBillingGetWXAccountsTypeUrl,null, HttpTypeConstants.FinancialBillingGetWXAccountsTypeUrlType);//账目下拉框
                 HttpBasePost.postHttp(Statics.FinancialAccountCustomerUrl,null, HttpTypeConstants.FinancialAccountCustomerUrlType);//账目下拉框
-                expreBillingHttpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl);//分类 进账出账保留
+                HttpBasePost.postHttp(Statics.AccountClassifyUrl,null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
             }
         }.run();
     }
     private void init() {
         gridView = (GridView) newsLayout.findViewById(R.id.tab02_grid);
         //新建List
-        data_list = new ArrayList<Map<String, Object>>();
+        data_list = new ArrayList<>();
         //获取数据
         getData();
         //新建适配器

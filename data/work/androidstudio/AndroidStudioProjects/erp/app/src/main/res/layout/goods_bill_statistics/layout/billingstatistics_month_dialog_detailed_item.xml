@@ -54,7 +54,7 @@
                 android:textColor="#000000"
                 android:textSize="15sp" />
 
-            <View
+            <!--<View
                 android:layout_width="1.5dip"
                 android:layout_height="fill_parent"
                 android:background="#B4B3B3" />
@@ -84,7 +84,7 @@
                 android:paddingTop="10dip"
                 android:text="月份"
                 android:textColor="#000000"
-                android:textSize="15sp" />
+                android:textSize="15sp" />-->
 
             <View
                 android:layout_width="1.5dip"
@@ -136,11 +136,36 @@
                 android:text="合计"
                 android:textColor="#000000"
                 android:textSize="15sp" />
-
-            <!--<View
-                android:layout_width="2dp"
+            <View
+                android:layout_width="1.5dip"
                 android:layout_height="fill_parent"
-                android:background="#686867"/>-->
+                android:background="#B4B3B3" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:text="日期"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+            <View
+                android:layout_width="1.5dip"
+                android:layout_height="fill_parent"
+                android:background="#B4B3B3" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:text="备注"
+                android:textColor="#000000"
+                android:textSize="15sp" />
         </LinearLayout>
 
         <View

@@ -62,33 +62,33 @@ public class MonthXiangxiBillingStatisticsAdapter extends BaseAdapter {
             viewHolder = new MonthXiangxiBillingStatisticsAdapter.ViewHolder();
             convertView = inflater.inflate(R.layout.billing_mon_statics_xiangxilist_layout, null);
             viewHolder.id = (TextView) convertView.findViewById(R.id.text_id);//序号
-            viewHolder.year = (TextView) convertView.findViewById(R.id.year);
-            viewHolder.month = (TextView) convertView.findViewById(R.id.month);
+            viewHolder.dateTime = (TextView) convertView.findViewById(R.id.date_time);
             viewHolder.type = (TextView) convertView.findViewById(R.id.type);
             viewHolder.account = (TextView) convertView.findViewById(R.id.account);
             viewHolder.sum = (TextView) convertView.findViewById(R.id.count);
+            viewHolder.remark = (TextView) convertView.findViewById(R.id.remarkId);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (MonthXiangxiBillingStatisticsAdapter.ViewHolder) convertView.getTag();
         }
 
-        viewHolder.year.setText(Integer.toString(list.get(position).getYear()));
-        viewHolder.year.setTextSize(13);
-        viewHolder.month.setText(Integer.toString(list.get(position).getMonth()));
-        viewHolder.month.setTextSize(13);
+        viewHolder.dateTime.setText(list.get(position).getYear()+"-"+ list.get(position).getMonth());
+        viewHolder.dateTime.setTextSize(13);
+        viewHolder.remark.setText("备注");
+        viewHolder.remark.setTextSize(13);
         String bill_classify = list.get(position).getBill_classify();
         String sumString = list.get(position).getSum();
         if(!bill_classify.equals("进账")){
             bill_classify = bill_classify.split("<b>")[1].split("</b>")[0];
             sumString = sumString.split("<b>")[1].split("</b>")[0];
-            viewHolder.year.setTextColor(Color.RED);
-            viewHolder.month.setTextColor(Color.RED);
+            viewHolder.dateTime.setTextColor(Color.RED);
+            viewHolder.remark.setTextColor(Color.RED);
             viewHolder.type.setTextColor(Color.RED);
             viewHolder.account.setTextColor(Color.RED);
             viewHolder.sum.setTextColor(Color.RED);
         }else{
-            viewHolder.year.setTextColor(Color.BLACK);
-            viewHolder.month.setTextColor(Color.BLACK);
+            viewHolder.dateTime.setTextColor(Color.BLACK);
+            viewHolder.remark.setTextColor(Color.BLACK);
             viewHolder.type.setTextColor(Color.BLACK);
             viewHolder.account.setTextColor(Color.BLACK);
             viewHolder.sum.setTextColor(Color.BLACK);
@@ -109,6 +109,6 @@ public class MonthXiangxiBillingStatisticsAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
-        public TextView id, year, month, type, account, sum;
+        public TextView id, dateTime, type, account, sum ,remark;
     }
 }

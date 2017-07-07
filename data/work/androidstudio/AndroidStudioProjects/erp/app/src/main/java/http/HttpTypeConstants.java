@@ -15,6 +15,9 @@ public class HttpTypeConstants {
     public static final String ExpressReasonUrlType = "100105";//账目类型明细
     public static final String ExpressClassifyUrlType = "100106";//账目类型进账出账
     public static final String ExpressTypeUrlType = "100107";//获取快递类型 圆通韵达
+    public static final String TransferAccountType = "100108";//转账下拉菜单
+    public static final String GetWXExpenseAccountReasonUrl = "100109";//业务类型（转出处理）
+    public static final String TransferAccount = "100110";//转账提交表单
     /**物流统计**/
     public static final String ExpressTimeSearchUrlType = "100200";//统计列表
     public static final String ExpressCustomerSearchUrlType = "100201";//客户统计列表
@@ -32,7 +35,6 @@ public class HttpTypeConstants {
     public static final String ExpressPieceMonthDaySearchUrlType = "100306";    //当月有多少天
     public static final String ExpressPieceDaySearchUrlType = "100307";   //具体件数
     public static final String ExpressPersonPieceDaySearchUrlType = "100308";//快递员统计图表
-
     /**考勤管理**/
     public static final String AttendanceStatisticsSearchUrlType = "100400";//考勤查询url
     public static final String SearchYearUrlType = "100401";//年查询url
@@ -52,5 +54,4 @@ public class HttpTypeConstants {
     public static final String FinancialBillingGetWXsettlementMonthUrlType = "100506";//时间统计表
     public static final String FinancialBillingGetWXSelectMonthAccountUrlType ="100507";//月份账目明细
     public static final String FinancialBillingGetCurrentMoneyUrlType ="100508";//查看现在金额
-
 }

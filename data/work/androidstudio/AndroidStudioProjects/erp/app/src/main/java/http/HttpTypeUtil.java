@@ -1,24 +1,31 @@
 package http;
 
+import android.app.Activity;
 import android.util.Log;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collections;
 import Tool.statistics.Statics;
+import broadcast.BroadCastTool;
+import broadcast.TYPE;
 import model.AttendanceStaffBelongProject;
 import model.AttendanceStatistics;
 import model.AttendanceWxDetaSearch;
 import model.AttendanceYear;
+import model.ExpressClassify;
 import model.ExpressExpensePayMethod;
 import model.FinancialAccount;
 import model.FinancialBillingGetWXSelectMonthAccount;
 import model.FinancialBillingGetWXsettlementMonth;
 import model.FinancialCustomer;
 import model.FinancialManagement;
+import model.TransferAccountClassify;
 import ui.activity.AttendanceStatisticsActivity;
 import ui.activity.BillingStatisticsActivity;
+import ui.activity.ExpressBillingManagementActivity;
 import ui.activity.FinancialBillingManagementActivity;
 import ui.activity.FinancialStastisticsActivity;
+import ui.activity.TransferAccountActivity;
 
 /**
  * Created by admin on 2017/5/26.
@@ -28,7 +35,35 @@ public class HttpTypeUtil {
 
     public static void expressType(String result,String httpType) {//物流模块
         ExpressExpensePayMethod[] as;
+        ExpressClassify[] ec;
+        TransferAccountClassify[] tac;
         switch (httpType){
+            case "100106":
+                Statics.expressClassifyList.clear();
+                ec = new Gson().fromJson(result, ExpressClassify[].class);
+                Collections.addAll(Statics.expressClassifyList,ec);//转化arrayList
+                break;
+            case "100108":
+                Statics.expressClassifyList2.clear();
+                ec = new Gson().fromJson(result, ExpressClassify[].class);
+                Collections.addAll(Statics.expressClassifyList2,ec);//转化arrayList
+                break;
+            case "100109":
+                Statics.transferAccountClassifiesList.clear();
+                tac = new Gson().fromJson(result, TransferAccountClassify[].class);
+                Collections.addAll(Statics.transferAccountClassifiesList,tac);//转化arrayList
+                BroadCastTool.sendMyBroadcast(TYPE.NORMAL,TransferAccountActivity.activity,"TransferAccount");
+                TransferAccountActivity transferAccountActivity = new TransferAccountActivity();
+                transferAccountActivity.AdapterRefresh("transfer");
+                break;
+            case "100110":
+                //刷新页面
+                ExpressBillingManagementHttpPost httpPost = new ExpressBillingManagementHttpPost();
+                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+                Activity activity;
+                activity = ExpressBillingManagementActivity.activityExpress;
+                httpPost.searchHttp(httpUrl, "", "", "", activity, 1);
+                break;
             case "100204":
                 //json数据使用Gson框架解析
                 Statics.CurrentPayStatistic = result;
@@ -177,7 +212,6 @@ public class HttpTypeUtil {
                 Statics.fbgwxSettlementMonthList.clear();
                 FinancialBillingGetWXsettlementMonth[] fbgxwd = new Gson().fromJson(result, FinancialBillingGetWXsettlementMonth[].class);
                 Collections.addAll(Statics.fbgwxSettlementMonthList,fbgxwd);//转化arrayList
-                Log.d("FinancialStatisticsHttp", "测试" + Statics.fbgwxSettlementMonthList.size());
                 fsa.AdapterRefresh("timeAdapter");
                 break;
             case "100507":
@@ -185,7 +219,7 @@ public class HttpTypeUtil {
                 Statics.fbgwxsmaList.clear();
                 FinancialBillingGetWXSelectMonthAccount[] mxbsa = new Gson().fromJson(result, FinancialBillingGetWXSelectMonthAccount[].class);
                 Collections.addAll(Statics.fbgwxsmaList,mxbsa);//转化arrayList
-                Log.d("FinancialStatisticsHttp", "测试" + Statics.fbgwxsmaList.size());
+                Log.d("FinancialStatisticsHttp", "测试" + result);
                 fsa.AdapterRefresh("monthXiangXiAdapter");
                 break;
             case "100508":

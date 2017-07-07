@@ -51,6 +51,7 @@ public class MainTabExpress extends Fragment implements AdapterView.OnItemClickL
 	//动态菜单
 	private ArrayList<Object> icon;
 	private ArrayList<Object> iconName;
+	private HashMap<String,String> param;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.main_tab_03, null);
 		//http://www.cnblogs.com/tinyphp/p/3855224.html 可下载
@@ -84,13 +85,17 @@ public class MainTabExpress extends Fragment implements AdapterView.OnItemClickL
 		//获取数据 下拉菜单
 		//AllCustomer
 				httpPost.customerSearchHttp(Statics.AllCustomerUrl);
-				httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl);
+				HttpBasePost.postHttp(Statics.AccountClassifyUrl,null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
+				param=new HashMap<>();
+				param.put("option","3");
+				HttpBasePost.postHttp(Statics.AccountClassifyUrl,param,HttpTypeConstants.TransferAccountType);//转账下拉菜单
+				//httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl);
+				//httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl,"3");
 				httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl);
 				httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, Statics.accountClassify, getActivity());
 				Log.d("MainTabExpress", "支付方式");
 				HttpBasePost.postHttp(Statics.ExpressGetWXExpenseAccountPaymentMethod //支付方式下拉菜单
 				,null, HttpTypeConstants.ExpressGetWXExpenseAccountPaymentMethod);
-
 	}
 
 	private void init() {

@@ -2,6 +2,7 @@ package ui.adpter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class ExpressManagementAdapter extends BaseAdapter {
     private int positions;
     private ViewHolder vh;
     private List<ViewHolder> holders = new ArrayList<ViewHolder>();
+
     public ExpressManagementAdapter(Activity accactivity) {
         this.activity = accactivity;
     }
@@ -126,13 +128,12 @@ public class ExpressManagementAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
+                        ExpressBillingManagementActivity.deleteSuccess = true;
                         if ("success".equals(httpPost.delAccountManagerHttp(Statics.FinancialBillingManagementSearchUrl, id,activity))) {
-                            Toast.makeText(activity, "删除成功", Toast.LENGTH_SHORT).show();
-
+                            ExpressBillingManagementActivity.progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
                         } else {
                             Toast.makeText(activity, "删除失败", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
         normalDialog.setNegativeButton("取消",
@@ -145,6 +146,7 @@ public class ExpressManagementAdapter extends BaseAdapter {
                 });
         // 显示
         normalDialog.show();
+
     }
 
 
@@ -158,6 +160,8 @@ public class ExpressManagementAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             httpPost = new ExpressBillingManagementHttpPost();
+            ExpressBillingManagementActivity.newBilling.setVisibility(View.INVISIBLE);
+            ExpressBillingManagementActivity.transferAccounts.setVisibility(View.INVISIBLE);
             showNormalDialog(item);
         }
 
