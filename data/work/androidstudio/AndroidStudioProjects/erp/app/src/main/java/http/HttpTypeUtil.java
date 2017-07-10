@@ -209,6 +209,8 @@ public class HttpTypeUtil {
                 break;
             case "100506":
                 //json数据使用Gson框架解析
+                Log.d("HttpTypeUtil", "详细：" + result);
+                Log.d("HttpTypeUtil", "sss：");
                 Statics.fbgwxSettlementMonthList.clear();
                 FinancialBillingGetWXsettlementMonth[] fbgxwd = new Gson().fromJson(result, FinancialBillingGetWXsettlementMonth[].class);
                 Collections.addAll(Statics.fbgwxSettlementMonthList,fbgxwd);//转化arrayList
@@ -216,10 +218,10 @@ public class HttpTypeUtil {
                 break;
             case "100507":
                 //json数据使用Gson框架解析
+                Log.d("HttpTypeUtil", "东北："+result);
                 Statics.fbgwxsmaList.clear();
                 FinancialBillingGetWXSelectMonthAccount[] mxbsa = new Gson().fromJson(result, FinancialBillingGetWXSelectMonthAccount[].class);
                 Collections.addAll(Statics.fbgwxsmaList,mxbsa);//转化arrayList
-                Log.d("FinancialStatisticsHttp", "测试" + result);
                 fsa.AdapterRefresh("monthXiangXiAdapter");
                 break;
             case "100508":

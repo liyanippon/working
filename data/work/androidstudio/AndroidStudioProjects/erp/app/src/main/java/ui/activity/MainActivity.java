@@ -82,12 +82,10 @@ public class MainActivity extends BaseActivity {
         // 注册crashHandler
         crashHandler.init(getApplicationContext());
     }
-
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
     }
-
     private void initBroadCast() {
         //广播初始化 必须动态注册才能实现回调
         FreshenBroadcastReceiver broadcast = new FreshenBroadcastReceiver();
@@ -110,7 +108,6 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-
     /*
     * 读取配置文件 拼接所有的url
     */
@@ -119,8 +116,8 @@ public class MainActivity extends BaseActivity {
         try {
             properties.load(MainActivity.this.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
-            //Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
-            Statics.LoginUrl = IFengLoginUrl;//本地登录
+            Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
+            //Statics.LoginUrl = IFengLoginUrl;//本地登录
             String IFengUrl = properties.getProperty("IFengUrl").trim();
             String UmpUrl = properties.getProperty("UmpUrl").trim();
             Statics.UmlUrl = UmpUrl + "/setRoles/loadRoleUserId.ajax";
@@ -162,7 +159,6 @@ public class MainActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
-
     @Override
     public void onClick(View v) {
         super.onClick(v);

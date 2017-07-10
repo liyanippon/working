@@ -162,4 +162,13 @@ public class ToolUtils {
         return weekOfDays[w];
     }
 
+    /**
+     * 毫秒转换为年月日
+     * */
+    public static String getYearMonthDate(long million) {
+        Date date = new Date(million);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
+    }
+
 }

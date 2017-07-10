@@ -224,7 +224,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 dlgMenu.getWindow().setAttributes(lpMenu);*/
                 newBilling.setVisibility(View.VISIBLE);
                 transferAccounts.setVisibility(View.VISIBLE);
-                ScaleAnimation sa = new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f, 100.0f, 200.0f);
+                ScaleAnimation sa = new ScaleAnimation(1.0f, 1.1f, 1.0f, 1.1f, 100.0f, 120.0f);
                 sa.setDuration(1000);
                 newBilling.startAnimation(sa);
                 transferAccounts.startAnimation(sa);
