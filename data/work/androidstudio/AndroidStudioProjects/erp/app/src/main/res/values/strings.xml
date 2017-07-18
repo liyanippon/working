@@ -30,8 +30,8 @@
     <string name="outcome">出账(元)</string>
     <string name="income">进账(元)</string>
     <string name="imbalance">差额(元)</string>
-    <string name="monthstatistic">物流账单统计(月份统计)</string>
-    <string name="customerstatistic">物流账单统计(客户统计)</string>
+    <string name="monthstatistic">物流账单统计(月份)</string>
+    <string name="customerstatistic">物流账单统计(客户)</string>
     <string name="header_hint_normal">下拉刷新</string>
     <string name="header_hint_ready">松开刷新数据</string>
     <string name="header_hint_loading">正在加载...</string>

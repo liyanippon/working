@@ -92,7 +92,6 @@ public class MainActivity extends BaseActivity {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Config.BC_ONE);
         getApplicationContext().registerReceiver(broadcast, intentFilter);
-
         broadcast.setLazyLoadFace(new LazyLoadFace() {
             @Override
             public void AdapterRefresh(String type) {
@@ -155,6 +154,7 @@ public class MainActivity extends BaseActivity {
             Statics.GetWXProjectSearchUrl = IFengUrl + "/getWXProject.ajax";
             Statics.GetWXExpenseAccountReasonUrl = IFengUrl + "/getWXExpenseAccountReason.ajax";//转账业务类型
             Statics.GetWXNewAddUrl = IFengUrl + "/getWXNewAdd.ajax";//转账提交单
+            Statics.FinancialBillingGetWXSelectCustomerDetails = IFengUrl + "/getWXSelectCustomerDetails.ajax";//账目统计详细查询（客户）
         } catch (Exception e) {
             e.printStackTrace();
         }

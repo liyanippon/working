@@ -38,7 +38,7 @@ import ui.adpter.AttendanceXiangxiStatisticsAdapter;
 import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
 import ui.fragement.AttendanceChartsFragmentActivity;
 
-public class AttendanceStatisticsActivity extends BaseActivity implements LazyLoadFace{
+public class AttendanceStatisticsActivity extends BaseActivity{
     public static ListView attendListView;
     private ViewGroup tableTitle;
     private Spinner nameSpinner, yearSpinner ,monthSpinner;
@@ -402,8 +402,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements LazyLo
         search = (ImageView) findViewById(R.id.search);
         graph = (ImageView) findViewById(R.id.zhuXing);
     }
-    @Override
-    public void AdapterRefresh(String type) {//刷新adapter
+    public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
             case "attendAdapter":
                 Log.d("adpter","adpter");

@@ -3,34 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:id="@+id/item_layout"
     >
-    <!--<TextView
-        android:id="@+id/text_id"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="10dip"
-        android:paddingTop="10dip"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:lines="1"
-        android:text="序号" />
-
-    <View
-        android:layout_width="1.5dip"
-        android:layout_height="fill_parent"
-        android:background="#B4B3B3"/>-->
 
     <TextView
         android:id="@+id/month"
-        android:layout_width="40dp"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:paddingBottom="10dip"
         android:paddingTop="10dip"
         android:textColor="#000000"
         android:textSize="15sp"
         android:lines="1"
-        android:layout_weight="1"
         android:gravity="center"
         android:text="@string/month" />
 
@@ -39,7 +24,7 @@
         android:layout_height="fill_parent"
         android:background="#B4B3B3"/>
     <TextView
-        android:id="@+id/expressPerson"
+        android:id="@+id/custom"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -48,15 +33,14 @@
         android:textColor="#000000"
         android:textSize="15sp"
         android:gravity="center"
-        android:lines="2"
-        android:text="@string/express_person" />
+        android:text="@string/customer" />
 
     <View
         android:layout_width="1.5dip"
         android:layout_height="fill_parent"
         android:background="#B4B3B3"/>
     <TextView
-        android:id="@+id/count"
+        android:id="@+id/income"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -66,5 +50,41 @@
         android:lines="1"
         android:textSize="15sp"
         android:gravity="center"
-        android:text="@string/count" />
+        android:text="进账" />
+
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/outcome"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:textColor="#000000"
+        android:lines="1"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:text="出账" />
+
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/imbalance"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="10dip"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:lines="1"
+        android:paddingTop="10dip"
+        android:gravity="center"
+        android:text="差额" />
 </LinearLayout>

@@ -1,6 +1,7 @@
 package http;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -15,11 +16,13 @@ import model.AttendanceYear;
 import model.ExpressClassify;
 import model.ExpressExpensePayMethod;
 import model.FinancialAccount;
+import model.FinancialBillingGetWXSelectCustomer;
 import model.FinancialBillingGetWXSelectMonthAccount;
 import model.FinancialBillingGetWXsettlementMonth;
 import model.FinancialCustomer;
 import model.FinancialManagement;
 import model.TransferAccountClassify;
+import portface.LazyLoadFace;
 import ui.activity.AttendanceStatisticsActivity;
 import ui.activity.BillingStatisticsActivity;
 import ui.activity.ExpressBillingManagementActivity;
@@ -33,10 +36,17 @@ import ui.activity.TransferAccountActivity;
 
 public class HttpTypeUtil {
 
+    private  Activity aActivity;
+
+    public HttpTypeUtil(Activity activity){
+        this.aActivity = activity;
+    }
+
     public static void expressType(String result,String httpType) {//物流模块
         ExpressExpensePayMethod[] as;
         ExpressClassify[] ec;
         TransferAccountClassify[] tac;
+
         switch (httpType){
             case "100106":
                 Statics.expressClassifyList.clear();
@@ -53,8 +63,8 @@ public class HttpTypeUtil {
                 tac = new Gson().fromJson(result, TransferAccountClassify[].class);
                 Collections.addAll(Statics.transferAccountClassifiesList,tac);//转化arrayList
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL,TransferAccountActivity.activity,"TransferAccount");
-                TransferAccountActivity transferAccountActivity = new TransferAccountActivity();
-                transferAccountActivity.AdapterRefresh("transfer");
+                //TransferAccountActivity transferAccountActivity = new TransferAccountActivity();
+                TransferAccountActivity.AdapterRefresh("transfer");
                 break;
             case "100110":
                 //刷新页面
@@ -66,10 +76,12 @@ public class HttpTypeUtil {
                 break;
             case "100204":
                 //json数据使用Gson框架解析
+                Log.d("HttpTypeUtil", "result:结果" + result);
                 Statics.CurrentPayStatistic = result;
+
                 //刷新异步刷新
-                BillingStatisticsActivity bsActivity = new BillingStatisticsActivity();
-                bsActivity.AdapterRefresh("CurrentPayStatistic");
+                //BillingStatisticsActivity bsActivity = new BillingStatisticsActivity();
+                BillingStatisticsActivity.AdapterRefresh("CurrentPayStatistic");
                 break;
             case "100205":
                 Log.d("HttpTypeUtil", "支付方式字段获取：：" + result);
@@ -94,8 +106,9 @@ public class HttpTypeUtil {
                 as = new Gson().fromJson(result, AttendanceStatistics[].class);
                 Collections.addAll(Statics.attendanceStatisticsList,as);//转化arrayList
                 //刷新异步刷新
-                AttendanceStatisticsActivity attendanceStatisticsActivity = new AttendanceStatisticsActivity();
-                attendanceStatisticsActivity.AdapterRefresh("attendAdapter");
+                //AttendanceStatisticsActivity attendanceStatisticsActivity = new AttendanceStatisticsActivity();
+                //attendanceStatisticsActivity.AdapterRefresh("attendAdapter");
+                AttendanceStatisticsActivity.AdapterRefresh("attendAdapter");
                 break;
             case "100401":
                 Statics.searchYear.clear();
@@ -146,13 +159,15 @@ public class HttpTypeUtil {
                     awds = new Gson().fromJson(result, AttendanceWxDetaSearch[].class);
                     Collections.addAll(Statics.attendanceWxDetaSearchArrayList,awds);//转化arrayList
                     //刷新异步刷新
-                    AttendanceStatisticsActivity attendanceStatisticsActivity1 = new AttendanceStatisticsActivity();
-                    attendanceStatisticsActivity1.AdapterRefresh("attendXiangxi");
+                    //AttendanceStatisticsActivity attendanceStatisticsActivity1 = new AttendanceStatisticsActivity();
+                    //attendanceStatisticsActivity1.AdapterRefresh("attendXiangxi");
+                    AttendanceStatisticsActivity.AdapterRefresh("attendXiangxi");
                 }else{
                     Statics.attendanceWxDetaSearchArrayList.clear();
                     //刷新异步刷新
-                    AttendanceStatisticsActivity attendanceStatisticsActivity1 = new AttendanceStatisticsActivity();
-                    attendanceStatisticsActivity1.AdapterRefresh("attendXiangxi");
+                    //AttendanceStatisticsActivity attendanceStatisticsActivity1 = new AttendanceStatisticsActivity();
+                    //attendanceStatisticsActivity1.AdapterRefresh("attendXiangxi");
+                    AttendanceStatisticsActivity.AdapterRefresh("attendXiangxi");
                 }
                 break;
             case "100404":
@@ -164,14 +179,15 @@ public class HttpTypeUtil {
                     Log.d("HttpTypeUtil", "shushu::" + Statics.staffBelongProjectArrayList.get(i).getProject_name());
                 }
                 //刷新异步刷新
-                AttendanceStatisticsActivity attendanceStatisticsActivity2 = new AttendanceStatisticsActivity();
-                attendanceStatisticsActivity2.AdapterRefresh("staffBelongProject");
+                //AttendanceStatisticsActivity attendanceStatisticsActivity2 = new AttendanceStatisticsActivity();
+                //attendanceStatisticsActivity2.AdapterRefresh("staffBelongProject");
+                AttendanceStatisticsActivity.AdapterRefresh("staffBelongProject");
                 break;
         }
 
     }
     public static String financialType(String result,String httpType) {//财务模块
-        FinancialStastisticsActivity fsa = new FinancialStastisticsActivity();
+        //FinancialStastisticsActivity fsa = new FinancialStastisticsActivity();
         String results;
         switch (httpType) {
             case "100500":
@@ -186,8 +202,9 @@ public class HttpTypeUtil {
                 Statics.financialManagementList.clear();
                 FinancialManagement[] fm = new Gson().fromJson(result, FinancialManagement[].class);
                 Collections.addAll(Statics.financialManagementList,fm);//转化arrayList
-                FinancialBillingManagementActivity financialBillingManagementActivity = new FinancialBillingManagementActivity();
-                financialBillingManagementActivity.AdapterRefresh("FinancialManagementHttpPost");
+                //FinancialBillingManagementActivity financialBillingManagementActivity =new FinancialBillingManagementActivity();
+                //financialBillingManagementActivity.AdapterRefresh("FinancialManagementHttpPost");
+                FinancialBillingManagementActivity.AdapterRefresh("FinancialManagementHttpPost");
                 break;
             case "100502":
                 //刷新页面
@@ -209,26 +226,32 @@ public class HttpTypeUtil {
                 break;
             case "100506":
                 //json数据使用Gson框架解析
-                Log.d("HttpTypeUtil", "详细：" + result);
-                Log.d("HttpTypeUtil", "sss：");
+                Log.d("HttpTypeUtil", "管理详细：" + result);
                 Statics.fbgwxSettlementMonthList.clear();
                 FinancialBillingGetWXsettlementMonth[] fbgxwd = new Gson().fromJson(result, FinancialBillingGetWXsettlementMonth[].class);
                 Collections.addAll(Statics.fbgwxSettlementMonthList,fbgxwd);//转化arrayList
-                fsa.AdapterRefresh("timeAdapter");
+                FinancialStastisticsActivity.AdapterRefresh("timeAdapter");
                 break;
             case "100507":
                 //json数据使用Gson框架解析
-                Log.d("HttpTypeUtil", "东北："+result);
-                Statics.fbgwxsmaList.clear();
-                FinancialBillingGetWXSelectMonthAccount[] mxbsa = new Gson().fromJson(result, FinancialBillingGetWXSelectMonthAccount[].class);
-                Collections.addAll(Statics.fbgwxsmaList,mxbsa);//转化arrayList
-                fsa.AdapterRefresh("monthXiangXiAdapter");
+                Log.d("HttpTypeUtil", "账目统计（客户）："+result);
+                Statics.fbgwxscList.clear();
+                FinancialBillingGetWXSelectCustomer[] mxbsa = new Gson().fromJson(result, FinancialBillingGetWXSelectCustomer[].class);
+                Collections.addAll(Statics.fbgwxscList,mxbsa);//转化arrayList
+                FinancialStastisticsActivity.AdapterRefresh("customerAdapter");
                 break;
             case "100508":
                 Statics.CurrentMoney = result;
                 Log.d("FinancialStatisticsHttp", "查看当前资金情况：" + result);
                 //json数据使用Gson框架解析
-                fsa.AdapterRefresh("currentMoney");
+                FinancialStastisticsActivity.AdapterRefresh("currentMoney");
+                break;
+            case "100509":
+                Log.d("HttpTypeUtil", "账目统计详细查询："+result);
+                Statics.fbgwxsmaList.clear();
+                FinancialBillingGetWXSelectMonthAccount[] fbgmxbsa = new Gson().fromJson(result, FinancialBillingGetWXSelectMonthAccount[].class);
+                Collections.addAll(Statics.fbgwxsmaList,fbgmxbsa);//转化arrayList
+                FinancialStastisticsActivity.AdapterRefresh("monthXiangXiAdapter");
                 break;
         }
         return result;

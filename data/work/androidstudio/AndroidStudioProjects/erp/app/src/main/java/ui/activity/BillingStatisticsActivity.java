@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ import ui.adpter.TimeBillingStatisticsAdapter;
 import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
 
-public class BillingStatisticsActivity extends BaseActivity implements LazyLoadFace {
+public class BillingStatisticsActivity extends BaseActivity{
     public static ListView timeListView, customerListView;
     private ViewGroup tableTitle, tableTitle1;
     private BillingStatisticsHttpPost billingStatisticsHttpPost;
@@ -47,8 +49,8 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
     private List<String> data_list;
     public static ArrayAdapter<String> arr_adapter;
     private String typeSpinnerString = "024001", yearSpinnerString = null;
-    private List<TimeBillingStatistics> timeBillingStatisticsList;
-    private List<CustomerBillingStatistics> customerBillingStatisticsList;
+    private static List<TimeBillingStatistics> timeBillingStatisticsList;
+    private static List<CustomerBillingStatistics> customerBillingStatisticsList;
     private List<XiangxiBillingStatistics> xiangxiBillingStatisticsList;
     public static TimeBillingStatisticsAdapter timeAdapter;
     public static CustomerBillingStatisticsAdapter customerAdapter;
@@ -59,16 +61,18 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
     private ImageView zhuXing;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
     public static TextView currentMoneyStatistics;
-
+    private String month;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("物流账单统计分析");
         setContentView(R.layout.activity_billing_statistics);
 
+        Log.d("test","tetx");
         //添加返回按钮
         ToolUtils.backButton(this);
         init();
+
         spinnerType();
         Log.d("BillingStatisticsActivi", "test");
         yearSpinnerString = "2017";//默认赋值
@@ -81,6 +85,7 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
         timeBillingStatisticsList = Statics.timeBillingStatisticsList;
         timeAdapter = new TimeBillingStatisticsAdapter(BillingStatisticsActivity.this, timeBillingStatisticsList);
         timeListView.setAdapter(timeAdapter);
+
         search.setOnClickListener(o);
         zhuXing.setOnClickListener(o);
         //listView点击事件
@@ -90,16 +95,16 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
                 //选中变色
                 //ToolUtils.selectColor(parent,position);
                 //确定月份
-                final String month = Statics.timeBillingStatisticsList.get(position).getMonth();
+                month = Statics.timeBillingStatisticsList.get(position).getMonth();
                 billingStatisticsHttpPost.searchCustomerHttp(Statics.CustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, BillingStatisticsActivity.this);
                 customerBillingStatisticsList = Statics.customerBillingStatisticsArrayList;
                 customerAdapter = new CustomerBillingStatisticsAdapter(BillingStatisticsActivity.this, customerBillingStatisticsList);
                 customerListView.setAdapter(customerAdapter);
-
                 customerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                                             @Override
                                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                                 String customerId = Statics.customerBillingStatisticsArrayList.get(position).getCustomerId();//ID
+                                                                month = Statics.customerBillingStatisticsArrayList.get(position).getMonth();
                                                                 listView = null;
                                                                 //递类型，月份，客户名客户名以检索
                                                                 billingStatisticsHttpPost.searchXqCustomerHttp(Statics.XqCustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, customerId, BillingStatisticsActivity.this);
@@ -113,13 +118,6 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
                                                                 xiangxiBillingStatisticsList = Statics.xiangxiBillingStatisticsArrayList;
                                                                 xiangxiAdapter = new XiangxiBillingStatisticsAdapter(BillingStatisticsActivity.this, xiangxiBillingStatisticsList);
                                                                 listView.setAdapter(xiangxiAdapter);
-
-                                                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                                    @Override
-                                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                    }
-                                                                });
-
                                                                 //创建人就是用户名
                                                                 builder.setView(layout);
                                                                 dlg = builder.create();
@@ -128,8 +126,10 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
                                                                 WindowManager windowManager = getWindowManager();
                                                                 Display display = windowManager.getDefaultDisplay();
                                                                 WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
-                                                                lp.width = (int) (display.getWidth()); //设置宽度
+                                                                lp.width = display.getWidth(); //设置宽度
+                                                                //lp.height = display.getHeight();
                                                                 dlg.getWindow().setAttributes(lp);
+
                                                             }
                                                         }
                 );
@@ -258,25 +258,36 @@ public class BillingStatisticsActivity extends BaseActivity implements LazyLoadF
         currentMoneyStatistics = (TextView) findViewById(R.id.currentMoneyStatistics);
     }
 
-    @Override
-    public void AdapterRefresh(String type) {//刷新adapter
+    public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
             case "timeAdapter":
                 timeAdapter.notifyDataSetChanged();
                 progressDialog.dismiss();
+                //测量高度
+                ToolUtils.setListViewHeightBasedOnChildren(timeListView,1);
                 break;
             case "customerAdapter":
                 customerAdapter.notifyDataSetChanged();
+                //测量高度
+                ToolUtils.setListViewHeightBasedOnChildren(customerListView,2);
                 break;
             case "xiangxiAdapter":
                 xiangxiAdapter.notifyDataSetChanged();
                 break;
             case  "CurrentPayStatistic":
                 String currentString = Statics.CurrentPayStatistic;
-                currentString = currentString.split(",")[0]+","
-                        +currentString.split(",")[1]+"\n"+currentString.split(",")[2].trim();
+                currentString = currentString.replace("null", "0.00");
+                Log.d("BillingStatisticsActivi", "当前金额：" + currentString);
+                try {
+                    currentString = "—"+currentString.split(",")[0].trim() + "—" + "\n"
+                            + currentString.split(",")[1].trim() + "，" + currentString.split(",")[2].trim() + "\n"
+                            + currentString.split(",")[3].trim() + "，"+currentString.split(",")[4].trim();
+                }catch (ArrayIndexOutOfBoundsException e){
+                    currentString = Statics.CurrentPayStatistic;
+                }
                 currentMoneyStatistics.setText(currentString);
                 break;
         }
     }
+
 }

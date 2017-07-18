@@ -63,6 +63,7 @@ public class MonthXiangxiBillingStatisticsAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.billing_mon_statics_xiangxilist_layout, null);
             viewHolder.id = (TextView) convertView.findViewById(R.id.text_id);//序号
             viewHolder.dateTime = (TextView) convertView.findViewById(R.id.date_time);
+            viewHolder.createTime = (TextView) convertView.findViewById(R.id.create_time);
             viewHolder.type = (TextView) convertView.findViewById(R.id.type);
             viewHolder.account = (TextView) convertView.findViewById(R.id.account);
             viewHolder.sum = (TextView) convertView.findViewById(R.id.count);
@@ -74,22 +75,24 @@ public class MonthXiangxiBillingStatisticsAdapter extends BaseAdapter {
         }
 
         //毫秒转换年月日
-        String dateTime = ToolUtils.getYearMonthDate(list.get(position).getBill_time());
-        viewHolder.dateTime.setText(dateTime);
+        String time = ToolUtils.getYearMonthDate(list.get(position).getBill_time());
+        viewHolder.dateTime.setText(time);
         viewHolder.dateTime.setTextSize(13);
-        String bill_classify = list.get(position).getBill_classify();
-        String sumString = list.get(position).getBill_sum();
-        String accountString = list.get(position).getBill_type();
-        String customerNameString = list.get(position).getFy_name();
+        time = ToolUtils.getYearMonthDate(list.get(position).getBill_create_time());
+        viewHolder.createTime.setText(time);
+        viewHolder.createTime.setTextSize(13);
+        String bill_classify = list.get(position).getClassifyname();
+        String sumString = list.get(position).getSum();
+        String accountString = list.get(position).getId();
+        String customerNameString = list.get(position).getNick_name();
         String remarkString = list.get(position).getBill_classification();
         if(!bill_classify.equals("进账")){
             Log.d("MonthXiangxiBillingStat", "类型："+bill_classify);
             bill_classify = bill_classify.split("<b>")[1].split("</b>")[0];
-            sumString = sumString.split("<b>")[1].split("</b>")[0];
             accountString = accountString.split("<b>")[1].split("</b>")[0];
-            customerNameString = customerNameString.split("<b>")[1].split("</b>")[0];
             remarkString = remarkString.split("<b>")[1].split("</b>")[0];
             viewHolder.dateTime.setTextColor(Color.RED);
+            viewHolder.createTime.setTextColor(Color.RED);
             viewHolder.remark.setTextColor(Color.RED);
             viewHolder.type.setTextColor(Color.RED);
             viewHolder.account.setTextColor(Color.RED);
@@ -97,6 +100,7 @@ public class MonthXiangxiBillingStatisticsAdapter extends BaseAdapter {
             viewHolder.customerName.setTextColor(Color.RED);
         }else{
             viewHolder.dateTime.setTextColor(Color.BLACK);
+            viewHolder.createTime.setTextColor(Color.BLACK);
             viewHolder.remark.setTextColor(Color.BLACK);
             viewHolder.type.setTextColor(Color.BLACK);
             viewHolder.account.setTextColor(Color.BLACK);
@@ -119,6 +123,6 @@ public class MonthXiangxiBillingStatisticsAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
-        public TextView id, dateTime, type, account, sum ,remark ,customerName;
+        public TextView id, dateTime, createTime, type, account, sum ,remark ,customerName;
     }
 }

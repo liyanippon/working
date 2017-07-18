@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,11 +32,12 @@ import http.HttpTypeConstants;
 import model.*;
 import portface.LazyLoadFace;
 import ui.adpter.CustomerBillingStatisticsAdapter;
+import ui.adpter.FinancialCustomerBillingStatisticsAdapter;
 import ui.adpter.FinancialTimeBillingStatisticsAdapter;
 import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
 import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
-public class FinancialStastisticsActivity extends BaseActivity implements LazyLoadFace {
+public class FinancialStastisticsActivity extends BaseActivity{
 
     public static ListView timeListView, customerListView;
     public LinearLayout linear;//设置隐藏
@@ -46,11 +48,11 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
     private List<String> data_list;
     public static ArrayAdapter<String> arr_adapter;
     private String typeSpinnerString = "024001", yearSpinnerString = null;
-    private List<FinancialBillingGetWXsettlementMonth> timeBillingStatisticsList;
-    private List<CustomerBillingStatistics> customerBillingStatisticsList;
+    private static List<FinancialBillingGetWXsettlementMonth> timeBillingStatisticsList;
+    private List<FinancialBillingGetWXSelectCustomer> fbgwxscList;
     private List<FinancialBillingGetWXSelectMonthAccount> monthXiangXiBillingStatisticsList;
     public static FinancialTimeBillingStatisticsAdapter timeAdapter;
-    public static CustomerBillingStatisticsAdapter customerAdapter;
+    public static FinancialCustomerBillingStatisticsAdapter customerAdapter;
     public static XiangxiBillingStatisticsAdapter xiangxiAdapter;
     public static MonthXiangxiBillingStatisticsAdapter monXiangXiAdapter;
     private HashMap<String,String> param;
@@ -88,10 +90,38 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                xiangxiAlertDialog(position);//点击显示详细信息
+                //xiangxiAlertDialog(position);//点击显示详细信息
+                //点击显示月份账目明细
+                //选中变色
+                //ToolUtils.selectColor(parent,position);
+                //确定月份
+                //final String month = Statics.timeBillingStatisticsList.get(position).getMonth();
+                param=new HashMap<>();
+                String typeString = null;
+                String monthString = null;
+                yearSpinnerString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getYe());//选中年
+                monthString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getMon());//选中月
+                param.put("id",Statics.userName);
+                param.put("year",yearSpinnerString);
+                param.put("month",monthString);
+                HttpBasePost.postHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl,param,HttpTypeConstants.FinancialBillingGetWXSelectMonthAccountUrlType);
+                fbgwxscList = Statics.fbgwxscList;
+                customerAdapter = new FinancialCustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, fbgwxscList);
+                customerListView.setAdapter(customerAdapter);
+                final String finalMonthString = monthString;
+                customerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        xiangxiAlertDialog(position,yearSpinnerString, finalMonthString);//详细信息
+                    }
+                });
             }
         });
     }
+
+
+
     //返回按钮事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -103,17 +133,19 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
         return super.onOptionsItemSelected(item);
     }
 
-    private void xiangxiAlertDialog(int position) {//详细信息对话框
+    private void xiangxiAlertDialog(int position,String yearSpinnerString,String monthString) {//详细信息对话框
         String typeString = null;
-        String monthString = null;
-        yearSpinnerString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getYe());//选中年
-        monthString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getMon());//选中月
+        //String monthString = null;
+        //yearSpinnerString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getYe());//选中年
+        //monthString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getMon());//选中月
         //递类型，月份，客户名客户名以检索
         param=new HashMap<>();
         param.put("type",typeString);
         param.put("year",yearSpinnerString);
         param.put("month",monthString);
-        HttpBasePost.postHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl,param,HttpTypeConstants.FinancialBillingGetWXSelectMonthAccountUrlType);
+        param.put("id",Statics.fbgwxscList.get(position).getId());
+        Log.d("FinancialStastisticsAct", "年月：" + yearSpinnerString + monthString + Statics.fbgwxscList.get(position).getFy_name());
+        HttpBasePost.postHttp(Statics.FinancialBillingGetWXSelectCustomerDetails,param,HttpTypeConstants.FinancialBillingGetWXSelectCustomerDetailsUrlType);
         //financialStatisticsHttpPost.searchXqMonthBillHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl, yearSpinnerString, typeString, monthString);//
         //显示对话框，在对话框中使用ListView
         listView = null;
@@ -152,9 +184,9 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
                 timeBillingStatisticsList = Statics.fbgwxSettlementMonthList;
                 timeAdapter = new FinancialTimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
                 timeListView.setAdapter(timeAdapter);
-                customerBillingStatisticsList = null;//搜索将下面的数据清空
-                customerAdapter = new CustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, customerBillingStatisticsList);
-                customerListView.setAdapter(customerAdapter);
+                //customerBillingStatisticsList = null;//搜索将下面的数据清空
+                //customerAdapter = new FinancialCustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, customerBillingStatisticsList);
+                //customerListView.setAdapter(customerAdapter);
                 break;
             case R.id.zhuXing:
                 //Intent in = new Intent(BillingStatisticsActivity.this,TongjiGraphActivity.class);
@@ -251,15 +283,18 @@ public class FinancialStastisticsActivity extends BaseActivity implements LazyLo
         //linear = (LinearLayout) findViewById(R.id.linear);
 
     }
-    @Override
-    public void AdapterRefresh(String type) {//刷新adapter
+    public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
             case "timeAdapter":
                 timeAdapter.notifyDataSetChanged();
                 progressDialog.dismiss();
+                //测量高度;
+                ToolUtils.setListViewHeightBasedOnChildren(timeListView,5);
                 break;
             case "customerAdapter":
                 customerAdapter.notifyDataSetChanged();
+                //测量高度
+                ToolUtils.setListViewHeightBasedOnChildren(customerListView,6);
                 break;
             case "xiangxiAdapter":
                 xiangxiAdapter.notifyDataSetChanged();

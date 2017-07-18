@@ -57,7 +57,8 @@ public class HttpBasePost {
                                         HttpTypeUtil.attendanceType(result,httpType);
                                 }else if(httpType.equals("100500")||httpType.equals("100501")//财务模块
                                         ||httpType.equals("100502")||httpType.equals("100503")||httpType.equals("100504")
-                                        ||httpType.equals("100506")||httpType.equals("100507")||httpType.equals("100508")){
+                                        ||httpType.equals("100506")||httpType.equals("100507")||httpType.equals("100508")
+                                        ||httpType.equals("100509")){
                                         resultString = HttpTypeUtil.financialType(result,httpType);
                                 }
 

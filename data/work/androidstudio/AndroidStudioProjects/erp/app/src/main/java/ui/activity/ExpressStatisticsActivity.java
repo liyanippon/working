@@ -39,7 +39,7 @@ import ui.fragement.ExpressPiecesChartsFragementActivity;
 import ui.fragement.ExpressPiecesDetailsChartsFragementActivity;
 import ui.fragement.ExpressPiecesPersonDetailsChartsFragementActivity;
 
-public class ExpressStatisticsActivity extends BaseActivity implements LazyLoadFace {
+public class ExpressStatisticsActivity extends BaseActivity{
     public static ListView timeListView, expressPersonListView;
     private ViewGroup tableTitle, tableTitle1;
     private ExpressStatisticsHttpPost expressStatisticsHttpPost;
@@ -310,15 +310,18 @@ public class ExpressStatisticsActivity extends BaseActivity implements LazyLoadF
         }
 
     }
-    @Override
-    public void AdapterRefresh(String type) {//刷新adapter
+    public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
             case "timeAdapter":
                 progressDialog.dismiss();
                 timeAdapter.notifyDataSetChanged();
+                //测量高度
+                ToolUtils.setListViewHeightBasedOnChildren(timeListView,3);
                 break;
             case "expressPersonAdapter":
                 expressPersionAdapter.notifyDataSetChanged();
+                //测量高度
+                ToolUtils.setListViewHeightBasedOnChildren(expressPersonListView,4);
                 break;
             case "xiangxiAdapter":
                 if (xiangxiAdapter != null) {

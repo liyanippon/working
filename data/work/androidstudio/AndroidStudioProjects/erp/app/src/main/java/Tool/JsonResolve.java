@@ -159,8 +159,8 @@ public class JsonResolve {
             //AccountManagementAdapter accountManagementAdapter =new AccountManagementAdapter(activity);
             //AccountManagementActivity.accountLv.setAdapter(accountManagementAdapter);
             //AccountManagementActivity.accountManagementAdapter.notifyDataSetChanged();
-            ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
-            expressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
+            //ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
+            ExpressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -195,15 +195,15 @@ public class JsonResolve {
             }
             if(AddExpressBillingManagerActivity.expressType.equals("addExpress")){//更新add添加页面
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"addReasonSpinner");
-                AddExpressBillingManagerActivity addExpressBillingManagerActivity = new AddExpressBillingManagerActivity();
-                addExpressBillingManagerActivity.AdapterRefresh("reasonSpinner");
-                addExpressBillingManagerActivity.expressType="search";
+                //AddExpressBillingManagerActivity addExpressBillingManagerActivity = new AddExpressBillingManagerActivity();
+                AddExpressBillingManagerActivity.AdapterRefresh("reasonSpinner");
+                AddExpressBillingManagerActivity.expressType="search";
                 Log.d("aleand","发送广播");
 
             }else if(AddExpressBillingManagerActivity.expressType.equals("search")){//更新search显示检索页面
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"SearchReasonSpinner");
-                ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
-                expressBillingManagementActivity.AdapterRefresh("reasonSpinner");
+                //ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
+                ExpressBillingManagementActivity.AdapterRefresh("reasonSpinner");
                 Log.d("aleand","发送广播");
             }
 
@@ -213,30 +213,6 @@ public class JsonResolve {
         }
 
     }
-
-    /*public static void jsonAccountClassifySearch(String json) {//分类
-        try {
-            //解析前先清空
-            JSONArray jsonArray = new JSONArray(json);
-            JSONObject jsonObject = jsonArray.getJSONObject(0);
-            JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Statics.accountClassifyList.clear();
-            for (int i = 0; i < jsonArray1.length(); i++) {
-                JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
-                String id = jsonObject1.getString("id");
-                String name = jsonObject1.getString("name");
-                AccountClassify accountClassify = new AccountClassify(id, name);
-                Statics.accountClassifyList.add(accountClassify);
-                accountClassify = null;
-                Log.d("jizhang","name:"+name);
-            }
-            //刷新适配器
-
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }*/
 
 
     public static void jsonAccountTypeSearch(String json) {//快递类型 圆通韵达
@@ -307,8 +283,8 @@ public class JsonResolve {
                 timeBillingStatistics = null;
             }
             //刷新异步刷新
-            BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
-            billingStatisticsActivity.AdapterRefresh("timeAdapter");
+            //BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
+            BillingStatisticsActivity.AdapterRefresh("timeAdapter");
             //BillingStatisticsActivity.timeAdapter.notifyDataSetChanged();
 
         } catch (JSONException e) {
@@ -330,8 +306,6 @@ public class JsonResolve {
                 Log.d("tes99","oni:::"+jsonArray1.get(i).toString());
                 Log.d("tes99","Constants:::"+Statics.expressYear.get(i));
             }
-            //AccountManagementActivity.accountManagementAdapter =new AccountManagementAdapter(context);
-            //AccountManagementActivity.accountLv.setAdapter(AccountManagementActivity.accountManagementAdapter);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -351,8 +325,6 @@ public class JsonResolve {
                 Log.d("tes99","oni:::"+jsonArray1.get(i).toString());
                 Log.d("tes99","Constants:::"+Statics.billingYear.get(i));
             }
-            //AccountManagementActivity.accountManagementAdapter =new AccountManagementAdapter(context);
-            //AccountManagementActivity.accountLv.setAdapter(AccountManagementActivity.accountManagementAdapter);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -397,16 +369,7 @@ public class JsonResolve {
                 Statics.epmsXList[i]=jsonArray1.get(i).toString();
                 Log.d("yui",Statics.epmsXList[i]);
             }
-            /*for (int i=0;i<jsonArray1.length();i++){
-                JSONObject jsonObject2 =jsonArray1.getJSONObject(i);
-                String month = jsonObject2.getString("month");
-                String sum =  jsonObject2.getString("sum");
-                String name_id =  jsonObject2.getString("name_id");
-                String day =  jsonObject2.getString("day");
-                ExpressPersonMonthStatisticsXiangqing epmsx =new ExpressPersonMonthStatisticsXiangqing(month,sum,name_id,day);
-                Statics.epmsXList.add(epmsx);
-                Log.v("sum",sum);
-            }*/
+
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -424,8 +387,8 @@ public class JsonResolve {
             String result = jsonObject.getString("message");
             if ("失败！".equals(result)) {//没有数据时的处理
                 Statics.customerBillingStatisticsArrayList.clear();
-                BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
-                billingStatisticsActivity.AdapterRefresh("customerAdapter");
+                //BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
+                BillingStatisticsActivity.AdapterRefresh("customerAdapter");
                 return;
             }
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
@@ -444,8 +407,8 @@ public class JsonResolve {
                 customerBillingStatistics = null;
             }
             //刷新异步刷新
-            BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
-            billingStatisticsActivity.AdapterRefresh("customerAdapter");
+            //BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
+            BillingStatisticsActivity.AdapterRefresh("customerAdapter");
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -467,7 +430,12 @@ public class JsonResolve {
                 String classifyname = jsonObject1.getString("classifyname");//进账
                 String resonname = jsonObject1.getString("resonname");//进账
                 String remark = jsonObject1.getString("description");
-                String type = jsonObject1.getString("type");
+                String type = "";
+                try {
+                    type = jsonObject1.getString("type");
+                }catch (JSONException e){
+                    type = "";
+                }
                 JSONObject jsonObject2 = jsonObject1.getJSONObject("date");
                 String year = jsonObject2.getString("year");
                 String month = jsonObject2.getString("month");
@@ -487,6 +455,9 @@ public class JsonResolve {
                     case "024002":
                         typeString = "韵达快递";
                         break;
+                    default:
+                        typeString = "";
+                        break;
                 }
                 Log.d("hui","year:"+year+",."+year);
                 XiangxiBillingStatistics xiangxiBillingStatistics = new XiangxiBillingStatistics(classifyname, typeString, resonname, sb.toString(), price, remark);
@@ -496,8 +467,8 @@ public class JsonResolve {
             Log.v("tool", "word:" + Statics.xiangxiBillingStatisticsArrayList.size());
             //刷新异步刷新
             Log.v("ToolUtils","yuyu:"+Integer.toString(Statics.xiangxiBillingStatisticsArrayList.size()));
-            BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
-            billingStatisticsActivity.AdapterRefresh("xiangxiAdapter");
+            //BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
+            BillingStatisticsActivity.AdapterRefresh("xiangxiAdapter");
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -599,8 +570,8 @@ public class JsonResolve {
             }
             //刷新异步刷新
 
-            ExpressStatisticsActivity expressStatisticsActivity = new ExpressStatisticsActivity();
-           expressStatisticsActivity.AdapterRefresh("timeAdapter");
+            //ExpressStatisticsActivity expressStatisticsActivity = new ExpressStatisticsActivity();
+            ExpressStatisticsActivity.AdapterRefresh("timeAdapter");
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -617,8 +588,8 @@ public class JsonResolve {
             String result = jsonObject.getString("message");
             if ("失败！".equals(result)) {//没有数据时的处理
                 Statics.expressPersonStatisticList.clear();
-                ExpressStatisticsActivity expressStatisticsActivity = new ExpressStatisticsActivity();
-                expressStatisticsActivity.AdapterRefresh("expressPersonAdapter");
+                //ExpressStatisticsActivity expressStatisticsActivity = new ExpressStatisticsActivity();
+                ExpressStatisticsActivity.AdapterRefresh("expressPersonAdapter");
                 return;
             }
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
@@ -634,8 +605,8 @@ public class JsonResolve {
                 expressPersonStatistic = null;
             }
             //刷新异步刷新
-            ExpressStatisticsActivity expressStatisticsActivity = new ExpressStatisticsActivity();
-            expressStatisticsActivity.AdapterRefresh("expressPersonAdapter");
+            //ExpressStatisticsActivity expressStatisticsActivity = new ExpressStatisticsActivity();
+            ExpressStatisticsActivity.AdapterRefresh("expressPersonAdapter");
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -682,11 +653,8 @@ public class JsonResolve {
                 epsXiangqing = null;
             }
             //刷新异步刷新
-
-                ExpressStatisticsActivity expressStatisticsActivity = new ExpressStatisticsActivity();
-                expressStatisticsActivity.AdapterRefresh("xiangxiAdapter");
-
-
+                //ExpressStatisticsActivity expressStatisticsActivity = new ExpressStatisticsActivity();
+                ExpressStatisticsActivity.AdapterRefresh("xiangxiAdapter");
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

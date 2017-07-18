@@ -15,42 +15,8 @@
         android:paddingTop="10dip"
         android:textColor="#000000"
         android:textSize="15sp"
-        android:lines="1"
         android:text="" />
 
-    <!--<View
-        android:layout_width="1.5dip"
-        android:layout_height="fill_parent"
-        android:background="#B4B3B3"/>
-
-    <TextView
-        android:id="@+id/year"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:layout_weight="1"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:text="年" />-->
-
-    <!--<View
-        android:layout_width="1.5dip"
-        android:layout_height="fill_parent"
-        android:background="#B4B3B3"/>
-
-    <TextView
-        android:id="@+id/month"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingBottom="10dip"
-        android:paddingTop="10dip"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:text="月份" />-->
 
     <View
         android:layout_width="1.5dip"
@@ -88,6 +54,40 @@
         android:layout_width="1.5dip"
         android:layout_height="fill_parent"
         android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/date_time"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_weight="1"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:text="日期" />
+
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/create_time"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_weight="1"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:text="创建时间" />
+
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
     <TextView
         android:id="@+id/customerName"
         android:layout_width="0dip"
@@ -98,7 +98,7 @@
         android:textColor="#000000"
         android:textSize="15sp"
         android:gravity="center"
-        android:text="客户名" />
+        android:text="创建者" />
 
     <View
         android:layout_width="1.5dip"
@@ -114,23 +114,8 @@
         android:paddingTop="10dip"
         android:textSize="15sp"
         android:gravity="center"
-        android:text="合计(元)" />
-    <View
-        android:layout_width="1.5dip"
-        android:layout_height="fill_parent"
-        android:background="#B4B3B3"/>
+        android:text="金额(元)" />
 
-    <TextView
-        android:id="@+id/date_time"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:layout_weight="1"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:text="日期" />
     <View
         android:layout_width="1.5dip"
         android:layout_height="fill_parent"

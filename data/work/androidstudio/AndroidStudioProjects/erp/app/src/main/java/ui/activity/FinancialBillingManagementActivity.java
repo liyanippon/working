@@ -27,16 +27,18 @@ import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
+import broadcast.BroadCastTool;
 import broadcast.FreshenBroadcastReceiver;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
+import http.HttpTypeUtil;
 import model.*;
 import model.FinancialManagement;
 import portface.LazyLoadFace;
 import ui.adpter.FinancialManagementAdapter;
 import ui.xlistview.XListView;
 
-public class FinancialBillingManagementActivity extends BaseActivity implements XListView.IXListViewListener, LazyLoadFace {
+public class FinancialBillingManagementActivity extends BaseActivity implements XListView.IXListViewListener{
     private View search;
     private View add;
     private Spinner typeSpinner, classifySpinner;
@@ -59,6 +61,8 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         super.onCreate(savedInstanceState);
         setTitle("账目管理");
         setContentView(R.layout.activity_financial_billing_management);
+
+
 
         //添加返回按钮
         ToolUtils.backButton(this);
@@ -85,7 +89,6 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                 xiangxiAlertDialog(position);
             }
         });
-
         spinnerType();
         search.setOnClickListener(new View.OnClickListener() {//查询
             @Override
@@ -396,8 +399,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         accountLv.setRefreshTime("刚刚");
     }
 
-    @Override
-    public void AdapterRefresh(String type) {
+    public static void AdapterRefresh(String type) {
         switch (type) {
             case "FinancialManagementHttpPost":
                 if (financialManagementAdapter != null) {
@@ -411,4 +413,5 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         }
 
     }
+
 }

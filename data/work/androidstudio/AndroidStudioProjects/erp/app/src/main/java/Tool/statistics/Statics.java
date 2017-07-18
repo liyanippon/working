@@ -21,6 +21,7 @@ import model.ExpressPersonStatisticsXiangqing;
 import model.ExpressPieceCountMonth;
 import model.FinancialAccount;
 import model.FinancialBilingGetXWstatisticalData;
+import model.FinancialBillingGetWXSelectCustomer;
 import model.FinancialBillingGetWXSelectMonthAccount;
 import model.FinancialBillingGetWXsettlementMonth;
 import model.FinancialCustomer;
@@ -129,8 +130,10 @@ public class Statics {
     public static List<FinancialBilingGetXWstatisticalData> fbgxwStatisticalDataList = new ArrayList<>();//时间查询数据
     public static String FinancialBillingGetWXsettlementMonthUrl = "http://192.168.1.54:8083/getWXsettlementMonth.ajax";//时间统计表
     public static List<FinancialBillingGetWXsettlementMonth> fbgwxSettlementMonthList = new ArrayList<>();//时间查询数据
-    public static String FinancialBillingGetWXSelectMonthAccountUrl ="http://192.168.1.54:8083/getWXSelectMonthAccount.ajax";//月份账目明细
+    public static String FinancialBillingGetWXSelectMonthAccountUrl ="http://192.168.1.54:8083/getWXSelectMonthAccount.ajax";//月份账目（详情）
+    public static String FinancialBillingGetWXSelectCustomerDetails = "http://192.168.1.53:8083/getWXSelectCustomerDetails.ajax";//月份账目（客户）
     public static List<FinancialBillingGetWXSelectMonthAccount> fbgwxsmaList = new ArrayList<>();
+    public static List<FinancialBillingGetWXSelectCustomer> fbgwxscList = new ArrayList<>();
     public static String FinancialBillingGetCurrentMoneyUrl ="http://192.168.1.54:8083/getWXSelectAll.ajax";//查看现在金额
     public static String CurrentMoney = null;
     /**用户权限管理**/

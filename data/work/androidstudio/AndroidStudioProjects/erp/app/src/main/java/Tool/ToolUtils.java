@@ -6,7 +6,10 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,6 +21,8 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import Tool.statistics.Statics;
 
 /**
  * Created by admin on 2017/2/21.
@@ -171,4 +176,50 @@ public class ToolUtils {
         return sdf.format(date);
     }
 
+    /**
+     * 动态设置ListView的高度
+     * @param listView
+     */
+    public static void setListViewHeightBasedOnChildren(ListView listView, int select) {
+        if(listView == null){
+            return;
+        }
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+        int totalHeight = 0;
+
+        switch (select){
+            case 1:
+                select = Statics.timeBillingStatisticsList.size();
+                break;
+            case 2:
+                select = Statics.customerBillingStatisticsArrayList.size();
+                break;
+            case 3:
+                select = Statics.expressTimeList.size();
+                break;
+            case 4:
+                select = Statics.expressPersonStatisticList.size();
+                break;
+            case 5:
+                select = Statics.fbgwxSettlementMonthList.size();
+                break;
+            case 6:
+                select = Statics.fbgwxscList.size();
+                break;
+        }
+        Log.d("BillingStatisticsActivi", "大小：" + select);
+        for (int i = 0; i < select; i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 10;
+        Log.d("BillingStatisticsActivi", "高度" + totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 10 + "ss");
+        listView.setLayoutParams(params);
+    }
 }

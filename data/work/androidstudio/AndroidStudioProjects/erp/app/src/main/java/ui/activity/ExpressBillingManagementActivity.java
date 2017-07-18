@@ -45,7 +45,7 @@ import portface.LazyLoadFace;
 import ui.adpter.ExpressManagementAdapter;
 import ui.xlistview.XListView;
 
-public class ExpressBillingManagementActivity extends BaseActivity implements XListView.IXListViewListener, LazyLoadFace {
+public class ExpressBillingManagementActivity extends BaseActivity implements XListView.IXListViewListener {
     public static View search, add, newBilling, transferAccounts;
     private Spinner typeSpinner, classifySpinner;//,reasonSpinner;
     public static Spinner reasonSpinner;
@@ -282,7 +282,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         //httpPost.accountClassifySearchHttp(Static.AccountClassifyUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; i < Statics.expressClassifyList.get(0).getData().size(); i++) {
+        for (int i = 0; Statics.expressClassifyList.get(0).getData().size() > 0 && i < Statics.expressClassifyList.get(0).getData().size(); i++) {
             data_list.add(Statics.expressClassifyList.get(0).getData().get(i).getName());
         }
         //适配器
@@ -432,7 +432,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         accountLv.setRefreshTime("刚刚");
     }
 
-    private void initBroadCast() {
+    private static void initBroadCast() {
         //广播初始化 必须动态注册才能实现回调
         broadcast = new FreshenBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -468,8 +468,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         });
     }
 
-    @Override
-    public void AdapterRefresh(String type) {
+    public static void AdapterRefresh(String type) {
         switch (type) {
             case "accountManagementAdapter":
 

@@ -41,7 +41,7 @@ import model.ExpressExpensePayMethod;
 import model.TransferAccountClassify;
 import portface.LazyLoadFace;
 
-public class TransferAccountActivity extends BaseActivity implements LazyLoadFace{
+public class TransferAccountActivity extends BaseActivity {
     private Button add, reset;
     private static Spinner classifySpinner, reasonSpinner;
     private EditText price, remark;
@@ -52,7 +52,7 @@ public class TransferAccountActivity extends BaseActivity implements LazyLoadFac
     private int currentYear,currentMon,currentDate;
     private Calendar calendar;
     public static Boolean addBoolean = false;
-    ArrayList data_list1;
+    private static ArrayList data_list1;
     static FreshenBroadcastReceiver broadcast;
     public static Context context;
     private HashMap<String,String> param;
@@ -349,7 +349,7 @@ public class TransferAccountActivity extends BaseActivity implements LazyLoadFac
             }
         });
     }
-    private void initBroadCast() {
+    private static void initBroadCast() {
         //广播初始化 必须动态注册才能实现回调
         broadcast = new FreshenBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -378,8 +378,7 @@ public class TransferAccountActivity extends BaseActivity implements LazyLoadFac
 
         });
     }
-    @Override
-    public void AdapterRefresh(String type) {
+    public static void AdapterRefresh(String type) {
         switch (type) {
             case "transfer":
                 initBroadCast();

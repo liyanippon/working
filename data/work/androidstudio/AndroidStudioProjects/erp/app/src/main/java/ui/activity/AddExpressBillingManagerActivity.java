@@ -31,7 +31,7 @@ import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
 import model.ExpressExpensePayMethod;
 import portface.LazyLoadFace;
-public class AddExpressBillingManagerActivity extends BaseActivity implements LazyLoadFace{
+public class AddExpressBillingManagerActivity extends BaseActivity{
     private Button add, reset;
     private static Spinner typeSpinner, classifySpinner, reasonSpinner, customSpinner, payMethodSpinner;
     private EditText price, remark;
@@ -44,7 +44,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity implements La
     private int currentYear,currentMon,currentDate;
     private Calendar calendar;
     public static String expressType = "";
-    ArrayList data_list1;
+    private static ArrayList data_list1;
     static FreshenBroadcastReceiver broadcast;
     public static Context context;
 
@@ -334,7 +334,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity implements La
             }
         });
     }
-    private void initBroadCast() {
+    private static void initBroadCast() {
         //广播初始化 必须动态注册才能实现回调
         broadcast = new FreshenBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -364,8 +364,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity implements La
 
         });
     }
-    @Override
-    public void AdapterRefresh(String type) {
+    public static void AdapterRefresh(String type) {
         switch (type) {
             case "reasonSpinner":
                 initBroadCast();

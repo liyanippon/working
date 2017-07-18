@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:id="@+id/searchcontent"
         >
         <LinearLayout
         android:layout_width="match_parent"
@@ -57,36 +58,46 @@
                     android:scaleType="fitXY"
                     android:src="@drawable/search"/>
         </LinearLayout>
-        <TableLayout
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="#ffffff"
+            android:layout_height="match_parent"
+            android:layout_below="@id/searchcontent"
             >
-            <TableRow>
-                <TextView
-                    android:background="#ffffff"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000000"
-                    android:text="业务员揽件量统计(月份统计)"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#0000ff"
-                    android:id="@+id/zhuXing"
-                    android:clickable="true"
-                    android:layout_gravity="bottom"
-                    android:src="@drawable/graph"
-                    />
-            </TableRow>
-        </TableLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="#ffffff"
+                >
+                <TableRow>
+                    <TextView
+                        android:background="#ffffff"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:text="业务员揽件量统计(月份)"
+                        />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#0000ff"
+                        android:id="@+id/zhuXing"
+                        android:clickable="true"
+                        android:layout_gravity="bottom"
+                        android:src="@drawable/graph"
+                        />
+                </TableRow>
+            </TableLayout>
+
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
@@ -109,9 +120,8 @@
                 android:cacheColorHint="@android:color/transparent"
                 android:fadingEdge="none"
                 android:listSelector="#ffff00"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:layout_height="400dp" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
             </ListView>
 
 
@@ -120,7 +130,7 @@
                 android:textColor="#000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="业务员揽件量统计(业务员统计)"
+                android:text="业务员揽件量统计(业务员)"
                 />
             <View
                 android:layout_width="match_parent"
@@ -144,12 +154,13 @@
                 android:cacheColorHint="@android:color/transparent"
                 android:fadingEdge="none"
                 android:listSelector="#ffff00"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:layout_height="400dp" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
             </ListView>
         </LinearLayout>
 
+    </ScrollView>
 
     </LinearLayout>
+
 </RelativeLayout>

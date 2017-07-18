@@ -17,10 +17,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/linearlayout_shape_corner_top"
             android:gravity="center"
-            android:text="月份账单明细"
+            android:text="账目明细统计"
             android:textColor="#0e2d5f"
             android:textSize="18sp"
-
             />
 
         <View
@@ -53,38 +52,6 @@
                 android:text="序号"
                 android:textColor="#000000"
                 android:textSize="15sp" />
-
-            <!--<View
-                android:layout_width="1.5dip"
-                android:layout_height="fill_parent"
-                android:background="#B4B3B3" />
-
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:text="年"
-                android:textColor="#000000"
-                android:textSize="15sp" />
-
-            <View
-                android:layout_width="1.5dip"
-                android:layout_height="fill_parent"
-                android:background="#B4B3B3" />
-
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="10dip"
-                android:paddingTop="10dip"
-                android:text="月份"
-                android:textColor="#000000"
-                android:textSize="15sp" />-->
 
             <View
                 android:layout_width="1.5dip"
@@ -119,7 +86,6 @@
                 android:text="类型"
                 android:textColor="#000000"
                 android:textSize="15sp" />
-
             <View
                 android:layout_width="1.5dip"
                 android:layout_height="fill_parent"
@@ -132,7 +98,37 @@
                 android:gravity="center"
                 android:paddingBottom="10dip"
                 android:paddingTop="10dip"
-                android:text="客户名"
+                android:text="账单时间"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+            <View
+                android:layout_width="1.5dip"
+                android:layout_height="fill_parent"
+                android:background="#B4B3B3" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:text="创建时间"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+            <View
+                android:layout_width="1.5dip"
+                android:layout_height="fill_parent"
+                android:background="#B4B3B3" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:text="创建者"
                 android:textColor="#000000"
                 android:textSize="15sp" />
 
@@ -152,21 +148,7 @@
                 android:text="金额"
                 android:textColor="#000000"
                 android:textSize="15sp" />
-            <View
-                android:layout_width="1.5dip"
-                android:layout_height="fill_parent"
-                android:background="#B4B3B3" />
 
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="10dip"
-                android:paddingTop="10dip"
-                android:text="日期"
-                android:textColor="#000000"
-                android:textSize="15sp" />
             <View
                 android:layout_width="1.5dip"
                 android:layout_height="fill_parent"
@@ -189,16 +171,6 @@
             android:layout_height="1dip"
             android:background="#B4B3B3" />
 
-        <!--<ListView
-            android:id="@+id/lv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:cacheColorHint="@android:color/transparent"
-            android:divider="#B4B3B3"
-            android:dividerHeight="1.0dip"
-            android:fadingEdge="none"
-            android:listSelector="#ffff00"
-            android:scrollbars="none"></ListView>-->
         <ListView
             android:id="@+id/month_lv"
             android:layout_width="match_parent"
