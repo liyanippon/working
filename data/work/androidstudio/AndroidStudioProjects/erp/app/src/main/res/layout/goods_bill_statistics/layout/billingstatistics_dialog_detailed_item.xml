@@ -89,7 +89,7 @@
                 android:textSize="15sp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="@string/type1" />
+                android:text="支付方式" />
             <View
                 android:layout_width="1.5dip"
                 android:layout_height="fill_parent"

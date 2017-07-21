@@ -1,5 +1,6 @@
 package ui.fragement;
 
+import android.app.Activity;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -74,9 +75,8 @@ public class ExpressPieceDetailsZhuFragment extends Fragment {
         expressStatisticsHttpPost.searchDayCurrentMonth(ExpressPieceMonthDaySearchUrl,year,month);
         String ExpressPieceDaySearchUrl = Statics.ExpressPieceDaySearchUrl;
         expressStatisticsHttpPost.searchDayCurrentMonthPieceCount(ExpressPieceDaySearchUrl,year,month,type,getContext());
-        setGrayValue();
-        initData();
-
+        setGrayValue(mCount);
+        initData(null,mCombinedChart,false,yVals1,-1);
         return view;
     }
 
@@ -102,8 +102,8 @@ public class ExpressPieceDetailsZhuFragment extends Fragment {
                     }else{
                         mCount=0;
                     }
-                    setGrayValue();
-                    initData();
+                    setGrayValue(mCount);
+                    initData(null,mCombinedChart,false,yVals1,-1);
                 }
 
             }
@@ -116,36 +116,41 @@ public class ExpressPieceDetailsZhuFragment extends Fragment {
     /**
      * 初始化数据
      */
-    private void initData() {
+    public void initData(Activity activity , BarChart mCombinedChart , boolean basefragment , ArrayList<BarEntry> yVals1 ,int zhuCount) {
 
         //统计最大y值
         List<Double> input = new ArrayList<>();
-        for (int i =0;i<Statics.expressPieceCountMonthsList.size();i++){
+        for (int i = 0; i < Statics.expressPieceCountMonthsList.size(); i++) {
             input.add(Double.parseDouble(Statics.expressPieceCountMonthsList.get(i).getSum()));
-            Log.d("broadcast","统计最大y值："+Statics.expressPieceCountMonthsList.get(i).getSum());
+            Log.d("broadcast", "统计最大y值：" + Statics.expressPieceCountMonthsList.get(i).getSum());
 
         }
 
         int yZhi = ToolUtils.tongJiTuY(input);
-        maxValue=(float) yZhi;
-        Log.v("float",Float.toString(maxValue));
-        Log.d("broadcast","maxValue："+Float.toString(maxValue));
-        List<String> list =new ArrayList<>();//图例
+        maxValue = (float) yZhi;
+        Log.v("float", Float.toString(maxValue));
+        Log.d("broadcast", "maxValue：" + Float.toString(maxValue));
+        List<String> list = new ArrayList<>();//图例
         list.add("数量");
         list.add(null);
+        Activity activitys = getActivity();
 
-        mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
-        mCombinedChartUtil.setRule(mCount, minValue, maxValue);
+        if(basefragment){
+            activitys = activity;
+            mCount = zhuCount;
+        }else{
+            activitys = getActivity();
+            zhuCount = mCount;
+
+        }
+        mCombinedChartUtil = new CombinedBarChartUtil(activitys);
+        mCombinedChartUtil.setRule(zhuCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
-        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals1,list,"业务员揽件量（月份）");
-
-
-
-
+        mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals1, list, "业务员揽件量（月份）");
     }
 
-    private void setGrayValue() {
-
+    public ArrayList<BarEntry> setGrayValue(int mCount) {
+        Log.d("cece","yVals1"+"调用数据");
         Log.d("broadcast","调用数据");
         //double[] income = new double[12];
         double[] expressPieces = new double[mCount] ;
@@ -153,7 +158,9 @@ public class ExpressPieceDetailsZhuFragment extends Fragment {
         for (int i =0;i< Statics.expressPieceCountMonthsList.size();i++){
             day[i] = Integer.parseInt(Statics.expressPieceCountMonthsList.get(i).getDay());//
             Log.d("broadcast","day[i]:"+Integer.toString(day[i]));
+
         }
+        Log.d("cece","yVals1"+"mCount"+mCount);
         Log.d("test","mocount:"+Integer.toString(mCount));
         for (int i =1;i<=mCount;i++ ){
             if(i<=mCount){
@@ -162,6 +169,7 @@ public class ExpressPieceDetailsZhuFragment extends Fragment {
                     if(i == day[j]){
                         Log.d("test","expressPieces[i-1]");
                         expressPieces[i-1] = Double.parseDouble(Statics.expressPieceCountMonthsList.get(j).getSum());
+                        Log.d("cece","yVals1"+"调用数据"+expressPieces[i-1]);
                         //outcome[i-1] = Double.parseDouble(Statics.timeBillingStatisticsList.get(j).getOutcom());//出账
                         Log.v("double","expressP"+Double.toString(expressPieces[i-1]));
                     }
@@ -180,9 +188,11 @@ public class ExpressPieceDetailsZhuFragment extends Fragment {
             yVals1.add(new BarEntry((float) income[i], i, mDateTime[i]));
         }*/
         for (int i = 0; i < mCount; i++) {
+            Log.d("cece","yVals1"+expressPieces[i]);
             yVals1.add(new BarEntry((float) expressPieces[i], i, Statics.Xday));
             //yVals2.add(new BarEntry((float) outcome[i], i, mDateTime[i]));//没问题
         }
+        return yVals1;
     }
 
 }

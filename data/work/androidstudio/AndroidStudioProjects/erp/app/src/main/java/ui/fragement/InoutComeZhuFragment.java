@@ -1,5 +1,6 @@
 package ui.fragement;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -43,8 +44,8 @@ public class InoutComeZhuFragment extends Fragment {
     private String catlog;
     List<String> list =new ArrayList<>();//图例
     List<Double> input;//y轴最大值
-    InoutComeZhuFragment( ){}
-    InoutComeZhuFragment(String catlog){
+    public InoutComeZhuFragment( ){}
+    public InoutComeZhuFragment(String catlog){
         this.catlog=catlog;
     }
 
@@ -61,7 +62,7 @@ public class InoutComeZhuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_zhu, null);
         mCombinedChart = (BarChart) view.findViewById(R.id.barChart);
         setGrayValue();
-        initData();
+        initData(null,mCombinedChart,false);
 
         return view;
     }
@@ -69,7 +70,7 @@ public class InoutComeZhuFragment extends Fragment {
     /**
      * 初始化数据
      */
-    private void initData() {
+    public void initData(Activity activity, BarChart mCombinedChart ,boolean basefragment) {
 
         String description = "进账出账柱型统计图";
         if(this.catlog!=null&&this.catlog.equals("财务统计分析")){
@@ -86,7 +87,7 @@ public class InoutComeZhuFragment extends Fragment {
             list.add("进账");
             description = "财务账目柱型统计图";
 
-        }else{
+        }else if(this.catlog!=null&&this.catlog.equals("物流统计分析")){
             //统计最大y值
             input = new ArrayList<>();
             for (int i = 0; i< Statics.timeBillingStatisticsList.size(); i++){
@@ -101,7 +102,13 @@ public class InoutComeZhuFragment extends Fragment {
         }
         int yZhi = ToolUtils.tongJiTuY(input);
         maxValue=(float) yZhi;
-        mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
+        Activity activitys = getActivity();
+        if(basefragment){
+            activitys = activity;
+        }else{
+            activitys = getActivity();
+        }
+        mCombinedChartUtil = new CombinedBarChartUtil(activitys);
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
         mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals2,list,description);
@@ -112,7 +119,7 @@ public class InoutComeZhuFragment extends Fragment {
      * 【功能描述】  ：设置折线的数据
      * 【修改时间】  ：2016/3/17 14:37
      */
-    private void setGrayValue() {
+    public void setGrayValue() {
 
         double[] income = new double[12];
         double[] outcome = new double[12];

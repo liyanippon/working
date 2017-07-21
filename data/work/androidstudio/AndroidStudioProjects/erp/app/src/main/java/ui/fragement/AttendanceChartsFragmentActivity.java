@@ -10,12 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
-
 import com.example.admin.erp.R;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class AttendanceChartsFragmentActivity extends FragmentActivity {
     /**
      * 作为页面容器的ViewPager

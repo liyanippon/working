@@ -32,7 +32,7 @@
         android:textSize="15sp"
         android:lines="1"
         android:gravity="center"
-        android:text="月" />
+        android:text="月份" />
 
     <View
         android:layout_width="1.5dip"

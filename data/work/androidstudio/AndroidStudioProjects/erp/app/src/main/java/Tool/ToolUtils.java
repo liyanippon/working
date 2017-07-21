@@ -197,6 +197,7 @@ public class ToolUtils {
                 break;
             case 2:
                 select = Statics.customerBillingStatisticsArrayList.size();
+                Log.d("测量高度","select"+select);
                 break;
             case 3:
                 select = Statics.expressTimeList.size();
@@ -209,6 +210,12 @@ public class ToolUtils {
                 break;
             case 6:
                 select = Statics.fbgwxscList.size();
+                break;
+            case 7:
+                select = Statics.attendanceStatisticsList.size();
+                break;
+            case 8:
+                select = Statics.epsXList.size();
                 break;
         }
         Log.d("BillingStatisticsActivi", "大小：" + select);

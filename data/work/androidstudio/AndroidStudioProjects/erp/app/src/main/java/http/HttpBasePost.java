@@ -10,6 +10,7 @@ import java.util.Set;
 import ui.activity.AttendanceStatisticsActivity;
 import ui.activity.FinancialBillingManagementActivity;
 import ui.activity.FinancialStastisticsActivity;
+import ui.activity.LogisticsReportActivity;
 
 /**
  * Created by admin on 2017/3/27.
@@ -47,8 +48,9 @@ public class HttpBasePost {
                                 String result = (String) o;//从从网络端返回数据
                                 resultString = "success";
                                 Log.d("HttpBasePost", "结果" + result);
-                                if(httpType.equals("100106")||httpType.equals("100108")//物流模块
-                                        ||httpType.equals("100109")||httpType.equals("100110")
+                                if(httpType.equals("100106")//物流模块
+                                        ||httpType.equals("100108")||httpType.equals("100109")
+                                        ||httpType.equals("100110")||httpType.equals("100111")
                                         ||httpType.equals("100204")||httpType.equals("100205")){
                                         HttpTypeUtil.expressType(result,httpType);
                                 }else if(httpType.equals("100400")||httpType.equals("100401")
@@ -69,6 +71,9 @@ public class HttpBasePost {
                                 super.onFailure(t, errorNo, strMsg);
 
                                 switch (httpType){
+                                        case "100111":
+                                                //LogisticsReportActivity.progressDialog.dismiss();
+                                                break;
                                         case "100400":
                                                 AttendanceStatisticsActivity.progressDialog.dismiss();
                                                 break;

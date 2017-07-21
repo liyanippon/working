@@ -90,6 +90,7 @@ public class ExpressPieceDetailsZheFragment extends Fragment {
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
         mCombinedChartUtil.setMianCombinedChart1(mCombinedChart, yValues1, yValues1,list,"业务员揽件量（月份）");
+
     }
 
     /**

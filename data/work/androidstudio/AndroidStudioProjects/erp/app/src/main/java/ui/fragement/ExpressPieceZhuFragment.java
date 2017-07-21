@@ -1,5 +1,6 @@
 package ui.fragement;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -49,7 +50,7 @@ public class ExpressPieceZhuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_zhu, null);
         mCombinedChart = (BarChart) view.findViewById(R.id.barChart);
         setGrayValue();
-        initData();
+        initData(null,mCombinedChart,false);
 
         return view;
     }
@@ -57,7 +58,7 @@ public class ExpressPieceZhuFragment extends Fragment {
     /**
      * 初始化数据
      */
-    private void initData() {
+    public void initData(Activity activity , BarChart mCombinedChart , boolean basefragment) {
 
         //统计最大y值
         List<Double> input = new ArrayList<>();
@@ -72,8 +73,13 @@ public class ExpressPieceZhuFragment extends Fragment {
         List<String> list =new ArrayList<>();//图例
         list.add("数量");
         list.add(null);
-
-        mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
+        Activity activitys = getActivity();
+        if(basefragment){
+            activitys = activity;
+        }else{
+            activitys = getActivity();
+        }
+        mCombinedChartUtil = new CombinedBarChartUtil(activitys);
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
         mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals1,list,"业务员揽件量柱形统计图");
@@ -83,7 +89,7 @@ public class ExpressPieceZhuFragment extends Fragment {
      * 【功能描述】  ：设置折线的数据
      * 【修改时间】  ：2016/3/17 14:37
      */
-    private void setGrayValue() {
+    public void setGrayValue() {
 
         //double[] income = new double[12];
         double[] expressPieces = new double[12] ;

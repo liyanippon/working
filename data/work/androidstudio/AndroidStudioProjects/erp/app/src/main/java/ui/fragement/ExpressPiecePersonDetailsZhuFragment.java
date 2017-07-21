@@ -1,5 +1,6 @@
 package ui.fragement;
 
+import android.app.Activity;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -56,11 +57,13 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
     private String temmp = null;
     private String shijianTime = null;
     private double temp =0.0;
+    private static Activity activity;
     public ExpressPiecePersonDetailsZhuFragment(){
         year = Statics.XiangxiChan.get("year");
         month = Statics.XiangxiChan.get("month");
         type = Statics.XiangxiChan.get("type");
         expressPersonId = Statics.XiangxiChan.get("expressPersonId");
+        activity = getActivity();
     }
 
     @Override
@@ -74,11 +77,10 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
 
 
         Statics.epmsXList=null;
-
         View view = inflater.inflate(R.layout.fragment_zhu, null);
         mCombinedChart = (BarChart) view.findViewById(R.id.barChart);
 
-        initBroadCast();
+        initBroadCast(null,-1);
         //处理月份天数和具体到每日的件数
         Statics.isBroadCast =true;
         String ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
@@ -88,25 +90,27 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
         //长按：
         expressStatisticsHttpPost.searchPersonDayCurrentMonthPieceCount(Statics.ExpressPersonPieceDaySearchUrl, year,  month, expressPersonId, getContext());
         //以快递员数量统计
-        setGrayValue();
-        initData();
+        setGrayValue(mCount);
+        initData(null,mCombinedChart,false,yVals1,-1);
 
         return view;
     }
 
-    private void initBroadCast() {
+    public void initBroadCast(Activity activity,int type) {
         //广播初始化 必须动态注册才能实现回调
         FreshenBroadcastReceiver broadcast = new FreshenBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Config.BC_ONE);
-        getContext().registerReceiver(broadcast, intentFilter);
-
+        if(type == 1){
+            activity.registerReceiver(broadcast, intentFilter);
+        }else{
+            getContext().registerReceiver(broadcast, intentFilter);
+        }
 
         broadcast.setLazyLoadFace(new LazyLoadFace() {
             @Override
             public void AdapterRefresh(String type) {
                 //具体更新
-                Log.d("aaaa","pppppppppppppppppppppppppp");
                 if(type.equals("PersonXq")){
                     Log.d("broadcast","接收到广播sss");
                     Statics.dayCount=true;
@@ -119,8 +123,8 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
                         Log.d("broadcast","ss"+"sdaf");
                     }
 
-                    setGrayValue();
-                    initData();
+                    setGrayValue(mCount);
+                    initData(null,mCombinedChart,false,yVals1,-1);
                 }
 
             }
@@ -133,7 +137,7 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
     /**
      * 初始化数据
      */
-    private void initData() {
+    public void initData(Activity activity , BarChart mCombinedChart , boolean basefragment, ArrayList<BarEntry> yVals1 ,int zhuCount) {
 
         //统计最大y值
         List<Double> input = new ArrayList<>();
@@ -157,15 +161,20 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
         List<String> list =new ArrayList<>();//图例
         list.add("数量");
         list.add(null);
-
-        mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
+        Activity activitys = getActivity();
+        if(basefragment){
+            activitys = activity;
+        }else{
+            activitys = getActivity();
+        }
+        mCombinedChartUtil = new CombinedBarChartUtil(activitys);
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
         mCombinedChartUtil.setMianCombinedChart(mCombinedChart, yVals1, yVals1,list,"业务员揽件量（每日）");
 
     }
 
-    private void setGrayValue() {
+    public ArrayList<BarEntry> setGrayValue(int mCount) {
 
         Log.d("broadcast","调用数据");
         //Log.d("broadcast","ss:"+Integer.toString(Statics.epmsXList.size()));
@@ -207,6 +216,7 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
         for (int i = 0; i < mCount; i++) {
             yVals1.add(new BarEntry((float) expressPersonPieces[i], i, Statics.Xday));
         }
+        return yVals1;
     }
 
 }

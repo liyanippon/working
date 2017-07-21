@@ -18,6 +18,7 @@ public class HttpTypeConstants {
     public static final String TransferAccountType = "100108";//转账下拉菜单
     public static final String GetWXExpenseAccountReasonUrl = "100109";//业务类型（转出处理）
     public static final String TransferAccount = "100110";//转账提交表单
+    public static final String LogisticsReportGetWXTjsjList = "100111";//物流报表查询（月份）
     /**物流统计**/
     public static final String ExpressTimeSearchUrlType = "100200";//统计列表
     public static final String ExpressCustomerSearchUrlType = "100201";//客户统计列表
@@ -55,4 +56,5 @@ public class HttpTypeConstants {
     public static final String FinancialBillingGetWXSelectMonthAccountUrlType ="100507";//月份账目明细(详细信息)
     public static final String FinancialBillingGetCurrentMoneyUrlType ="100508";//查看现在金额
     public static final String FinancialBillingGetWXSelectCustomerDetailsUrlType = "100509";//客户统计信息查询
+
 }

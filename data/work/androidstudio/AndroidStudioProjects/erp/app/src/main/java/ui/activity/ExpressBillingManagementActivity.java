@@ -49,9 +49,10 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     public static View search, add, newBilling, transferAccounts;
     private Spinner typeSpinner, classifySpinner;//,reasonSpinner;
     public static Spinner reasonSpinner;
-    private static List<String> data_list;
+    public static List<String> data_list;
     public static ArrayAdapter<String> arr_adapter;
-    private String typeSpinnerString, classifySpinnerString, reasonSpinnerString;
+    private String typeSpinnerString, reasonSpinnerString;
+    private static String classifySpinnerString;
     public static ExpressManagementAdapter expressManagementAdapter;
     public static XListView mListView, accountLv;
     private ArrayAdapter<String> mAdapter;
@@ -83,7 +84,6 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         init();
         //空查询
         page = 1;//显示页数
-
         httpPost = new ExpressBillingManagementHttpPost();
         String httpUrl = Statics.FinancialBillingManagementSearchUrl;
         //刚进入页面就要显示数据
@@ -190,38 +190,6 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent in = new Intent(ExpressBillingManagementActivity.this, AddExpressBillingManagerActivity.class);
-                startActivity(in);*/
-                //弹出alertDialog
-                /*AlertDialog.Builder builder = new AlertDialog.Builder(ExpressBillingManagementActivity.this);
-                LayoutInflater inflater = getLayoutInflater();
-                final View layout = inflater.inflate(R.layout.express_menu_dialog, null);//获取自定义布局
-                LinearLayout newBilling,transferAccounts;
-                newBilling = (LinearLayout) layout.findViewById(R.id.newBilling);
-                transferAccounts = (LinearLayout) layout.findViewById(R.id.transferAccounts);
-                newBilling.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(ExpressBillingManagementActivity.this, "新建账单", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                transferAccounts.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(ExpressBillingManagementActivity.this, "转账", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                //创建人就是用户名
-                builder.setView(layout);
-                dlgMenu = builder.create();
-                dlgMenu.show();
-                //dlg.getWindow().setLayout(1500, 1500);
-                WindowManager windowManager = getWindowManager();
-                Display display = windowManager.getDefaultDisplay();
-                WindowManager.LayoutParams lpMenu = dlgMenu.getWindow().getAttributes();
-                lpMenu.width = 500; //设置宽度
-                lpMenu.height = 500;//设置高度
-                dlgMenu.getWindow().setAttributes(lpMenu);*/
                 newBilling.setVisibility(View.VISIBLE);
                 transferAccounts.setVisibility(View.VISIBLE);
                 ScaleAnimation sa = new ScaleAnimation(1.0f, 1.1f, 1.0f, 1.1f, 100.0f, 120.0f);
@@ -260,9 +228,10 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
 
 
 
+
     private void spinnerType() {
         Log.d("test", "spinnerType");
-        //数据
+        //数据（快递类型：圆通，韵达）
         //httpPost =new HttpPost();
         //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
@@ -277,13 +246,15 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         //加载适配器
         typeSpinner.setAdapter(arr_adapter);
         data_list = null;
-        //数据
+
+        //数据（业务分类：进账，出账）
         //httpPost =new HttpPost();
         //httpPost.accountClassifySearchHttp(Static.AccountClassifyUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
         for (int i = 0; Statics.expressClassifyList.get(0).getData().size() > 0 && i < Statics.expressClassifyList.get(0).getData().size(); i++) {
             data_list.add(Statics.expressClassifyList.get(0).getData().get(i).getName());
+            Log.d("ytpe",Statics.expressClassifyList.get(0).getData().get(i).getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -311,7 +282,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-
+                Statics.ActivityType = "ExpressBillingManagementActivity";
                 //二级联动
                 if(position == 0){
                     classifySpinnerString = "全部";
@@ -326,7 +297,9 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
 
                 data_list = new ArrayList<>();
                 data_list.add("全部");
-                for (int i = 0; i < Statics.accountReasonList.size(); i++) {
+
+                Log.d("ExpressBillingManagemen", "quanbu" + classifySpinnerString);
+                for (int i = 0; i < Statics.accountReasonList.size() ; i++) {
                     data_list.add(Statics.accountReasonList.get(i).getName());
                     Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
                     Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getId());
@@ -433,13 +406,13 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     }
 
     private static void initBroadCast() {
+        Log.d("express","广播初始化");
         //广播初始化 必须动态注册才能实现回调
         broadcast = new FreshenBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Config.BC_ONE);
         if(context!=null){
             context.registerReceiver(broadcast, intentFilter);
-
         }
 
         broadcast.setLazyLoadFace(new LazyLoadFace() {
@@ -452,7 +425,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                     //arr_adapter1.notifyDataSetChanged();
                     data_list = new ArrayList<>();
                     data_list.add("全部");
-                    for (int i = 0; i < Statics.accountReasonList.size(); i++) {
+                    for (int i = 0; i < Statics.accountReasonList.size() && !"全部".equals(classifySpinnerString); i++) {
                         data_list.add(Statics.accountReasonList.get(i).getName());
                         Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
 

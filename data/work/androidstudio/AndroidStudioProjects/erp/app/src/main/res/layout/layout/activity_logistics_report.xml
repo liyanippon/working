@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_billing_statistics"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f0f0f0"
-    tools:context="ui.activity.BillingStatisticsActivity">
-
+    tools:context="ui.activity.LogisticsReportActivity">
     <LinearLayout
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
@@ -14,36 +12,42 @@
         android:orientation="horizontal"
         android:id="@+id/searchcontent"
         >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            android:text="@string/year"
-            />
         <Spinner
             android:layout_marginLeft="1dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/yearSpinner"
-            android:background="@drawable/shape_editor"
             android:layout_weight="1"
+            android:background="#00bfff"
             >
         </Spinner>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/type"
-            android:layout_gravity="center"
-            android:textSize="16sp"
-            />
         <Spinner
             android:layout_marginLeft="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/typeSpinner"
+            android:background="#00bfff"
             android:layout_weight="1"
-            android:background="@drawable/shape_editor"
+            >
+        </Spinner>
+        <Spinner
+            android:layout_marginLeft="1dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/classifySpinner"
+            android:background="#00bfff"
+            android:layout_weight="1"
+            >
+
+        </Spinner>
+
+        <Spinner
+            android:layout_marginLeft="1dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00bfff"
+            android:id="@+id/reasonSpinner"
+            android:layout_weight="1"
             >
         </Spinner>
         <ImageView
@@ -79,7 +83,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/monthstatistic"
+                        android:text="物流报表"
                         />
                 </TableRow>
             </TableLayout>
@@ -91,25 +95,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 />
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                >
-                <TextView
-                    android:id="@+id/currentMoneyStatistics"
-                    android:background="#e6f0ff"
-                    android:layout_marginTop="5dp"
-                    android:textColor="#0e2d5f"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="false"
-                    android:text="现金 : 0元 , 银行 : 0元 ，支付宝：0元，微信：0元"
-                    />
-            </TableLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -142,7 +127,7 @@
                     android:scrollbars="vertical"
                     ></ListView>
 
-                <TextView
+                <!--<TextView
                     android:textColor="#000000"
                     android:background="#ffffff"
                     android:layout_width="match_parent"
@@ -171,10 +156,9 @@
                     android:divider="#B4B3B3"
                     android:dividerHeight="1.0dip"
                     android:listSelector="#ffff00"
-                    android:scrollbars="vertical"></ListView>
+                    android:scrollbars="vertical"></ListView>-->
 
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </RelativeLayout>

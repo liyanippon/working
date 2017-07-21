@@ -29,6 +29,7 @@ import ui.activity.BillingStatisticsActivity;
 import ui.activity.ExpressBillingManagementActivity;
 import ui.activity.ExpressNumberManagerActivity;
 import ui.activity.ExpressStatisticsActivity;
+import ui.activity.LogisticsReportActivity;
 
 @SuppressLint("NewApi")
 public class MainTabExpress extends Fragment implements AdapterView.OnItemClickListener{
@@ -143,6 +144,10 @@ public class MainTabExpress extends Fragment implements AdapterView.OnItemClickL
 				break;
 			case "物流统计":
 				in = new Intent(getActivity(), BillingStatisticsActivity.class);
+				startActivity(in);
+				break;
+			case "物流报表":
+				in = new Intent(getActivity(),LogisticsReportActivity.class);
 				startActivity(in);
 				break;
 			case "业务揽件":

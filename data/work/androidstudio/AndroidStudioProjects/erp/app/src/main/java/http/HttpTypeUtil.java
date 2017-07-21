@@ -21,6 +21,7 @@ import model.FinancialBillingGetWXSelectMonthAccount;
 import model.FinancialBillingGetWXsettlementMonth;
 import model.FinancialCustomer;
 import model.FinancialManagement;
+import model.LogisticsReportSearch;
 import model.TransferAccountClassify;
 import portface.LazyLoadFace;
 import ui.activity.AttendanceStatisticsActivity;
@@ -28,6 +29,7 @@ import ui.activity.BillingStatisticsActivity;
 import ui.activity.ExpressBillingManagementActivity;
 import ui.activity.FinancialBillingManagementActivity;
 import ui.activity.FinancialStastisticsActivity;
+import ui.activity.LogisticsReportActivity;
 import ui.activity.TransferAccountActivity;
 
 /**
@@ -46,7 +48,7 @@ public class HttpTypeUtil {
         ExpressExpensePayMethod[] as;
         ExpressClassify[] ec;
         TransferAccountClassify[] tac;
-
+        LogisticsReportSearch[] lrs;
         switch (httpType){
             case "100106":
                 Statics.expressClassifyList.clear();
@@ -74,6 +76,13 @@ public class HttpTypeUtil {
                 activity = ExpressBillingManagementActivity.activityExpress;
                 httpPost.searchHttp(httpUrl, "", "", "", activity, 1);
                 break;
+            /*case "100111":
+                //物流报表月份查询
+                Log.d("HttpTypeUtil", "物流报表月份查询:"+result);
+                Statics.logisticsReportSearcheList.clear();
+                lrs = new Gson().fromJson(result, LogisticsReportSearch[].class);
+                Collections.addAll(Statics.logisticsReportSearcheList,lrs);//转化arrayList
+                break;*/
             case "100204":
                 //json数据使用Gson框架解析
                 Log.d("HttpTypeUtil", "result:结果" + result);
@@ -81,7 +90,12 @@ public class HttpTypeUtil {
 
                 //刷新异步刷新
                 //BillingStatisticsActivity bsActivity = new BillingStatisticsActivity();
-                BillingStatisticsActivity.AdapterRefresh("CurrentPayStatistic");
+                if("LogisticsReportActivity".equals(Statics.ActivityType)){
+                    LogisticsReportActivity.AdapterRefresh("CurrentPayStatistic");
+                    Statics.ActivityType = "";
+                }else {
+                    BillingStatisticsActivity.AdapterRefresh("CurrentPayStatistic");
+                }
                 break;
             case "100205":
                 Log.d("HttpTypeUtil", "支付方式字段获取：：" + result);

@@ -1,7 +1,9 @@
 package ui.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -18,8 +20,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.admin.erp.R;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +32,8 @@ import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
+import broadcast.Config;
+import broadcast.FreshenBroadcastReceiver;
 import http.ExpressStatisticsHttpPost;
 import model.ExpressPersonStatistic;
 import model.ExpressPersonStatisticsXiangqing;
@@ -35,6 +42,9 @@ import portface.LazyLoadFace;
 import ui.adpter.ExpressPersonStatisticsAdapter;
 import ui.adpter.TimeExpressStatisticsAdapter;
 import ui.adpter.XiangxiExpressPersonStatisticsAdapter;
+import ui.fragement.ExpressPieceDetailsZhuFragment;
+import ui.fragement.ExpressPiecePersonDetailsZhuFragment;
+import ui.fragement.ExpressPieceZhuFragment;
 import ui.fragement.ExpressPiecesChartsFragementActivity;
 import ui.fragement.ExpressPiecesDetailsChartsFragementActivity;
 import ui.fragement.ExpressPiecesPersonDetailsChartsFragementActivity;
@@ -47,7 +57,8 @@ public class ExpressStatisticsActivity extends BaseActivity{
     private ImageView search;
     private List<String> data_list;
     public static ArrayAdapter<String> arr_adapter;
-    private String typeSpinnerString = "024001", yearSpinnerString = null;
+    private static String typeSpinnerString = "024001";
+    private static String yearSpinnerString = null;
     private List<TimeExpressStatistics> timeExpressStatisticsesList;
     private List<ExpressPersonStatistic> expressPersonStatisticList;
     private List<ExpressPersonStatisticsXiangqing> epsXList;
@@ -55,11 +66,23 @@ public class ExpressStatisticsActivity extends BaseActivity{
     public static ExpressPersonStatisticsAdapter expressPersionAdapter;
     public static XiangxiExpressPersonStatisticsAdapter xiangxiAdapter;
     private AlertDialog dlg;
-    private ListView mouth_statistic_lv, listView;
-    private ImageView zhuXing;
-    private String month;
+    private ListView mouth_statistic_lv;
+    private static ListView listView;
+    private static String month;
     boolean onsearchclick = false;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
+    //统计图
+    private static BarChart mCombinedChart,mCombinedChartMonth ,mCombinedChartMonthXiangxi;
+    private static Activity activity;
+    private static String expressPersonId;
+    private static int mCount = 0;
+    private static ExpressPieceDetailsZhuFragment epdz;
+    private static ExpressPiecePersonDetailsZhuFragment eppdz;
+    private static ArrayList<BarEntry> yVals1;
+    private static TextView monthTitle;
+    private static String ExpressPieceMonthDaySearchUrl;
+    private int positionTemp;
+    private Intent in;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,16 +106,20 @@ public class ExpressStatisticsActivity extends BaseActivity{
         timeAdapter = new TimeExpressStatisticsAdapter(ExpressStatisticsActivity.this, timeExpressStatisticsesList);
         timeListView.setAdapter(timeAdapter);
         search.setOnClickListener(o);
-        zhuXing.setOnClickListener(o);
+        mCombinedChart.setOnClickListener(o);
+        mCombinedChartMonth.setOnClickListener(o);
 
+        activity = ExpressStatisticsActivity.this;
         //listView点击事件
         timeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                positionTemp = position;
                 //选中变色
                 //ToolUtils.selectColor(parent,position);
                 //确定月份
                 month = Statics.expressTimeList.get(position).getMonth();
+                monthTitle.setText(month+"月份件数柱形图");
                 //判断是否点击过查询，若是则typeSpinnerString不变，否则为空
                 if (!onsearchclick) {
                     typeSpinnerString = "";
@@ -104,6 +131,8 @@ public class ExpressStatisticsActivity extends BaseActivity{
                 expressPersonListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                                                  @Override
                                                                  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                     positionTemp = position;
+                                                                     expressPersonId = Statics.expressPersonStatisticList.get(position).getName_id();//ID
                                                                      //选中变色
                                                                      ToolUtils.selectColor(parent, position);
                                                                      String expressPersonId = Statics.expressPersonStatisticList.get(position).getName_id();//ID
@@ -118,6 +147,8 @@ public class ExpressStatisticsActivity extends BaseActivity{
                                                                      LayoutInflater inflater = getLayoutInflater();
                                                                      final View layout = inflater.inflate(R.layout.express_person_statistics_dialog_detailed_item, null);//获取自定义布局
                                                                      //Button back = (Button) layout.findViewById(R.id.back);
+                                                                     mCombinedChartMonthXiangxi = (BarChart) layout.findViewById(R.id.barChartXiangxi);
+                                                                     mCombinedChartMonthXiangxi.setOnClickListener(o);
                                                                      listView = (ListView) layout.findViewById(R.id.lv);
                                                                      //tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
                                                                      //tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
@@ -141,49 +172,8 @@ public class ExpressStatisticsActivity extends BaseActivity{
                                                                  }
                                                              }
                 );
-                expressPersonListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                        //ToolUtils.selectColor(parent,position);
-                        String expressPersonId = Statics.expressPersonStatisticList.get(position).getName_id();//ID
-                        listView = null;
-                        //递类型，月份，客户名客户名以检索
-                        //expressStatisticsHttpPost.searchXqExpressPersonHttp(Statics.ExpressXqTimeSearchUrl, yearSpinnerString, typeSpinnerString, month, expressPersonId, ExpressStatisticsActivity.this);
-                        Log.d("test90", "sdfa::" + typeSpinnerString);
-                        Log.d("test90", "sdfa::" + yearSpinnerString);
-                        Log.d("test90", "position::" + Integer.toString(position));
-                        for (int i = 0; i < Statics.expressTimeList.size(); i++) {
-                            Log.d("test90", "getSum::" + Statics.expressTimeList.get(i).getSum());
-                        }
-                        month = Statics.expressPersonStatisticList.get(position).getMonth();
-                        Log.d("test00", "month:" + month);
-                        Intent in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesPersonDetailsChartsFragementActivity.class);
-                        in.putExtra("year", yearSpinnerString);
-                        in.putExtra("month", month);
-                        in.putExtra("type", typeSpinnerString);
-                        in.putExtra("expressPersonId", expressPersonId);
-                        startActivity(in);
-                        return true;
-                    }
-                });
             }
         });
-        timeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //选中变色
-                //ToolUtils.selectColor(parent,position);
-                month = Statics.expressTimeList.get(position).getMonth();
-                Intent in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesDetailsChartsFragementActivity.class);
-                in.putExtra("year", yearSpinnerString);
-                in.putExtra("month", month);
-                in.putExtra("type", typeSpinnerString);
-                startActivity(in);
-                return false;
-            }
-        });
-
 
     }
     //返回按钮事件
@@ -212,9 +202,35 @@ public class ExpressStatisticsActivity extends BaseActivity{
                     expressPersionAdapter = new ExpressPersonStatisticsAdapter(ExpressStatisticsActivity.this, expressPersonStatisticList);
                     expressPersonListView.setAdapter(expressPersionAdapter);
                     break;
-                case R.id.zhuXing:
-                    Intent in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesChartsFragementActivity.class);
+                case R.id.barChart:
+                    in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesChartsFragementActivity.class);
                     Statics.dayCount = false;
+                    startActivity(in);
+                    break;
+                case R.id.barChartMonth:
+                    month = Statics.expressTimeList.get(positionTemp).getMonth();
+                    in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesDetailsChartsFragementActivity.class);
+                    in.putExtra("year", yearSpinnerString);
+                    in.putExtra("month", month);
+                    in.putExtra("type", typeSpinnerString);
+                    startActivity(in);
+                    break;
+                case R.id.barChartXiangxi:
+                    expressPersonId = Statics.expressPersonStatisticList.get(positionTemp).getName_id();//ID
+                    Log.d("ExpressStatisticsActivi", expressPersonId+"idididid");
+
+                    listView = null;
+                    //递类型，月份，客户名客户名以检索
+                    for (int i = 0; i < Statics.expressTimeList.size(); i++) {
+                        Log.d("test90", "getSum::" + Statics.expressTimeList.get(i).getSum());
+                    }
+                    month = Statics.expressPersonStatisticList.get(positionTemp).getMonth();
+                    Log.d("test00", "month:" + month);
+                    Intent in = new Intent(ExpressStatisticsActivity.this, ExpressPiecesPersonDetailsChartsFragementActivity.class);
+                    in.putExtra("year", yearSpinnerString);
+                    in.putExtra("month", month);
+                    in.putExtra("type", typeSpinnerString);
+                    in.putExtra("expressPersonId", expressPersonId);
                     startActivity(in);
                     break;
             }
@@ -303,12 +319,11 @@ public class ExpressStatisticsActivity extends BaseActivity{
         tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         tableTitle1 = (ViewGroup) findViewById(R.id.table_title1);
         tableTitle1.setBackgroundColor(Color.rgb(230, 240, 255));
-
-        zhuXing = (ImageView) findViewById(R.id.zhuXing);
-        if (!onsearchclick) {
-            typeSpinnerString = "";
-        }
-
+        mCombinedChart = (BarChart) findViewById(R.id.barChart);
+        mCombinedChartMonth = (BarChart) findViewById(R.id.barChartMonth);
+        monthTitle = (TextView) findViewById(R.id.monthTitile);
+        epdz = new ExpressPieceDetailsZhuFragment();
+        eppdz = new ExpressPiecePersonDetailsZhuFragment();
     }
     public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
@@ -317,17 +332,116 @@ public class ExpressStatisticsActivity extends BaseActivity{
                 timeAdapter.notifyDataSetChanged();
                 //测量高度
                 ToolUtils.setListViewHeightBasedOnChildren(timeListView,3);
+                ExpressPieceZhuFragment expressPieceZhuFragment = new ExpressPieceZhuFragment();
+                expressPieceZhuFragment.setGrayValue();
+                expressPieceZhuFragment.initData(activity ,mCombinedChart,true);
                 break;
             case "expressPersonAdapter":
                 expressPersionAdapter.notifyDataSetChanged();
                 //测量高度
                 ToolUtils.setListViewHeightBasedOnChildren(expressPersonListView,4);
+                monthTitle.setVisibility(View.VISIBLE);
+                mCombinedChartMonth.setVisibility(View.VISIBLE);
+                //统计图
+                initBroadCast();
+                //处理月份天数和具体到每日的件数
+                ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
+                ExpressStatisticsHttpPost expressStatisticsHttpPost =new ExpressStatisticsHttpPost();
+                expressStatisticsHttpPost.searchDayCurrentMonth(ExpressPieceMonthDaySearchUrl,yearSpinnerString,month);
+                String ExpressPieceDaySearchUrl = Statics.ExpressPieceDaySearchUrl;
+                Log.d("ExpressStatisticsActivi", yearSpinnerString + "#" + month + "$" + type);
+                expressStatisticsHttpPost.searchDayCurrentMonthPieceCount(ExpressPieceDaySearchUrl,yearSpinnerString,month,typeSpinnerString,activity);
+                //以快递员数量统计
+                mCount = 0;
+                yVals1 =epdz.setGrayValue(mCount);
+                epdz.initData(activity,mCombinedChartMonth,true,yVals1,0);
                 break;
             case "xiangxiAdapter":
                 if (xiangxiAdapter != null) {
                     xiangxiAdapter.notifyDataSetChanged();
                 }
+                //测量高度
+                ToolUtils.setListViewHeightBasedOnChildren(listView,8);
+                //统计图
+                Statics.epmsXList=null;
+                initBroadCastXiangxi();
+            //处理月份天数和具体到每日的件数
+                Statics.isBroadCast =true;
+                ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
+                expressStatisticsHttpPost =new ExpressStatisticsHttpPost();
+                Log.d("test00",month+"月");
+                expressStatisticsHttpPost.searchDayCurrentMonth(ExpressPieceMonthDaySearchUrl,yearSpinnerString,month);
+                expressStatisticsHttpPost.searchPersonDayCurrentMonthPieceCount(Statics.ExpressPersonPieceDaySearchUrl, yearSpinnerString,  month, expressPersonId, activity);
+                //以快递员数量统计
+                mCount = 0;
+                yVals1 = eppdz.setGrayValue(mCount);
+                eppdz.initData(activity,mCombinedChartMonthXiangxi,true,yVals1,0);
                 break;
         }
+    }
+
+    private static void initBroadCastXiangxi() {//详细
+            //广播初始化 必须动态注册才能实现回调
+            FreshenBroadcastReceiver broadcast = new FreshenBroadcastReceiver();
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(Config.BC_ONE);
+            activity.registerReceiver(broadcast, intentFilter);
+            broadcast.setLazyLoadFace(new LazyLoadFace() {
+                @Override
+                public void AdapterRefresh(String type) {
+                    //具体更新
+                    if(type.equals("PersonXq")){
+                        Statics.dayCount=true;
+                        Log.d("broadcast","更新界面");
+
+                        if(Statics.Xday!=null){
+                            mCount = Statics.Xday.length;
+                        }else{
+                            mCount=0;
+                            Log.d("broadcast","ss"+"sdaf");
+                        }
+
+                        yVals1 = eppdz.setGrayValue(mCount);
+                        eppdz.initData(activity,mCombinedChartMonthXiangxi,true,yVals1,mCount);
+                    }
+
+                }
+
+            });
+
+
+        }
+
+    public static void initBroadCast() {
+        //广播初始化 必须动态注册才能实现回调
+        FreshenBroadcastReceiver broadcast = new FreshenBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Config.BC_ONE);
+        activity.registerReceiver(broadcast, intentFilter);
+        broadcast.setLazyLoadFace(new LazyLoadFace() {
+            @Override
+            public void AdapterRefresh(String type) {
+                //具体更新
+                if(type.equals("express")){
+                    Statics.dayCount=true;
+                    Log.d("lazy","sdad:"+type);
+                    Log.d("broadcast","更新界面");
+                    //Log.d("shu",Statics.expressPieceCountMonthsList.get(0).getSum());
+                    if(Statics.Xday!=null){
+                        mCount = Statics.Xday.length;
+                    }else{
+                        mCount=0;
+                    }
+                    Log.d("cece","yVals1");
+                    yVals1 = epdz.setGrayValue(mCount);
+                    Log.d("ExpressStatisticsActivi", "yVals1.get(i).getPositiveSum():"+yVals1.size());
+                    for (int i=0;i<yVals1.size();i++){
+                        Log.d("ExpressStatisticsActivi", "yVals1.get(i).getPositiveSum():" + yVals1.get(i).getPositiveSum());
+
+                    }
+                    epdz.initData(activity,mCombinedChartMonth,true,yVals1,mCount);
+                }
+            }
+        });
     }
 }

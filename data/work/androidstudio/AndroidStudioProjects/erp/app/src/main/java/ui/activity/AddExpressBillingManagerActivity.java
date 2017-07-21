@@ -43,7 +43,6 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
     private EditText billingTime;
     private int currentYear,currentMon,currentDate;
     private Calendar calendar;
-    public static String expressType = "";
     private static ArrayList data_list1;
     static FreshenBroadcastReceiver broadcast;
     public static Context context;
@@ -221,7 +220,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
                 Log.d("select",classifySpinnerString);
 
                 //数据
-                expressType = "addExpress";
+                Statics.ActivityType = "addExpress";
                 httpPost = new ExpressBillingManagementHttpPost();
                 httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, classifySpinnerString, AddExpressBillingManagerActivity.this);
                 data_list1 = new ArrayList<>();

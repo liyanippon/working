@@ -36,8 +36,8 @@ public class XiangxiBillingStatisticsAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         int ret = 0;
-        if (list != null) {
-            ret = list.size();
+        if (this.list.size()!=0&&this.list.get(0).getData() != null&&this.list.get(0).getData().size()!=0) {
+            ret = this.list.get(0).getData().size();
         }
         return ret;
     }
@@ -54,7 +54,6 @@ public class XiangxiBillingStatisticsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        XiangxiBillingStatistics xiangxiBillingStatistics = (XiangxiBillingStatistics) this.getItem(position);
         XiangxiBillingStatisticsAdapter.ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new XiangxiBillingStatisticsAdapter.ViewHolder();
@@ -62,7 +61,7 @@ public class XiangxiBillingStatisticsAdapter extends BaseAdapter {
             viewHolder.id = (TextView) convertView.findViewById(R.id.text_id);//序号
             viewHolder.classifyname = (TextView) convertView.findViewById(R.id.classifyname);
             viewHolder.resonname = (TextView) convertView.findViewById(R.id.resonname);
-            viewHolder.type = (TextView) convertView.findViewById(R.id.type);
+            viewHolder.paymethod = (TextView) convertView.findViewById(R.id.pay_method);
             viewHolder.date = (TextView) convertView.findViewById(R.id.date);
             viewHolder.price = (TextView) convertView.findViewById(R.id.price);
             viewHolder.remark = (TextView) convertView.findViewById(R.id.remark);
@@ -70,37 +69,42 @@ public class XiangxiBillingStatisticsAdapter extends BaseAdapter {
         } else {
             viewHolder = (XiangxiBillingStatisticsAdapter.ViewHolder) convertView.getTag();
         }
-        viewHolder.id.setText(Integer.toString(++position));
-        viewHolder.id.setTextSize(13);
-        viewHolder.classifyname.setText(xiangxiBillingStatistics.getClassifyname());
-        Log.v("name","classifyname"+xiangxiBillingStatistics.getClassifyname());
+
+        viewHolder.classifyname.setText(this.list.get(0).getData().get(position).getClassifyname());
         viewHolder.classifyname.setTextSize(13);
-        viewHolder.resonname.setText(xiangxiBillingStatistics.getResonname());
+        viewHolder.resonname.setText(this.list.get(0).getData().get(position).getResonname());
         viewHolder.resonname.setTextSize(13);
-        viewHolder.type.setText(xiangxiBillingStatistics.getType());
-        viewHolder.type.setTextSize(13);
-        viewHolder.date.setText(xiangxiBillingStatistics.getDate());
+        viewHolder.paymethod.setText(this.list.get(0).getData().get(position).getPayment());
+        viewHolder.paymethod.setTextSize(13);
+        String dateTime = this.list.get(0).getData().get(position).getDate().getYear()+"-"
+                +(this.list.get(0).getData().get(position).getDate().getMonth()+1)+"-"+this.list.get(0).getData().get(position).getDate().getDate();
+        dateTime = dateTime.substring(1, dateTime.length());
+        dateTime = "20"+dateTime;
+        viewHolder.date.setText(dateTime);
         viewHolder.date.setTextSize(13);
-        viewHolder.price.setText(xiangxiBillingStatistics.getPrice());
+        viewHolder.price.setText(Double.toString(this.list.get(0).getData().get(position).getSum()));
         viewHolder.price.setTextSize(13);
-        viewHolder.remark.setText(xiangxiBillingStatistics.getRemark());
+        viewHolder.remark.setText(this.list.get(0).getData().get(position).getDescription());
         viewHolder.remark.setTextSize(13);
 
-        if(xiangxiBillingStatistics.getClassifyname().equals("出账")){
+        if(this.list.get(0).getData().get(position).getClassifyname().equals("出账")){
             viewHolder.classifyname.setTextColor(Color.RED);
             viewHolder.resonname.setTextColor(Color.RED);
-            viewHolder.type.setTextColor(Color.RED);
+            viewHolder.paymethod.setTextColor(Color.RED);
             viewHolder.date.setTextColor(Color.RED);
             viewHolder.price.setTextColor(Color.RED);
             viewHolder.remark.setTextColor(Color.RED);
         }else{
             viewHolder.classifyname.setTextColor(Color.BLACK);
             viewHolder.resonname.setTextColor(Color.BLACK);
-            viewHolder.type.setTextColor(Color.BLACK);
+            viewHolder.paymethod.setTextColor(Color.BLACK);
             viewHolder.date.setTextColor(Color.BLACK);
             viewHolder.price.setTextColor(Color.BLACK);
             viewHolder.remark.setTextColor(Color.BLACK);
         }
+
+        viewHolder.id.setText(Integer.toString(++position));
+        viewHolder.id.setTextSize(13);
         return convertView;
     }
 
@@ -108,7 +112,7 @@ public class XiangxiBillingStatisticsAdapter extends BaseAdapter {
         public TextView id;
         public TextView classifyname;
         public TextView resonname;
-        public TextView type;
+        public TextView paymethod;
         public TextView date;
         public TextView price;
         public TextView remark;

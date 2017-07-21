@@ -2,15 +2,18 @@ package Tool;
 
 import android.app.Activity;
 import android.util.Log;
+import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.Collections;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
 import broadcast.TYPE;
 import model.AccountClassify;
 import model.AccountReason;
 import model.AccountType;
+import model.AttendanceStatistics;
 import model.Customer;
 import model.CustomerBillingStatistics;
 import model.ExpressManagement;
@@ -27,6 +30,7 @@ import ui.activity.BillingStatisticsActivity;
 import ui.activity.ExpressBillingManagementActivity;
 import ui.activity.ExpressNumberManagerActivity;
 import ui.activity.ExpressStatisticsActivity;
+import ui.activity.LogisticsReportActivity;
 import ui.fragement.ExpressPiecesDetailsChartsFragementActivity;
 
 
@@ -193,19 +197,35 @@ public class JsonResolve {
                 Log.v("test2", "data_list1:" + Statics.accountReasonList.get(i).getName());
 
             }
-            if(AddExpressBillingManagerActivity.expressType.equals("addExpress")){//更新add添加页面
-                BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"addReasonSpinner");
-                //AddExpressBillingManagerActivity addExpressBillingManagerActivity = new AddExpressBillingManagerActivity();
-                AddExpressBillingManagerActivity.AdapterRefresh("reasonSpinner");
-                AddExpressBillingManagerActivity.expressType="search";
-                Log.d("aleand","发送广播");
+            if(Statics.ActivityType!=null&&!Statics.ActivityType.equals("")){
+                if(Statics.ActivityType.equals("addExpress")){//更新add添加页面
+                    BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"addReasonSpinner");
+                    //AddExpressBillingManagerActivity addExpressBillingManagerActivity = new AddExpressBillingManagerActivity();
+                    AddExpressBillingManagerActivity.AdapterRefresh("reasonSpinner");
+                    Statics.ActivityType = "";
+                    Log.d("aleand","发送广播");
 
-            }else if(AddExpressBillingManagerActivity.expressType.equals("search")){//更新search显示检索页面
-                BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"SearchReasonSpinner");
-                //ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
-                ExpressBillingManagementActivity.AdapterRefresh("reasonSpinner");
-                Log.d("aleand","发送广播");
+                }else if(Statics.ActivityType.equals("ExpressBillingManagementActivity")){//更新search显示检索页面
+                    BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"SearchReasonSpinner");
+                    //ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
+                    ExpressBillingManagementActivity.AdapterRefresh("reasonSpinner");
+                    Log.d("aleand","发送广播");
+                    Statics.ActivityType = "";
+                }else if(Statics.ActivityType.equals("LogisticsReportActivity")){
+                    Log.d("kl3kl","二级联动");
+                    for (int i = 0; i < Statics.accountReasonList.size(); i++) {
+                        Statics.data_list.add(Statics.accountReasonList.get(i).getName());
+                        Log.v("ki9", "sssss:" + Statics.accountReasonList.get(i).getName());
+
+                    }
+                    BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"SearchReasonSpinner1");
+                    //ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
+                    LogisticsReportActivity.AdapterRefresh("reasonSpinner");
+                    Log.d("aleand","发送广播");
+                    Statics.ActivityType = "";
+                }
             }
+
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -263,7 +283,8 @@ public class JsonResolve {
     }
 
     //json解析 账单统计
-    public static void jsonSearchTime(String json, Activity activity) {
+    public static void jsonSearchTime(String json, Activity activity,String activityType) {
+        Log.d("JsonResolve", json + "sss");
         try {
             //解析前先清空
             JSONArray jsonArray = new JSONArray(json);
@@ -284,7 +305,13 @@ public class JsonResolve {
             }
             //刷新异步刷新
             //BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
-            BillingStatisticsActivity.AdapterRefresh("timeAdapter");
+            if(activityType.equals("LogisticsReportActivity")){
+                Log.d("JsonResolve", "LogisticsReportActivity");
+                LogisticsReportActivity.AdapterRefresh("timeAdapter");
+            }else{
+                BillingStatisticsActivity.AdapterRefresh("timeAdapter");
+                Log.d("JsonResolve", "BillingStatisticsActivity");
+            }
             //BillingStatisticsActivity.timeAdapter.notifyDataSetChanged();
 
         } catch (JSONException e) {
@@ -408,7 +435,15 @@ public class JsonResolve {
             }
             //刷新异步刷新
             //BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
-            BillingStatisticsActivity.AdapterRefresh("customerAdapter");
+            if("LogisticsReportActivity".equals(Statics.ActivityType)){
+                Log.d("klkl","进入"+json);
+                LogisticsReportActivity.AdapterRefresh("customerAdapter");
+                Statics.ActivityType = "";
+            }else {
+                Log.d("klkl","进入x"+json);
+                BillingStatisticsActivity.AdapterRefresh("customerAdapter");
+            }
+
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -416,7 +451,8 @@ public class JsonResolve {
     }
 
     public static void jsonSearchXiangxi(String json, Activity activity) {
-        try {
+        Log.d("JsonResolve", "详细" + json);
+        /*try {
             //解析前先清空
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
@@ -467,12 +503,22 @@ public class JsonResolve {
             Log.v("tool", "word:" + Statics.xiangxiBillingStatisticsArrayList.size());
             //刷新异步刷新
             Log.v("ToolUtils","yuyu:"+Integer.toString(Statics.xiangxiBillingStatisticsArrayList.size()));
-            //BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();
-            BillingStatisticsActivity.AdapterRefresh("xiangxiAdapter");
-        } catch (JSONException e) {
+            //BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();*/
+            Statics.xiangxiBillingStatisticsArrayList.clear();
+            XiangxiBillingStatistics[] as = new Gson().fromJson(json, XiangxiBillingStatistics[].class);
+            Collections.addAll(Statics.xiangxiBillingStatisticsArrayList,as);//转化arrayList
+
+            if("LogisticsReportActivity".equals(Statics.ActivityType)){
+                LogisticsReportActivity.AdapterRefresh("xiangxiAdapter");
+                Statics.ActivityType = "";
+            }else{
+                BillingStatisticsActivity.AdapterRefresh("xiangxiAdapter");
+            }
+
+        /*} catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
     }
 
     //业务员揽件量

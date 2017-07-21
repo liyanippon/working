@@ -85,18 +85,17 @@
                         android:textColor="#000000"
                         android:text="业务员揽件量统计(月份)"
                         />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#0000ff"
-                        android:id="@+id/zhuXing"
-                        android:clickable="true"
-                        android:layout_gravity="bottom"
-                        android:src="@drawable/graph"
-                        />
                 </TableRow>
             </TableLayout>
 
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#2d2d2d"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                />
 
             <View
                 android:layout_width="match_parent"
@@ -124,6 +123,25 @@
                 android:layout_height="match_parent" >
             </ListView>
 
+            <TextView
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7月份件数柱型图"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:id="@+id/monthTitile"
+                />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:visibility="gone"
+                android:id="@+id/barChartMonth"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#2d2d2d"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                />
 
             <TextView
                 android:background="#ffffff"

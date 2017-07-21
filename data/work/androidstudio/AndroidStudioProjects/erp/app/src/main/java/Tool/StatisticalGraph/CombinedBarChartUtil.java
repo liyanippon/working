@@ -111,8 +111,10 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         if(Statics.dayCount&&null!=Statics.Xday){
             mDateTime = Statics.Xday;
             Statics.dayCount = false;
+
         }else{
             Statics.dayCount = false;
+
         }
 
         if(Statics.personCount){
@@ -122,7 +124,6 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
             Log.d("person",Statics.xPerson[i]);
             }
         }
-        Log.v("mDateTime","mDateTime:"+mDateTime.length+"");
 
         BarData data = new BarData(mDateTime, dataSets);
         data.setValueTextSize(10f);
@@ -135,6 +136,7 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
     //横向柱形图
     public void setMianCombinedChart2(BarChart mCombinedChart, ArrayList<BarEntry> lineEntries, ArrayList<BarEntry> barEntries ,List<String> list,String description) {
         // 图表为空时显示
+        Log.d("CombinedBarChartUtil", "描述：" + description+"空：："+Boolean.toString(mCombinedChart==null));
         mCombinedChart.setNoDataTextDescription("暂时没有数据进行图表展示");
         mCombinedChart.setDescription(description);
         mCombinedChart.setDescriptionColor(Color.WHITE);
@@ -275,13 +277,13 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
             for (int i=1;i<Statics.Xday.length+1;i++){
                 d.addXValue(Statics.Xday[i-1]);
             }
-            //Static.dayCount = false;
+            Statics.dayCount = false;
 
         }else{
             for (int i=1;i<13;i++){
                 d.addXValue(i+"月");
             }
-            //Static.dayCount = false;
+            Statics.dayCount = false;
         }
 
         if(Statics.yPositon){

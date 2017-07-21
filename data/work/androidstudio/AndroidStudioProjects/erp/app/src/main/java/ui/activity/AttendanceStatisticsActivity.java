@@ -1,5 +1,6 @@
 package ui.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,12 +18,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.admin.erp.R;
+import com.github.mikephil.charting.charts.BarChart;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
@@ -37,15 +41,18 @@ import ui.adpter.AttendanceStatisticsAdapter;
 import ui.adpter.AttendanceXiangxiStatisticsAdapter;
 import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
 import ui.fragement.AttendanceChartsFragmentActivity;
+import ui.fragement.AttendanceZhuFragment;
 
 public class AttendanceStatisticsActivity extends BaseActivity{
     public static ListView attendListView;
     private ViewGroup tableTitle;
     private Spinner nameSpinner, yearSpinner ,monthSpinner;
-    private ImageView search,graph;
+    private ImageView search;
     private static List<String> data_list;
     public static ArrayAdapter<String> arr_adapter ,yearAdapter,monthAdapter,arr_adapterName;
-    private String nameSpinnerString = "024001", yearSpinnerString = null, monthSpinnerString = null;
+    private String nameSpinnerString = "024001";
+    private String yearSpinnerString = null;
+    private static String monthSpinnerString = null;
     private List<AttendanceStatistics> attendanceStatisticsList;
     public static AttendanceStatisticsAdapter attendanceAdapter;
     private AlertDialog dlg;
@@ -61,6 +68,10 @@ public class AttendanceStatisticsActivity extends BaseActivity{
     private static AttendanceBelongProjectStatisticsAdapter abpsAdapter;
     private ArrayList<AttendanceWxDetaSearch> awds ;
     private ArrayList<AttendanceStaffBelongProject> asbp;
+    public static Activity activity;
+    //统计图
+    private static BarChart mCombinedChart;
+    private static TextView titleMonth;
     //考勤统计
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +117,8 @@ public class AttendanceStatisticsActivity extends BaseActivity{
         attendListView.setAdapter(attendanceAdapter);
         attendListView.setOnItemClickListener(ao);
         search.setOnClickListener(this);
-        graph.setOnClickListener(this);
+        activity = AttendanceStatisticsActivity.this;
+        mCombinedChart.setOnClickListener(this);
     }
 
     //显示详情
@@ -237,8 +249,7 @@ public class AttendanceStatisticsActivity extends BaseActivity{
                 attendListView.setAdapter(attendanceAdapter);
 
                 break;
-            case R.id.zhuXing:
-                Log.d("sss","img");
+            case R.id.barChart:
                 Intent intent = new Intent(AttendanceStatisticsActivity.this,AttendanceChartsFragmentActivity.class);
                 startActivity(intent);
                 break;
@@ -400,14 +411,19 @@ public class AttendanceStatisticsActivity extends BaseActivity{
         yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
         monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
         search = (ImageView) findViewById(R.id.search);
-        graph = (ImageView) findViewById(R.id.zhuXing);
+        mCombinedChart = (BarChart)findViewById(R.id.barChart);
+        titleMonth = (TextView) findViewById(R.id.titleMonth);
     }
     public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
             case "attendAdapter":
-                Log.d("adpter","adpter");
                 attendanceAdapter.notifyDataSetChanged();
                 progressDialog.dismiss();
+                ToolUtils.setListViewHeightBasedOnChildren(attendListView,7);
+                AttendanceZhuFragment attendanceZhuFragment =new AttendanceZhuFragment();
+                attendanceZhuFragment.setGrayValue();
+                attendanceZhuFragment.initData(activity ,mCombinedChart,true);
+                titleMonth.setText(monthSpinnerString+"月考勤统计图");
                 break;
             case "searchName":
                 data_list = new ArrayList<>();
@@ -421,7 +437,6 @@ public class AttendanceStatisticsActivity extends BaseActivity{
                 axsAdapter.notifyDataSetChanged();
                 break;
             case "staffBelongProject":
-                Log.d("AttendanceStatisticsAct", "notify");
                 abpsAdapter.notifyDataSetChanged();
                 break;
         }

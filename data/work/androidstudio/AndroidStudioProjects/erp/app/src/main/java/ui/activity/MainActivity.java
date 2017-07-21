@@ -49,8 +49,8 @@ public class MainActivity extends BaseActivity {
     private RelativeLayout background;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LogcatHelper.getInstance(this).start();//保存日志
-        initCrashHandler();//系统异常处理
+        //LogcatHelper.getInstance(this).start();//保存日志
+        //initCrashHandler();//系统异常处理
         super.onCreate(savedInstanceState);
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
@@ -115,8 +115,8 @@ public class MainActivity extends BaseActivity {
         try {
             properties.load(MainActivity.this.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
-            Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
-            //Statics.LoginUrl = IFengLoginUrl;//本地登录
+            //Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
+            Statics.LoginUrl = IFengLoginUrl;//本地登录
             String IFengUrl = properties.getProperty("IFengUrl").trim();
             String UmpUrl = properties.getProperty("UmpUrl").trim();
             Statics.UmlUrl = UmpUrl + "/setRoles/loadRoleUserId.ajax";

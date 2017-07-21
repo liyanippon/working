@@ -56,7 +56,6 @@ public class TimeBillingStatisticsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TimeBillingStatistics timeBillingStatistics = (TimeBillingStatistics) this.getItem(position);
-        Log.v("test2", "getView");
         ViewHolder viewHolder;
 
         if (convertView == null) {
@@ -81,7 +80,11 @@ public class TimeBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.month.setTextSize(13);
         viewHolder.income.setText(timeBillingStatistics.getIncome());
         viewHolder.income.setTextSize(13);
-        viewHolder.outcome.setText("- "+timeBillingStatistics.getOutcom() + "");
+        if(Integer.parseInt(timeBillingStatistics.getOutcom())==0){
+            viewHolder.outcome.setText(timeBillingStatistics.getOutcom() + "");
+        }else{
+            viewHolder.outcome.setText("- "+timeBillingStatistics.getOutcom() + "");
+        }
         viewHolder.outcome.setTextSize(13);
         viewHolder.outcome.setTextColor(Color.RED);
         viewHolder.imbalance.setText(timeBillingStatistics.getImbalance() + "");
@@ -91,7 +94,7 @@ public class TimeBillingStatisticsAdapter extends BaseAdapter {
         }else{
             viewHolder.imbalance.setTextColor(Color.BLACK);
         }
-        Log.v("test2", "convertView");
+        Log.d("TimeBillingStatisticsAd", "timeBillingStatistics.getIncome()" + timeBillingStatistics.getIncome());
         return convertView;
     }
 

@@ -1,5 +1,6 @@
 package ui.fragement;
 
+import android.app.Activity;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -53,7 +54,7 @@ public class AttendanceZhuFragment extends Fragment {
         View view = inflater.inflate(R.layout.attendance_fragment_heng_zhu, null);
         mCombinedChart = (BarChart) view.findViewById(R.id.barChart);
         setGrayValue();
-        initData();
+        initData(null,mCombinedChart,false);
 
         return view;
     }
@@ -61,7 +62,7 @@ public class AttendanceZhuFragment extends Fragment {
     /**
      * 初始化数据
      */
-    private void initData() {
+    public void initData(Activity activity ,BarChart mCombinedChart ,boolean basefragment ) {
 
         Statics.personCount=true;//按人员统计
 
@@ -79,19 +80,24 @@ public class AttendanceZhuFragment extends Fragment {
         list.add("预期出勤");
         //设置下面显示Y轴
         Statics.yPositon = true;
-
-        mCombinedChartUtil = new CombinedBarChartUtil(getActivity());
+        Activity activitys = getActivity();
+        if(basefragment){
+            activitys = activity;
+        }else{
+            activitys = getActivity();
+        }
+        mCombinedChartUtil = new CombinedBarChartUtil(activitys);
         mCombinedChartUtil.setRule(mCount, minValue, maxValue);
         mCombinedChartUtil.setBackgroundColor(R.color.chart_color_2D2D2D);
-        Log.d("adad",yVals1.size()+"sdfa"+yVals2.size()+"sss");
         mCombinedChartUtil.setMianCombinedChart2(mCombinedChart, yVals1, yVals2,list,"考勤柱型统计图");
+        Statics.yPositon = false;//用过之后置为否
     }
 
     /**
      * 【功能描述】  ：设置折线的数据
      * 【修改时间】  ：2016/3/17 14:37
      */
-    private void setGrayValue() {
+    public void setGrayValue() {
 
         double[] normal = new double[Statics.attendanceStatisticsList.size()];//正常出勤
         double[] actual = new double[Statics.attendanceStatisticsList.size()] ;//实际出勤

@@ -1,5 +1,6 @@
 package ui.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.admin.erp.R;
+import com.github.mikephil.charting.charts.BarChart;
+
 import java.util.ArrayList;
 import java.util.List;
 import Tool.ToolUtils;
@@ -39,6 +42,7 @@ import ui.adpter.CustomerBillingStatisticsAdapter;
 import ui.adpter.TimeBillingStatisticsAdapter;
 import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
+import ui.fragement.InoutComeZhuFragment;
 
 public class BillingStatisticsActivity extends BaseActivity{
     public static ListView timeListView, customerListView;
@@ -58,21 +62,22 @@ public class BillingStatisticsActivity extends BaseActivity{
     private AlertDialog dlg;
     private ListView listView;
     private int count = 0;
-    private ImageView zhuXing;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
     public static TextView currentMoneyStatistics;
     private String month;
+    //统计图
+    private static BarChart mCombinedChart;
+    private static Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("物流账单统计分析");
         setContentView(R.layout.activity_billing_statistics);
 
-        Log.d("test","tetx");
         //添加返回按钮
         ToolUtils.backButton(this);
         init();
-
+        activity = BillingStatisticsActivity.this;
         spinnerType();
         Log.d("BillingStatisticsActivi", "test");
         yearSpinnerString = "2017";//默认赋值
@@ -81,13 +86,13 @@ public class BillingStatisticsActivity extends BaseActivity{
 
         HttpBasePost.postHttp(Statics.ExpressGetWXPaymentMethod,null, HttpTypeConstants.ExpressGetWXPaymentMethod);//获取当前资金情况
         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
-        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "", BillingStatisticsActivity.this);
+        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "" ,"" ,"", BillingStatisticsActivity.this,"BillingStatisticsActivity");
         timeBillingStatisticsList = Statics.timeBillingStatisticsList;
         timeAdapter = new TimeBillingStatisticsAdapter(BillingStatisticsActivity.this, timeBillingStatisticsList);
         timeListView.setAdapter(timeAdapter);
 
         search.setOnClickListener(o);
-        zhuXing.setOnClickListener(o);
+        mCombinedChart.setOnClickListener(o);
         //listView点击事件
         timeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -96,6 +101,7 @@ public class BillingStatisticsActivity extends BaseActivity{
                 //ToolUtils.selectColor(parent,position);
                 //确定月份
                 month = Statics.timeBillingStatisticsList.get(position).getMonth();
+                Log.d("search",typeSpinnerString);
                 billingStatisticsHttpPost.searchCustomerHttp(Statics.CustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, BillingStatisticsActivity.this);
                 customerBillingStatisticsList = Statics.customerBillingStatisticsArrayList;
                 customerAdapter = new CustomerBillingStatisticsAdapter(BillingStatisticsActivity.this, customerBillingStatisticsList);
@@ -107,7 +113,7 @@ public class BillingStatisticsActivity extends BaseActivity{
                                                                 month = Statics.customerBillingStatisticsArrayList.get(position).getMonth();
                                                                 listView = null;
                                                                 //递类型，月份，客户名客户名以检索
-                                                                billingStatisticsHttpPost.searchXqCustomerHttp(Statics.XqCustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, customerId, BillingStatisticsActivity.this);
+                                                                billingStatisticsHttpPost.searchXqCustomerHttp(Statics.XqCustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, customerId , "",  "", BillingStatisticsActivity.this);
                                                                 //显示对话框，在对话框中使用ListView
                                                                 AlertDialog.Builder builder = new AlertDialog.Builder(BillingStatisticsActivity.this);
                                                                 LayoutInflater inflater = getLayoutInflater();
@@ -155,7 +161,8 @@ public class BillingStatisticsActivity extends BaseActivity{
                 case R.id.search:
                     Log.v("test2", "R.id.search");
                     progressDialog = ProgressDialog.show(BillingStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                    billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString, typeSpinnerString, BillingStatisticsActivity.this);
+                    billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString
+                            , typeSpinnerString, "" , "" ,activity,"BillingStatisticsActivity");
                     timeBillingStatisticsList = Statics.timeBillingStatisticsList;
                     timeAdapter = new TimeBillingStatisticsAdapter(BillingStatisticsActivity.this, timeBillingStatisticsList);
                     timeListView.setAdapter(timeAdapter);
@@ -163,9 +170,10 @@ public class BillingStatisticsActivity extends BaseActivity{
                     customerAdapter = new CustomerBillingStatisticsAdapter(BillingStatisticsActivity.this, customerBillingStatisticsList);
                     customerListView.setAdapter(customerAdapter);
                     break;
-                case R.id.zhuXing:
+                case R.id.barChart:
                     //Intent in = new Intent(BillingStatisticsActivity.this,TongjiGraphActivity.class);
                     Intent in = new Intent(getApplicationContext(), ChartsFragementActivity.class);
+                    in.putExtra("catlog","物流统计分析");
                     startActivity(in);
                     break;
             }
@@ -254,8 +262,8 @@ public class BillingStatisticsActivity extends BaseActivity{
         tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
         tableTitle1 = (ViewGroup) findViewById(R.id.table_title1);
         tableTitle1.setBackgroundColor(Color.rgb(230, 240, 255));
-        zhuXing = (ImageView) findViewById(R.id.zhuXing);
         currentMoneyStatistics = (TextView) findViewById(R.id.currentMoneyStatistics);
+        mCombinedChart = (BarChart) findViewById(R.id.barChart);
     }
 
     public static void AdapterRefresh(String type) {//刷新adapter
@@ -265,6 +273,10 @@ public class BillingStatisticsActivity extends BaseActivity{
                 progressDialog.dismiss();
                 //测量高度
                 ToolUtils.setListViewHeightBasedOnChildren(timeListView,1);
+                //统计图
+                InoutComeZhuFragment inoutComeZhuFragment = new InoutComeZhuFragment("物流统计分析");
+                inoutComeZhuFragment.setGrayValue();
+                inoutComeZhuFragment.initData(activity ,mCombinedChart,true);
                 break;
             case "customerAdapter":
                 customerAdapter.notifyDataSetChanged();

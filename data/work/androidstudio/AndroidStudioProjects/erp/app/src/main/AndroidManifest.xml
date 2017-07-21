@@ -85,7 +85,12 @@
         <activity
             android:name="ui.activity.FinancialStastisticsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="ui.activity.TransferAccountActivity"></activity>
+        <activity android:name="ui.activity.TransferAccountActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.LogisticsReportActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

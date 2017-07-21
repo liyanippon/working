@@ -1,5 +1,6 @@
 package ui.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,6 +22,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.admin.erp.R;
+import com.github.mikephil.charting.charts.BarChart;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +40,8 @@ import ui.adpter.FinancialTimeBillingStatisticsAdapter;
 import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
 import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
+import ui.fragement.InoutComeZhuFragment;
+
 public class FinancialStastisticsActivity extends BaseActivity{
 
     public static ListView timeListView, customerListView;
@@ -59,9 +64,10 @@ public class FinancialStastisticsActivity extends BaseActivity{
     private AlertDialog dlg;
     private ListView listView;
     private int count=0;
-    private ImageView zhuXing;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
-
+    //统计图
+    private static BarChart mCombinedChart;
+    private static Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +78,7 @@ public class FinancialStastisticsActivity extends BaseActivity{
         ToolUtils.backButton(this);
         init();
         //spinnerType();
-
+        activity = FinancialStastisticsActivity.this;
         yearSpinnerString = "2017";//默认赋值
         //首次访问
         progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
@@ -84,8 +90,7 @@ public class FinancialStastisticsActivity extends BaseActivity{
         timeAdapter = new FinancialTimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
         timeListView.setAdapter(timeAdapter);
         //search.setOnClickListener(this);
-        zhuXing.setOnClickListener(this);
-
+        mCombinedChart.setOnClickListener(this);
         timeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -188,7 +193,7 @@ public class FinancialStastisticsActivity extends BaseActivity{
                 //customerAdapter = new FinancialCustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, customerBillingStatisticsList);
                 //customerListView.setAdapter(customerAdapter);
                 break;
-            case R.id.zhuXing:
+            case R.id.barChart:
                 //Intent in = new Intent(BillingStatisticsActivity.this,TongjiGraphActivity.class);
                 Intent in = new Intent(getApplicationContext(), ChartsFragementActivity.class);
                 in.putExtra("catlog","财务统计分析");
@@ -278,9 +283,9 @@ public class FinancialStastisticsActivity extends BaseActivity{
         tableTitle1 = (ViewGroup) findViewById(R.id.table_title1);
 //      tableTitle1.setBackgroundColor(Color.rgb(177, 173, 172));
 
-        zhuXing = (ImageView) findViewById(R.id.zhuXing);
         currentMoney = (TextView) findViewById(R.id.currentMoney);
         //linear = (LinearLayout) findViewById(R.id.linear);
+        mCombinedChart = (BarChart) findViewById(R.id.barChart);
 
     }
     public static void AdapterRefresh(String type) {//刷新adapter
@@ -290,6 +295,9 @@ public class FinancialStastisticsActivity extends BaseActivity{
                 progressDialog.dismiss();
                 //测量高度;
                 ToolUtils.setListViewHeightBasedOnChildren(timeListView,5);
+                InoutComeZhuFragment inoutComeZhuFragment =new InoutComeZhuFragment("财务统计分析");
+                inoutComeZhuFragment.setGrayValue();
+                inoutComeZhuFragment.initData(activity,mCombinedChart,true);
                 break;
             case "customerAdapter":
                 customerAdapter.notifyDataSetChanged();

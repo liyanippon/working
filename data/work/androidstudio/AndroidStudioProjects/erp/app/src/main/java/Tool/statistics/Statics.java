@@ -1,4 +1,5 @@
 package Tool.statistics;
+import android.app.Activity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import model.FinancialBillingGetWXSelectMonthAccount;
 import model.FinancialBillingGetWXsettlementMonth;
 import model.FinancialCustomer;
 import model.FinancialManagement;
+import model.LogisticsReportSearch;
 import model.TimeBillingStatistics;
 import model.TimeExpressStatistics;
 import model.TransferAccountClassify;
@@ -64,6 +66,7 @@ public class Statics {
     public static String CustomerSearchUrl = "http://192.168.1.16:8083/getWXCustomerTjsjList.ajax";//客户统计列表
     public static String YearSearchUrl = "http://192.168.1.16:8083/getWXYearAccountStatistics.ajax";//获取年
     public static String XqCustomerSearchUrl = "http://192.168.1.16:8083/getWXCustomerTjxq.ajax";//客户详情
+    public static ArrayList<LogisticsReportSearch> logisticsReportSearcheList = new ArrayList<>();//物流报表查询
     public static ArrayList<TimeBillingStatistics> timeBillingStatisticsList = new ArrayList<>();
     public static ArrayList<String> billingYear = new ArrayList<>();
     public static ArrayList<String> expressYear = new ArrayList<>();
@@ -138,4 +141,5 @@ public class Statics {
     public static String CurrentMoney = null;
     /**用户权限管理**/
     public static ArrayList<UserUmp> userUmpsStatisticsList = new ArrayList<>();//考勤表格数据
+    public static String ActivityType;//activity类型 （多个页面共用时使用）
 }
