@@ -120,7 +120,6 @@ public class ExpressNumberManagementHttpPost{
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
 
-                Log.v("test","Constants.userName::"+Statics.userName);
                 String result = (String) o;//从从网络端返回数据
                 resultString = "success";
                 Log.v("test", "result：" + result);

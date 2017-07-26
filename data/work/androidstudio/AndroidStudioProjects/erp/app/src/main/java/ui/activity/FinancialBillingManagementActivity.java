@@ -62,8 +62,6 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         setTitle("账目管理");
         setContentView(R.layout.activity_financial_billing_management);
 
-
-
         //添加返回按钮
         ToolUtils.backButton(this);
         context = getApplicationContext();
@@ -173,7 +171,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         createTime.setText(billingTimeSb.toString());
         userName.setText(fm.get(position - 1).getBillCreateBy().toString());//创建人就是用户名
         if("出账".equals(fm.get(position - 1).getBillClassify())){
-            price.setText(" - "+Float.toString(fm.get(position - 1).getBillSum()));
+            price.setText(" - "+fm.get(position - 1).getBillSum());
             account.setTextColor(Color.RED);
             classify.setTextColor(Color.RED);
             billingTime.setTextColor(Color.RED);

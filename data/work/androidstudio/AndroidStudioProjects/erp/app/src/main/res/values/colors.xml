@@ -4,7 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorTitle">#FFFFFF</color>
-
     <color name="chart_color_234C68">#234c68</color>
     <color name="color_login_079752">#079752</color>
     <color name="chart_color_8E8E8E">#0000ff</color>
@@ -14,7 +13,6 @@
     <color name="chart_color_FFCE55">#ffce55</color>
     <color name="chart_color_A0D468">#a0d468</color>
     <color name="chart_color_EC87BF">#ec87bf</color>
-
     <color name="transparent">#00000000</color>
     <color name="main_top_color">#f7614d</color>
     <color name="main_top_tab_color">#fcc9c5</color>
@@ -25,4 +23,6 @@
     <color name="province_bg">#8daac3</color>
     <color name="province_bg_2">#ffffff</color>
     <color name="red">#FFFF1826</color>
+    <color name="login_normal">#056daa</color>
+    <color name="login_pressed">#666666</color>
 </resources>

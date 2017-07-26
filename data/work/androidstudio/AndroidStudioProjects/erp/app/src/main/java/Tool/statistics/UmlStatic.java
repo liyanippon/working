@@ -65,8 +65,10 @@ public class UmlStatic {
                 Log.d("add","非重复元素");
                 icon.add(R.drawable.wuliuguanli);
                 icon.add(R.drawable.wuliutongji);
+                icon.add(R.drawable.wuliubaobiao);
                 iconName.add("物流管理");
                 iconName.add("物流统计");
+                iconName.add("物流报表");
                 map.put("icon",icon);
                 map.put("iconName",iconName);
                 break;

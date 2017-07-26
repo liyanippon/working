@@ -5,11 +5,11 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -18,17 +18,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
-
+import Tool.crash.ActivityCollector;
 import Tool.crash.BaseActivity;
-import Tool.crash.CrashHandler;
-import Tool.statistics.Statics;
 import ui.adpter.MFragmentPagerAdapter;
-import ui.fragement.menu.MainTab04;
 import ui.fragement.menu.MainTabAttendance;
 import ui.fragement.menu.MainTabExpress;
 import ui.fragement.menu.MainTabFinancial;
+import ui.fragement.menu.MainTabSetting;
 
 public class MenuFragmentMainActivity extends BaseActivity{
     private LinearLayout attendanceTextView;
@@ -55,13 +54,12 @@ public class MenuFragmentMainActivity extends BaseActivity{
     public Context context;
     private ImageButton express,attendance,setting,financial;
     private TextView expresstext,attendancetext,settingtext,financialtext;
-
+    private long exitTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("主菜单");
         setContentView(R.layout.activity_menu_fragment_main);
-
 
         context = MenuFragmentMainActivity.this;
         //初始化TextView
@@ -78,6 +76,24 @@ public class MenuFragmentMainActivity extends BaseActivity{
     public View onCreateView(String name, Context context, AttributeSet attrs) {
 
         return super.onCreateView(name, context, attrs);
+    }
+
+    //再按一次返回键退出程序
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                ActivityCollector.finishAll();
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -161,7 +177,7 @@ public class MenuFragmentMainActivity extends BaseActivity{
         fragmentArrayList.add(new MainTabAttendance());
         fragmentArrayList.add(new MainTabExpress());
         fragmentArrayList.add(new MainTabFinancial());
-        fragmentArrayList.add(new MainTab04());
+        fragmentArrayList.add(new MainTabSetting());
         fragmentManager = getSupportFragmentManager();
     }
     /**
@@ -309,5 +325,9 @@ public class MenuFragmentMainActivity extends BaseActivity{
         //pictureTextView.setTextColor(getResources().getColor(R.color.main_top_tab_color));
         //movieTextView.setTextColor(getResources().getColor(R.color.main_top_tab_color));
         //musicTextView.setTextColor(getResources().getColor(R.color.main_top_tab_color));
+    }
+    @Override
+    public void finish() {
+        super.finish();
     }
 }

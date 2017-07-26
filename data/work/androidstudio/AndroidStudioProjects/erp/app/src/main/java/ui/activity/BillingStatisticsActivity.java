@@ -100,6 +100,7 @@ public class BillingStatisticsActivity extends BaseActivity{
                 //选中变色
                 //ToolUtils.selectColor(parent,position);
                 //确定月份
+                customerListView.setVisibility(View.VISIBLE);
                 month = Statics.timeBillingStatisticsList.get(position).getMonth();
                 Log.d("search",typeSpinnerString);
                 billingStatisticsHttpPost.searchCustomerHttp(Statics.CustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, BillingStatisticsActivity.this);

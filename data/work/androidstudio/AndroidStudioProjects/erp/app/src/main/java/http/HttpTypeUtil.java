@@ -70,6 +70,8 @@ public class HttpTypeUtil {
                 break;
             case "100110":
                 //刷新页面
+                Log.d("HttpTypeUtil", "转账结果"+result);
+                ExpressBillingManagementActivity.isAdd = true;
                 ExpressBillingManagementHttpPost httpPost = new ExpressBillingManagementHttpPost();
                 String httpUrl = Statics.FinancialBillingManagementSearchUrl;
                 Activity activity;
@@ -85,7 +87,7 @@ public class HttpTypeUtil {
                 break;*/
             case "100204":
                 //json数据使用Gson框架解析
-                Log.d("HttpTypeUtil", "result:结果" + result);
+                Log.d("HttpTypeUtil", "result:结果100204" + result);
                 Statics.CurrentPayStatistic = result;
 
                 //刷新异步刷新

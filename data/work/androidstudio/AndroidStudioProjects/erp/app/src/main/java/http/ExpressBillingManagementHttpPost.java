@@ -2,12 +2,15 @@ package http;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 import net.tsz.afinal.http.AjaxParams;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.lang.*;
@@ -19,10 +22,12 @@ import broadcast.BroadCastTool;
 import broadcast.TYPE;
 import model.AttendanceStatistics;
 import model.ExpressClassify;
+import model.ExpressManagement;
 import model.TransferAccountClassify;
 import model.UserUmp;
 import portface.LazyLoadFace;
 import ui.activity.ExpressBillingManagementActivity;
+import ui.activity.MainActivity;
 import ui.activity.TransferAccountActivity;
 
 /**
@@ -68,7 +73,11 @@ public class ExpressBillingManagementHttpPost {
                             message = jsonObject.getString("message");
                             Statics.results = message;
                             Log.v("test", "message");
+                            MainActivity.login.setClickable(true);
+                            MainActivity.loginProgressBar.setVisibility(View.GONE);
+                            MainActivity.login.setBackgroundColor(Color.rgb(0x05,0x6d,0xaa));
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                            BroadCastTool.sendMyBroadcast(TYPE.NORMAL, context, "error");//发送广播
                             break;
                         case "ok":
                             String success = jsonObject.getString("success");
@@ -90,12 +99,20 @@ public class ExpressBillingManagementHttpPost {
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
 
-                resultString = strMsg;
-                Log.d("test", "sssss:" + strMsg);
-                Statics.results = "没有网络";
-                ExceptionUtil.httpPost("AccountManagementHttpPost");
+                MainActivity.login.setClickable(true);
+                MainActivity.login.setBackgroundColor(Color.rgb(0x05,0x6d,0xaa));
+                Toast.makeText(context, "网络有问题，请检查连接", Toast.LENGTH_LONG).show();
+                MainActivity.loginProgressBar.setVisibility(View.GONE);
             }
 
+            @Override
+            public void onLoading(long count, long current) {
+                super.onLoading(count, current);
+
+                MainActivity.loginProgressBar.setProgress((int)current);
+                Log.d("ExpressBillingManagemen", "总进度::" + count +"当前：："+ current);
+
+            }
         });
         return "success";
     }
@@ -149,6 +166,7 @@ public class ExpressBillingManagementHttpPost {
 
     public String searchHttp(String httpUrl, String typeSpinnerString, String classifySpinnerString, String reasonSpinnerString,Activity activity, int page) {//账目查询
         Log.d("search", typeSpinnerString + "@" + classifySpinnerString + "@" + reasonSpinnerString);
+        Log.d("lll","请求次数");
         activitys = activity;
         if ("全部".equals(typeSpinnerString)) {
             typeSpinnerString = "";
@@ -182,7 +200,25 @@ public class ExpressBillingManagementHttpPost {
                 String results = (String) o;//从从网络端返回数据
                 Log.d("jizhang", "results:" + results);
                 resultString = "success";
-                JsonResolve.jsonAccountManager(results, activitys, rows);//json解析
+                //JsonResolve.jsonAccountManager(results, activitys, rows);//json解析
+                //使用框架
+                //Statics.financialCustomersList.clear();
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = new JSONArray(results);
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    JSONArray jsonArray1 = jsonObject.getJSONArray("data");
+                    JSONObject jsonObject1 = jsonArray1.getJSONObject(0);
+                    String total = jsonObject1.get("total").toString();
+                    Statics.page = (Integer.parseInt(total) + Integer.parseInt(rows) - 1) / Integer.parseInt(rows);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Statics.expressManagementList.clear();
+                ExpressManagement[] fc = new Gson().fromJson(results, ExpressManagement[].class);
+                Collections.addAll(Statics.expressManagementList,fc);//转化arrayList
+                ExpressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
             }
 
             @Override
@@ -230,11 +266,11 @@ public class ExpressBillingManagementHttpPost {
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
-                Log.v("test", "Constants.userName::" + Statics.userName);
                 String result = (String) o;//从从网络端返回数据
                 //Log.d("test",result);
                 resultString = "success";
                 Log.v("test", "result：" + result);
+                ExpressBillingManagementActivity.isAdd = true;
             }
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
@@ -246,20 +282,26 @@ public class ExpressBillingManagementHttpPost {
         return resultString;
     }
 
-    public String delAccountManagerHttp(String httpUrl, String id, final Activity activity) {//账目删除
+    public String delAccountManagerHttp(String httpUrl, String id ,String sum, String classify, String paymentMethod, final Activity activity) {
+        //账目删除 分类，支付方式金额
+        Log.d("deletesss", "9id" + id);
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("option", "3");//1查询，2添加，3删除
         params.put("id", id);
+        params.put("delete","yes");
+        params.put("sum",sum);
+        params.put("classify",classify);
+        params.put("paymentMethod",paymentMethod);
+        Log.d("ExpressBillingManagemen", "参数输入：" + id + "," + sum + "," + classify + "," + paymentMethod);
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
                 String result = (String) o;//从从网络端返回数据
-                Log.d("test", "delete" + result);
+                Log.d("deletesss", "delete" + result);
                 resultString = "success";
                 //刷新页面
-                Log.v("test", "notifyDataSetInvalidated");
                 String httpUrl = Statics.FinancialBillingManagementSearchUrl;
                 searchHttp(httpUrl, "", "", "", activity, 1);//刷新页面
 

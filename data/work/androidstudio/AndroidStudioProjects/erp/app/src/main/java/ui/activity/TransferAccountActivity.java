@@ -46,9 +46,9 @@ public class TransferAccountActivity extends BaseActivity {
     private static Spinner classifySpinner, reasonSpinner;
     private EditText price, remark;
     public static ArrayAdapter<String> arr_adapter,arr_adapter1;
-    private String classifySpinnerString, reasonSpinnerString, priceString, remarkString,billingTimeString;
+    private String classifySpinnerString, reasonSpinnerString, priceString, remarkString,billingTimeString,poundageString;
     private List<String> data_list;
-    private EditText billingTime;
+    private EditText billingTime,poundage;
     private int currentYear,currentMon,currentDate;
     private Calendar calendar;
     public static Boolean addBoolean = false;
@@ -98,12 +98,13 @@ public class TransferAccountActivity extends BaseActivity {
                 billingTimeString = billingTime.getText().toString().trim();
                 Log.d("test","billingTimeString:"+billingTimeString);
                 priceString = price.getText().toString().trim();
+                poundageString = poundage.getText().toString().trim();
                 Log.d("addddd",classifySpinnerString);//进账：023001，出账：023002
                     /*if("023002".equals(classifySpinnerString)){//出账添加‘-’
                         priceString = "-"+priceString;
                     }*/
                 remarkString = remark.getText().toString().trim();
-                if ("".equals(priceString)
+                if ("".equals(priceString) && "".equals(poundageString)
                         ) {
                     Toast.makeText(TransferAccountActivity.this, "所填数据不能为空", Toast.LENGTH_LONG).show();
                 } else {
@@ -113,7 +114,8 @@ public class TransferAccountActivity extends BaseActivity {
                         Toast.makeText(TransferAccountActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }*/
-                    Log.d("information",priceString+"?"+reasonSpinnerString+"?"+classifySpinnerString+"?"+billingTimeString);
+                    Log.d("information",priceString+"?"+reasonSpinnerString+"?"+classifySpinnerString+"?"+billingTimeString
+                            +"?"+poundageString);
                     param = new HashMap<>();
                     param.put("option","4");
                     param.put("createBy", Statics.Name);
@@ -127,8 +129,10 @@ public class TransferAccountActivity extends BaseActivity {
                     param.put("classify",classifySpinnerString);
                     param.put("userName", Statics.Name);
                     param.put("id", "");
+                    param.put("poundage",poundageString);
+                    Statics.isTransfer = true;
                     if ("success".equals(HttpBasePost.postHttp(Statics.FinancialBillingManagementSearchUrl,param,HttpTypeConstants.TransferAccount))){//进账出账下拉框
-                        Toast.makeText(TransferAccountActivity.this, "转账成功", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(TransferAccountActivity.this, "转账成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 }
@@ -313,6 +317,9 @@ public class TransferAccountActivity extends BaseActivity {
         setPoint(price);//设置金额输入位数
         remark = (EditText) findViewById(R.id.remarkId);
         billingTime = (EditText) findViewById(R.id.billingTime);
+        poundage = (EditText) findViewById(R.id.poundage);
+        poundage.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        setPoint2(poundage);
     }
 
     public void setPoint(EditText point) {//限制输入小数位数
@@ -340,6 +347,40 @@ public class TransferAccountActivity extends BaseActivity {
                     if (!s.toString().substring(1, 2).equals(".")) {
                         price.setText(s.subSequence(0, 1));
                         price.setSelection(1);
+                        return;
+                    }
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+    public void setPoint2(final EditText point) {//限制输入小数位数
+        point.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 2+1);
+                        poundage.setText(s);
+                        poundage.setSelection(s.length());
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    poundage.setText(s);
+                    poundage.setSelection(2);
+                }
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        poundage.setText(s.subSequence(0, 1));
+                        poundage.setSelection(1);
                         return;
                     }
                 }

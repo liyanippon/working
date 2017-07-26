@@ -106,7 +106,7 @@ public class FinancialStastisticsActivity extends BaseActivity{
                 String monthString = null;
                 yearSpinnerString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getYe());//选中年
                 monthString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getMon());//选中月
-                param.put("id",Statics.userName);
+                param.put("id",Statics.Name);
                 param.put("year",yearSpinnerString);
                 param.put("month",monthString);
                 HttpBasePost.postHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl,param,HttpTypeConstants.FinancialBillingGetWXSelectMonthAccountUrlType);

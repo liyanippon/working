@@ -79,7 +79,7 @@ public class AddExpressNumberActivity extends BaseActivity {
                     billingTimeString = billingTime.getText().toString().trim();
                     descriptionString = description.getText().toString().trim();
                     billNumberString = billNumber.getText().toString().trim();
-                    if ("".equals(typeSpinnerString)) {
+                    if ("".equals(typeSpinnerString)||"".equals(billNumberString)) {
                         Toast.makeText(AddExpressNumberActivity.this, "所填数据不能为空", Toast.LENGTH_LONG).show();
                     } else {
                         httpPost = new ExpressNumberManagementHttpPost();

@@ -111,32 +111,6 @@
             android:layout_height="2dp"
             android:background="@null"
             />
-        <!--<TableRow
-            android:layout_marginLeft="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="支付方式"
-                android:textSize="@dimen/activity_add_account_manager"
-                />
-
-            <Spinner
-                android:layout_marginLeft="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_editor"
-                android:id="@+id/payMethodSpinner"
-                android:layout_weight="1"
-                >
-            </Spinner>
-        </TableRow>-->
 
         <View
             android:layout_width="match_parent"
@@ -154,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/price"
+                android:text="金额"
                 android:layout_gravity="left"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
@@ -171,37 +145,39 @@
                 >
             </EditText>
         </TableRow>
-        <!--<View
+        <View
             android:layout_width="match_parent"
-            android:layout_height="2sp"
+            android:layout_height="2dp"
             android:background="@null"
             />
         <TableRow
             android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
             android:layout_marginRight="10dp"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             >
             <TextView
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/guest"
+                android:gravity="center"
+                android:text="手续费"
+                android:layout_gravity="left"
                 android:textSize="@dimen/activity_add_account_manager"
-                android:gravity="left"
                 />
-            <Spinner
+
+            <EditText
                 android:layout_marginLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/customerId"
+                android:id="@+id/poundage"
                 android:layout_weight="1"
-
+                android:lines="1"
+                android:inputType="numberDecimal"
                 android:background="@drawable/shape_editor"
                 >
-            </Spinner>
-        </TableRow>-->
+            </EditText>
+        </TableRow>
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -255,7 +231,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="添加"
-            android:background="#056daa"
+            android:background="@drawable/login_button"
             android:id="@+id/add"
             android:textSize="18sp"
             android:textColor="#ffffff"
@@ -269,7 +245,7 @@
             android:id="@+id/reset"
             android:textColor="#ffffff"
             android:textSize="18sp"
-            android:background="#7c7777"
+            android:background="@drawable/login_button"
             />
 
     </RelativeLayout>

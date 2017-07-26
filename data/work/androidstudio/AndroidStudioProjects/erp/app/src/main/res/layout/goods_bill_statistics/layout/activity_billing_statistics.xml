@@ -106,7 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="false"
-                    android:text="现金 : 0元 , 银行 : 0元 ，支付宝：0元，微信：0元"
+                    android:text="现金银行支付宝微信"
                     />
             </TableLayout>
 
@@ -169,6 +169,7 @@
                     android:layout_height="400dp"
                     android:background="#ffffff"
                     android:divider="#B4B3B3"
+                    android:visibility="gone"
                     android:dividerHeight="1.0dip"
                     android:listSelector="#ffff00"
                     android:scrollbars="vertical"></ListView>

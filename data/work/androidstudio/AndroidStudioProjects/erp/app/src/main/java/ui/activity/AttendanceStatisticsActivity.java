@@ -79,7 +79,6 @@ public class AttendanceStatisticsActivity extends BaseActivity{
         setTitle("考勤统计");
         setContentView(R.layout.activity_attendance_statistics);
 
-        Log.d("AttendanceStatisticsAct", "userId" + Statics.userName);
         //添加返回按钮
         ToolUtils.backButton(this);
         init();

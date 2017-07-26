@@ -42,7 +42,7 @@ public class Statics {
     /**物流管理**/
     public static String LoginUrl = "http://192.168.1.12:8081/login.jhtml";
     public static String UmlUrl = "http://192.168.1.16:8083/getWXMenuList.ajax";//用户权限url
-    public static String Name;
+    public static String Name = null;
     //public static  String LoginUrl = "http://i.yifeng-dl.com/login.jhtml";//用户登录地址
     public static String FinancialBillingManagementSearchUrl = "http://192.168.1.12:8081/wxApi.ajax";//账目查询地址 添加地址
     public static String AllCustomerUrl = "http://192.168.1.16:8083/getWXAllCustomer.ajax";//客户
@@ -60,7 +60,8 @@ public class Statics {
     public static String GetWXExpenseAccountReasonUrl;//转账业务类型
     public static String GetWXNewAddUrl;//转账提交表单
     public static ArrayList<TransferAccountClassify> transferAccountClassifiesList =new ArrayList<>();//转账类型
-
+    public static boolean isDelete = false;
+    public static boolean isTransfer = false;
     /**物流统计**/
     public static String TimeSearchUrl = "http://192.168.1.16:8083/getWXTjsjList.ajax";//统计列表
     public static String CustomerSearchUrl = "http://192.168.1.16:8083/getWXCustomerTjsjList.ajax";//客户统计列表
@@ -74,7 +75,6 @@ public class Statics {
     public static ArrayList<XiangxiBillingStatistics> xiangxiBillingStatisticsArrayList = new ArrayList<>();
     public static ArrayList<String> data_list = new ArrayList<>();
     public static String results = null;
-    public static String userName = null;
     public static String ExpressGetWXPaymentMethod = "http://192.168.1.51:8083/getWXPaymentMethod.ajax";
     public static String CurrentPayStatistic = null;
     public static String ExpressGetWXExpenseAccountPaymentMethod = "http://192.168.1.51:8083/getWXExpenseAccountPaymentMethod.ajax";

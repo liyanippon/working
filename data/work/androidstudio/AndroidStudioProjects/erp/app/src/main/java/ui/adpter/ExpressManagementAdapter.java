@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,8 +20,10 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
+import model.ExpressManagement;
 import ui.activity.ExpressBillingManagementActivity;
 
 /**
@@ -41,8 +44,9 @@ public class ExpressManagementAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (Statics.expressManagementList.size() != 0) {
-            return Statics.expressManagementList.size();
+        //Log.d("ExpressManagementAdapte", "查看" + Statics.expressManagementList.get(0).getData().get(0).getRows().size());
+        if (Statics.expressManagementList.size()!=0) {
+            return Statics.expressManagementList.get(0).getData().get(0).getRows().size();
         } else {
             return 0;
         }
@@ -81,17 +85,28 @@ public class ExpressManagementAdapter extends BaseAdapter {
 
         //获取数据和显示数据
         String number = Integer.toString((ExpressBillingManagementActivity.page-1)*50 + position+1);
-        id = Statics.expressManagementList.get(position).getId();
-        String type = Statics.expressManagementList.get(position).getType().trim();
-        String classify = Statics.expressManagementList.get(position).getClassify().trim();
-        String billingTime = Statics.expressManagementList.get(position).getBillingTime();
-        String sum = Statics.expressManagementList.get(position).getSum().trim();
-        if(!(sum.indexOf("-")<0)){
+        ExpressManagement.DataBean.RowsBean edrb=Statics.expressManagementList.get(0).getData().get(0).getRows().get(position);
+        id = edrb.getId();
+        String type = edrb.getType().trim();
+        String classify = edrb.getClassify().trim();
+        int temp = edrb.getBillingTime().getMonth();
+        String billingTime = ToolUtils.timeDateFormat(Integer.toString(edrb.getBillingTime().getYear()))+"-"+(++temp)
+                +"-"+edrb.getBillingTime().getDate();
+        String sum = edrb.getSum()+"";
+        if(!"进账".equals(edrb.getClassify())){
+            type = type.split("<b>")[1].split("</b>")[0];
+            classify = classify.split("<b>")[1].split("</b>")[0];
             vh.type.setTextColor(Color.RED);
             vh.classify.setTextColor(Color.RED);
             vh.billingTime.setTextColor(Color.RED);
             vh.sum.setTextColor(Color.RED);
         }else{
+            if(type.indexOf("<b>")!=-1){
+                type = type.split("<b>")[1].split("</b>")[0];
+            }
+            if(classify.indexOf("<b>")!=-1){
+                classify = classify.split("<b>")[1].split("</b>")[0];
+            }
             vh.type.setTextColor(Color.BLACK);
             vh.classify.setTextColor(Color.BLACK);
             vh.billingTime.setTextColor(Color.BLACK);
@@ -111,13 +126,13 @@ public class ExpressManagementAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void showNormalDialog(int item) {
+    private void showNormalDialog(final int item) {
             /* @setIcon 设置对话框图标
          * @setTitle 设置对话框标题
          * @setMessage 设置对话框消息提示
          * setXXX方法返回Dialog对象，因此可以链式设置属性
          */
-        id = Statics.expressManagementList.get(item).getId();
+        id = Statics.expressManagementList.get(0).getData().get(0).getRows().get(item).getId();
         AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(activity);
         normalDialog.setIcon(R.drawable.delete);
@@ -129,7 +144,20 @@ public class ExpressManagementAdapter extends BaseAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
                         ExpressBillingManagementActivity.deleteSuccess = true;
-                        if ("success".equals(httpPost.delAccountManagerHttp(Statics.FinancialBillingManagementSearchUrl, id,activity))) {
+                        ExpressManagement.DataBean.RowsBean edrb=Statics.expressManagementList.get(0).getData().get(0).getRows().get(item);
+                        String sum = edrb.getSum()+"";
+                        String classify = edrb.getClassify();
+                        String paymentMethod = edrb.getPaymentMethod();
+                        Log.d("ExpressManagementAdapte", "jin" + sum + "*" + classify + "*" + paymentMethod);
+                        if (!"进账".equals(edrb.getClassify())){
+                             sum = Math.abs(edrb.getSum())+"";
+                             classify = edrb.getClassify().split("<b>")[1].split("</b>")[0];
+                             paymentMethod = edrb.getPaymentMethod().split("<b>")[1].split("</b>")[0];
+                            Log.d("ExpressManagementAdapte", "chuzhag"+sum+";"+classify+";"+paymentMethod);
+                        }
+                        Statics.isDelete = true;
+                        if ("success".equals(httpPost.delAccountManagerHttp(Statics.FinancialBillingManagementSearchUrl, id, sum
+                                ,classify,paymentMethod,activity))) {
                             ExpressBillingManagementActivity.progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
                         } else {
                             Toast.makeText(activity, "删除失败", Toast.LENGTH_SHORT).show();

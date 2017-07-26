@@ -41,6 +41,7 @@ import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
+import model.ExpressManagement;
 import portface.LazyLoadFace;
 import ui.adpter.ExpressManagementAdapter;
 import ui.xlistview.XListView;
@@ -70,6 +71,8 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     private GridView gridView;
     public static boolean deleteSuccess = false;
     public static Activity activityExpress;
+    public static boolean isAdd = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,17 +135,29 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 TextView createuser = (TextView) layout.findViewById(R.id.createuser);//创建人
                 TextView billingTime = (TextView) layout.findViewById(R.id.billingTime);//账单时间
                 TextView createTime = (TextView) layout.findViewById(R.id.createTime);//创建时间
-                type.setText(Statics.expressManagementList.get(position - 1).getType());
-                classify.setText(Statics.expressManagementList.get(position - 1).getClassify());
-                reason.setText(Statics.expressManagementList.get(position - 1).getReason());
-                payMethod.setText(Statics.expressManagementList.get(position - 1).getPaymentMethod());
-                price.setText(Statics.expressManagementList.get(position - 1).getSum());
-                guest.setText(Statics.expressManagementList.get(position - 1).getCustomerId());
-                remark.setText(Statics.expressManagementList.get(position - 1).getRemark());
-                createuser.setText(Statics.expressManagementList.get(position - 1).getCreateBy());
-                billingTime.setText(Statics.expressManagementList.get(position - 1).getBillingTime());
-                createTime.setText(Statics.expressManagementList.get(position - 1).getCreateTime());
-                if("出账".equals(Statics.expressManagementList.get(position - 1).getClassify())){
+                ExpressManagement.DataBean.RowsBean edrb=Statics.expressManagementList.get(0).getData().get(0).getRows().get(position-1);
+                type.setText(edrb.getType());
+                classify.setText(edrb.getClassify());
+                reason.setText(edrb.getReason());
+                payMethod.setText(edrb.getPaymentMethod());
+                price.setText(edrb.getSum()+"");
+                guest.setText(edrb.getCustomerId());
+                remark.setText(edrb.getDescription());
+                createuser.setText(edrb.getCreateBy());
+                int temp = edrb.getBillingTime().getMonth();
+                int temps = edrb.getCreateTime().getMonth();
+                String billingTimes = ToolUtils.timeDateFormat(Integer.toString(edrb.getBillingTime().getYear()))+"-"+(++temp)
+                        +"-"+edrb.getBillingTime().getDate();
+                billingTime.setText(billingTimes);
+                String createTimes = ToolUtils.timeDateFormat(Integer.toString(edrb.getCreateTime().getYear()))+"-"+(++temps)
+                        +"-"+edrb.getCreateTime().getDate()+" "
+                        +edrb.getCreateTime().getHours()+":"
+                        + edrb.getCreateTime().getMinutes()+":"
+                        +edrb.getCreateTime().getSeconds();
+                billingTime.setText(billingTimes);
+                createTime.setText(createTimes);
+
+                if(!"进账".equals(edrb.getClassify())){
                     type.setTextColor(Color.RED);
                     classify.setTextColor(Color.RED);
                     reason.setTextColor(Color.RED);
@@ -153,9 +168,33 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                     createuser.setTextColor(Color.RED);
                     billingTime.setTextColor(Color.RED);
                     createTime.setTextColor(Color.RED);
-                }else {
+                    type.setText(edrb.getType().split("<b>")[1].split("</b>")[0]);
+                    classify.setText(edrb.getClassify().split("<b>")[1].split("</b>")[0]);
+                    reason.setText(edrb.getReason().split("<b>")[1].split("</b>")[0]);
+                    payMethod.setText(edrb.getPaymentMethod().split("<b>")[1].split("</b>")[0]);
+                    guest.setText(edrb.getCustomerId().split("<b>")[1].split("</b>")[0]);
+                    createuser.setText(edrb.getCreateBy().split("<b>")[1].split("</b>")[0]);
 
-                }
+                }else {
+                    if(edrb.getType().indexOf("<b>")!=-1){
+                        type.setText(edrb.getType().split("<b>")[1].split("</b>")[0]);
+                    }
+                    if(edrb.getClassify().indexOf("<b>")!=-1){
+                        classify.setText(edrb.getClassify().split("<b>")[1].split("</b>")[0]);
+                    }
+                    if (edrb.getReason().indexOf("<b>")!=-1){
+                        reason.setText(edrb.getReason().split("<b>")[1].split("</b>")[0]);
+                    }
+                    if (edrb.getPaymentMethod().indexOf("<b>")!=-1) {
+                        payMethod.setText(edrb.getPaymentMethod().split("<b>")[1].split("</b>")[0]);
+                    }
+                    if (edrb.getCustomerId().indexOf(">")!=-1) {
+                        guest.setText(edrb.getCustomerId().split(">")[1].split("</")[0]);
+                    }
+                    if (edrb.getCreateBy().indexOf("<b>")!=-1) {
+                        createuser.setText(edrb.getCreateBy().split("<b>")[1].split("</b>")[0]);
+                    }
+                    }
                 newBilling.setVisibility(View.INVISIBLE);
                 transferAccounts.setVisibility(View.INVISIBLE);
                 //创建人就是用户名
@@ -396,7 +435,11 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         newBilling.setVisibility(View.INVISIBLE);
         transferAccounts.setVisibility(View.INVISIBLE);
         String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-        httpPost.searchHttp(httpUrl ,"" ,"" ,"",ExpressBillingManagementActivity.this,1);//刷新页面
+        if(isAdd){
+            httpPost.searchHttp(httpUrl ,"" ,"" ,"",ExpressBillingManagementActivity.this,1);//刷新页面
+            isAdd = false;
+        }
+
     }
 
     private void onLoad() {
@@ -444,10 +487,18 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     public static void AdapterRefresh(String type) {
         switch (type) {
             case "accountManagementAdapter":
-
+                Log.d("ExpressBillingManagemen", "刷新");
                 if (expressManagementAdapter != null){
                     expressManagementAdapter.notifyDataSetChanged();
                     ExpressBillingManagementActivity.progressDialog.dismiss();
+                }
+                if(Statics.isDelete){
+                    Toast.makeText(activityExpress,"删除成功",Toast.LENGTH_SHORT).show();
+                    Statics.isDelete = false;
+                }
+                if(Statics.isTransfer){
+                    Toast.makeText(activityExpress,"转账成功",Toast.LENGTH_SHORT).show();
+                    Statics.isTransfer = false;
                 }
 
                 break;

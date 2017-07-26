@@ -93,7 +93,7 @@ public class FinancialManagementAdapter extends BaseAdapter {
         String year = ToolUtils.timeDateFormat(Integer.toString(years));
         StringBuffer billingTimeSb=new StringBuffer();
         billingTimeSb.append(year).append("-").append(++mon).append("-").append(date);
-        String price = Float.toString(Statics.financialManagementList.get(0).getData().get(position).getBillSum());//金额
+        String price = Statics.financialManagementList.get(0).getData().get(position).getBillSum()+"";//金额
 
         if(classify.equals("出账")){
             vh.account.setTextColor(Color.RED);

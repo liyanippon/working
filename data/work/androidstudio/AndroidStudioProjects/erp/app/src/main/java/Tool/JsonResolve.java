@@ -42,7 +42,7 @@ public class JsonResolve {
     final static int[] sizeTable = {9, 99, 999, 9999, 99999, 999999, 9999999,
             99999999, 999999999, Integer.MAX_VALUE};
 
-    //json解析 项目管理
+    /*//json解析 项目管理
     public static void jsonAccountManager(String json, Activity activity, String rows) {
         try {
             //解析前先清空
@@ -154,24 +154,28 @@ public class JsonResolve {
                     Log.d("type","typeString:"+typeString);
                 }
 
+                Log.d("JsonResolve", "输出：" + id + "[]" + typeString + classify + "[]" + billingSb.toString() + "[]" + createBy.toString() + "[]" + reason + "[]" + sum
+                        + "[]" + createBy + "[]" + customerId + "[]" + remark + "[]" + paymentMethod);
                 ExpressManagement financialManagement = new ExpressManagement(id, typeString, classify,billingSb.toString()
                         ,createSb.toString(),reason, sum, createBy, customerId, remark,paymentMethod);
+                Log.d("JsonResolve", "知道");
                 Statics.expressManagementList.add(financialManagement);
-                financialManagement = null;
+                ExpressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
             }
             //刷新
             //AccountManagementAdapter accountManagementAdapter =new AccountManagementAdapter(activity);
             //AccountManagementActivity.accountLv.setAdapter(accountManagementAdapter);
             //AccountManagementActivity.accountManagementAdapter.notifyDataSetChanged();
             //ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
-            ExpressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();
-
+            Log.d("JsonResolve", "异常");
         }
 
-    }
+    }*/
 
     public static void jsonAccountReasonSearch(String json, Activity activity) {//详细
         try {

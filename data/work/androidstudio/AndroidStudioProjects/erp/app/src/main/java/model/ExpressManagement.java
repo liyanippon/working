@@ -1,121 +1,467 @@
 package model;
 
+import java.util.List;
+
 /**
  * Created by admin on 2017/2/22.
  */
 
 public class ExpressManagement {
-    private String id;
-    private String type;
-    private String classify;
-    private String billingTime;
-    private String createTime;
-    private String reason;
-    private String sum;
-    private String createBy;
-    private String customerId;
-    private String remark;
-    private String paymentMethod;
 
-    public ExpressManagement(String id, String type, String classify, String billingTime, String createTime, String reason, String sum, String createBy, String customerId, String remark ,String paymentMethod) {
-        this.id = id;
-        this.type = type;
-        this.classify = classify;
-        this.billingTime = billingTime;
-        this.createTime = createTime;
-        this.reason = reason;
-        this.sum = sum;
-        this.createBy = createBy;
-        this.customerId = customerId;
-        this.remark = remark;
-        this.paymentMethod = paymentMethod;
+
+    private List<DataBean> data;
+
+    public List<DataBean> getData() {
+        return data;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setData(List<DataBean> data) {
+        this.data = data;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
+    public static class DataBean {
+        private List<RowsBean> rows;
 
-    public String getId() {
-        return id;
-    }
+        public List<RowsBean> getRows() {
+            return rows;
+        }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+        public void setRows(List<RowsBean> rows) {
+            this.rows = rows;
+        }
 
-    public String getType() {
-        return type;
-    }
+        public static class RowsBean {
+            /**
+             * billingTime : {"date":26,"day":3,"hours":0,"minutes":0,"month":6,"seconds":0,"time":1500998400000,"timezoneOffset":-480,"year":117}
+             * classify : <span  style='color:#ff0000'><b>出账</b><span>
+             * createBy : <span  style='color:#ff0000'><b>刘冬梅</b><span>
+             * createTime : {"date":26,"day":3,"hours":10,"minutes":0,"month":6,"seconds":49,"time":1501034449274,"timezoneOffset":-480,"year":117}
+             * customerId : <span  style='color:#ff0000'><b>其他</b><span>
+             * delete : 0
+             * description : 123
+             * id : 918a13e5dfde4654869fe259a0bf1d8c
+             * paymentMethod : <span style='color:#ff0000'><b>现金</b><span>
+             * reason : <span  style='color:#ff0000'><b>发货费</b><span>
+             * sum : -1393
+             * type : <span  style='color:#ff0000'><b>圆通快递</b><span>
+             * updateBy : liudongmei
+             * updateTime : {"date":26,"day":3,"hours":10,"minutes":19,"month":6,"seconds":28,"time":1501035568647,"timezoneOffset":-480,"year":117}
+             */
 
-    public void setType(String type) {
-        this.type = type;
-    }
+            private BillingTimeBean billingTime;
+            private String classify;
+            private String createBy;
+            private CreateTimeBean createTime;
+            private String customerId;
+            private String delete;
+            private String description;
+            private String id;
+            private String paymentMethod;
+            private String reason;
+            private int sum;
+            private String type;
+            private String updateBy;
+            private UpdateTimeBean updateTime;
 
-    public String getClassify() {
-        return classify;
-    }
+            public BillingTimeBean getBillingTime() {
+                return billingTime;
+            }
 
-    public void setClassify(String classify) {
-        this.classify = classify;
-    }
+            public void setBillingTime(BillingTimeBean billingTime) {
+                this.billingTime = billingTime;
+            }
 
-    public String getBillingTime() {
-        return billingTime;
-    }
+            public String getClassify() {
+                return classify;
+            }
 
-    public void setBillingTime(String billingTime) {
-        this.billingTime = billingTime;
-    }
+            public void setClassify(String classify) {
+                this.classify = classify;
+            }
 
-    public String getCreateTime() {
-        return createTime;
-    }
+            public String getCreateBy() {
+                return createBy;
+            }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
+            public void setCreateBy(String createBy) {
+                this.createBy = createBy;
+            }
 
-    public String getReason() {
-        return reason;
-    }
+            public CreateTimeBean getCreateTime() {
+                return createTime;
+            }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+            public void setCreateTime(CreateTimeBean createTime) {
+                this.createTime = createTime;
+            }
 
-    public String getSum() {
-        return sum;
-    }
+            public String getCustomerId() {
+                return customerId;
+            }
 
-    public void setSum(String sum) {
-        this.sum = sum;
-    }
+            public void setCustomerId(String customerId) {
+                this.customerId = customerId;
+            }
 
-    public String getCreateBy() {
-        return createBy;
-    }
+            public String getDelete() {
+                return delete;
+            }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
+            public void setDelete(String delete) {
+                this.delete = delete;
+            }
 
-    public String getCustomerId() {
-        return customerId;
-    }
+            public String getDescription() {
+                return description;
+            }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
+            public void setDescription(String description) {
+                this.description = description;
+            }
 
-    public String getRemark() {
-        return remark;
-    }
+            public String getId() {
+                return id;
+            }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getPaymentMethod() {
+                return paymentMethod;
+            }
+
+            public void setPaymentMethod(String paymentMethod) {
+                this.paymentMethod = paymentMethod;
+            }
+
+            public String getReason() {
+                return reason;
+            }
+
+            public void setReason(String reason) {
+                this.reason = reason;
+            }
+
+            public int getSum() {
+                return sum;
+            }
+
+            public void setSum(int sum) {
+                this.sum = sum;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public String getUpdateBy() {
+                return updateBy;
+            }
+
+            public void setUpdateBy(String updateBy) {
+                this.updateBy = updateBy;
+            }
+
+            public UpdateTimeBean getUpdateTime() {
+                return updateTime;
+            }
+
+            public void setUpdateTime(UpdateTimeBean updateTime) {
+                this.updateTime = updateTime;
+            }
+
+            public static class BillingTimeBean {
+                /**
+                 * date : 26
+                 * day : 3
+                 * hours : 0
+                 * minutes : 0
+                 * month : 6
+                 * seconds : 0
+                 * time : 1500998400000
+                 * timezoneOffset : -480
+                 * year : 117
+                 */
+
+                private int date;
+                private int day;
+                private int hours;
+                private int minutes;
+                private int month;
+                private int seconds;
+                private long time;
+                private int timezoneOffset;
+                private int year;
+
+                public int getDate() {
+                    return date;
+                }
+
+                public void setDate(int date) {
+                    this.date = date;
+                }
+
+                public int getDay() {
+                    return day;
+                }
+
+                public void setDay(int day) {
+                    this.day = day;
+                }
+
+                public int getHours() {
+                    return hours;
+                }
+
+                public void setHours(int hours) {
+                    this.hours = hours;
+                }
+
+                public int getMinutes() {
+                    return minutes;
+                }
+
+                public void setMinutes(int minutes) {
+                    this.minutes = minutes;
+                }
+
+                public int getMonth() {
+                    return month;
+                }
+
+                public void setMonth(int month) {
+                    this.month = month;
+                }
+
+                public int getSeconds() {
+                    return seconds;
+                }
+
+                public void setSeconds(int seconds) {
+                    this.seconds = seconds;
+                }
+
+                public long getTime() {
+                    return time;
+                }
+
+                public void setTime(long time) {
+                    this.time = time;
+                }
+
+                public int getTimezoneOffset() {
+                    return timezoneOffset;
+                }
+
+                public void setTimezoneOffset(int timezoneOffset) {
+                    this.timezoneOffset = timezoneOffset;
+                }
+
+                public int getYear() {
+                    return year;
+                }
+
+                public void setYear(int year) {
+                    this.year = year;
+                }
+            }
+
+            public static class CreateTimeBean {
+                /**
+                 * date : 26
+                 * day : 3
+                 * hours : 10
+                 * minutes : 0
+                 * month : 6
+                 * seconds : 49
+                 * time : 1501034449274
+                 * timezoneOffset : -480
+                 * year : 117
+                 */
+
+                private int date;
+                private int day;
+                private int hours;
+                private int minutes;
+                private int month;
+                private int seconds;
+                private long time;
+                private int timezoneOffset;
+                private int year;
+
+                public int getDate() {
+                    return date;
+                }
+
+                public void setDate(int date) {
+                    this.date = date;
+                }
+
+                public int getDay() {
+                    return day;
+                }
+
+                public void setDay(int day) {
+                    this.day = day;
+                }
+
+                public int getHours() {
+                    return hours;
+                }
+
+                public void setHours(int hours) {
+                    this.hours = hours;
+                }
+
+                public int getMinutes() {
+                    return minutes;
+                }
+
+                public void setMinutes(int minutes) {
+                    this.minutes = minutes;
+                }
+
+                public int getMonth() {
+                    return month;
+                }
+
+                public void setMonth(int month) {
+                    this.month = month;
+                }
+
+                public int getSeconds() {
+                    return seconds;
+                }
+
+                public void setSeconds(int seconds) {
+                    this.seconds = seconds;
+                }
+
+                public long getTime() {
+                    return time;
+                }
+
+                public void setTime(long time) {
+                    this.time = time;
+                }
+
+                public int getTimezoneOffset() {
+                    return timezoneOffset;
+                }
+
+                public void setTimezoneOffset(int timezoneOffset) {
+                    this.timezoneOffset = timezoneOffset;
+                }
+
+                public int getYear() {
+                    return year;
+                }
+
+                public void setYear(int year) {
+                    this.year = year;
+                }
+            }
+
+            public static class UpdateTimeBean {
+                /**
+                 * date : 26
+                 * day : 3
+                 * hours : 10
+                 * minutes : 19
+                 * month : 6
+                 * seconds : 28
+                 * time : 1501035568647
+                 * timezoneOffset : -480
+                 * year : 117
+                 */
+
+                private int date;
+                private int day;
+                private int hours;
+                private int minutes;
+                private int month;
+                private int seconds;
+                private long time;
+                private int timezoneOffset;
+                private int year;
+
+                public int getDate() {
+                    return date;
+                }
+
+                public void setDate(int date) {
+                    this.date = date;
+                }
+
+                public int getDay() {
+                    return day;
+                }
+
+                public void setDay(int day) {
+                    this.day = day;
+                }
+
+                public int getHours() {
+                    return hours;
+                }
+
+                public void setHours(int hours) {
+                    this.hours = hours;
+                }
+
+                public int getMinutes() {
+                    return minutes;
+                }
+
+                public void setMinutes(int minutes) {
+                    this.minutes = minutes;
+                }
+
+                public int getMonth() {
+                    return month;
+                }
+
+                public void setMonth(int month) {
+                    this.month = month;
+                }
+
+                public int getSeconds() {
+                    return seconds;
+                }
+
+                public void setSeconds(int seconds) {
+                    this.seconds = seconds;
+                }
+
+                public long getTime() {
+                    return time;
+                }
+
+                public void setTime(long time) {
+                    this.time = time;
+                }
+
+                public int getTimezoneOffset() {
+                    return timezoneOffset;
+                }
+
+                public void setTimezoneOffset(int timezoneOffset) {
+                    this.timezoneOffset = timezoneOffset;
+                }
+
+                public int getYear() {
+                    return year;
+                }
+
+                public void setYear(int year) {
+                    this.year = year;
+                }
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,15 +16,18 @@ import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.example.admin.erp.R;
 import net.tsz.afinal.FinalBitmap;
 import java.util.Properties;
+import Tool.crash.ActivityCollector;
 import Tool.crash.BaseActivity;
 import Tool.crash.CrashHandler;
 import Tool.crash.LogcatHelper;
@@ -37,7 +41,7 @@ public class MainActivity extends BaseActivity {
     private EditText userName;
     private EditText userPassword;
     private ExpressBillingManagementHttpPost httpPost;
-    private Button login;
+    public static Button login;
     private Button reset;
     private Properties properties;
     public static Intent in;
@@ -47,27 +51,32 @@ public class MainActivity extends BaseActivity {
     private CheckBox rememberMe;
     SharedPreferences sp = null;
     private RelativeLayout background;
+    public static ProgressBar loginProgressBar;
+    private InputMethodManager imm;//键盘处理
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //LogcatHelper.getInstance(this).start();//保存日志
-        //initCrashHandler();//系统异常处理
+        LogcatHelper.getInstance(this).start();//保存日志
+        initCrashHandler();//系统异常处理
         super.onCreate(savedInstanceState);
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
 
-        background = (RelativeLayout) findViewById(R.id.activity_main2);
         /*new Runnable() {
             @Override
             public void run() {
                 background.setBackgroundResource(R.drawable.loginbackground);
             }
         }.run();*/
+        Log.d("MainActivity", "aaaa");
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         sp = this.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+        background = (RelativeLayout) findViewById(R.id.activity_main2);
         userName = (EditText) findViewById(R.id.userName);
         userPassword = (EditText) findViewById(R.id.userPassword);
         login = (Button) findViewById(R.id.login);
         reset = (Button) findViewById(R.id.reset);
         rememberMe = (CheckBox) findViewById(R.id.rememberMe);
+        loginProgressBar = (ProgressBar) findViewById(R.id.login_progressBar);
         login.setOnClickListener(this);
         reset.setOnClickListener(this);
         init();
@@ -97,12 +106,15 @@ public class MainActivity extends BaseActivity {
             public void AdapterRefresh(String type) {
                 //具体更新
                 if(type.equals("login")){
-                    //in = new Intent(MainActivity.this, CensusActivity.class);
+                    //login.setBackgroundColor(Color.GRAY);
+                    Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     in = new Intent(MainActivity.this, MenuFragmentMainActivity.class);
                     flag = false;
                     Statics.Name = userNameString ;
                     startActivity(in);
                     finish();
+                }else{//登录失败移除activity
+                    Log.d("MainActivity", "移除activity");
                 }
             }
         });
@@ -115,8 +127,8 @@ public class MainActivity extends BaseActivity {
         try {
             properties.load(MainActivity.this.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
-            //Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
-            Statics.LoginUrl = IFengLoginUrl;//本地登录
+            Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
+            //Statics.LoginUrl = IFengLoginUrl;//本地登录
             String IFengUrl = properties.getProperty("IFengUrl").trim();
             String UmpUrl = properties.getProperty("UmpUrl").trim();
             Statics.UmlUrl = UmpUrl + "/setRoles/loadRoleUserId.ajax";
@@ -165,6 +177,8 @@ public class MainActivity extends BaseActivity {
 
         switch (v.getId()) {
             case R.id.login:
+                imm.hideSoftInputFromWindow(userName.getWindowToken(), 0); //强制隐藏键盘
+                imm.hideSoftInputFromWindow(userPassword.getWindowToken(), 0); //强制隐藏键盘
                 check();
                 break;
             case R.id.reset:
@@ -199,8 +213,17 @@ public class MainActivity extends BaseActivity {
             editor.putBoolean("checkboxBoolean", false);
             editor.commit();
         }
+        loginProgressBar.setVisibility(View.VISIBLE);
+        login.setBackgroundColor(Color.rgb(0x66,0x66,0x66));
+        login.setClickable(false);
         String urlString = Statics.LoginUrl;
         httpPost = new ExpressBillingManagementHttpPost(getApplicationContext());
         httpPost.LoginHttp(urlString, userNameString, password, MainActivity.this);
+        }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

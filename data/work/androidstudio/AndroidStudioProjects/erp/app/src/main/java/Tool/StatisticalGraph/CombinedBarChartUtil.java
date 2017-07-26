@@ -64,7 +64,7 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         mCombinedChart.setNoDataTextDescription("暂时没有数据进行图表展示");
         mCombinedChart.setDescription(description);
         mCombinedChart.setDescriptionColor(Color.WHITE);
-        mCombinedChart.setDescriptionPosition(400f,80f);
+        mCombinedChart.setDescriptionPosition(500f,80f);
         /*if(Statics.yPositon) {//以后如果描述改变需求在此处更改
             mCombinedChart.setDescriptionPosition(400f,80f);
             Statics.yPositon = false;
