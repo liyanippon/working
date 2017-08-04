@@ -24,11 +24,13 @@ IFengUrl = http://192.168.1.17:8083
 
 通过‘系统管理’查看开发使用哪个网页
 
-https://192.168.1.3:8006  远程终端 root/!QAZ2wsx 
-
-
+https://192.168.1.3:8006  远程终端 root/!QAZ2wsx
 javaee开发
 web 终端：192.168.1.16 开始-->附件-->远程桌面-->左 密码106-->206
+FTP文件上传：
+
+李龙飞电脑：
+阿里云企业邮箱：liyan@yifeng-dl.com/ZAQ!xsw2
 
 数据库xml文件查找
 attendanceSumService -->attendanceSum Ctrl+shift+R --> AttendanceSumExtMapper.xml
