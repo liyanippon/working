@@ -56,7 +56,7 @@ public class MainTabAttendance extends Fragment {
 			@Override
 			public void run() {
 				//httpPost.searchStaffNameHttp(Statics.AttendanceStatisticsSearchUrl,getActivity());
-				HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,null, HttpTypeConstants.SearchStuffName);//员工姓名
+				HttpBasePost.postHttp(Statics.AttendanceGetWXAttendanceNameUrl,null, HttpTypeConstants.SearchStuffName);//员工姓名
 				HttpBasePost.postHttp(Statics.searchYearUrl,null,HttpTypeConstants.SearchYearUrlType);//年份查询
 			}
 		}.run();

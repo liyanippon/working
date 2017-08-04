@@ -8,73 +8,63 @@
     tools:context="ui.activity.ExpressNumberManagerActivity">
 
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <TableLayout
+        <Tool.customerWidget.PercentLinearLayout
+            android:layout_marginTop="2dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             >
-            <TableRow>
 
-                <Spinner
-                    android:layout_marginLeft="1dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/expressPersonSpinner"
-                    android:background="#00bfff"
-                    android:layout_weight="1"
-                    >
-
+            <Spinner
+                android:id="@+id/expressPersonSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00bfff">
                 </Spinner>
 
-                <Spinner
-                    android:layout_marginLeft="1dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/typeSpinner"
-                    android:background="#00bfff"
-                    android:layout_weight="1"
-                    >
-
-                </Spinner>
+            <Spinner
+                android:id="@+id/typeSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00bfff"
+                ></Spinner>
 
                 <EditText
-                    android:drawableRight="@drawable/date"
-                    android:layout_marginLeft="1dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/searchTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:background="#00bfff"
                     android:clickable="true"
+                    android:drawableRight="@drawable/date1"
                     android:focusable="false"
                     android:textColor="#ffffff"
-                    android:textSize="20sp"
-                    android:lines="1"
-                    android:text="          "
-                    android:layout_weight="1"
-                    >
+                    android:textSize="20sp">
 
                 </EditText>
 
                 <ImageView
                     android:id="@+id/search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
                     android:clickable="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/search"/>
-            </TableRow>
+                    android:background="#00bfff"
+                    android:src="@drawable/search1" />
 
-        </TableLayout>
+        </Tool.customerWidget.PercentLinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="#787878"
-            android:layout_margin="1dp"
             >
             <TextView
                 android:layout_width="50dp"

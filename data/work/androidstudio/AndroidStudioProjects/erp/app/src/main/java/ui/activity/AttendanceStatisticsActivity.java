@@ -264,7 +264,7 @@ public class AttendanceStatisticsActivity extends BaseActivity{
         data_list = new ArrayList<>();
         data_list.add(0,"全部");
         for (int i=0;i<Statics.searchName.size();i++){
-            data_list .add(Statics.searchName.get(i));
+            data_list .add(Statics.searchName.get(i).getNick_name());
             Log.d("AttendanceStatisticsAct", "全部姓名：" + Statics.searchName.get(i).toString());
         }
         for (int i=0;i<Statics.searchNameId.size();i++){
@@ -285,7 +285,7 @@ public class AttendanceStatisticsActivity extends BaseActivity{
                 if(position == 0){
                     nameSpinnerString = "全部";
                 }else{
-                    nameSpinnerString = Statics.searchNameId.get(--position);
+                    nameSpinnerString = Statics.searchName.get(--position).getUser_id();
                     Log.d("AttendanceStatisticsAct", "选中姓名：" + nameSpinnerString);
                     for (int i=0;i<Statics.searchNameId.size();i++){
                         Log.d("AttendanceStatisticsAct",Statics.searchNameId.get(i));
@@ -428,7 +428,7 @@ public class AttendanceStatisticsActivity extends BaseActivity{
                 data_list = new ArrayList<>();
                 data_list.add(0,"全部");
                 for (int i=0;i<Statics.searchName.size();i++){
-                    data_list .add(Statics.searchName.get(i));
+                    data_list .add(Statics.searchName.get(i).getNick_name());
                 }
                 arr_adapterName.notifyDataSetChanged();
                 break;

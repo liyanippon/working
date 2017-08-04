@@ -8,7 +8,6 @@
         android:layout_height="wrap_content"
         android:background="#00bfff"
         android:textColor="#ffffff"
-        android:lines="1"
         android:textSize="20sp"
         android:layout_gravity="center"
          />

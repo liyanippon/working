@@ -4,30 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.example.admin.erp.R;
-import net.tsz.afinal.FinalBitmap;
+
 import java.util.Properties;
-import Tool.crash.ActivityCollector;
+
 import Tool.crash.BaseActivity;
 import Tool.crash.CrashHandler;
 import Tool.crash.LogcatHelper;
@@ -38,11 +31,11 @@ import http.ExpressBillingManagementHttpPost;
 import portface.LazyLoadFace;
 import ui.activity.menu.MenuFragmentMainActivity;
 public class MainActivity extends BaseActivity {
-    private EditText userName;
-    private EditText userPassword;
+    public static EditText userName;
+    public static EditText userPassword;
     private ExpressBillingManagementHttpPost httpPost;
     public static Button login;
-    private Button reset;
+    public static Button reset;
     private Properties properties;
     public static Intent in;
     public static Activity activity;
@@ -61,13 +54,13 @@ public class MainActivity extends BaseActivity {
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
 
+        Log.d("MainActivity", "jka");
         /*new Runnable() {
             @Override
             public void run() {
                 background.setBackgroundResource(R.drawable.loginbackground);
             }
         }.run();*/
-        Log.d("MainActivity", "aaaa");
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         sp = this.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
         background = (RelativeLayout) findViewById(R.id.activity_main2);
@@ -167,6 +160,7 @@ public class MainActivity extends BaseActivity {
             Statics.GetWXExpenseAccountReasonUrl = IFengUrl + "/getWXExpenseAccountReason.ajax";//转账业务类型
             Statics.GetWXNewAddUrl = IFengUrl + "/getWXNewAdd.ajax";//转账提交单
             Statics.FinancialBillingGetWXSelectCustomerDetails = IFengUrl + "/getWXSelectCustomerDetails.ajax";//账目统计详细查询（客户）
+            Statics.AttendanceGetWXAttendanceNameUrl = IFengUrl + "/getWXAttendanceName.ajax";//员工姓名
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,6 +171,8 @@ public class MainActivity extends BaseActivity {
 
         switch (v.getId()) {
             case R.id.login:
+                userName.setEnabled(false);
+                userPassword.setEnabled(false);
                 imm.hideSoftInputFromWindow(userName.getWindowToken(), 0); //强制隐藏键盘
                 imm.hideSoftInputFromWindow(userPassword.getWindowToken(), 0); //强制隐藏键盘
                 check();
@@ -184,6 +180,8 @@ public class MainActivity extends BaseActivity {
             case R.id.reset:
                 userName.setText("");
                 userPassword.setText("");
+                imm.showSoftInput(userName,InputMethodManager.SHOW_FORCED);
+                imm.showSoftInput(userPassword,InputMethodManager.SHOW_FORCED);
                 break;
         }
     }
@@ -216,6 +214,7 @@ public class MainActivity extends BaseActivity {
         loginProgressBar.setVisibility(View.VISIBLE);
         login.setBackgroundColor(Color.rgb(0x66,0x66,0x66));
         login.setClickable(false);
+        reset.setClickable(false);
         String urlString = Statics.LoginUrl;
         httpPost = new ExpressBillingManagementHttpPost(getApplicationContext());
         httpPost.LoginHttp(urlString, userNameString, password, MainActivity.this);

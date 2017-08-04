@@ -15,20 +15,20 @@
         >
         <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:orientation="horizontal"
         >
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:textSize="16sp"
-                    android:layout_gravity="center"
-                    android:text="@string/year"
+                    android:gravity="center"
+                    android:text="年份"
                     />
                 <Spinner
                     android:layout_marginLeft="1dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/yearSpinner"
                     android:background="@drawable/shape_editor"
                     android:layout_weight="1"
@@ -36,15 +36,15 @@
                 </Spinner>
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/type"
-                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:textSize="16sp"
                     />
                 <Spinner
                     android:layout_marginLeft="2dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/typeSpinner"
                     android:background="@drawable/shape_editor"
                     android:layout_weight="1"
@@ -53,7 +53,7 @@
                 <ImageView
                     android:id="@+id/search"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:clickable="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/search"/>
@@ -75,11 +75,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:background="#ffffff"
                 >
                 <TableRow>
                     <TextView
-                        android:background="#ffffff"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"

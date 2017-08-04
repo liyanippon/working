@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -58,7 +59,7 @@ public class ExpressManagement {
             private String id;
             private String paymentMethod;
             private String reason;
-            private int sum;
+            private BigDecimal sum;
             private String type;
             private String updateBy;
             private UpdateTimeBean updateTime;
@@ -143,11 +144,11 @@ public class ExpressManagement {
                 this.reason = reason;
             }
 
-            public int getSum() {
+            public BigDecimal getSum() {
                 return sum;
             }
 
-            public void setSum(int sum) {
+            public void setSum(BigDecimal sum) {
                 this.sum = sum;
             }
 

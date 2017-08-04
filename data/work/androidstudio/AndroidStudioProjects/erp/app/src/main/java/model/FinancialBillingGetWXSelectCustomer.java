@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 /**
  * Created by admin on 2017/7/17.
  */
@@ -16,27 +18,27 @@ public class FinancialBillingGetWXSelectCustomer {
      * mon : 6
      */
 
-    private double jz1;
-    private double ce;
+    private BigDecimal jz1;
+    private BigDecimal ce;
     private String fy_name;
     private String id;
-    private double cz1;
+    private BigDecimal cz1;
     private int ye;
     private String mon;
 
-    public double getJz1() {
+    public BigDecimal getJz1() {
         return jz1;
     }
 
-    public void setJz1(double jz1) {
+    public void setJz1(BigDecimal jz1) {
         this.jz1 = jz1;
     }
 
-    public double getCe() {
+    public BigDecimal getCe() {
         return ce;
     }
 
-    public void setCe(double ce) {
+    public void setCe(BigDecimal ce) {
         this.ce = ce;
     }
 
@@ -56,11 +58,11 @@ public class FinancialBillingGetWXSelectCustomer {
         this.id = id;
     }
 
-    public double getCz1() {
+    public BigDecimal getCz1() {
         return cz1;
     }
 
-    public void setCz1(double cz1) {
+    public void setCz1(BigDecimal cz1) {
         this.cz1 = cz1;
     }
 

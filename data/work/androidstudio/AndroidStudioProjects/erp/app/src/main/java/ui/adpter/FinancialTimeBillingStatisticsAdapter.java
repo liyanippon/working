@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.admin.erp.R;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import model.FinancialBillingGetWXsettlementMonth;
@@ -71,14 +72,14 @@ public class FinancialTimeBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.year.setTextSize(13);
         viewHolder.month.setText(Integer.toString(list.get(position).getMon()));
         viewHolder.month.setTextSize(13);
-        viewHolder.income.setText(Double.toString(list.get(position).getJz1()));
+        viewHolder.income.setText(list.get(position).getJz1().toString());
         viewHolder.income.setTextSize(13);
-        viewHolder.outcome.setText("- "+list.get(position).getCz1() + "");
+        viewHolder.outcome.setText("- "+list.get(position).getCz1().toString());
         viewHolder.outcome.setTextSize(13);
         viewHolder.outcome.setTextColor(Color.RED);
-        viewHolder.imbalance.setText(list.get(position).getCe() + "");
+        viewHolder.imbalance.setText(list.get(position).getCe().toString());
         viewHolder.imbalance.setTextSize(13);
-        if(list.get(position).getCe()<0){
+        if(list.get(position).getCe().compareTo(BigDecimal.ZERO)<0){
             viewHolder.imbalance.setTextColor(Color.RED);
         }else{
             viewHolder.imbalance.setTextColor(Color.BLACK);

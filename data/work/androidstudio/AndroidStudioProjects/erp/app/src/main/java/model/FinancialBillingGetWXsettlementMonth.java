@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 /**
  * Created by admin on 2017/5/24.
  * 时间查询
@@ -15,33 +17,33 @@ public class FinancialBillingGetWXsettlementMonth {
      * mon : 5
      */
 
-    private double jz1;
-    private double ce;
-    private double cz1;
+    private BigDecimal jz1;
+    private BigDecimal ce;
+    private BigDecimal cz1;
     private int ye;
     private int mon;
 
-    public double getJz1() {
+    public BigDecimal getJz1() {
         return jz1;
     }
 
-    public void setJz1(double jz1) {
+    public void setJz1(BigDecimal jz1) {
         this.jz1 = jz1;
     }
 
-    public double getCe() {
+    public BigDecimal getCe() {
         return ce;
     }
 
-    public void setCe(double ce) {
+    public void setCe(BigDecimal ce) {
         this.ce = ce;
     }
 
-    public double getCz1() {
+    public BigDecimal getCz1() {
         return cz1;
     }
 
-    public void setCz1(double cz1) {
+    public void setCz1(BigDecimal cz1) {
         this.cz1 = cz1;
     }
 

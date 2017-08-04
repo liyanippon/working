@@ -77,8 +77,8 @@ public class InoutComeZhuFragment extends Fragment {
             //统计最大y值
             input = new ArrayList<>();
             for(FinancialBillingGetWXsettlementMonth fbg:Statics.fbgwxSettlementMonthList){
-                input.add(fbg.getJz1());//进账
-                input.add(fbg.getCz1());//出账
+                input.add(fbg.getJz1().doubleValue());//进账
+                input.add(fbg.getCz1().doubleValue());//出账
                 Log.d("InoutComeZhuFragment", "进账" + fbg.getJz1());
                 Log.d("InoutComeZhuFragment", "出账" + fbg.getCz1());
             }
@@ -135,8 +135,8 @@ public class InoutComeZhuFragment extends Fragment {
                     for (int j = 0;j<mon.length;j++){
                         Log.d("test","mon:"+Integer.toString(i)+"k"+Integer.toString(mon[j]));
                         if(i == mon[j]){
-                            income[i-1] = Statics.fbgwxSettlementMonthList.get(j).getJz1();//进账
-                            outcome[i-1] = Statics.fbgwxSettlementMonthList.get(j).getCz1();//出账
+                            income[i-1] = Statics.fbgwxSettlementMonthList.get(j).getJz1().doubleValue();//进账
+                            outcome[i-1] = Statics.fbgwxSettlementMonthList.get(j).getCz1().doubleValue();//出账
                         }
                     }
 

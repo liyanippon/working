@@ -72,7 +72,7 @@ public class LogisticsReportActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("物流报表");
+        setTitle("统计报表");
         setContentView(R.layout.activity_logistics_report);
 
         //添加返回按钮

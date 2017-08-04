@@ -64,7 +64,7 @@ public class XiangxiExpressPersonStatisticsAdapter extends BaseAdapter {
             viewHolder.name = (TextView) convertView.findViewById(R.id.name);
             viewHolder.time = (TextView) convertView.findViewById(R.id.date);
             viewHolder.numeric = (TextView) convertView.findViewById(R.id.number);
-            viewHolder.remark = (TextView) convertView.findViewById(R.id.remark);
+            //viewHolder.remark = (TextView) convertView.findViewById(R.id.remark);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (XiangxiExpressPersonStatisticsAdapter.ViewHolder) convertView.getTag();
@@ -79,8 +79,8 @@ public class XiangxiExpressPersonStatisticsAdapter extends BaseAdapter {
         viewHolder.time.setTextSize(13);
         viewHolder.numeric.setText(epsx.getNumeric());
         viewHolder.numeric.setTextSize(13);
-        viewHolder.remark.setText(epsx.getDescription());
-        viewHolder.remark.setTextSize(13);
+        //viewHolder.remark.setText(epsx.getDescription());
+        //viewHolder.remark.setTextSize(13);
         return convertView;
     }
 

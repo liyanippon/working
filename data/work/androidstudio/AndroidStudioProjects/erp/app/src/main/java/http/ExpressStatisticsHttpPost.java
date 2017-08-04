@@ -211,13 +211,10 @@ public class ExpressStatisticsHttpPost {
                         Statics.Xday[i]=jsonArray.get(i).toString();
                         Log.v("test6","day:"+Statics.Xday[i]);
                     }
-
                     //sendMyBroadcast(TYPE.NORMAL,"monthDay");
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 resultString = "success";
             }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.admin.erp.R;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import model.CustomerBillingStatistics;
@@ -76,14 +77,14 @@ public class FinancialCustomerBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.month.setTextSize(13);
         viewHolder.customer.setText(customerBillingStatistics.getFy_name());
         viewHolder.customer.setTextSize(13);
-        viewHolder.income.setText(Double.toString(customerBillingStatistics.getJz1()));
+        viewHolder.income.setText(customerBillingStatistics.getJz1().toString());
         viewHolder.income.setTextSize(13);
-        viewHolder.outcome.setText("- "+customerBillingStatistics.getCz1() + "");
+        viewHolder.outcome.setText("- "+customerBillingStatistics.getCz1().toString());
         viewHolder.outcome.setTextColor(Color.RED);
         viewHolder.outcome.setTextSize(13);
-        viewHolder.imbalance.setText(customerBillingStatistics.getCe() + "");
+        viewHolder.imbalance.setText(customerBillingStatistics.getCe().toString());
         viewHolder.imbalance.setTextSize(13);
-        if(customerBillingStatistics.getCe()<0){
+        if(customerBillingStatistics.getCe().compareTo(BigDecimal.ZERO)<0){
             viewHolder.imbalance.setTextColor(Color.RED);
         }else{
             viewHolder.imbalance.setTextColor(Color.BLACK);

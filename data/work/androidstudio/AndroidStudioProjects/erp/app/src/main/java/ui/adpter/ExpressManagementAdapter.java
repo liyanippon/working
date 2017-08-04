@@ -145,12 +145,12 @@ public class ExpressManagementAdapter extends BaseAdapter {
                         //...To-do
                         ExpressBillingManagementActivity.deleteSuccess = true;
                         ExpressManagement.DataBean.RowsBean edrb=Statics.expressManagementList.get(0).getData().get(0).getRows().get(item);
-                        String sum = edrb.getSum()+"";
+                        String sum = edrb.getSum().toString();
                         String classify = edrb.getClassify();
                         String paymentMethod = edrb.getPaymentMethod();
                         Log.d("ExpressManagementAdapte", "jin" + sum + "*" + classify + "*" + paymentMethod);
                         if (!"进账".equals(edrb.getClassify())){
-                             sum = Math.abs(edrb.getSum())+"";
+                             sum = edrb.getSum().abs().toString();
                              classify = edrb.getClassify().split("<b>")[1].split("</b>")[0];
                              paymentMethod = edrb.getPaymentMethod().split("<b>")[1].split("</b>")[0];
                             Log.d("ExpressManagementAdapte", "chuzhag"+sum+";"+classify+";"+paymentMethod);

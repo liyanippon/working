@@ -20,7 +20,6 @@ public class LogcatHelper {
     private static String PATH_LOGCAT;
     private LogDumper mLogDumper = null;
     private int mPId;
-
     /**
      *
      * 初始化目录
@@ -43,21 +42,17 @@ public class LogcatHelper {
             Log.d("LogcatHelper", "文件不存在");
             file.mkdirs();
         }
-
     }
-
     public static LogcatHelper getInstance(Context context) {
         if (INSTANCE == null) {
             INSTANCE = new LogcatHelper(context);
         }
         return INSTANCE;
     }
-
     private LogcatHelper(Context context) {
         init(context);
         mPId = android.os.Process.myPid();
     }
-
     public void start() {
         if (mLogDumper == null)
             mLogDumper = new LogDumper(String.valueOf(mPId), PATH_LOGCAT);
@@ -67,37 +62,30 @@ public class LogcatHelper {
             stop();
         }
     }
-
     public void stop() {
         if (mLogDumper != null) {
             mLogDumper.stopLogs();
             mLogDumper = null;
         }
     }
-
     private class LogDumper extends Thread {
-
         private Process logcatProc;
         private BufferedReader mReader = null;
         private boolean mRunning = true;
         String cmds = null;
         private String mPID;
         private FileOutputStream out = null;
-
         public LogDumper(String pid, String dir) {
             mPID = pid;
             try {
-
                 out = new FileOutputStream(new File(dir, "erp-" 
                         + MyDate.getFileName() + ".log"));
-
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 Log.d("LogDumper", "文件不存在");
                 out = null;
             }
-
             /**
              *
              * 日志等级：*:v , *:d , *:w , *:e , *:f , *:s
@@ -110,13 +98,10 @@ public class LogcatHelper {
             // cmds = "logcat  | grep \"(" + mPID + ")\"";//打印所有日志信息
             // cmds = "logcat -s way";//打印标签过滤信息
             cmds = "logcat  | grep \"(" + mPID + ")\"";//打印所有日志信息
-
         }
-
         public void stopLogs() {
             mRunning = false;
         }
-
         @Override
         public void run() {
             try {
@@ -136,7 +121,6 @@ public class LogcatHelper {
                                 .getBytes());
                     }
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -160,10 +144,7 @@ public class LogcatHelper {
                     }
                     out = null;
                 }
-
             }
-
         }
-
     }
 }

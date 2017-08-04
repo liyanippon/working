@@ -140,7 +140,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 classify.setText(edrb.getClassify());
                 reason.setText(edrb.getReason());
                 payMethod.setText(edrb.getPaymentMethod());
-                price.setText(edrb.getSum()+"");
+                price.setText(edrb.getSum().toString());
                 guest.setText(edrb.getCustomerId());
                 remark.setText(edrb.getDescription());
                 createuser.setText(edrb.getCreateBy());

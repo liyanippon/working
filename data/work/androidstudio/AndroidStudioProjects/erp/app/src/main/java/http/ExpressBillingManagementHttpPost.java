@@ -3,6 +3,7 @@ package http;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -51,17 +52,15 @@ public class ExpressBillingManagementHttpPost {
         Log.d("uml", httpUrl);
         finalHttp = new FinalHttp();
         finalHttp.configRequestExecutionRetryCount(7);// 请求错误重试次数
-        finalHttp.configTimeout(20000);// 超时时间
+        finalHttp.configTimeout(5000);// 超时时间
         params = new AjaxParams();
         params.put("httpUrl", httpUrl);
         params.put("userName", username);
         params.put("password", password);
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
-
                 String result = (String) o;//从从网络端返回数据
                 Log.v("tests", result);
                 try {
@@ -73,7 +72,10 @@ public class ExpressBillingManagementHttpPost {
                             message = jsonObject.getString("message");
                             Statics.results = message;
                             Log.v("test", "message");
+                            MainActivity.reset.setClickable(true);
                             MainActivity.login.setClickable(true);
+                            MainActivity.userName.setEnabled(true);
+                            MainActivity.userPassword.setEnabled(true);
                             MainActivity.loginProgressBar.setVisibility(View.GONE);
                             MainActivity.login.setBackgroundColor(Color.rgb(0x05,0x6d,0xaa));
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -88,37 +90,33 @@ public class ExpressBillingManagementHttpPost {
                             Log.d("uml", sessionid);
                             break;
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
-
+                MainActivity.reset.setClickable(true);
+                MainActivity.userName.setEnabled(true);
+                MainActivity.userPassword.setEnabled(true);
                 MainActivity.login.setClickable(true);
                 MainActivity.login.setBackgroundColor(Color.rgb(0x05,0x6d,0xaa));
                 Toast.makeText(context, "网络有问题，请检查连接", Toast.LENGTH_LONG).show();
                 MainActivity.loginProgressBar.setVisibility(View.GONE);
             }
-
             @Override
             public void onLoading(long count, long current) {
                 super.onLoading(count, current);
-
                 MainActivity.loginProgressBar.setProgress((int)current);
                 Log.d("ExpressBillingManagemen", "总进度::" + count +"当前：："+ current);
-
             }
         });
         return "success";
     }
 
     public String UmlHttp(String httpUrl, final String sessionid, String username) {//登录验证
-
         Log.d("uml", httpUrl+"sss");
         finalHttp = new FinalHttp();
         finalHttp.configRequestExecutionRetryCount(7);// 请求错误重试次数
@@ -129,7 +127,6 @@ public class ExpressBillingManagementHttpPost {
         Log.d("uml", "username:" + username);
         params.put("user_id", username);
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
@@ -142,28 +139,22 @@ public class ExpressBillingManagementHttpPost {
                 Collections.addAll(Statics.userUmpsStatisticsList, as);//转化arrayList
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL, context, "login");//发送广播
             }
-
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
-
                 resultString = strMsg;
                 Log.d("test", "sssss:" + strMsg);
                 Statics.results = "没有网络";
                 ExceptionUtil.httpPost("AccountManagementHttpPost");
             }
-
         });
         return "success";
     }
 
-
     public void AdapterRefresh(LazyLoadFace lazyLoadFace) {
-
         lazyLoad = lazyLoadFace;
         Log.d("test", Boolean.toString(lazyLoad == null));
     }
-
     public String searchHttp(String httpUrl, String typeSpinnerString, String classifySpinnerString, String reasonSpinnerString,Activity activity, int page) {//账目查询
         Log.d("search", typeSpinnerString + "@" + classifySpinnerString + "@" + reasonSpinnerString);
         Log.d("lll","请求次数");
@@ -192,7 +183,6 @@ public class ExpressBillingManagementHttpPost {
         params.put("rows", rows);
         Log.d("test", "httpUrl" + httpUrl);
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
@@ -214,7 +204,6 @@ public class ExpressBillingManagementHttpPost {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 Statics.expressManagementList.clear();
                 ExpressManagement[] fc = new Gson().fromJson(results, ExpressManagement[].class);
                 Collections.addAll(Statics.expressManagementList,fc);//转化arrayList
@@ -327,13 +316,11 @@ public class ExpressBillingManagementHttpPost {
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
-
                 String result = (String) o;//从从网络端返回数据
                 Log.d("jijijij", result);
                 resultString = "success";
                 JsonResolve.jsonCustomerAllSearch(result);//json解析
             }
-
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
@@ -371,7 +358,6 @@ public class ExpressBillingManagementHttpPost {
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
-
                 resultString = "error";
                 ExceptionUtil.httpPost("AccountManagementHttpPost");
             }

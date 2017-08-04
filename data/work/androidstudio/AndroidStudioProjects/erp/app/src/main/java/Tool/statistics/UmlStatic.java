@@ -68,7 +68,7 @@ public class UmlStatic {
                 icon.add(R.drawable.wuliubaobiao);
                 iconName.add("物流管理");
                 iconName.add("物流统计");
-                iconName.add("物流报表");
+                iconName.add("统计报表");
                 map.put("icon",icon);
                 map.put("iconName",iconName);
                 break;
@@ -80,7 +80,7 @@ public class UmlStatic {
                 icon.add(R.drawable.yewuyuanfenxi);
                 iconName.add("物流管理");
                 iconName.add("物流统计");
-                iconName.add("物流报表");
+                iconName.add("统计报表");
                 iconName.add("业务揽件");
                 iconName.add("业务统计");
                 map.put("icon",icon);

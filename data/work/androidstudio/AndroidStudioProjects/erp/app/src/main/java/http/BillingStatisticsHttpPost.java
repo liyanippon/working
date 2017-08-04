@@ -20,7 +20,7 @@ public class BillingStatisticsHttpPost {
     public static AjaxParams params = new AjaxParams();
     public static String resultString = "error";
     public String searchTimeHttp(String httpUrl, String year, String type , String classify ,String reason , final Activity activity, final String activityType) {//月份统计查询
-        Log.d("BillingStatisticsHttpPo", "上传参数：" + type + "&" + classify + "&" + reason);
+        Log.d("BillingStatisticsHttpPo", "上传参数：" + year + "&" + type + "&" + classify + "&" + reason);
         if("全部".equals(year)){
             year = "2017";
         }

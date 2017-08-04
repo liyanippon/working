@@ -40,9 +40,9 @@
         android:id="@+id/name"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:text="快递员姓名"
-        android:lines="5"
+        android:lines="4"
         android:textColor="#000000"
         android:textSize="15sp" />
 
@@ -55,7 +55,7 @@
         android:id="@+id/date"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:textColor="#000000"
         android:textSize="15sp"
         android:gravity="center"
@@ -76,7 +76,7 @@
         android:textColor="#000000"
         android:textSize="15sp" />
 
-    <View
+   <!-- <View
         android:layout_width="1.5dip"
         android:layout_height="fill_parent"
         android:background="#B4B3B3"/>
@@ -88,5 +88,5 @@
         android:textColor="#000000"
         android:textSize="15sp"
         android:gravity="center"
-        android:text="@string/remark_information" />
+        android:text="@string/remark_information" />-->
 </LinearLayout>

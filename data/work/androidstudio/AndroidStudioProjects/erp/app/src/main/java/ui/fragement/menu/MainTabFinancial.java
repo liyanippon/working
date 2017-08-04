@@ -33,10 +33,8 @@ public class MainTabFinancial extends Fragment {
     //动态菜单
     private ArrayList<Object> icon;
     private ArrayList<Object> iconName;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         newsLayout = inflater.inflate(R.layout.main_tab_financial, container, false);
         spinnerData();
         init();
@@ -50,7 +48,7 @@ public class MainTabFinancial extends Fragment {
             @Override
             public void run() {
                 HttpBasePost.postHttp(Statics.FinancialBillingGetWXAccountsTypeUrl,null, HttpTypeConstants.FinancialBillingGetWXAccountsTypeUrlType);//账目下拉框
-                HttpBasePost.postHttp(Statics.FinancialAccountCustomerUrl,null, HttpTypeConstants.FinancialAccountCustomerUrlType);//账目下拉框
+                HttpBasePost.postHttp(Statics.FinancialAccountCustomerUrl,null, HttpTypeConstants.FinancialAccountCustomerUrlType);
                 HttpBasePost.postHttp(Statics.AccountClassifyUrl,null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
             }
         }.run();
@@ -68,14 +66,11 @@ public class MainTabFinancial extends Fragment {
         //配置适配器
         gridView.setAdapter(sim_adapter);
     }
-
     public List<Map<String, Object>> getData() {
         //cion和iconName的长度是相同的，这里任选其一都可以
-
         //设定菜单显示(菜单控制)
         icon = new ArrayList<>();
         iconName = new ArrayList<>();
-
         Map<String, ArrayList<Object>> mapUML = UmlStatic.menuFinancialController(icon, iconName);//调用财务管理菜单
         //去除重复元素
         ArrayList<Object> reIcon = mapUML.get("icon");
@@ -89,10 +84,8 @@ public class MainTabFinancial extends Fragment {
             map.put("text", reIconName.get(i));
             data_list.add(map);
         }
-
         return data_list;
     }
-
     AdapterView.OnItemClickListener g = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,5 +101,4 @@ public class MainTabFinancial extends Fragment {
             }
         }
     };
-
 }

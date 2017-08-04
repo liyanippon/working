@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 /**
  * Created by admin on 2017/5/24.
  */
@@ -26,7 +28,7 @@ public class FinancialBillingGetWXSelectMonthAccount {
     private String bill_classification;
     private String nick_name;
     private String bill_type;
-    private String sum;
+    private BigDecimal sum;
     private String bill_classify;
     private String id;
     private String bill_customer_id;
@@ -73,11 +75,11 @@ public class FinancialBillingGetWXSelectMonthAccount {
         this.bill_type = bill_type;
     }
 
-    public String getSum() {
+    public BigDecimal getSum() {
         return sum;
     }
 
-    public void setSum(String sum) {
+    public void setSum(BigDecimal sum) {
         this.sum = sum;
     }
 

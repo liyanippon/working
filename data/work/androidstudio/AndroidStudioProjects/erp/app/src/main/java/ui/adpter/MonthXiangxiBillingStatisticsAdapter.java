@@ -82,7 +82,7 @@ public class MonthXiangxiBillingStatisticsAdapter extends BaseAdapter {
         viewHolder.createTime.setText(time);
         viewHolder.createTime.setTextSize(13);
         String bill_classify = list.get(position).getClassifyname();
-        String sumString = list.get(position).getSum();
+        String sumString = list.get(position).getSum().toString();
         String accountString = list.get(position).getId();
         String customerNameString = list.get(position).getNick_name();
         String remarkString = list.get(position).getBill_classification();

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -77,17 +78,18 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
         init();
         //空查询
         page = 1;//显示页数
-        Log.d("ExpressNumberManagerAct", "test");
+        Log.d("ExpressNumberManagerAct", "ddd");
         calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         currentMon = calendar.get(Calendar.MONTH) + 1;
         currentDate = calendar.get(Calendar.DAY_OF_MONTH);
-        searchTime.setText("          ");
+        //searchTime.setText("          ");
         searchTime.setOnClickListener(this);
         searchTime.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                searchTime.setText("          ");
+                searchTime.setCursorVisible(false);
+                searchTime.setText("");
                 billingTimeString = "全部";
                 return true;
             }
@@ -120,12 +122,12 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
                 TextView type = (TextView) layout.findViewById(R.id.type);//快递类型
                 TextView count = (TextView) layout.findViewById(R.id.count);//数量
                 TextView billingTime = (TextView) layout.findViewById(R.id.billing_time);//账单时间
-                TextView remark = (TextView) layout.findViewById(R.id.remark);
+                //TextView remark = (TextView) layout.findViewById(R.id.remark);
                 expressMan.setText(Statics.enmList.get(position-1).getExpressName());
                 type.setText(Statics.enmList.get(position - 1).getType());
                 count.setText(Statics.enmList.get(position - 1).getExpressCount());
                 billingTime.setText(Statics.enmList.get(position - 1).getBillingTime());
-                remark.setText(Statics.enmList.get(position - 1).getRemark());
+                //remark.setText(Statics.enmList.get(position - 1).getRemark());
                 //创建人就是用户名
                 builder.setView(layout);
                 dlg = builder.create();

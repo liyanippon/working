@@ -82,13 +82,13 @@ public class XiangxiBillingStatisticsAdapter extends BaseAdapter {
         dateTime = "20"+dateTime;
         viewHolder.date.setText(dateTime);
         viewHolder.date.setTextSize(13);
-        viewHolder.price.setText(this.list.get(0).getData().get(position).getSum()+"");
+        viewHolder.price.setText(this.list.get(0).getData().get(position).getSum().toString());
         viewHolder.price.setTextSize(13);
         viewHolder.remark.setText(this.list.get(0).getData().get(position).getDescription());
         viewHolder.remark.setTextSize(13);
 
         if(this.list.get(0).getData().get(position).getClassifyname().equals("出账")){
-            viewHolder.price.setText("- " + this.list.get(0).getData().get(position).getSum());
+            viewHolder.price.setText("- " + this.list.get(0).getData().get(position).getSum().toString());
             viewHolder.classifyname.setTextColor(Color.RED);
             viewHolder.resonname.setTextColor(Color.RED);
             viewHolder.paymethod.setTextColor(Color.RED);

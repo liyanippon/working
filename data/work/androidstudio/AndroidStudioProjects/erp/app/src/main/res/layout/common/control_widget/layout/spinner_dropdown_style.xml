@@ -8,7 +8,6 @@
         android:layout_height="wrap_content"
         android:background="#ffffff"
         android:textColor="#808080"
-        android:lines="1"
         android:textSize="20sp"
         />
 </LinearLayout>

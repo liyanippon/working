@@ -81,8 +81,8 @@ public class InoutComeZheFragement extends Fragment {
         if(this.catlog!=null&&this.catlog.equals("财务统计分析")){
             input = new ArrayList<>();
             for (FinancialBillingGetWXsettlementMonth fgbgm:Statics.fbgwxSettlementMonthList){
-                input.add(fgbgm.getJz1());
-                input.add(fgbgm.getCz1());
+                input.add(fgbgm.getJz1().doubleValue());
+                input.add(fgbgm.getCz1().doubleValue());
             }
             description = "财务账目折线统计图";
         }else{
@@ -141,8 +141,8 @@ public class InoutComeZheFragement extends Fragment {
             for (int i =0;i<=12;i++ ){
                     for (int j = 0;j<mon.length;j++){
                         if(i == mon[j]){
-                            outcome[i-1] = Statics.fbgwxSettlementMonthList.get(j).getJz1();//进账 为了图形显示正确，数组名字
-                            income[i-1] = Statics.fbgwxSettlementMonthList.get(j).getCz1();//出账
+                            outcome[i-1] = Statics.fbgwxSettlementMonthList.get(j).getJz1().doubleValue();//进账 为了图形显示正确，数组名字
+                            income[i-1] = Statics.fbgwxSettlementMonthList.get(j).getCz1().doubleValue();//出账
                         }
                     }
             }

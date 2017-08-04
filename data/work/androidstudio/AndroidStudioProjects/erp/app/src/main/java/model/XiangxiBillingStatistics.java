@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -65,7 +66,7 @@ public class XiangxiBillingStatistics {
         private String resonname;
         private CreateTimeBean create_time;
         private String description;
-        private int sum;
+        private BigDecimal sum;
         private String type;
         private String classifyname;
         private String create_by;
@@ -114,11 +115,11 @@ public class XiangxiBillingStatistics {
             this.description = description;
         }
 
-        public int getSum() {
+        public BigDecimal getSum() {
             return sum;
         }
 
-        public void setSum(int sum) {
+        public void setSum(BigDecimal sum) {
             this.sum = sum;
         }
 

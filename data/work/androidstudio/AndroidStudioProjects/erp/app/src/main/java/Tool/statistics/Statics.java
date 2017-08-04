@@ -28,6 +28,7 @@ import model.FinancialBillingGetWXsettlementMonth;
 import model.FinancialCustomer;
 import model.FinancialManagement;
 import model.LogisticsReportSearch;
+import model.StaffName;
 import model.TimeBillingStatistics;
 import model.TimeExpressStatistics;
 import model.TransferAccountClassify;
@@ -105,10 +106,11 @@ public class Statics {
     public static Boolean isBroadCast = false;
     /**考勤管理**/
     public static String AttendanceStatisticsSearchUrl = "http://192.168.1.55:8083/getWxAllAttendanceMonthSum.ajax";//考勤查询url
+    public static String AttendanceGetWXAttendanceNameUrl = "http://192.168.1.59:8083/getWXAttendanceName.ajax";//员工姓名
     public static String searchYearUrl = "http://192.168.1.55:8083/getWxAllYears.ajax";//年查询url
     public static ArrayList<AttendanceStatistics> attendanceStatisticsList = new ArrayList<>();//考勤表格数据
     public static ArrayList<String> searchNameId = new ArrayList<>(); //员工id
-    public static ArrayList<String> searchName = new ArrayList<>(); //员工姓名
+    public static ArrayList<StaffName> searchName = new ArrayList<>(); //员工姓名
     public static ArrayList<AttendanceYear> searchYear = new ArrayList<>();//年查询
     public static Boolean personCount = false;//是否按人员统计
     public static String[] xPerson;//统计表中纵轴数据

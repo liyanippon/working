@@ -321,6 +321,15 @@ public class JsonResolve {
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            //没有数据时处理
+            Statics.timeBillingStatisticsList.clear();
+            if(activityType.equals("LogisticsReportActivity")){
+                Log.d("JsonResolve", "LogisticsReportActivity");
+                LogisticsReportActivity.AdapterRefresh("timeAdapter");
+            }else{
+                BillingStatisticsActivity.AdapterRefresh("timeAdapter");
+                Log.d("JsonResolve", "BillingStatisticsActivity");
+            }
         }
     }
 
@@ -456,58 +465,6 @@ public class JsonResolve {
 
     public static void jsonSearchXiangxi(String json, Activity activity) {
         Log.d("JsonResolve", "详细" + json);
-        /*try {
-            //解析前先清空
-            JSONArray jsonArray = new JSONArray(json);
-            JSONObject jsonObject = jsonArray.getJSONObject(0);
-            JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-
-            Statics.xiangxiBillingStatisticsArrayList.clear();
-
-            for (int i = 0; i < jsonArray1.length(); i++) {
-                JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
-                String price = jsonObject1.getString("sum");
-                String classifyname = jsonObject1.getString("classifyname");//进账
-                String resonname = jsonObject1.getString("resonname");//进账
-                String remark = jsonObject1.getString("description");
-                String type = "";
-                try {
-                    type = jsonObject1.getString("type");
-                }catch (JSONException e){
-                    type = "";
-                }
-                JSONObject jsonObject2 = jsonObject1.getJSONObject("date");
-                String year = jsonObject2.getString("year");
-                String month = jsonObject2.getString("month");
-                String day = jsonObject2.getString("date");
-                String time = jsonObject2.getString("time");
-
-                year=ToolUtils.timeDateFormat(year);
-
-                StringBuffer sb=new StringBuffer();
-                int temp = Integer.parseInt(month);
-                sb.append(year).append("-").append(++temp).append("-").append(day);
-                String typeString = null;
-                switch (type){
-                    case "024001":
-                        typeString = "圆通快递";
-                        break;
-                    case "024002":
-                        typeString = "韵达快递";
-                        break;
-                    default:
-                        typeString = "";
-                        break;
-                }
-                Log.d("hui","year:"+year+",."+year);
-                XiangxiBillingStatistics xiangxiBillingStatistics = new XiangxiBillingStatistics(classifyname, typeString, resonname, sb.toString(), price, remark);
-                Statics.xiangxiBillingStatisticsArrayList.add(xiangxiBillingStatistics);
-                xiangxiBillingStatistics = null;
-            }
-            Log.v("tool", "word:" + Statics.xiangxiBillingStatisticsArrayList.size());
-            //刷新异步刷新
-            Log.v("ToolUtils","yuyu:"+Integer.toString(Statics.xiangxiBillingStatisticsArrayList.size()));
-            //BillingStatisticsActivity billingStatisticsActivity = new BillingStatisticsActivity();*/
             Statics.xiangxiBillingStatisticsArrayList.clear();
             XiangxiBillingStatistics[] as = new Gson().fromJson(json, XiangxiBillingStatistics[].class);
             Collections.addAll(Statics.xiangxiBillingStatisticsArrayList,as);//转化arrayList

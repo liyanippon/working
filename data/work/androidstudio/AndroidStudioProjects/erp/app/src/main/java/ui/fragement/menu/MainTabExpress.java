@@ -146,7 +146,7 @@ public class MainTabExpress extends Fragment implements AdapterView.OnItemClickL
 				in = new Intent(getActivity(), BillingStatisticsActivity.class);
 				startActivity(in);
 				break;
-			case "物流报表":
+			case "统计报表":
 				in = new Intent(getActivity(),LogisticsReportActivity.class);
 				startActivity(in);
 				break;

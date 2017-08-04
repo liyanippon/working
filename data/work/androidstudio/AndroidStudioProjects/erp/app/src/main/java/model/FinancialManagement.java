@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class FinancialManagement {
         private BillCreateTimeBean billCreateTime;
         private String billCustomerId;
         private String billDescription;
-        private float billSum;
+        private BigDecimal billSum;
         private BillTimeBean billTime;
         private String billType;
         private String billUpdateBy;
@@ -97,11 +98,11 @@ public class FinancialManagement {
             this.billDescription = billDescription;
         }
 
-        public float getBillSum() {
+        public BigDecimal getBillSum() {
             return billSum;
         }
 
-        public void setBillSum(int billSum) {
+        public void setBillSum(BigDecimal billSum) {
             this.billSum = billSum;
         }
 

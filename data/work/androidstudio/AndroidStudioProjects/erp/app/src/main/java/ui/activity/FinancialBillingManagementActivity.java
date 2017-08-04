@@ -171,7 +171,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         createTime.setText(billingTimeSb.toString());
         userName.setText(fm.get(position - 1).getBillCreateBy().toString());//创建人就是用户名
         if("出账".equals(fm.get(position - 1).getBillClassify())){
-            price.setText(" - "+fm.get(position - 1).getBillSum());
+            price.setText(" - "+fm.get(position - 1).getBillSum().toString());
             account.setTextColor(Color.RED);
             classify.setTextColor(Color.RED);
             billingTime.setTextColor(Color.RED);
@@ -181,7 +181,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
             userName.setTextColor(Color.RED);
             price.setTextColor(Color.RED);
         }else{
-            price.setText(Float.toString(fm.get(position - 1).getBillSum()));
+            price.setText(fm.get(position - 1).getBillSum().toString());
         }
         //创建人就是用户名
         builder.setView(layout);
@@ -289,9 +289,11 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         //httpPost.accountClassifySearchHttp(Static.AccountClassifyUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (FinancialCustomer.DataBean fc : Statics.financialCustomersList.get(0).getData()) {
-            Log.d("FinancialBillingManagem", "ac.getName:" + fc.getFy_name().toString());
-            data_list.add(fc.getFy_name().toString());
+        if(Statics.financialCustomersList.size()!=0){
+            for (FinancialCustomer.DataBean fc : Statics.financialCustomersList.get(0).getData()) {
+                Log.d("FinancialBillingManagem", "ac.getName:" + fc.getFy_name().toString());
+                data_list.add(fc.getFy_name().toString());
+            }
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);

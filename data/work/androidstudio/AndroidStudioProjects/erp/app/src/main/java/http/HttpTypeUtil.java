@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
 import broadcast.TYPE;
@@ -22,6 +23,7 @@ import model.FinancialBillingGetWXsettlementMonth;
 import model.FinancialCustomer;
 import model.FinancialManagement;
 import model.LogisticsReportSearch;
+import model.StaffName;
 import model.TransferAccountClassify;
 import portface.LazyLoadFace;
 import ui.activity.AttendanceStatisticsActivity;
@@ -89,7 +91,6 @@ public class HttpTypeUtil {
                 //json数据使用Gson框架解析
                 Log.d("HttpTypeUtil", "result:结果100204" + result);
                 Statics.CurrentPayStatistic = result;
-
                 //刷新异步刷新
                 //BillingStatisticsActivity bsActivity = new BillingStatisticsActivity();
                 if("LogisticsReportActivity".equals(Statics.ActivityType)){
@@ -114,6 +115,7 @@ public class HttpTypeUtil {
         AttendanceYear[] ay;
         AttendanceWxDetaSearch[] awds;
         AttendanceStaffBelongProject[] abp;
+        StaffName[] sn;
         switch (httpType){
             case "100400":
                 Log.d("HttpTypeUtil", "统计信息：：" + result);
@@ -127,44 +129,17 @@ public class HttpTypeUtil {
                 AttendanceStatisticsActivity.AdapterRefresh("attendAdapter");
                 break;
             case "100401":
+                Log.d("HttpTypeUtil", "年份查询:"+result);
                 Statics.searchYear.clear();
                 ay = new Gson().fromJson(result, AttendanceYear[].class);
                 Collections.addAll(Statics.searchYear,ay);//转化arrayList
                 break;
             case "100402":
-                Log.d("HttpTypeUtil", "下拉框");
+                Log.d("HttpTypeUtil", "员工姓名："+result);
                 //json数据使用Gson框架解析
                 Statics.searchName.clear();
-                as = new Gson().fromJson(result, AttendanceStatistics[].class);
-                //取出所有姓名
-
-                ArrayList<String> searchName = new ArrayList<>();
-                ArrayList<String> searchNameId = new ArrayList<>();
-                for (int i=0;i<as.length;i++){
-                    searchName.add(as[i].getUserName());
-                    searchNameId.add(as[i].getUserId());
-                }
-                //去除重复数据，不要用set，set顺序会被打乱
-                for  ( int  i  =   0 ; i  <  searchName.size()  -   1 ; i ++ )   {
-                    for  ( int  j  =  searchName.size()  -   1 ; j  >  i; j -- )   {
-                        if  (searchName.get(j).equals(searchName.get(i)))   {
-                            searchName.remove(j);
-                        }
-                    }
-                }
-                for  ( int  i  =   0 ; i  <  searchNameId.size()  -   1 ; i ++ )   {
-                    for  ( int  j  =  searchNameId.size()  -   1 ; j  >  i; j -- )   {
-                        if  (searchNameId.get(j).equals(searchNameId.get(i)))   {
-                            searchNameId.remove(j);
-                        }
-                    }
-                }
-                Statics.searchName=searchName;
-                Statics.searchNameId=searchNameId;
-                for (int i=0;i<searchName.size();i++){
-                    Log.d("hihi",searchName.get(i));
-                    Log.d("hihi",searchNameId.get(i));
-                }
+                sn = new Gson().fromJson(result, StaffName[].class);
+                Collections.addAll(Statics.searchName,sn);
                 break;
 
             case "100403":
