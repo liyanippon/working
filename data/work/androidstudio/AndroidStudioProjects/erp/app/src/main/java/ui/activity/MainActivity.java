@@ -54,13 +54,7 @@ public class MainActivity extends BaseActivity {
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
 
-        Log.d("MainActivity", "jka");
-        /*new Runnable() {
-            @Override
-            public void run() {
-                background.setBackgroundResource(R.drawable.loginbackground);
-            }
-        }.run();*/
+        Log.d("MainActivity", "10080");
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         sp = this.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
         background = (RelativeLayout) findViewById(R.id.activity_main2);
@@ -223,6 +217,5 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 }

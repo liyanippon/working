@@ -144,4 +144,6 @@ public class Statics {
     /**用户权限管理**/
     public static ArrayList<UserUmp> userUmpsStatisticsList = new ArrayList<>();//考勤表格数据
     public static String ActivityType;//activity类型 （多个页面共用时使用）
+
+    public static boolean isPageUpload = false;//是否向上翻页
 }
