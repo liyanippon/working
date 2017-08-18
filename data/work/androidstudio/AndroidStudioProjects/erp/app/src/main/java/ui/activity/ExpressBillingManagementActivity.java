@@ -413,8 +413,6 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Statics.isPageUpload = true;
-                Log.d("ExpressBillingManagemen", "翻页");
                 page++;
                 if (page >= Statics.page) {
                     page = Statics.page;

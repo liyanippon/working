@@ -112,7 +112,7 @@ public class ExpressManagementAdapter extends BaseAdapter {
             vh.billingTime.setTextColor(Color.BLACK);
             vh.sum.setTextColor(Color.BLACK);
         }
-        vh.number.setText(Integer.toString(++positions));
+        vh.number.setText(number);
         vh.number.setGravity(Gravity.CENTER);
         vh.type.setText(type);
         vh.type.setGravity(Gravity.CENTER);

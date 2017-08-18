@@ -15,10 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.lang.*;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
 import Tool.JsonResolve;
 import Tool.statistics.ExceptionUtil;
 import Tool.statistics.Statics;
@@ -207,22 +204,9 @@ public class ExpressBillingManagementHttpPost {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                ArrayList<ExpressManagement> temp =new ArrayList<>();
+                Statics.expressManagementList.clear();
                 ExpressManagement[] fc = new Gson().fromJson(results, ExpressManagement[].class);
-                Collections.addAll(temp,fc);//转化arrayList
-
-                if(Statics.isPageUpload){//如果是翻页动作，则不清除以前的数据
-                    Log.d("ExpressBillingManagemen", "翻页，数"+Statics.expressManagementList.get(0).getData().get(0).getRows().size());
-                    Log.d("ExpressBillingManagemen", "翻页，数1:"+temp.get(0).getData().get(0).getRows().size());
-                    Statics.expressManagementList.get(0).getData().get(0).getRows().addAll(fc[0].getData().get(0).getRows());
-                    Log.d("ExpressBillingManagemen", "翻页，数"+Statics.expressManagementList.get(0).getData().get(0).getRows().size());
-
-                }else {
-                    Statics.expressManagementList.clear();
-                    Statics.expressManagementList = temp;
-                }
-                Statics.isPageUpload = false;
+                Collections.addAll(Statics.expressManagementList,fc);//转化arrayList
                 ExpressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
             }
 

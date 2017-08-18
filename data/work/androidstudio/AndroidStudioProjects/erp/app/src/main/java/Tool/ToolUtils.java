@@ -4,10 +4,13 @@ package Tool;
 import android.app.Activity;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -23,6 +26,8 @@ import java.util.List;
 import java.util.Set;
 
 import Tool.statistics.Statics;
+import ui.activity.FinancialSalaryStastisticsActivity;
+import ui.adpter.FinancialSalaryStatisticsAdapter;
 
 /**
  * Created by admin on 2017/2/21.
@@ -217,6 +222,9 @@ public class ToolUtils {
             case 8:
                 select = Statics.epsXList.size();
                 break;
+            case 9:
+                select = Statics.fssArrayList.size();
+                break;
         }
         Log.d("BillingStatisticsActivi", "大小：" + select);
         for (int i = 0; i < select; i++) {
@@ -228,5 +236,45 @@ public class ToolUtils {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 10;
         Log.d("BillingStatisticsActivi", "高度" + totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 10 + "ss");
         listView.setLayoutParams(params);
+    }
+
+    public static void setPoint(final EditText point) {//限制输入小数位数 金额
+        point.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 2+1);
+                        point.setText(s);
+                        point.setSelection(s.length());
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    point.setText(s);
+                    point.setSelection(2);
+                }
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        point.setText(s.subSequence(0, 1));
+                        point.setSelection(1);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }

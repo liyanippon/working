@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="账目:"
+                android:text="账    目"
                 android:textSize="@dimen/activity_add_account_manager"
                 android:id="@+id/textView" />
 
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="分类:"
+                android:text="分    类"
                 android:textSize="@dimen/activity_add_account_manager"
                  />
 
@@ -110,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="时间:"
+                android:text="时    间"
                 android:layout_gravity="left"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
@@ -132,38 +132,6 @@
             android:layout_height="2sp"
             android:background="@null"
             />
-        <!--<TableRow
-            android:layout_marginLeft="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="内容:"
-                android:textSize="@dimen/activity_add_account_manager" />
-            <EditText
-                android:layout_marginLeft="5dp"
-                android:enabled="true"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:id="@+id/content"
-                android:gravity="top"
-                android:layout_weight="1"
-                android:inputType="textMultiLine"
-                android:minLines="8"
-                android:maxLines="20"
-                android:maxLength="30"
-                android:background="@drawable/shape_editor"
-                android:scrollbars="vertical"
-                >
-            </EditText>
-        </TableRow>-->
 
 
         <View
@@ -183,7 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="金额:"
+                android:text="金    额"
                 android:textSize="@dimen/activity_add_account_manager" />
 
             <EditText
@@ -213,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="客户名:"
+                android:text="客户名"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
 
@@ -241,34 +209,32 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/remark"
+                android:text="备    注"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
-            <EditText
-
-                android:enabled="true"
-                android:layout_marginLeft="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:id="@+id/remark"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:minLines="8"
-                android:maxLines="10"
-                android:layout_weight="1"
-                android:maxLength="100"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/shape_editor"
-                android:scrollbars="vertical"
-                >
-            </EditText>
         </TableRow>
         <View
             android:layout_width="match_parent"
             android:layout_height="2sp"
             android:background="@null"
             />
-
+        <EditText
+            android:enabled="true"
+            android:layout_marginLeft="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/remark"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:minLines="8"
+            android:maxLines="50"
+            android:layout_weight="1"
+            android:maxLength="300"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_editor"
+            android:scrollbars="vertical"
+            >
+        </EditText>
 
     </TableLayout>
     <RelativeLayout

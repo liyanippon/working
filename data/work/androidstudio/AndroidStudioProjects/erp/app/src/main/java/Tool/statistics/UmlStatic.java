@@ -119,8 +119,10 @@ public class UmlStatic {
         switch (menu) {//userType
             case "8cb65d793df4457cae60484e6973e2d5"://财务人员
             case "a6509c7f484b482ab979aff844acbd2f"://BOSS
+                icon.add(R.drawable.gongzitongji);
                 icon.add(R.drawable.caiwuguanli);
                 icon.add(R.drawable.zhang_mutongji);
+                iconName.add("工资统计");
                 iconName.add("账目管理");
                 iconName.add("账目统计");
                 map.put("icon", icon);

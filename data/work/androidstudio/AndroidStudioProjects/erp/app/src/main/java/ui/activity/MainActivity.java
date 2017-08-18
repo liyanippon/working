@@ -48,13 +48,17 @@ public class MainActivity extends BaseActivity {
     private InputMethodManager imm;//键盘处理
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LogcatHelper.getInstance(this).start();//保存日志
-        initCrashHandler();//系统异常处理
+        //LogcatHelper.getInstance(this).start();//保存日志
+        //initCrashHandler();//系统异常处理
         super.onCreate(savedInstanceState);
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
-
-        Log.d("MainActivity", "10080");
+        /*new Runnable() {
+            @Override
+            public void run() {
+                background.setBackgroundResource(R.drawable.loginbackground);
+            }
+        }.run();*/
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         sp = this.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
         background = (RelativeLayout) findViewById(R.id.activity_main2);
@@ -114,8 +118,8 @@ public class MainActivity extends BaseActivity {
         try {
             properties.load(MainActivity.this.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
-            Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
-            //Statics.LoginUrl = IFengLoginUrl;//本地登录
+            //Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
+            Statics.LoginUrl = IFengLoginUrl;//本地登录
             String IFengUrl = properties.getProperty("IFengUrl").trim();
             String UmpUrl = properties.getProperty("UmpUrl").trim();
             Statics.UmlUrl = UmpUrl + "/setRoles/loadRoleUserId.ajax";
@@ -165,8 +169,6 @@ public class MainActivity extends BaseActivity {
 
         switch (v.getId()) {
             case R.id.login:
-                userName.setEnabled(false);
-                userPassword.setEnabled(false);
                 imm.hideSoftInputFromWindow(userName.getWindowToken(), 0); //强制隐藏键盘
                 imm.hideSoftInputFromWindow(userPassword.getWindowToken(), 0); //强制隐藏键盘
                 check();
@@ -205,6 +207,8 @@ public class MainActivity extends BaseActivity {
             editor.putBoolean("checkboxBoolean", false);
             editor.commit();
         }
+        userName.setEnabled(false);
+        userPassword.setEnabled(false);
         loginProgressBar.setVisibility(View.VISIBLE);
         login.setBackgroundColor(Color.rgb(0x66,0x66,0x66));
         login.setClickable(false);
@@ -217,5 +221,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
     }
 }

@@ -287,52 +287,13 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
         payMethodSpinner = (Spinner) findViewById(R.id.payMethodSpinner);
         price = (EditText) findViewById(R.id.priceId);
         price.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        setPoint(price);//设置金额输入位数
+        ToolUtils.setPoint(price);//设置金额输入位数
         remark = (EditText) findViewById(R.id.remarkId);
         customSpinner = (Spinner) findViewById(R.id.customerId);
         buttonPanel = (RelativeLayout) findViewById(R.id.buttonPanel);
         billingTime = (EditText) findViewById(R.id.billingTime);
     }
 
-    public void setPoint(EditText point) {//限制输入小数位数
-        point.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (s.toString().contains(".")) {
-                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
-                        s = s.toString().subSequence(0,
-                                s.toString().indexOf(".") + 2+1);
-                        price.setText(s);
-                        price.setSelection(s.length());
-                    }
-                }
-                if (s.toString().trim().substring(0).equals(".")) {
-                    s = "0" + s;
-                    price.setText(s);
-                    price.setSelection(2);
-                }
-                if (s.toString().startsWith("0")
-                        && s.toString().trim().length() > 1) {
-                    if (!s.toString().substring(1, 2).equals(".")) {
-                        price.setText(s.subSequence(0, 1));
-                        price.setSelection(1);
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-    }
     private static void initBroadCast() {
         //广播初始化 必须动态注册才能实现回调
         broadcast = new FreshenBroadcastReceiver();

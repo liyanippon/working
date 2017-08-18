@@ -186,7 +186,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/price"
+                android:text="金        额"
                 android:layout_gravity="left"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
@@ -219,7 +219,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/guest"
+                android:text="客        户"
                 android:textSize="@dimen/activity_add_account_manager"
                 android:gravity="left"
                 />
@@ -247,7 +247,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/remark"
+                android:text="备        注"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
         </TableRow>

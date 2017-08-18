@@ -22,6 +22,7 @@ import http.ExpressBillingManagementHttpPost;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
 import ui.activity.FinancialBillingManagementActivity;
+import ui.activity.FinancialSalaryStastisticsActivity;
 import ui.activity.FinancialStastisticsActivity;
 @SuppressLint("NewApi")
 public class MainTabFinancial extends Fragment {
@@ -91,13 +92,18 @@ public class MainTabFinancial extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (position) {
                 case 0:
-                    in = new Intent(getActivity(), FinancialBillingManagementActivity.class);//财务账单管理
+                    in = new Intent(getActivity(), FinancialSalaryStastisticsActivity.class);//工资统计表
                     startActivity(in);
                     break;
                 case 1:
-                    in = new Intent(getActivity(), FinancialStastisticsActivity.class);
+                    in = new Intent(getActivity(), FinancialBillingManagementActivity.class);//账目管理
                     startActivity(in);
                     break;
+                case 2:
+                    in = new Intent(getActivity(), FinancialStastisticsActivity.class);//账目统计
+                    startActivity(in);
+                    break;
+
             }
         }
     };

@@ -128,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="金额"
+                android:text="金        额"
                 android:layout_gravity="left"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
@@ -161,7 +161,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="手续费"
+                android:text="手  续  费"
                 android:layout_gravity="left"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
@@ -191,7 +191,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/remark"
+                android:text="备        注"
                 android:textSize="@dimen/activity_add_account_manager"
                 />
         </TableRow>

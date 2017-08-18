@@ -27,6 +27,7 @@ import model.FinancialBillingGetWXSelectMonthAccount;
 import model.FinancialBillingGetWXsettlementMonth;
 import model.FinancialCustomer;
 import model.FinancialManagement;
+import model.FinancialSalaryStatistics;
 import model.LogisticsReportSearch;
 import model.StaffName;
 import model.TimeBillingStatistics;
@@ -141,9 +142,13 @@ public class Statics {
     public static List<FinancialBillingGetWXSelectCustomer> fbgwxscList = new ArrayList<>();
     public static String FinancialBillingGetCurrentMoneyUrl ="http://192.168.1.54:8083/getWXSelectAll.ajax";//查看现在金额
     public static String CurrentMoney = null;
+    //工资统计
+
+    //工资统计查询
+    public static String FinancialBillingGetWXstatisticalDataUrls = "http://192.168.1.54:8083/getWXstatisticalData.ajax";//员工工资查询数据
+    public static List<FinancialSalaryStatistics> fssArrayList = new ArrayList<>();//员工工资查询数据
+
     /**用户权限管理**/
     public static ArrayList<UserUmp> userUmpsStatisticsList = new ArrayList<>();//考勤表格数据
     public static String ActivityType;//activity类型 （多个页面共用时使用）
-
-    public static boolean isPageUpload = false;//是否向上翻页
 }
