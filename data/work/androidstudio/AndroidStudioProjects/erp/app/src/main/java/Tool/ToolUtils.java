@@ -233,7 +233,13 @@ public class ToolUtils {
             totalHeight += listItem.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 10;
+        if(FinancialSalaryStastisticsActivity.salartBoolean){
+            params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 3;
+            FinancialSalaryStastisticsActivity.salartBoolean = false;
+        }else{
+            params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 70;
+        }
+
         Log.d("BillingStatisticsActivi", "高度" + totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 10 + "ss");
         listView.setLayoutParams(params);
     }

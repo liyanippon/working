@@ -65,6 +65,7 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
     private HashMap<String,String> param;
     private PullScrollView pullScrollView;
     private Handler handler ;
+    public static boolean salartBoolean = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +95,7 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
 
         Log.d("FinancialSalaryStastist", "meta");
         //测量高度
-        ToolUtils.setListViewHeightBasedOnChildren(mLeft,9);
+        //ToolUtils.setListViewHeightBasedOnChildren(mLeft,9);
         fssAdapter = new FinancialSalaryStatisticsAdapter(activity,Statics.fssArrayList);
         mData.setAdapter(fssAdapter);
         /*mData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -367,6 +368,7 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
         switch (type) {
             case "salaryAdapter":
                 Log.d("FinancialSalaryStastist", "刷新" + Statics.fssArrayList.size() + "ss");
+                salartBoolean = true;
                 ToolUtils.setListViewHeightBasedOnChildren(mLeft,9);
                 leftStatisticsAdpter.notifyDataSetChanged();//刷新
                 fssAdapter.notifyDataSetChanged();//刷新

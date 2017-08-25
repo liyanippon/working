@@ -159,11 +159,15 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
                         //表格数据刷新
                         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
                         billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "" ,  ""  , "", activity,"BillingStatisticsActivity");
-                        BillingStatisticsActivity.timeAdapter.notifyDataSetChanged();
+                        //BillingStatisticsActivity.timeAdapter.notifyDataSetChanged();
                         HttpBasePost.postHttp(Statics.ExpressGetWXPaymentMethod,null, HttpTypeConstants.ExpressGetWXPaymentMethod);//获取当前资金情况
-                        customerBillingStatisticsList = null;//搜索将下面的数据清空
+                        customerBillingStatisticsList.clear();//搜索将下面的数据清空
                         customerAdapter = new CustomerBillingStatisticsAdapter(BillingStatisticsActivity.this, customerBillingStatisticsList);
                         customerListView.setAdapter(customerAdapter);
+                        //测量高度
+                        ToolUtils.setListViewHeightBasedOnChildren(timeListView,1);
+                        //测量高度
+                        ToolUtils.setListViewHeightBasedOnChildren(customerListView,2);
                         pullScrollView.stopRefresh();
                     }
                 }, 5000);

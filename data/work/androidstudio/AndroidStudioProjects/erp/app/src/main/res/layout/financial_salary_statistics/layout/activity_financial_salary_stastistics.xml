@@ -126,6 +126,7 @@
                                 android:listSelector="#00ff00"
                                 android:scrollbars="none"/>
                         </Tool.customerWidget.SyncHorizontalScrollView>
+
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
