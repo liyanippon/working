@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,10 +33,14 @@ import java.util.List;
 
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.customerWidget.PullScrollView;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
+import http.BillingStatisticsHttpPost;
 import http.ExpressStatisticsHttpPost;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 import model.ExpressPersonStatistic;
 import model.ExpressPersonStatisticsXiangqing;
 import model.TimeExpressStatistics;
@@ -49,7 +55,7 @@ import ui.fragement.ExpressPiecesChartsFragementActivity;
 import ui.fragement.ExpressPiecesDetailsChartsFragementActivity;
 import ui.fragement.ExpressPiecesPersonDetailsChartsFragementActivity;
 
-public class ExpressStatisticsActivity extends BaseActivity{
+public class ExpressStatisticsActivity extends BaseActivity implements android.os.Handler.Callback{
     public static ListView timeListView, expressPersonListView;
     private ViewGroup tableTitle, tableTitle1;
     private ExpressStatisticsHttpPost expressStatisticsHttpPost;
@@ -83,6 +89,8 @@ public class ExpressStatisticsActivity extends BaseActivity{
     private static String ExpressPieceMonthDaySearchUrl;
     private int positionTemp;
     private Intent in;
+    private PullScrollView pullScrollView;
+    private Handler handler ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,6 +180,27 @@ public class ExpressStatisticsActivity extends BaseActivity{
                                                                  }
                                                              }
                 );
+            }
+        });
+        //下拉刷新
+        handler = new Handler(getMainLooper(), this);
+        pullScrollView.setOnRefreshListener(new PullScrollView.onRefreshListener() {
+
+            @Override
+            public void refresh() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //表格数据刷新
+                        expressStatisticsHttpPost = new ExpressStatisticsHttpPost();
+                        expressStatisticsHttpPost.searchTimeHttp(Statics.TimeStatisticSearchUrl, yearSpinnerString, "", ExpressStatisticsActivity.this);
+                        expressPersonStatisticList = null;
+                        expressPersionAdapter = new ExpressPersonStatisticsAdapter(ExpressStatisticsActivity.this, expressPersonStatisticList);
+                        expressPersonListView.setAdapter(expressPersionAdapter);
+                        mCombinedChartMonth.setVisibility(View.GONE);
+                        pullScrollView.stopRefresh();
+                    }
+                }, 5000);
             }
         });
 
@@ -324,6 +353,8 @@ public class ExpressStatisticsActivity extends BaseActivity{
         monthTitle = (TextView) findViewById(R.id.monthTitile);
         epdz = new ExpressPieceDetailsZhuFragment();
         eppdz = new ExpressPiecePersonDetailsZhuFragment();
+        pullScrollView = (PullScrollView) findViewById(R.id.test);
+
     }
     public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
@@ -443,5 +474,10 @@ public class ExpressStatisticsActivity extends BaseActivity{
                 }
             }
         });
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        return false;
     }
 }

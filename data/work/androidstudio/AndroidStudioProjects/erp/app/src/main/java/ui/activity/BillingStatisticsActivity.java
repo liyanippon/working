@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.customerWidget.PullScrollView;
 import Tool.statistics.Statics;
 import http.BillingStatisticsHttpPost;
 import http.HttpBasePost;
@@ -44,7 +47,7 @@ import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
 import ui.fragement.InoutComeZhuFragment;
 
-public class BillingStatisticsActivity extends BaseActivity{
+public class BillingStatisticsActivity extends BaseActivity implements android.os.Handler.Callback{
     public static ListView timeListView, customerListView;
     private ViewGroup tableTitle, tableTitle1;
     private BillingStatisticsHttpPost billingStatisticsHttpPost;
@@ -68,6 +71,8 @@ public class BillingStatisticsActivity extends BaseActivity{
     //统计图
     private static BarChart mCombinedChart;
     private static Activity activity;
+    private PullScrollView pullScrollView;
+    private Handler handler ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +95,6 @@ public class BillingStatisticsActivity extends BaseActivity{
         timeBillingStatisticsList = Statics.timeBillingStatisticsList;
         timeAdapter = new TimeBillingStatisticsAdapter(BillingStatisticsActivity.this, timeBillingStatisticsList);
         timeListView.setAdapter(timeAdapter);
-
         search.setOnClickListener(o);
         mCombinedChart.setOnClickListener(o);
         //listView点击事件
@@ -140,6 +144,29 @@ public class BillingStatisticsActivity extends BaseActivity{
                                                             }
                                                         }
                 );
+            }
+        });
+
+        //下拉刷新
+        handler = new Handler(getMainLooper(), this);
+        pullScrollView.setOnRefreshListener(new PullScrollView.onRefreshListener() {
+
+            @Override
+            public void refresh() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //表格数据刷新
+                        billingStatisticsHttpPost = new BillingStatisticsHttpPost();
+                        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "" ,  ""  , "", activity,"BillingStatisticsActivity");
+                        BillingStatisticsActivity.timeAdapter.notifyDataSetChanged();
+                        HttpBasePost.postHttp(Statics.ExpressGetWXPaymentMethod,null, HttpTypeConstants.ExpressGetWXPaymentMethod);//获取当前资金情况
+                        customerBillingStatisticsList = null;//搜索将下面的数据清空
+                        customerAdapter = new CustomerBillingStatisticsAdapter(BillingStatisticsActivity.this, customerBillingStatisticsList);
+                        customerListView.setAdapter(customerAdapter);
+                        pullScrollView.stopRefresh();
+                    }
+                }, 5000);
             }
         });
     }
@@ -251,7 +278,7 @@ public class BillingStatisticsActivity extends BaseActivity{
 
     }
 
-    public void init() {
+    public void init(){
         timeListView = (ListView) findViewById(R.id.lv);
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
         tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
@@ -265,6 +292,8 @@ public class BillingStatisticsActivity extends BaseActivity{
         tableTitle1.setBackgroundColor(Color.rgb(230, 240, 255));
         currentMoneyStatistics = (TextView) findViewById(R.id.currentMoneyStatistics);
         mCombinedChart = (BarChart) findViewById(R.id.barChart);
+        pullScrollView = (PullScrollView) findViewById(R.id.test);
+
     }
 
     public static void AdapterRefresh(String type) {//刷新adapter
@@ -303,4 +332,8 @@ public class BillingStatisticsActivity extends BaseActivity{
         }
     }
 
+    @Override
+    public boolean handleMessage(Message msg) {
+        return false;
+    }
 }

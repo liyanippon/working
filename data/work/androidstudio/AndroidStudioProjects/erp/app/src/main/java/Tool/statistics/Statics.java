@@ -6,6 +6,7 @@ import java.util.List;
 import model.AccountClassify;
 import model.AttendanceStaffBelongProject;
 import model.AttendanceWxDetaSearch;
+import model.CompanyDepartment;
 import model.ExpressClassify;
 import model.ExpressExpensePayMethod;
 import model.AccountReason;
@@ -142,11 +143,13 @@ public class Statics {
     public static List<FinancialBillingGetWXSelectCustomer> fbgwxscList = new ArrayList<>();
     public static String FinancialBillingGetCurrentMoneyUrl ="http://192.168.1.54:8083/getWXSelectAll.ajax";//查看现在金额
     public static String CurrentMoney = null;
-    //工资统计
 
     //工资统计查询
-    public static String FinancialBillingGetWXstatisticalDataUrls = "http://192.168.1.54:8083/getWXstatisticalData.ajax";//员工工资查询数据
+    public static String FinancialSalaryGetWXStaffPayrollListUrl = "http://192.168.1.54:8083/getWXStaffPayrollList.ajax";//员工工资查询数据
     public static List<FinancialSalaryStatistics> fssArrayList = new ArrayList<>();//员工工资查询数据
+    public static String FinancialSalaryGetWXOrgListUrl ="http://192.168.1.54:8083/getWXOrg.ajax";//单位部门信息
+    public static List<CompanyDepartment> companyDepartmentsArrayList = new ArrayList<>();//单位部门数据
+    public static String FinancialSalaryGetWXInsertPayrollUrl ="http://192.168.1.54:8083/getWXMonthPayrollList.ajax";//添加工资单
 
     /**用户权限管理**/
     public static ArrayList<UserUmp> userUmpsStatisticsList = new ArrayList<>();//考勤表格数据

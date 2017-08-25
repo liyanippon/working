@@ -23,7 +23,7 @@
                     android:layout_height="40dp"
                     android:textSize="20sp"
                     android:gravity="center"
-                    android:text="添加工资"
+                    android:text="新增人员工资"
                     />
                 <TableRow
                     android:layout_marginLeft="10dp"
@@ -50,7 +50,96 @@
                         >
                     </Spinner>
                 </TableRow>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2sp"
+                    android:background="@null"
+                    />
+                <TableRow
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    >
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="创建    时间"
+                        android:textSize="@dimen/activity_add_account_manager"
+                        />
+
+                    <EditText
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_editor"
+                        android:layout_weight="1"
+                        android:id="@+id/createTime"
+                        >
+                    </EditText>
+                </TableRow>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2sp"
+                    android:background="@null"
+                    />
+                <TableRow
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="关联    加班"
+                        android:textSize="@dimen/activity_add_account_manager"
+                        />
+
+                    <Spinner
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_editor"
+                        android:layout_weight="1"
+                        android:id="@+id/guanlianjiaban"
+                        >
+                    </Spinner>
+                </TableRow>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2sp"
+                    android:background="@null"
+                    />
+                <TableRow
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="生成    方式"
+                        android:textSize="@dimen/activity_add_account_manager"
+                        />
+
+                    <Spinner
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_editor"
+                        android:layout_weight="1"
+                        android:id="@+id/shengchengfa"
+                        >
+                    </Spinner>
+                </TableRow>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2sp"

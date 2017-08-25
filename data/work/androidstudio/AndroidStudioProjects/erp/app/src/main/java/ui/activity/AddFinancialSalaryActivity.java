@@ -1,5 +1,6 @@
 package ui.activity;
 
+import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,31 +12,36 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.admin.erp.R;
-
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
-
 import Tool.ToolUtils;
+import Tool.customerWidget.YearMonthPickerDialog;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
-
+import http.HttpBasePost;
+import http.HttpTypeConstants;
 public class AddFinancialSalaryActivity extends AppCompatActivity {
-    private EditText jibenGongzi,chucaiBuzhu,jiangjinGongzi,jiaotongBuzhu,jiabanBuzhu,baoXiao,bshiJiaGongzi,zhuFangGongjijin
-    ,yangLaoBaoxian,yiLiaoBaoxian,shiYeBaoxian ;
-    private String jibenGongziString,chucaiBuzhuString,jiangjinGongziString,jiaotongBuzhuString,jiabanBuzhuString
-            ,baoXiaoString,bshiJiaGongziString,zhuFangGongjijinString
-            ,yangLaoBaoxianString,yiLiaoBaoxianString,shiYeBaoxianString
-            ,nameSpinnerString;
-    private Spinner nameSpinner;
+    private EditText basePay,travellingAllowance,bonus,trafficAllowance,overtimeAllowance,expense,leavePay,housingFund
+    ,endowmentInsurance,medicalInsurance,unemploymentInsurance ,billingTime;
+    private String basePayString,travellingAllowanceString,bonusString,trafficAllowanceString,overtimeAllowanceString
+            ,expenseString,leavePayString,housingFundString
+            ,endowmentInsuranceString,medicalInsuranceString,unemploymentInsuranceString
+            ,nameSpinnerString,billingTimeString,relavenceSpinnerString,buildStyleSpinnerString;
+    private Spinner nameSpinner,relavenceSpinner,buildStyleSpinner;
     private Button add,reset;
     private static List<String> data_list;
-    public static ArrayAdapter<String> arr_adapterName;
-
+    public static ArrayAdapter<String> arr_adapterName,arr_adapterRelavence,arr_adapterBuildStyle;
+    private HashMap<String,String> param;
+    private Calendar calendar;
+    private int currentYear,currentMon;
+    private String[] time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,11 @@ public class AddFinancialSalaryActivity extends AppCompatActivity {
         ToolUtils.backButton(this);//返回图标
         findViewById();//绑定控件
         spinnerType();//下拉菜单
+        calendar = Calendar.getInstance();
+        currentYear = calendar.get(Calendar.YEAR);
+        currentMon = calendar.get(Calendar.MONTH)+1;
+        billingTime.setText(String.format("%d-%d",currentYear,currentMon));
+        billingTime.setOnClickListener(o);
         add.setOnClickListener(o);
         reset.setOnClickListener(o);
     }
@@ -89,22 +100,79 @@ public class AddFinancialSalaryActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        //关联加班
+        //数据 员工姓名
+        data_list = new ArrayList<>();
+        data_list.add("关联加班");
+        data_list.add("不关联加班");
+        //适配器
+        arr_adapterRelavence = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list);
+        //设置样式
+        arr_adapterRelavence.setDropDownViewResource(R.layout.spinner_dropdown_style);
+        //加载适配器
+        relavenceSpinner.setAdapter(arr_adapterRelavence);
+        relavenceSpinner.setSelection(1);
+        data_list = null;
+        relavenceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    relavenceSpinnerString = "yes";
+                }else if(position==1){
+                    relavenceSpinnerString = "";
+                }
+                data_list = null;
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        //生成方式
+        //数据 员工姓名
+        data_list = new ArrayList<>();
+        data_list.add("关联考勤");
+        data_list.add("不关联考勤");
+        //适配器
+        arr_adapterBuildStyle = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list);
+        //设置样式
+        arr_adapterBuildStyle.setDropDownViewResource(R.layout.spinner_dropdown_style);
+        //加载适配器
+        buildStyleSpinner.setAdapter(arr_adapterBuildStyle);
+        buildStyleSpinner.setSelection(1);
+        data_list = null;
+        buildStyleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    buildStyleSpinnerString = "021001";//关联考勤
+                }else if(position==1){
+                    buildStyleSpinnerString = "021002";//不关联考勤
+                }
+                data_list = null;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
     }
 
     private void initView() {
-        jibenGongziString = jiangjinGongzi.getText().toString().trim();
-        chucaiBuzhuString = chucaiBuzhu.getText().toString().trim();
-        jiangjinGongziString = jiangjinGongzi.getText().toString().trim();
-        jiaotongBuzhuString = jiaotongBuzhu.getText().toString().trim();
-        jiabanBuzhuString = jiabanBuzhu.getText().toString().trim();
-        baoXiaoString = baoXiao.getText().toString().trim();
-        bshiJiaGongziString = bshiJiaGongzi.getText().toString().trim();
-        zhuFangGongjijinString = zhuFangGongjijin.getText().toString().trim();
-        yangLaoBaoxianString = yangLaoBaoxian.getText().toString().trim();
-        yiLiaoBaoxianString = yiLiaoBaoxian.getText().toString().trim();
-        shiYeBaoxianString = shiYeBaoxian.getText().toString().trim();
+        basePayString = basePay.getText().toString().trim();
+        travellingAllowanceString = travellingAllowance.getText().toString().trim();
+        bonusString = bonus.getText().toString().trim();
+        trafficAllowanceString = trafficAllowance.getText().toString().trim();
+        overtimeAllowanceString = overtimeAllowance.getText().toString().trim();
+        expenseString = expense.getText().toString().trim();
+        leavePayString = leavePay.getText().toString().trim();
+        housingFundString = housingFund.getText().toString().trim();
+        endowmentInsuranceString = endowmentInsurance.getText().toString().trim();
+        medicalInsuranceString = medicalInsurance.getText().toString().trim();
+        unemploymentInsuranceString = unemploymentInsurance.getText().toString().trim();
+        billingTimeString = billingTime.getText().toString().trim();
     }
 
     View.OnClickListener o= new View.OnClickListener() {
@@ -113,62 +181,118 @@ public class AddFinancialSalaryActivity extends AppCompatActivity {
             switch (v.getId()){
                 case R.id.add:
                     initView();
-
+                    time =billingTimeString.split("-",2);
+                    if ("".equals(basePayString) ) {
+                        Toast.makeText(AddFinancialSalaryActivity.this, "所填数据不能为空", Toast.LENGTH_LONG).show();
+                    } else {
+                        Log.d("ttt1231","addzhangdan"+nameSpinnerString+","+basePayString+","+travellingAllowanceString+","+bonusString
+                                +","+trafficAllowanceString+","+overtimeAllowanceString+","+expenseString+","+leavePayString+","+housingFundString
+                                +","+medicalInsuranceString+","+endowmentInsuranceString+","+unemploymentInsuranceString+","+time[0]+","+time[1]
+                                +","+Statics.Name+","+billingTimeString+","+relavenceSpinnerString+","+buildStyleSpinnerString);
+                        param = new HashMap<>();
+                        param.put("userName",nameSpinnerString);//姓名
+                        param.put("basePay",basePayString);//基本工资
+                        param.put("travellingAllowance",travellingAllowanceString);//出差补助
+                        param.put("bonus", bonusString);//奖金
+                        param.put("trafficAllowance",trafficAllowanceString);//交通补助
+                        param.put("overtimeAllowance",overtimeAllowanceString);//加班补助
+                        param.put("expense", expenseString);//报销
+                        param.put("leavePay", leavePayString);//病事假工资
+                        param.put("housingFund", housingFundString);//住房公积金
+                        param.put("medicalInsurance", medicalInsuranceString);//医疗保险
+                        param.put("endowmentInsurance", endowmentInsuranceString);//养老保险
+                        param.put("unemploymentInsurance", unemploymentInsuranceString);//失业保险
+                        param.put("year",time[0]);
+                        param.put("month",time[1]);
+                        param.put("createBy", Statics.Name);
+                        param.put("updateBy", Statics.Name);
+                        param.put("billingTime", billingTimeString);//billingTime 创建时间
+                        param.put("updateTime", billingTimeString);
+                        param.put("yes", relavenceSpinnerString);//是否关联加班
+                        param.put("type",buildStyleSpinnerString);//生成方式
+                        HttpBasePost.postHttp(Statics.FinancialSalaryGetWXInsertPayrollUrl,param, HttpTypeConstants.FinancialSalaryGetWXInsertPayrollUrlType);
+                        finish();
+                    }
                     break;
                 case R.id.reset:
-                    jibenGongzi.setText("");
-                    chucaiBuzhu.setText("");
-                    jiangjinGongzi.setText("");
-                    jiaotongBuzhu.setText("");
-                    jiabanBuzhu.setText("");
-                    baoXiao.setText("");
-                    bshiJiaGongzi.setText("");
-                    zhuFangGongjijin.setText("");
-                    yangLaoBaoxian.setText("");
-                    yiLiaoBaoxian.setText("");
-                    shiYeBaoxian.setText("");
+                    basePay.setText("");
+                    travellingAllowance.setText("");
+                    bonus.setText("");
+                    trafficAllowance.setText("");
+                    overtimeAllowance.setText("");
+                    expense.setText("");
+                    leavePay.setText("");
+                    housingFund.setText("");
+                    endowmentInsurance.setText("");
+                    medicalInsurance.setText("");
+                    unemploymentInsurance.setText("");
+                    break;
+                case R.id.createTime:
+                    billingTime();
                     break;
             }
         }
     };
 
+    private void billingTime() {
+        //日期选择器
+
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+        new YearMonthPickerDialog(AddFinancialSalaryActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month++;
+                        billingTime.setText(String.format("%d-%d",year,month));
+                    }
+                },
+                mYear, mMonth, mDay).show();
+
+    }
+
     private void findViewById() {
-        jibenGongzi = (EditText) findViewById(R.id.jibengongzi);
-        chucaiBuzhu = (EditText) findViewById(R.id.chucaibuzhu);
-        jiangjinGongzi = (EditText) findViewById(R.id.jiangjingongzi);
-        jiaotongBuzhu = (EditText) findViewById(R.id.jiaotongbuzhu);
-        jiabanBuzhu = (EditText) findViewById(R.id.jiabanbuzhu);
-        baoXiao = (EditText) findViewById(R.id.baoxiao);
-        bshiJiaGongzi = (EditText) findViewById(R.id.bingshijiagongzi);
-        zhuFangGongjijin = (EditText) findViewById(R.id.zhufanggongjijin);
-        yangLaoBaoxian = (EditText) findViewById(R.id.yanglaobaoxian);
-        yiLiaoBaoxian = (EditText) findViewById(R.id.yiliaobaoxian);
-        shiYeBaoxian = (EditText) findViewById(R.id.shiyebaoxian);
+        basePay = (EditText) findViewById(R.id.jibengongzi);
+        travellingAllowance = (EditText) findViewById(R.id.chucaibuzhu);
+        bonus = (EditText) findViewById(R.id.jiangjingongzi);
+        trafficAllowance = (EditText) findViewById(R.id.jiaotongbuzhu);
+        overtimeAllowance = (EditText) findViewById(R.id.jiabanbuzhu);
+        expense = (EditText) findViewById(R.id.baoxiao);
+        leavePay = (EditText) findViewById(R.id.bingshijiagongzi);
+        housingFund = (EditText) findViewById(R.id.zhufanggongjijin);
+        endowmentInsurance = (EditText) findViewById(R.id.yanglaobaoxian);
+        medicalInsurance = (EditText) findViewById(R.id.yiliaobaoxian);
+        unemploymentInsurance = (EditText) findViewById(R.id.shiyebaoxian);
         nameSpinner = (Spinner) findViewById(R.id.nameSpinner);
         add = (Button) findViewById(R.id.add);
         reset = (Button) findViewById(R.id.reset);
-        jibenGongzi.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        chucaiBuzhu.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        jiangjinGongzi.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        jiaotongBuzhu.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        jiabanBuzhu.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        baoXiao.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        bshiJiaGongzi.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        zhuFangGongjijin.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        yangLaoBaoxian.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        yiLiaoBaoxian.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        shiYeBaoxian.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        ToolUtils.setPoint(jibenGongzi);//设置金额输入位数
-        ToolUtils.setPoint(chucaiBuzhu);
-        ToolUtils.setPoint(jiangjinGongzi);
-        ToolUtils.setPoint(jiaotongBuzhu);
-        ToolUtils.setPoint(jiabanBuzhu);
-        ToolUtils.setPoint(baoXiao);
-        ToolUtils.setPoint(bshiJiaGongzi);
-        ToolUtils.setPoint(zhuFangGongjijin);
-        ToolUtils.setPoint(yangLaoBaoxian);
-        ToolUtils.setPoint(yiLiaoBaoxian);
-        ToolUtils.setPoint(shiYeBaoxian);
+        billingTime = (EditText) findViewById(R.id.createTime);
+        relavenceSpinner = (Spinner) findViewById(R.id.guanlianjiaban);
+        buildStyleSpinner = (Spinner) findViewById(R.id.shengchengfa);
+        basePay.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        travellingAllowance.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        bonus.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        trafficAllowance.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        overtimeAllowance.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        expense.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        leavePay.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        housingFund.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        endowmentInsurance.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        medicalInsurance.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        unemploymentInsurance.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        ToolUtils.setPoint(basePay);//设置金额输入位数
+        ToolUtils.setPoint(travellingAllowance);
+        ToolUtils.setPoint(bonus);
+        ToolUtils.setPoint(trafficAllowance);
+        ToolUtils.setPoint(overtimeAllowance);
+        ToolUtils.setPoint(expense);
+        ToolUtils.setPoint(leavePay);
+        ToolUtils.setPoint(housingFund);
+        ToolUtils.setPoint(endowmentInsurance);
+        ToolUtils.setPoint(medicalInsurance);
+        ToolUtils.setPoint(unemploymentInsurance);
     }
 
     //返回按钮事件

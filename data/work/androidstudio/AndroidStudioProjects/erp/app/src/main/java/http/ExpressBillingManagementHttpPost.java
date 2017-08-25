@@ -86,6 +86,7 @@ public class ExpressBillingManagementHttpPost {
                             String sessionid = jsonObject.getString("sessionid");//在添加账单时会用到
                             Statics.sessionId = sessionid;
                             Statics.results = success;
+                            Statics.Name = username;
                             UmlHttp(Statics.UmlUrl, sessionid, username);
                             Log.d("uml", sessionid);
                             break;

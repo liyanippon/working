@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import ui.activity.AttendanceStatisticsActivity;
 import ui.activity.FinancialBillingManagementActivity;
+import ui.activity.FinancialSalaryStastisticsActivity;
 import ui.activity.FinancialStastisticsActivity;
 import ui.activity.LogisticsReportActivity;
 
@@ -60,7 +61,7 @@ public class HttpBasePost {
                                 }else if(httpType.equals("100500")||httpType.equals("100501")//财务模块
                                         ||httpType.equals("100502")||httpType.equals("100503")||httpType.equals("100504")
                                         ||httpType.equals("100506")||httpType.equals("100507")||httpType.equals("100508")
-                                        ||httpType.equals("100509")){
+                                        ||httpType.equals("100509")||httpType.equals("100510")||httpType.equals("100511")){
                                         resultString = HttpTypeUtil.financialType(result,httpType);
                                 }
 
@@ -70,10 +71,8 @@ public class HttpBasePost {
                         public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                                 super.onFailure(t, errorNo, strMsg);
 
+                                Log.d("HttpBasePost", "失败信息"+strMsg);
                                 switch (httpType){
-                                        case "100111":
-                                                //LogisticsReportActivity.progressDialog.dismiss();
-                                                break;
                                         case "100400":
                                                 AttendanceStatisticsActivity.progressDialog.dismiss();
                                                 break;
@@ -87,6 +86,9 @@ public class HttpBasePost {
                                                 break;
                                         case "100506":
                                                 FinancialStastisticsActivity.progressDialog.dismiss();
+                                                break;
+                                        case "100510":
+                                                FinancialSalaryStastisticsActivity.progressDialog.dismiss();
                                                 break;
                                 }
 

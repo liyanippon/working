@@ -2,6 +2,7 @@ package ui.adpter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,12 @@ public class LeftStatisticsAdpter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return this.fssList.size();
+        if(this.fssList==null||this.fssList.size()==0){
+            return 0;
+        }else {
+            Log.d("LeftStatisticsAdpter", "fssLsi" + fssList.size());
+            return this.fssList.size();
+        }
     }
 
     @Override

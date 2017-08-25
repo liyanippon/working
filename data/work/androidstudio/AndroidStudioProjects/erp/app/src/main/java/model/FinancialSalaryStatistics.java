@@ -1,191 +1,193 @@
 package model;
 
+import java.util.List;
+
 /**
  * Created by admin on 2017/8/14.
  */
 
 public class FinancialSalaryStatistics {
-    private String year;
-    private String month;
-    private String name;
-    private String salary;
-    private String chucaibuzhu;
-    private String jiangjingongzi;
-    private String jiaotongbuzhu;
-    private String jiabanbuzhu;
-    private String baoxiao;
-    private String quanegongzi;
-    private String bingshijiagongzi;
-    private String zhufanggongjijin;
-    private String yanglaobaoxian;
-    private String yiliaobaoxian;
-    private String shiyebaoxian;
-    private String yingshuisuodee;
-    private String gesui;
-    private String shifagongzi;
+        private String userName;
+        private String basePay;
+        private String endowmentInsurance;
+        private String fullPay;
+        private String housingFund;
+        private String leavePay;
+        private String medicalInsurance;
+        private String month;
+        private String ndividualIncomeTax;
+        private String netPayroll;
+        private String taxableIncome;
+        private String unemploymentInsurance;
+        private String year;
+        private String bonus;
+        private String expense;
+        private String overtimeAllowance;
+        private String trafficAllowance;
+        private String travellingAllowance;
 
-    public FinancialSalaryStatistics(String year, String month, String name, String salary, String chucaibuzhu, String jiangjingongzi, String jiaotongbuzhu, String jiabanbuzhu, String baoxiao, String quanegongzi, String bingshijiagongzi, String zhufanggongjijin, String yanglaobaoxian, String yiliaobaoxian, String shiyebaoxian, String yingshuisuodee, String gesui, String shifagongzi) {
-        this.year = year;
+    public FinancialSalaryStatistics(String userName, String basePay, String endowmentInsurance, String fullPay, String housingFund, String leavePay, String medicalInsurance, String month, String ndividualIncomeTax, String netPayroll, String taxableIncome, String unemploymentInsurance, String year,String bonus,String expense,String overtimeAllowance,String trafficAllowance,String travellingAllowance) {
+        this.userName = userName;
+        this.basePay = basePay;
+        this.endowmentInsurance = endowmentInsurance;
+        this.fullPay = fullPay;
+        this.housingFund = housingFund;
+        this.leavePay = leavePay;
+        this.medicalInsurance = medicalInsurance;
         this.month = month;
-        this.name = name;
-        this.salary = salary;
-        this.chucaibuzhu = chucaibuzhu;
-        this.jiangjingongzi = jiangjingongzi;
-        this.jiaotongbuzhu = jiaotongbuzhu;
-        this.jiabanbuzhu = jiabanbuzhu;
-        this.baoxiao = baoxiao;
-        this.quanegongzi = quanegongzi;
-        this.bingshijiagongzi = bingshijiagongzi;
-        this.zhufanggongjijin = zhufanggongjijin;
-        this.yanglaobaoxian = yanglaobaoxian;
-        this.yiliaobaoxian = yiliaobaoxian;
-        this.shiyebaoxian = shiyebaoxian;
-        this.yingshuisuodee = yingshuisuodee;
-        this.gesui = gesui;
-        this.shifagongzi = shifagongzi;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
+        this.ndividualIncomeTax = ndividualIncomeTax;
+        this.netPayroll = netPayroll;
+        this.taxableIncome = taxableIncome;
+        this.unemploymentInsurance = unemploymentInsurance;
         this.year = year;
+        this.bonus = bonus;
+        this.expense = expense;
+        this.overtimeAllowance = overtimeAllowance;
+        this.trafficAllowance = trafficAllowance;
+        this.travellingAllowance = travellingAllowance;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getBasePay() {
+        return basePay;
+    }
+
+    public String getEndowmentInsurance() {
+        return endowmentInsurance;
+    }
+
+    public String getFullPay() {
+        return fullPay;
+    }
+
+    public String getHousingFund() {
+        return housingFund;
+    }
+
+    public String getLeavePay() {
+        return leavePay;
+    }
+
+    public String getMedicalInsurance() {
+        return medicalInsurance;
     }
 
     public String getMonth() {
         return month;
     }
 
+    public String getNdividualIncomeTax() {
+        return ndividualIncomeTax;
+    }
+
+    public String getNetPayroll() {
+        return netPayroll;
+    }
+
+    public String getTaxableIncome() {
+        return taxableIncome;
+    }
+
+    public String getUnemploymentInsurance() {
+        return unemploymentInsurance;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public String getBonus() {
+        return bonus;
+    }
+
+    public String getExpense() {
+        return expense;
+    }
+
+    public String getOvertimeAllowance() {
+        return overtimeAllowance;
+    }
+
+    public String getTrafficAllowance() {
+        return trafficAllowance;
+    }
+
+    public String getTravellingAllowance() {
+        return travellingAllowance;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setBasePay(String basePay) {
+        this.basePay = basePay;
+    }
+
+    public void setEndowmentInsurance(String endowmentInsurance) {
+        this.endowmentInsurance = endowmentInsurance;
+    }
+
+    public void setFullPay(String fullPay) {
+        this.fullPay = fullPay;
+    }
+
+    public void setHousingFund(String housingFund) {
+        this.housingFund = housingFund;
+    }
+
+    public void setLeavePay(String leavePay) {
+        this.leavePay = leavePay;
+    }
+
+    public void setMedicalInsurance(String medicalInsurance) {
+        this.medicalInsurance = medicalInsurance;
+    }
+
     public void setMonth(String month) {
         this.month = month;
     }
 
-    public String getName() {
-        return name;
+    public void setNdividualIncomeTax(String ndividualIncomeTax) {
+        this.ndividualIncomeTax = ndividualIncomeTax;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNetPayroll(String netPayroll) {
+        this.netPayroll = netPayroll;
     }
 
-    public String getSalary() {
-        return salary;
+    public void setTaxableIncome(String taxableIncome) {
+        this.taxableIncome = taxableIncome;
     }
 
-    public void setSalary(String salary) {
-        this.salary = salary;
+    public void setUnemploymentInsurance(String unemploymentInsurance) {
+        this.unemploymentInsurance = unemploymentInsurance;
     }
 
-    public String getChucaibuzhu() {
-        return chucaibuzhu;
+    public void setYear(String year) {
+        this.year = year;
     }
 
-    public void setChucaibuzhu(String chucaibuzhu) {
-        this.chucaibuzhu = chucaibuzhu;
+    public void setBonus(String bonus) {
+        this.bonus = bonus;
     }
 
-    public String getJiangjingongzi() {
-        return jiangjingongzi;
+    public void setExpense(String expense) {
+        this.expense = expense;
     }
 
-    public void setJiangjingongzi(String jiangjingongzi) {
-        this.jiangjingongzi = jiangjingongzi;
+    public void setOvertimeAllowance(String overtimeAllowance) {
+        this.overtimeAllowance = overtimeAllowance;
     }
 
-    public String getJiaotongbuzhu() {
-        return jiaotongbuzhu;
+    public void setTrafficAllowance(String trafficAllowance) {
+        this.trafficAllowance = trafficAllowance;
     }
 
-    public void setJiaotongbuzhu(String jiaotongbuzhu) {
-        this.jiaotongbuzhu = jiaotongbuzhu;
-    }
-
-    public String getJiabanbuzhu() {
-        return jiabanbuzhu;
-    }
-
-    public void setJiabanbuzhu(String jiabanbuzhu) {
-        this.jiabanbuzhu = jiabanbuzhu;
-    }
-
-    public String getBaoxiao() {
-        return baoxiao;
-    }
-
-    public void setBaoxiao(String baoxiao) {
-        this.baoxiao = baoxiao;
-    }
-
-    public String getQuanegongzi() {
-        return quanegongzi;
-    }
-
-    public void setQuanegongzi(String quanegongzi) {
-        this.quanegongzi = quanegongzi;
-    }
-
-    public String getBingshijiagongzi() {
-        return bingshijiagongzi;
-    }
-
-    public void setBingshijiagongzi(String bingshijiagongzi) {
-        this.bingshijiagongzi = bingshijiagongzi;
-    }
-
-    public String getZhufanggongjijin() {
-        return zhufanggongjijin;
-    }
-
-    public void setZhufanggongjijin(String zhufanggongjijin) {
-        this.zhufanggongjijin = zhufanggongjijin;
-    }
-
-    public String getYanglaobaoxian() {
-        return yanglaobaoxian;
-    }
-
-    public void setYanglaobaoxian(String yanglaobaoxian) {
-        this.yanglaobaoxian = yanglaobaoxian;
-    }
-
-    public String getYiliaobaoxian() {
-        return yiliaobaoxian;
-    }
-
-    public void setYiliaobaoxian(String yiliaobaoxian) {
-        this.yiliaobaoxian = yiliaobaoxian;
-    }
-
-    public String getShiyebaoxian() {
-        return shiyebaoxian;
-    }
-
-    public void setShiyebaoxian(String shiyebaoxian) {
-        this.shiyebaoxian = shiyebaoxian;
-    }
-
-    public String getYingshuisuodee() {
-        return yingshuisuodee;
-    }
-
-    public void setYingshuisuodee(String yingshuisuodee) {
-        this.yingshuisuodee = yingshuisuodee;
-    }
-
-    public String getGesui() {
-        return gesui;
-    }
-
-    public void setGesui(String gesui) {
-        this.gesui = gesui;
-    }
-
-    public String getShifagongzi() {
-        return shifagongzi;
-    }
-
-    public void setShifagongzi(String shifagongzi) {
-        this.shifagongzi = shifagongzi;
+    public void setTravellingAllowance(String travellingAllowance) {
+        this.travellingAllowance = travellingAllowance;
     }
 }

@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,44 +21,50 @@ import android.widget.Toast;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.customerWidget.NoscrollListView;
+import Tool.customerWidget.PullScrollView;
 import Tool.customerWidget.SyncHorizontalScrollView;
 import Tool.statistics.Statics;
+import http.BillingStatisticsHttpPost;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
+import model.CompanyDepartment;
 import model.FinancialSalaryStatistics;
+import ui.adpter.CustomerBillingStatisticsAdapter;
 import ui.adpter.FinancialSalaryStatisticsAdapter;
 import ui.adpter.LeftStatisticsAdpter;
+import ui.fragement.AttendanceZhuFragment;
 
 /**
  * 工资统计
  * */
-public class FinancialSalaryStastisticsActivity extends BaseActivity{
+public class FinancialSalaryStastisticsActivity extends BaseActivity implements android.os.Handler.Callback{
     public static LeftStatisticsAdpter leftStatisticsAdpter;
     public static FinancialSalaryStatisticsAdapter fssAdapter;
     private ViewGroup tableTitle,tableTitle1;
-    private NoscrollListView mLeft;
-    private NoscrollListView mData;
+    private static NoscrollListView mLeft;
+    private static NoscrollListView mData;
     private SyncHorizontalScrollView mHeaderHorizontal;
     private SyncHorizontalScrollView mDataHorizontal;
-    public Activity activity;
+    public static Activity activity;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
     public LayoutInflater inflater;
-    private Spinner yearSpinner,monthSpinner,companySpinner,nameSpinner;
-    public static ArrayAdapter<String> arr_adapter ,yearAdapter,monthAdapter,arr_adapterName;
+    private Spinner yearSpinner,monthSpinner,departmentSpinner,nameSpinner;
+    public static ArrayAdapter<String> arr_adapter ,yearAdapter,monthAdapter,arr_adapterName,departmentAdapter;
     private static List<String> data_list;
-    private String nameSpinnerString = "024001";
-    private String yearSpinnerString = null;
+    private String nameSpinnerString,yearSpinnerString,monthSpinnerString,departmentSpinnerString;
     public static ArrayList<String> yearlist;
     private int monthPosition,yearPosition;
-    private static String monthSpinnerString = null;
-    private ImageView add;
+    private ImageView add,search;
     public static int page = 1;
     private Intent in;
-
+    private HashMap<String,String> param;
+    private PullScrollView pullScrollView;
+    private Handler handler ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,54 +79,16 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity{
         //空查询
         //page = 1;//显示页数
         //刚进入页面就要显示数据
-        //progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
-        HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,null, HttpTypeConstants.FinancialBillingManagementUrlType);
-        //测试数据
-        FinancialSalaryStatistics fss = new FinancialSalaryStatistics("2017","8","赵雪田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2019","8","赵田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2010","8","雪田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2019","8","赵田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2010","8","雪田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2019","8","赵田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2010","8","雪田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2019","8","赵田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2010","8","雪田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2019","8","赵田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2010","8","雪田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2019","8","赵田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2010","8","雪田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2019","8","赵田","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
-        fss = new FinancialSalaryStatistics("2010","8","金日成","1000","","","","",""
-                ,"1000.0","1057.47","","","","","0.00","0.00","-57.47");
-        Statics.fssArrayList.add(fss);
+        progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
+        param = new HashMap<>();
+        Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+        yearSpinnerString = Integer.toString(c.get(Calendar.YEAR));
+        monthSpinnerString = Integer.toString(c.get(Calendar.MONTH));
+        param.put("year",yearSpinnerString);
+        param.put("month",monthSpinnerString);
+        param.put("orgId","8d670a31e1cb42a9843d036d9aaefe98");//默认大连翼峰软件有限公司
+        Log.d("FinancialSalaryStastist", "默认年月:" + yearSpinnerString + monthSpinnerString + departmentSpinnerString);
+        HttpBasePost.postHttp(Statics.FinancialSalaryGetWXStaffPayrollListUrl,param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
         leftStatisticsAdpter = new LeftStatisticsAdpter(activity, Statics.fssArrayList);
         mLeft.setAdapter(leftStatisticsAdpter);
 
@@ -127,13 +97,30 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity{
         ToolUtils.setListViewHeightBasedOnChildren(mLeft,9);
         fssAdapter = new FinancialSalaryStatisticsAdapter(activity,Statics.fssArrayList);
         mData.setAdapter(fssAdapter);
-        mData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*mData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(activity, "选中" + l, Toast.LENGTH_SHORT).show();
 
             }
+        });*/
+        //下拉刷新
+        handler = new Handler(getMainLooper(), this);
+        pullScrollView.setOnRefreshListener(new PullScrollView.onRefreshListener() {
+
+            @Override
+            public void refresh() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //表格数据刷新
+                        HttpBasePost.postHttp(Statics.FinancialSalaryGetWXStaffPayrollListUrl,param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
+                        pullScrollView.stopRefresh();
+                    }
+                }, 5000);
+            }
         });
+
 
     }
 
@@ -180,6 +167,7 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity{
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
         //数据 年 默认显示上个月的
         //httpPost =new HttpPost();
         //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this)
@@ -263,6 +251,40 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity{
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        //适配器 企业部门
+        data_list = new ArrayList<>();
+
+        for(CompanyDepartment companyDepartment:Statics.companyDepartmentsArrayList){
+            /*if(companyDepartment.getOrg_name().length()>6){
+                data_list.add(companyDepartment.getOrg_name().substring(0,6));
+            }else{
+                data_list.add(companyDepartment.getOrg_name());
+            }*/
+            data_list.add(companyDepartment.getOrg_name());
+        }
+        departmentAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
+        //设置样式
+        departmentAdapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+        //加载适配器
+        departmentSpinner.setAdapter(departmentAdapter);
+        departmentAdapter.notifyDataSetChanged();
+        departmentSpinner.setSelection(2);
+        data_list = null;
+        departmentSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                /*if(position == 0){
+                    monthSpinnerString = "全部";
+                }else{
+                    monthSpinnerString = finalMonthList.get(position);
+                }*/
+                departmentSpinnerString = Statics.companyDepartmentsArrayList.get(position).getId();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
     private String currentTime(String type) {
         //获取当前时间
@@ -294,10 +316,13 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity{
         tableTitle1.setBackgroundColor(Color.rgb(230, 240, 255));
         yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
         monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
-        companySpinner = (Spinner) findViewById(R.id.companySpinner);
+        departmentSpinner = (Spinner) findViewById(R.id.departmentSpinner);
         nameSpinner = (Spinner) findViewById(R.id.nameSpinner);
-        add = (ImageView) findViewById(R.id.add);
-        add.setOnClickListener(o);
+        //add = (ImageView) findViewById(R.id.add);
+        //add.setOnClickListener(o);
+        search = (ImageView) findViewById(R.id.search);
+        search.setOnClickListener(o);
+        pullScrollView = (PullScrollView) findViewById(R.id.test);
 
     }
 
@@ -308,6 +333,20 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity{
                 case R.id.add://添加工资单
                     in = new Intent(activity,AddFinancialSalaryActivity.class);
                     startActivity(in);
+                    break;
+                case R.id.search://条件检索
+                    if(nameSpinnerString.equals("全部")){
+                        nameSpinnerString = "";
+                    }
+                    progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
+                    param = new HashMap<>();
+                    param.put("userId",nameSpinnerString);
+                    param.put("year",yearSpinnerString);
+                    param.put("month",monthSpinnerString);
+                    param.put("orgId",departmentSpinnerString);
+                    Log.d("FinancialSalaryStastist", "ces");
+                    Log.d("FinancialSalaryStastist", "检索条件:"+nameSpinnerString+"@"+yearSpinnerString+"@"+monthSpinnerString+"??"+departmentSpinnerString+"!!"+nameSpinnerString);
+                    HttpBasePost.postHttp(Statics.FinancialSalaryGetWXStaffPayrollListUrl,param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
                     break;
             }
         }
@@ -324,5 +363,20 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    public static void AdapterRefresh(String type) {//刷新adapter
+        switch (type) {
+            case "salaryAdapter":
+                Log.d("FinancialSalaryStastist", "刷新" + Statics.fssArrayList.size() + "ss");
+                ToolUtils.setListViewHeightBasedOnChildren(mLeft,9);
+                leftStatisticsAdpter.notifyDataSetChanged();//刷新
+                fssAdapter.notifyDataSetChanged();//刷新
+                progressDialog.dismiss();
+                break;
+        }
+    }
 
+    @Override
+    public boolean handleMessage(Message msg) {
+        return false;
+    }
 }

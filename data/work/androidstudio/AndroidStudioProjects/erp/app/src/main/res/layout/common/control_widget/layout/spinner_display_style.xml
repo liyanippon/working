@@ -9,6 +9,7 @@
         android:background="#00bfff"
         android:textColor="#ffffff"
         android:textSize="20sp"
+        android:lines="1"
         android:layout_gravity="center"
          />
 </LinearLayout>

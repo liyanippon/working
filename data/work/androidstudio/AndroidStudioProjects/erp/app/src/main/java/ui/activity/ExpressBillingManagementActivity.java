@@ -3,14 +3,12 @@ package ui.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -18,26 +16,20 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.ScaleAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.admin.erp.R;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
-import Tool.crash.CrashHandler;
 import Tool.statistics.Statics;
+import biz.ExpressBillingManagerImpl;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
@@ -64,7 +56,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     public static int page = 1;
     private ExpressBillingManagementHttpPost httpPost;
     private AlertDialog dlg,dlgMenu;
-    private boolean SearchBoolean = false;
+    public static boolean SearchBoolean = false;
     public static Context context;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
     static FreshenBroadcastReceiver broadcast;
@@ -72,7 +64,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     public static boolean deleteSuccess = false;
     public static Activity activityExpress;
     public static boolean isAdd = false;
-
+    ExpressBillingManagerImpl ebmi = new ExpressBillingManagerImpl();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,48 +201,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 dlg.getWindow().setAttributes(lp);
             }
         });
-
         spinnerType();
-
-        search.setOnClickListener(new View.OnClickListener() {//查询
-            @Override
-            public void onClick(View v) {
-                //条件查询
-                page = 1;
-                progressDialog = ProgressDialog.show(ExpressBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                SearchBoolean = true;
-                httpPost = new ExpressBillingManagementHttpPost();
-                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-                Log.d("ExpressBillingManagemen", "业务类型："+reasonSpinnerString);
-                String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, reasonSpinnerString, ExpressBillingManagementActivity.this, page);
-
-            }
-        });
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                newBilling.setVisibility(View.VISIBLE);
-                transferAccounts.setVisibility(View.VISIBLE);
-                ScaleAnimation sa = new ScaleAnimation(1.0f, 1.1f, 1.0f, 1.1f, 100.0f, 120.0f);
-                sa.setDuration(1000);
-                newBilling.startAnimation(sa);
-                transferAccounts.startAnimation(sa);
-                newBilling.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent in = new Intent(ExpressBillingManagementActivity.this, AddExpressBillingManagerActivity.class);
-                        startActivity(in);
-                    }
-                });
-                transferAccounts.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent ins = new Intent(ExpressBillingManagementActivity.this,TransferAccountActivity.class);
-                        startActivity(ins);
-                    }
-                });
-            }
-        });
     }
 
 
@@ -264,9 +215,6 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
     private void spinnerType() {
         Log.d("test", "spinnerType");
@@ -393,7 +341,23 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         accountLv = (XListView) findViewById(R.id.xListView);
         newBilling = findViewById(R.id.newBilling);
         transferAccounts = findViewById(R.id.transferAccounts);
+        add.setOnClickListener(o);
+        search.setOnClickListener(o);
     }
+
+    View.OnClickListener o = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.search:
+                    ebmi.search(activityExpress,httpPost,typeSpinnerString,classifySpinnerString,reasonSpinnerString);
+                    break;
+                case R.id.add:
+                    ebmi.add(activityExpress);
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onRefresh() {

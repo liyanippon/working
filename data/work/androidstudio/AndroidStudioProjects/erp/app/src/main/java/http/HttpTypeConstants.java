@@ -56,5 +56,9 @@ public class HttpTypeConstants {
     public static final String FinancialBillingGetWXSelectMonthAccountUrlType ="100507";//月份账目明细(详细信息)
     public static final String FinancialBillingGetCurrentMoneyUrlType ="100508";//查看现在金额
     public static final String FinancialBillingGetWXSelectCustomerDetailsUrlType = "100509";//客户统计信息查询
+    //员工工资统计
+    public static final String FinancialSalaryGetWXStaffPayrollListUrlType = "100510";//员工工资查询
+    public static final String CompanyDepartmentListUrlType = "100511";//单位部门
+    public static final String FinancialSalaryGetWXInsertPayrollUrlType = "100512";//添加工资单
 
 }

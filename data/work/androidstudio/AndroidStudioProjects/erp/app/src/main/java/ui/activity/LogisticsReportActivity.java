@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.customerWidget.PullScrollView;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
@@ -39,7 +42,7 @@ import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
 import ui.fragement.InoutComeZhuFragment;
 
-public class LogisticsReportActivity extends BaseActivity {
+public class LogisticsReportActivity extends BaseActivity implements android.os.Handler.Callback {
     public static ListView timeListView, customerListView;
     private ViewGroup tableTitle, tableTitle1;
     private BillingStatisticsHttpPost billingStatisticsHttpPost;
@@ -52,11 +55,7 @@ public class LogisticsReportActivity extends BaseActivity {
     private String yearSpinnerString = null, reasonSpinnerString,typeSpinnerString;
     private static String classifySpinnerString;
     private static List<TimeBillingStatistics> timeBillingStatisticsList;
-    private static List<CustomerBillingStatistics> customerBillingStatisticsList;
     private List<XiangxiBillingStatistics> xiangxiBillingStatisticsList;
-    //public static TimeBillingStatisticsAdapter timeAdapter;
-    //public static CustomerBillingStatisticsAdapter customerAdapter;
-    //public static XiangxiBillingStatisticsAdapter xiangxiAdapter;
     private AlertDialog dlg;
     private ListView listView;
     private int count = 0;
@@ -69,6 +68,8 @@ public class LogisticsReportActivity extends BaseActivity {
     static FreshenBroadcastReceiver broadcast;
     private static ArrayList data_list1;
     public static Context context;
+    private PullScrollView pullScrollView;
+    private Handler handler ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +83,6 @@ public class LogisticsReportActivity extends BaseActivity {
         init();
         activity = LogisticsReportActivity.this;
         spinnerType();
-        Log.d("BillingStatisticsActivi", "test");
         yearSpinnerString = "2017";//默认赋值
         //首次访问
         progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
@@ -125,6 +125,26 @@ public class LogisticsReportActivity extends BaseActivity {
                 lp.width = display.getWidth(); //设置宽度
                 //lp.height = display.getHeight();
                 dlg.getWindow().setAttributes(lp);
+            }
+        });
+
+        //下拉刷新
+        handler = new Handler(getMainLooper(), this);
+        pullScrollView.setOnRefreshListener(new PullScrollView.onRefreshListener() {
+
+            @Override
+            public void refresh() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //表格数据刷新
+                        Statics.ActivityType = "LogisticsReportActivity";
+                        billingStatisticsHttpPost = new BillingStatisticsHttpPost();
+                        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "" ,  ""  , "", activity,"LogisticsReportActivity");
+                        BillingStatisticsActivity.timeAdapter.notifyDataSetChanged();
+                        pullScrollView.stopRefresh();
+                    }
+                }, 5000);
             }
         });
 
@@ -364,13 +384,18 @@ public class LogisticsReportActivity extends BaseActivity {
         //tableTitle1.setBackgroundColor(Color.rgb(230, 240, 255));
         //currentMoneyStatistics = (TextView) findViewById(R.id.currentMoneyStatistics);
         mCombinedChart = (BarChart) findViewById(R.id.barChart);
+        pullScrollView = (PullScrollView) findViewById(R.id.test);
+
     }
 
     public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
             case "timeAdapter":
                 BillingStatisticsActivity.timeAdapter.notifyDataSetChanged();
-                progressDialog.dismiss();
+                if(progressDialog!=null){
+                    progressDialog.dismiss();
+                }
+
                 //测量高度
                 ToolUtils.setListViewHeightBasedOnChildren(timeListView,1);
                 //统计图
@@ -408,4 +433,8 @@ public class LogisticsReportActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean handleMessage(Message msg) {
+        return false;
+    }
 }

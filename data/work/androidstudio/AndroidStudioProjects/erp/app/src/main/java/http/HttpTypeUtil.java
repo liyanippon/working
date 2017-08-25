@@ -4,9 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
 import broadcast.TYPE;
@@ -14,6 +21,7 @@ import model.AttendanceStaffBelongProject;
 import model.AttendanceStatistics;
 import model.AttendanceWxDetaSearch;
 import model.AttendanceYear;
+import model.CompanyDepartment;
 import model.ExpressClassify;
 import model.ExpressExpensePayMethod;
 import model.FinancialAccount;
@@ -22,6 +30,7 @@ import model.FinancialBillingGetWXSelectMonthAccount;
 import model.FinancialBillingGetWXsettlementMonth;
 import model.FinancialCustomer;
 import model.FinancialManagement;
+import model.FinancialSalaryStatistics;
 import model.LogisticsReportSearch;
 import model.StaffName;
 import model.TransferAccountClassify;
@@ -30,6 +39,7 @@ import ui.activity.AttendanceStatisticsActivity;
 import ui.activity.BillingStatisticsActivity;
 import ui.activity.ExpressBillingManagementActivity;
 import ui.activity.FinancialBillingManagementActivity;
+import ui.activity.FinancialSalaryStastisticsActivity;
 import ui.activity.FinancialStastisticsActivity;
 import ui.activity.LogisticsReportActivity;
 import ui.activity.TransferAccountActivity;
@@ -243,6 +253,111 @@ public class HttpTypeUtil {
                 FinancialBillingGetWXSelectMonthAccount[] fbgmxbsa = new Gson().fromJson(result, FinancialBillingGetWXSelectMonthAccount[].class);
                 Collections.addAll(Statics.fbgwxsmaList,fbgmxbsa);//转化arrayList
                 FinancialStastisticsActivity.AdapterRefresh("monthXiangXiAdapter");
+                break;
+            case "100510":
+                Log.d("HttpTypeUtil", "员工工资查询："+result);
+                String replaceString = result.replace("\"\"","0.0");
+                Statics.fssArrayList.clear();
+                Log.d("HttpTypeUtil", "员工工资查询s："+replaceString);
+                //FinancialSalaryStatistics[] fss = new Gson().fromJson(replaceString, FinancialSalaryStatistics[].class);
+                //Collections.addAll(Statics.fssArrayList,fss);
+                try {
+                    FinancialSalaryStatistics financialSalaryStatistics = null;
+                    JSONObject obj = new JSONObject(replaceString);
+                    JSONArray jsonArray = obj.getJSONArray("rows");
+                    for (int k = 0; k < jsonArray.length(); k++) {
+                        JSONObject jsonObject2 = jsonArray.getJSONObject(k);
+                        String userName = jsonObject2.get("userName").toString();//员工姓名
+                        String basePay = jsonObject2.get("basePay").toString();//基本工资
+                        String leavePay = jsonObject2.get("leavePay").toString();//病事假工资
+                        String month = jsonObject2.get("month").toString();//月份
+                        String ndividualIncomeTax = jsonObject2.get("ndividualIncomeTax").toString();//个人所得税
+                        String netPayroll = jsonObject2.get("netPayroll").toString();//实发工资
+                        String taxableIncome = jsonObject2.get("taxableIncome").toString();//应税所得额
+                        String bonus,expense,overtimeAllowance,trafficAllowance,travellingAllowance,endowmentInsurance,fullPay,housingFund,medicalInsurance,unemploymentInsurance,year;
+                        if(jsonObject2.has("year")){
+                            year = jsonObject2.get("year").toString();//年份
+                        }else {
+                            year = "0.0";
+                        }
+                        if(jsonObject2.has("unemploymentInsurance")){
+                            unemploymentInsurance = jsonObject2.get("unemploymentInsurance").toString();//失业保险
+                        }else {
+                            unemploymentInsurance = "0.0";
+                        }
+                        if(jsonObject2.has("medicalInsurance")){
+                            medicalInsurance = jsonObject2.get("medicalInsurance").toString();//医疗保险
+                        }else {
+                            medicalInsurance = "0.0";
+                        }
+                        if(jsonObject2.has("housingFund")){
+                            housingFund = jsonObject2.get("housingFund").toString();//住房公积金
+                        }else {
+                            housingFund = "0.0";
+                        }
+                        if(jsonObject2.has("fullPay")){
+                            fullPay = jsonObject2.get("fullPay").toString();//全额工资
+                        }else {
+                            fullPay = "0.0";
+                        }
+                        if(jsonObject2.has("endowmentInsurance")){
+                            endowmentInsurance = jsonObject2.get("endowmentInsurance").toString();//养老保险
+                        }else {
+                            endowmentInsurance = "0.0";
+                        }
+                        if(jsonObject2.has("bonus")){
+                             bonus = jsonObject2.get("bonus").toString();//奖金
+                        }else {
+                            bonus = "0.0";
+                        }
+                        if(jsonObject2.has("expense")){
+                            expense = jsonObject2.get("expense").toString();//报销
+                        }else {
+                            expense = "0.0";
+                        }
+                        if(jsonObject2.has("overtimeAllowance")){
+                            overtimeAllowance = jsonObject2.get("overtimeAllowance").toString();//加班补助
+                        }else {
+                            overtimeAllowance = "0.0";
+                        }
+                        if(jsonObject2.has("trafficAllowance")){
+                            trafficAllowance = jsonObject2.get("trafficAllowance").toString();//交通补助
+                        }else {
+                            trafficAllowance = "0.0";
+                        }
+                        if(jsonObject2.has("travellingAllowance")){
+                            travellingAllowance = jsonObject2.get("travellingAllowance").toString();//出差补助
+                        }else {
+                            travellingAllowance = "0.0";
+                        }
+
+                        //String bonus = jsonObject2.get("bonus").toString();//奖金
+                        //String expense = jsonObject2.get("expense").toString();//报销
+                        //String overtimeAllowance = jsonObject2.get("overtimeAllowance").toString();//加班补助
+                        //String trafficAllowance = jsonObject2.get("trafficAllowance").toString();//交通补助
+                        //String travellingAllowance = jsonObject2.get("travellingAllowance").toString();//出差补助
+                        financialSalaryStatistics = new FinancialSalaryStatistics(userName,basePay
+                        ,endowmentInsurance,fullPay,housingFund,leavePay,medicalInsurance,month,ndividualIncomeTax,netPayroll
+                        ,taxableIncome,unemploymentInsurance,year,bonus,expense,overtimeAllowance,trafficAllowance,travellingAllowance);
+                        Statics.fssArrayList.add(financialSalaryStatistics);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Log.d("HttpTypeUtil", "ki"+Statics.fssArrayList.size());
+                FinancialSalaryStastisticsActivity.AdapterRefresh("salaryAdapter");
+                break;
+            case "100511":
+                Log.d("HttpTypeUtil", "企业部门信息："+result);
+                Statics.companyDepartmentsArrayList.clear();
+                CompanyDepartment[] companyDepartments = new Gson().fromJson(result, CompanyDepartment[].class);
+                Collections.addAll(Statics.companyDepartmentsArrayList,companyDepartments);//转化arrayList
+                break;
+            case "100512":
+                Log.d("HttpTypeUtil", "adfasd");
+                Log.d("HttpTypeUtil", "录入考勤："+result);
                 break;
         }
         return result;

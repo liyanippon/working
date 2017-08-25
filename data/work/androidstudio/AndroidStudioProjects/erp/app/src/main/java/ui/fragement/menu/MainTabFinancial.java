@@ -19,6 +19,7 @@ import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
 import http.ExpressBillingManagementHttpPost;
+import http.HttpBase;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
 import ui.activity.FinancialBillingManagementActivity;
@@ -51,6 +52,7 @@ public class MainTabFinancial extends Fragment {
                 HttpBasePost.postHttp(Statics.FinancialBillingGetWXAccountsTypeUrl,null, HttpTypeConstants.FinancialBillingGetWXAccountsTypeUrlType);//账目下拉框
                 HttpBasePost.postHttp(Statics.FinancialAccountCustomerUrl,null, HttpTypeConstants.FinancialAccountCustomerUrlType);
                 HttpBasePost.postHttp(Statics.AccountClassifyUrl,null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
+                HttpBasePost.postHttp(Statics.FinancialSalaryGetWXOrgListUrl,null,HttpTypeConstants.CompanyDepartmentListUrlType);//单位下拉框
             }
         }.run();
     }

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,7 +31,9 @@ import java.util.List;
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.customerWidget.PullScrollView;
 import Tool.statistics.Statics;
+import http.BillingStatisticsHttpPost;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
 import model.AttendanceStaffBelongProject;
@@ -39,11 +43,12 @@ import portface.LazyLoadFace;
 import ui.adpter.AttendanceBelongProjectStatisticsAdapter;
 import ui.adpter.AttendanceStatisticsAdapter;
 import ui.adpter.AttendanceXiangxiStatisticsAdapter;
+import ui.adpter.CustomerBillingStatisticsAdapter;
 import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
 import ui.fragement.AttendanceChartsFragmentActivity;
 import ui.fragement.AttendanceZhuFragment;
 
-public class AttendanceStatisticsActivity extends BaseActivity{
+public class AttendanceStatisticsActivity extends BaseActivity implements android.os.Handler.Callback{
     public static ListView attendListView;
     private ViewGroup tableTitle;
     private Spinner nameSpinner, yearSpinner ,monthSpinner;
@@ -72,6 +77,8 @@ public class AttendanceStatisticsActivity extends BaseActivity{
     //统计图
     private static BarChart mCombinedChart;
     private static TextView titleMonth;
+    private PullScrollView pullScrollView;
+    private Handler handler ;
     //考勤统计
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +125,32 @@ public class AttendanceStatisticsActivity extends BaseActivity{
         search.setOnClickListener(this);
         activity = AttendanceStatisticsActivity.this;
         mCombinedChart.setOnClickListener(this);
+
+        //下拉刷新
+        handler = new Handler(getMainLooper(), this);
+        pullScrollView.setOnRefreshListener(new PullScrollView.onRefreshListener() {
+
+            @Override
+            public void refresh() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //表格数据刷新
+                        if("全部".equals(nameSpinnerString)){
+                            nameSpinnerString = "";
+                        }else{
+
+                        }
+                        param=new HashMap<>();
+                        param.put("userId",nameSpinnerString);
+                        param.put("year",yearSpinnerString);
+                        param.put("month",monthSpinnerString);
+                        HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
+                        pullScrollView.stopRefresh();
+                    }
+                }, 5000);
+            }
+        });
     }
 
     //显示详情
@@ -412,6 +445,8 @@ public class AttendanceStatisticsActivity extends BaseActivity{
         search = (ImageView) findViewById(R.id.search);
         mCombinedChart = (BarChart)findViewById(R.id.barChart);
         titleMonth = (TextView) findViewById(R.id.titleMonth);
+        pullScrollView = (PullScrollView) findViewById(R.id.test);
+
     }
     public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
@@ -439,5 +474,10 @@ public class AttendanceStatisticsActivity extends BaseActivity{
                 abpsAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        return false;
     }
 }

@@ -1,9 +1,10 @@
 package ui.activity;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,21 +21,18 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.admin.erp.R;
 import com.github.mikephil.charting.charts.BarChart;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.customerWidget.PullScrollView;
 import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
 import model.*;
-import portface.LazyLoadFace;
-import ui.adpter.CustomerBillingStatisticsAdapter;
 import ui.adpter.FinancialCustomerBillingStatisticsAdapter;
 import ui.adpter.FinancialTimeBillingStatisticsAdapter;
 import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
@@ -42,7 +40,7 @@ import ui.adpter.XiangxiBillingStatisticsAdapter;
 import ui.fragement.ChartsFragementActivity;
 import ui.fragement.InoutComeZhuFragment;
 
-public class FinancialStastisticsActivity extends BaseActivity{
+public class FinancialStastisticsActivity extends BaseActivity implements android.os.Handler.Callback{
 
     public static ListView timeListView, customerListView;
     public LinearLayout linear;//设置隐藏
@@ -68,6 +66,8 @@ public class FinancialStastisticsActivity extends BaseActivity{
     //统计图
     private static BarChart mCombinedChart;
     private static Activity activity;
+    private PullScrollView pullScrollView;
+    private Handler handler ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,6 +121,26 @@ public class FinancialStastisticsActivity extends BaseActivity{
                         xiangxiAlertDialog(position,yearSpinnerString, finalMonthString);//详细信息
                     }
                 });
+            }
+        });
+
+        //下拉刷新
+        handler = new Handler(getMainLooper(), this);
+        pullScrollView.setOnRefreshListener(new PullScrollView.onRefreshListener() {
+
+            @Override
+            public void refresh() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //表格数据刷新
+                        HttpBasePost.postHttp(Statics.FinancialBillingGetWXsettlementMonthUrl,null, HttpTypeConstants.FinancialBillingGetWXsettlementMonthUrlType);
+                        fbgwxscList = null;
+                        customerAdapter = new FinancialCustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, fbgwxscList);
+                        customerListView.setAdapter(customerAdapter);
+                        pullScrollView.stopRefresh();
+                    }
+                }, 5000);
             }
         });
     }
@@ -286,6 +306,7 @@ public class FinancialStastisticsActivity extends BaseActivity{
         currentMoney = (TextView) findViewById(R.id.currentMoney);
         //linear = (LinearLayout) findViewById(R.id.linear);
         mCombinedChart = (BarChart) findViewById(R.id.barChart);
+        pullScrollView = (PullScrollView) findViewById(R.id.test);
 
     }
     public static void AdapterRefresh(String type) {//刷新adapter
@@ -316,5 +337,10 @@ public class FinancialStastisticsActivity extends BaseActivity{
                 currentMoney.setText(Statics.CurrentMoney);
                 break;
         }
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        return false;
     }
 }
