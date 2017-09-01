@@ -395,7 +395,6 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
                 if(progressDialog!=null){
                     progressDialog.dismiss();
                 }
-
                 //测量高度
                 ToolUtils.setListViewHeightBasedOnChildren(timeListView,1);
                 //统计图

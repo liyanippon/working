@@ -199,10 +199,16 @@ public class HttpTypeUtil {
                 break;
             case "100501":
                 //json数据使用Gson框架解析
-                Log.d("HttpTypeUtil", "财务带条件查询");
+                Log.d("HttpTypeUtil", "财务带条件查询:"+result);
                 Statics.financialManagementList.clear();
-                FinancialManagement[] fm = new Gson().fromJson(result, FinancialManagement[].class);
-                Collections.addAll(Statics.financialManagementList,fm);//转化arrayList
+                if(result.indexOf("失败")!=-1){
+
+                }else {
+                    FinancialManagement[] fm = new Gson().fromJson(result, FinancialManagement[].class);
+                    Collections.addAll(Statics.financialManagementList,fm);//转化arrayList
+                    Statics.page = (Statics.financialManagementList.get(0).getData().get(0).getTotal() + Integer.parseInt("50") - 1) / Integer.parseInt("50");
+                }
+
                 //FinancialBillingManagementActivity financialBillingManagementActivity =new FinancialBillingManagementActivity();
                 //financialBillingManagementActivity.AdapterRefresh("FinancialManagementHttpPost");
                 FinancialBillingManagementActivity.AdapterRefresh("FinancialManagementHttpPost");

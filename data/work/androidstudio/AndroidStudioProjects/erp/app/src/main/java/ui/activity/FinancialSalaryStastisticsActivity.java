@@ -38,7 +38,6 @@ import ui.adpter.CustomerBillingStatisticsAdapter;
 import ui.adpter.FinancialSalaryStatisticsAdapter;
 import ui.adpter.LeftStatisticsAdpter;
 import ui.fragement.AttendanceZhuFragment;
-
 /**
  * 工资统计
  * */
@@ -92,19 +91,10 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
         HttpBasePost.postHttp(Statics.FinancialSalaryGetWXStaffPayrollListUrl,param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
         leftStatisticsAdpter = new LeftStatisticsAdpter(activity, Statics.fssArrayList);
         mLeft.setAdapter(leftStatisticsAdpter);
-
-        Log.d("FinancialSalaryStastist", "meta");
         //测量高度
         //ToolUtils.setListViewHeightBasedOnChildren(mLeft,9);
         fssAdapter = new FinancialSalaryStatisticsAdapter(activity,Statics.fssArrayList);
         mData.setAdapter(fssAdapter);
-        /*mData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(activity, "选中" + l, Toast.LENGTH_SHORT).show();
-
-            }
-        });*/
         //下拉刷新
         handler = new Handler(getMainLooper(), this);
         pullScrollView.setOnRefreshListener(new PullScrollView.onRefreshListener() {
@@ -121,8 +111,6 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
                 }, 5000);
             }
         });
-
-
     }
 
     private void spinnerType() {

@@ -64,7 +64,6 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
         currentMon = calendar.get(Calendar.MONTH)+1;
         currentDate = calendar.get(Calendar.DAY_OF_MONTH);
         billingTime.setText(String.format("%d-%d-%d",currentYear,currentMon,currentDate));
-
         add.setOnClickListener(this);
         reset.setOnClickListener(this);
         billingTime.setOnClickListener(this);

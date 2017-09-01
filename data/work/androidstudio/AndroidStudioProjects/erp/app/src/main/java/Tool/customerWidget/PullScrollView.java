@@ -11,23 +11,19 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Scroller;
 
-public class PullScrollView extends RelativeLayout {
-
+public class PullScrollView extends RelativeLayout{
 	public PullScrollView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
 	}
-	
 	public PullScrollView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}
-	
 	public PullScrollView(Context context) {
 		super(context);
 		init(context);
 	}
-	
 	private Scroller mScroller ;
 	private int mTouchSlop ;
 	private void init(Context context){
@@ -37,18 +33,13 @@ public class PullScrollView extends RelativeLayout {
 	     
 		mScroller = new Scroller(context, new DecelerateInterpolator());
 	}
-
-	
 	private ViewGroup bottomView ;
-	private ScrollView contentView ; 
-	
-	
+	private ScrollView contentView ;
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		getTopPosition();
 		return super.dispatchTouchEvent(ev);
 	}
-	
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -58,15 +49,12 @@ public class PullScrollView extends RelativeLayout {
 		bottomView = (ViewGroup) getChildAt(0);
 		contentView = (ScrollView) getChildAt(1);
 	}
-	
 	private int startY ; 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		
 		if (getScrollY() < 0 ) {
 			return true ;
 		}
-		
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			startY = (int) ev.getY();
@@ -81,13 +69,10 @@ public class PullScrollView extends RelativeLayout {
 			}
 			break ;
 		case MotionEvent.ACTION_UP:
-			
 			break;
 		}
 		return super.onInterceptTouchEvent(ev);
 	}
-	
-	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		switch (event.getAction()) {
@@ -122,10 +107,7 @@ public class PullScrollView extends RelativeLayout {
 		}
 		return true ;
 	}
-	
-	
-	private PullState state = PullState.REST ; 
-	
+	private PullState state = PullState.REST ;
 	@Override
 	public void computeScroll() {
 		super.computeScroll();
@@ -134,20 +116,13 @@ public class PullScrollView extends RelativeLayout {
 			postInvalidate();
 		}
 	}
-	
-	
 	private void returnView(){
 		restView(-getScrollY());
 	}
-	
-	
 	private void restView(int dy){
 		mScroller.startScroll(0, getScrollY(), 0, dy , 340);
 		postInvalidate();
 	}
-	
-	
-	
 	private void pullMove(int delay){
 		if (getScrollY() <= 0 && (getScrollY() + delay) <= 0 ) {
 			scrollBy(0, delay);
@@ -155,16 +130,12 @@ public class PullScrollView extends RelativeLayout {
 			scrollTo(0, 0);
 		}
 	}
-	
-	
 	private boolean getTopPosition(){
 		if (contentView.getScrollY() <= 0 ) {
 			return true ;
 		}
 		return false ;
 	}
-	
-	
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		bottomHeight = getBottomViewHeight() ; 
@@ -172,35 +143,22 @@ public class PullScrollView extends RelativeLayout {
 		bottomView.layout(l, - bottomHeight, r, t);
 		contentView.layout(l, 0, r, b);
 	}
-	
-	
-	
 	private int bottomHeight = 0 ;
-	
 	private int getBottomViewHeight(){
 		return bottomView.getMeasuredHeight();
 	}
-	
-	
 	enum PullState{
 		REST , ON_REFRESH 
 	}
-	
-	
 	public void stopRefresh(){
 		state = PullState.REST; 
 		returnView();
 	}
-	
-	private onRefreshListener onreListener ; 
-	
+	private onRefreshListener onreListener;
 	public void setOnRefreshListener (onRefreshListener onreListener) {
 		this.onreListener = onreListener ;
 	}
-	
-	
 	public interface onRefreshListener{
 		public void refresh();
 	}
-
 }

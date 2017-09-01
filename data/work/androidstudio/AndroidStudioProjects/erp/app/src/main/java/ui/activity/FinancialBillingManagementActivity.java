@@ -70,8 +70,16 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         page = 1;//显示页数
         String httpUrl = Statics.FinancialBillingManagementUrl;
         //刚进入页面就要显示数据
+        Log.d("FinancialBillingManagem", "ces");
         progressDialog = ProgressDialog.show(FinancialBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-        HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,null,HttpTypeConstants.FinancialBillingManagementUrlType);
+        param = new HashMap<>();
+        param.put("pageNumber","1");
+        param.put("option","1");
+        param.put("pageSize","50");
+        param.put("billType",typeSpinnerString);
+        param.put("billClassify",classifySpinnerString);
+        param.put("billCustomerId",customerNameSpinnerString);
+        HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
         //String result = httpPost.searchHttp(httpUrl, "", "", "", FinancialBillingManagementActivity.this, page);
         accountLv.setPullLoadEnable(true);
         financialManagementAdapter = new FinancialManagementAdapter(FinancialBillingManagementActivity.this);
@@ -111,9 +119,9 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                 param.put("billType",typeSpinnerString);
                 param.put("billClassify",classifySpinnerString);
                 param.put("billCustomerId",customerNameSpinnerString);
-                param.put("page",Integer.toString(page));
+                param.put("pageNumber",Integer.toString(page));
                 param.put("option","1");
-                param.put("rows","50");
+                param.put("pageSize","50");
                 HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
                 //String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, customerNameSpinnerString, FinancialBillingManagementActivity.this, page);
             }
@@ -141,12 +149,12 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         TextView createTime = (TextView) layout.findViewById(R.id.createTime);//创建时间
         TextView remark = (TextView) layout.findViewById(R.id.remark);//备注
         TextView userName = (TextView) layout.findViewById(R.id.userName);//用户名
-        List<FinancialManagement.DataBean> fm = Statics.financialManagementList.get(0).getData();
+        List<FinancialManagement.DataBean.RowsBean> fm = Statics.financialManagementList.get(0).getData().get(0).getRows();
         account.setText(fm.get(position - 1).getBillType());
         classify.setText(fm.get(position - 1).getBillClassify());
         //content.setText(fm.get(position - 1).getBillClassification());
         //账单时间 fm.get(position - 1).getBillCreateTime()
-        FinancialManagement.DataBean.BillTimeBean fdb = fm.get(position - 1).getBillTime();
+        FinancialManagement.DataBean.RowsBean.BillTimeBean fdb = fm.get(position - 1).getBillTime();
         int years = fdb.getYear();//年
         int mon = fdb.getMonth();//月
         int date= fdb.getDate();//日
@@ -157,13 +165,13 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         remark.setText(fm.get(position - 1).getBillClassification());//备注
         customerName.setText(fm.get(position - 1).getBillCustomerId());
         //创建时间 fm.get(position - 1).getBillCreateTime()
-        FinancialManagement.DataBean.BillCreateTimeBean fdb1 = fm.get(position - 1).getBillCreateTime();
+        FinancialManagement.DataBean.RowsBean.BillCreateTimeBean fdb1 = fm.get(position - 1).getBillCreateTime();
         years = fdb1.getYear();//年
         mon = fdb1.getMonth();//月
         date= fdb1.getDate();//日
         int hours = fdb1.getHours();
         int min = fdb1.getMinutes();
-        int second = fdb1.getMinutes();
+        int second = fdb1.getSeconds();
         year = ToolUtils.timeDateFormat(Integer.toString(years));
         billingTimeSb=new StringBuffer();
         billingTimeSb.append(year).append("-").append(++mon).append("-")
@@ -309,6 +317,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                     customerNameSpinnerString = "全部";
                 } else {
                     customerNameSpinnerString = Statics.financialCustomersList.get(0).getData().get(--position).getId();
+                    Log.d("FinancialBillingManagem", customerNameSpinnerString + "村上春树");
                 }
                 data_list = null;
             }
@@ -349,9 +358,9 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                 param.put("billType",typeSpinnerString);
                 param.put("billClassify",classifySpinnerString);
                 param.put("billCustomerId",customerNameSpinnerString);
-                param.put("page",Integer.toString(page));
                 param.put("option","1");
-                param.put("rows","50");
+                param.put("pageSize","50");
+                param.put("pageNumber",Integer.toString(page));
                 Log.d("FinancialBillingManagem", "下拉刷新"+typeSpinnerString+":"+classifySpinnerString+":"+customerNameSpinnerString+page);
                 HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
                 onLoad();
@@ -383,9 +392,10 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                 param.put("billType",typeSpinnerString);
                 param.put("billClassify",classifySpinnerString);
                 param.put("billCustomerId",customerNameSpinnerString);
-                param.put("page",Integer.toString(page));
+                param.put("pageNumber",Integer.toString(page));
                 param.put("option","1");
-                param.put("rows","50");
+                param.put("pageSize","50");
+
                 HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
                 onLoad();
 

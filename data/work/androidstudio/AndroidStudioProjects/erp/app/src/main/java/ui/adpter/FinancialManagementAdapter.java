@@ -39,9 +39,9 @@ public class FinancialManagementAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (Statics.financialManagementList.size()!= 0 && Statics.financialManagementList.get(0).getData()!=null
-                && Statics.financialManagementList.get(0).getData().size() != 0) {
-            return Statics.financialManagementList.get(0).getData().size();
+        if (Statics.financialManagementList.size() != 0
+                && Statics.financialManagementList.get(0).getData().size() !=0 && Statics.financialManagementList.get(0).getData().get(0).getRows()!=null) {
+            return Statics.financialManagementList.get(0).getData().get(0).getRows().size();
         } else {
             return 0;
         }
@@ -82,18 +82,18 @@ public class FinancialManagementAdapter extends BaseAdapter {
         //获取数据和显示数据
         String number = Integer.toString((FinancialBillingManagementActivity.page-1)*50 + position+1);
         //id = Statics.expressManagementList.get(position).getId();
-        String account = Statics.financialManagementList.get(0).getData().get(position).getBillType();//账目
-        String classify = Statics.financialManagementList.get(0).getData().get(position).getBillClassify();//分类
-        String content = Statics.financialManagementList.get(0).getData().get(position).getBillClassification();//内容
+        String account = Statics.financialManagementList.get(0).getData().get(0).getRows().get(position).getBillType();//账目
+        String classify = Statics.financialManagementList.get(0).getData().get(0).getRows().get(position).getBillClassify();//分类
+        String content = Statics.financialManagementList.get(0).getData().get(0).getRows().get(position).getBillClassification();//内容
         //账单时间处理
-        FinancialManagement.DataBean.BillTimeBean time = Statics.financialManagementList.get(0).getData().get(position).getBillTime();//账单时间
+        FinancialManagement.DataBean.RowsBean.BillTimeBean time = Statics.financialManagementList.get(0).getData().get(0).getRows().get(position).getBillTime();//账单时间
         int years = time.getYear();//年
         int mon = time.getMonth();//月
         int date= time.getDate();//日
         String year = ToolUtils.timeDateFormat(Integer.toString(years));
         StringBuffer billingTimeSb=new StringBuffer();
         billingTimeSb.append(year).append("-").append(++mon).append("-").append(date);
-        String price = Statics.financialManagementList.get(0).getData().get(position).getBillSum()+"";//金额
+        String price = Statics.financialManagementList.get(0).getData().get(0).getRows().get(position).getBillSum()+"";//金额
 
         if(classify.equals("出账")){
             vh.account.setTextColor(Color.RED);
@@ -127,7 +127,7 @@ public class FinancialManagementAdapter extends BaseAdapter {
          * setXXX方法返回Dialog对象，因此可以链式设置属性
          */
         //id = Statics.expressManagementList.get(item).getId();
-        id = Statics.financialManagementList.get(0).getData().get(item).getId();
+        id = Statics.financialManagementList.get(0).getData().get(0).getRows().get(item).getId();
         AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(activity);
         normalDialog.setIcon(R.drawable.delete);
