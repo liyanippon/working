@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -91,6 +92,9 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
                 searchTime.setCursorVisible(false);
                 searchTime.setText("");
                 billingTimeString = "全部";
+                Drawable nav_up=getResources().getDrawable(R.drawable.date1);
+                nav_up.setBounds(0, 0, nav_up.getMinimumWidth(), nav_up.getMinimumHeight());
+                searchTime.setCompoundDrawables(null, null, nav_up, null);
                 return true;
             }
         });
@@ -307,6 +311,7 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
                         month++;
                         searchTime.setText(String.format("%d-%02d-%02d", year, month, dayOfMonth));
                         billingTimeString = String.format("%d-%02d-%02d", year, month, dayOfMonth);
+                        searchTime.setCompoundDrawables(null, null, null, null);
                     }
                 },
                 mYear, mMonth, mDay).show();

@@ -12,6 +12,7 @@ import ui.activity.FinancialBillingManagementActivity;
 import ui.activity.FinancialSalaryStastisticsActivity;
 import ui.activity.FinancialStastisticsActivity;
 import ui.activity.LogisticsReportActivity;
+import ui.activity.ProjectManagementActivity;
 
 /**
  * Created by admin on 2017/3/27.
@@ -63,6 +64,8 @@ public class HttpBasePost {
                                         ||httpType.equals("100506")||httpType.equals("100507")||httpType.equals("100508")
                                         ||httpType.equals("100509")||httpType.equals("100510")||httpType.equals("100511")){
                                         resultString = HttpTypeUtil.financialType(result,httpType);
+                                }else if(httpType.equals("100600")||httpType.equals("100601")||httpType.equals("100602")){//项目模块
+                                        HttpTypeUtil.projectType(result,httpType);
                                 }
 
                         }
@@ -89,6 +92,10 @@ public class HttpBasePost {
                                                 break;
                                         case "100510":
                                                 FinancialSalaryStastisticsActivity.progressDialog.dismiss();
+                                                break;
+                                        case "100600":
+                                                Log.d("HttpBasePost", "100600");
+                                                ProjectManagementActivity.progressDialog.dismiss();
                                                 break;
                                 }
 

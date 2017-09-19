@@ -1,7 +1,12 @@
 package ui.activity.menu;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -14,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,10 +29,12 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import Tool.crash.ActivityCollector;
 import Tool.crash.BaseActivity;
+import ui.activity.BillingStatisticsActivity;
 import ui.adpter.MFragmentPagerAdapter;
 import ui.fragement.menu.MainTabAttendance;
 import ui.fragement.menu.MainTabExpress;
 import ui.fragement.menu.MainTabFinancial;
+import ui.fragement.menu.MainTabProject;
 import ui.fragement.menu.MainTabSetting;
 
 public class MenuFragmentMainActivity extends BaseActivity{
@@ -34,6 +42,7 @@ public class MenuFragmentMainActivity extends BaseActivity{
     private LinearLayout expressTextView;
     private LinearLayout financialTextView;
     private LinearLayout setting_layout;
+    private LinearLayout projectTextView;
     //实现Tab滑动效果
     private ViewPager mViewPager;
     //动画图片
@@ -43,6 +52,7 @@ public class MenuFragmentMainActivity extends BaseActivity{
     private int position_one;
     private int position_two;
     private int position_three;
+    private int position_four;
     //动画图片宽度
     private int bmpW;
     //当前页卡编号
@@ -52,9 +62,18 @@ public class MenuFragmentMainActivity extends BaseActivity{
     //管理Fragment
     private android.support.v4.app.FragmentManager fragmentManager;
     public Context context;
-    private ImageButton express,attendance,setting,financial;
-    private TextView expresstext,attendancetext,settingtext,financialtext;
+    private ImageButton express,attendance,setting,financial,project;
+    private TextView expresstext,attendancetext,settingtext,financialtext,projectText;
     private long exitTime = 0;
+
+    //消息推送
+    private NotificationManager mNManager;
+    private Notification notify1;
+    Bitmap LargeBitmap = null;
+    private static final int NOTIFYID_1 = 1;
+    private Button btn_show_normal;
+    private Button btn_close_normal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +89,29 @@ public class MenuFragmentMainActivity extends BaseActivity{
         InitFragment();
         //初始化ViewPager
         InitViewPager();
+
+        /*//添加消息推送
+        mNManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //定义一个PendingIntent点击Notification后启动一个Activity
+        Intent it = new Intent(this, BillingStatisticsActivity.class);//测试
+        PendingIntent pit = PendingIntent.getActivity(this, 0, it, 0);
+
+        //设置图片,通知标题,发送时间,提示方式等属性
+        Notification.Builder mBuilder = new Notification.Builder(this);
+        mBuilder.setContentTitle("回款通知")                        //标题
+                .setContentText("？？项目回款已到账")      //内容
+                .setSubText("点击查看")                    //内容下面的一小段文字
+                .setTicker("收到叶良辰发送过来的信息~")             //收到信息后状态栏显示的文字信息
+                .setWhen(System.currentTimeMillis())           //设置通知时间
+                .setSmallIcon(R.mipmap.ic_launcher)            //设置小图标
+                //.setLargeIcon(LargeBitmap)                     //设置大图标
+                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)    //设置默认的三色灯与振动器
+                //.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.biaobiao))  //设置自定义的提示音
+                .setAutoCancel(true)                           //设置点击后取消Notification
+                .setContentIntent(pit);                        //设置PendingIntent
+        notify1 = mBuilder.build();
+        mNManager.notify(NOTIFYID_1, notify1);*/
+
     }
 
     @Override
@@ -124,11 +166,15 @@ public class MenuFragmentMainActivity extends BaseActivity{
         //设置
         setting_layout = (LinearLayout) findViewById(R.id.seting_layout);
         settingtext = (TextView) findViewById(R.id.settingtext);
+        //项目
+        projectText = (TextView) findViewById(R.id.projecttext);
+        projectTextView = (LinearLayout) findViewById(R.id.project_text);
         //添加点击事件
         attendanceTextView.setOnClickListener(new MyOnClickListener(0));
         expressTextView.setOnClickListener(new MyOnClickListener(1));
-        financialTextView.setOnClickListener(new MyOnClickListener(2));
-        setting_layout.setOnClickListener(new MyOnClickListener(3));
+        financialTextView.setOnClickListener(new MyOnClickListener(3));
+        setting_layout.setOnClickListener(new MyOnClickListener(4));
+        projectTextView.setOnClickListener(new MyOnClickListener(2));
     }
     /**
      * 初始化页卡内容区
@@ -149,6 +195,7 @@ public class MenuFragmentMainActivity extends BaseActivity{
         attendance = (ImageButton) findViewById(R.id.kaoqin);
         financial = (ImageButton) findViewById(R.id.caiwu);
         setting = (ImageButton) findViewById(R.id.setting);
+        project = (ImageButton) findViewById(R.id.project);
     }
 
     /**
@@ -160,14 +207,15 @@ public class MenuFragmentMainActivity extends BaseActivity{
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         // 获取分辨率宽度
         int screenW = dm.widthPixels;
-        bmpW = (screenW/4);
+        bmpW = (screenW/5);
         //设置动画图片宽度
         setBmpW(cursor, bmpW);
         offset = 0;
         //动画图片偏移量赋值
-        position_one = (int) (screenW / 4.0);
+        position_one = (int) (screenW / 5.0);
         position_two = position_one * 2;
         position_three = position_one * 3;
+        position_four = position_one * 4;
     }
     /**
      * 初始化Fragment，并添加到ArrayList中
@@ -176,8 +224,11 @@ public class MenuFragmentMainActivity extends BaseActivity{
         fragmentArrayList = new ArrayList<>();
         fragmentArrayList.add(new MainTabAttendance());
         fragmentArrayList.add(new MainTabExpress());
+        fragmentArrayList.add(new MainTabProject());
         fragmentArrayList.add(new MainTabFinancial());
         fragmentArrayList.add(new MainTabSetting());
+
+
         fragmentManager = getSupportFragmentManager();
     }
     /**
@@ -217,6 +268,8 @@ public class MenuFragmentMainActivity extends BaseActivity{
                     financialtext.setTextColor(Color.GRAY);
                     setting.setImageResource(R.drawable.setting_up);
                     settingtext.setTextColor(Color.GRAY);
+                    project.setImageResource(R.drawable.project_up);
+                    projectText.setTextColor(Color.GRAY);
                     if(currIndex == 1){
                         animation = new TranslateAnimation(position_one, 0, 0, 0);
                         resetTextViewTextColor();
@@ -225,6 +278,9 @@ public class MenuFragmentMainActivity extends BaseActivity{
                         resetTextViewTextColor();
                     }else if(currIndex == 3){//从页卡1跳转转到页卡3
                         animation = new TranslateAnimation(position_three, 0, 0, 0);
+                        resetTextViewTextColor();
+                    }else if(currIndex == 4){//从页卡1跳转转到页卡3
+                        animation = new TranslateAnimation(position_four, 0, 0, 0);
                         resetTextViewTextColor();
                     }
                     break;
@@ -238,6 +294,8 @@ public class MenuFragmentMainActivity extends BaseActivity{
                     financialtext.setTextColor(Color.GRAY);
                     setting.setImageResource(R.drawable.setting_up);
                     settingtext.setTextColor(Color.GRAY);
+                    project.setImageResource(R.drawable.project_up);
+                    projectText.setTextColor(Color.GRAY);
                     //从页卡1跳转转到页卡2
                     if (currIndex == 0) {
                         animation = new TranslateAnimation(offset, position_one, 0, 0);
@@ -249,6 +307,9 @@ public class MenuFragmentMainActivity extends BaseActivity{
                     }else if (currIndex == 3) { //从页卡1跳转转到页卡2
                         animation = new TranslateAnimation(position_two, position_one, 0, 0);
                         resetTextViewTextColor();
+                    }else if (currIndex == 4) { //从页卡1跳转转到页卡2
+                        animation = new TranslateAnimation(position_two, position_one, 0, 0);
+                        resetTextViewTextColor();
                     }
                     break;
                 //当前为页卡3
@@ -257,10 +318,12 @@ public class MenuFragmentMainActivity extends BaseActivity{
                     expresstext.setTextColor(Color.GRAY);
                     attendance.setImageResource(R.drawable.kaoqin_up);
                     attendancetext.setTextColor(Color.GRAY);
-                    financial.setImageResource(R.drawable.caiwu_down);
-                    financialtext.setTextColor(Color.RED);
+                    financial.setImageResource(R.drawable.caiwu_up);
+                    financialtext.setTextColor(Color.GRAY);
                     setting.setImageResource(R.drawable.setting_up);
                     settingtext.setTextColor(Color.GRAY);
+                    project.setImageResource(R.drawable.project_down);
+                    projectText.setTextColor(Color.RED);
                     //从页卡1跳转转到页卡2
                     if (currIndex == 0) {
                         animation = new TranslateAnimation(offset, position_two, 0, 0);
@@ -271,6 +334,9 @@ public class MenuFragmentMainActivity extends BaseActivity{
                     }else if (currIndex == 3) {//从页卡1跳转转到页卡2
                         animation = new TranslateAnimation(position_three, position_two, 0, 0);
                         resetTextViewTextColor();
+                    }else if (currIndex == 4) {//从页卡1跳转转到页卡2
+                        animation = new TranslateAnimation(position_three, position_two, 0, 0);
+                        resetTextViewTextColor();
                     }
                     break;
                 //当前为页卡4
@@ -279,10 +345,13 @@ public class MenuFragmentMainActivity extends BaseActivity{
                     expresstext.setTextColor(Color.GRAY);
                     attendance.setImageResource(R.drawable.kaoqin_up);
                     attendancetext.setTextColor(Color.GRAY);
-                    financial.setImageResource(R.drawable.caiwu_up);
-                    financialtext.setTextColor(Color.GRAY);
-                    setting.setImageResource(R.drawable.setting_down);
-                    settingtext.setTextColor(Color.RED);
+                    financial.setImageResource(R.drawable.caiwu_down);
+                    financialtext.setTextColor(Color.RED);
+                    setting.setImageResource(R.drawable.setting_up);
+                    settingtext.setTextColor(Color.GRAY);
+                    project.setImageResource(R.drawable.project_up);
+                    projectText.setTextColor(Color.GRAY);
+
                     //从页卡1跳转转到页卡2
                     if (currIndex == 0) {
                         animation = new TranslateAnimation(offset, position_three, 0, 0);
@@ -292,6 +361,36 @@ public class MenuFragmentMainActivity extends BaseActivity{
                         resetTextViewTextColor();
                     }else if (currIndex == 2) {//从页卡1跳转转到页卡2
                         animation = new TranslateAnimation(position_two, position_three, 0, 0);
+                        resetTextViewTextColor();
+                    }else if (currIndex == 4) {//从页卡1跳转转到页卡2
+                        animation = new TranslateAnimation(position_four, position_three, 0, 0);
+                        resetTextViewTextColor();
+                    }
+                    break;
+                case 4:
+                    express.setImageResource(R.drawable.wuliu_up);
+                    expresstext.setTextColor(Color.GRAY);
+                    attendance.setImageResource(R.drawable.kaoqin_up);
+                    attendancetext.setTextColor(Color.GRAY);
+                    financial.setImageResource(R.drawable.caiwu_up);
+                    financialtext.setTextColor(Color.GRAY);
+                    setting.setImageResource(R.drawable.setting_down);
+                    settingtext.setTextColor(Color.RED);
+                    project.setImageResource(R.drawable.project_up);
+                    projectText.setTextColor(Color.GRAY);
+
+                    //从页卡1跳转转到页卡2
+                    if (currIndex == 0) {
+                        animation = new TranslateAnimation(offset, position_four, 0, 0);
+                        resetTextViewTextColor();
+                    } else if (currIndex == 1) {//从页卡1跳转转到页卡2
+                        animation = new TranslateAnimation(position_three, position_four, 0, 0);
+                        resetTextViewTextColor();
+                    }else if (currIndex == 2) {//从页卡1跳转转到页卡2
+                        animation = new TranslateAnimation(position_three, position_four, 0, 0);
+                        resetTextViewTextColor();
+                    }else if (currIndex == 3) {//从页卡1跳转转到页卡2
+                        animation = new TranslateAnimation(position_three, position_four, 0, 0);
                         resetTextViewTextColor();
                     }
                     break;

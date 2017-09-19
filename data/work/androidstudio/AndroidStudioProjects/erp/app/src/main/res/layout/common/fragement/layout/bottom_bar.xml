@@ -61,6 +61,30 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/project_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/project"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="false"
+                android:src="@drawable/project_up" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/projecttext"
+                android:text="项目" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/caiwu_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"

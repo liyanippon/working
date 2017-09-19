@@ -35,7 +35,8 @@ android {
                             'src/main/res/layout/salesman_manage',//业务员管理（无效）
                             'src/main/res/layout/financial_billing_management',//财务账单管理
                             'src/main/res/layout/financial_billing_statistics',//财务账单统计
-                            'src/main/res/layout/financial_salary_statistics'//财务工资统计
+                            'src/main/res/layout/financial_salary_statistics',//财务工资统计
+                            'src/main/res/layout/project_management'//项目管理
                     ]
         }
     }

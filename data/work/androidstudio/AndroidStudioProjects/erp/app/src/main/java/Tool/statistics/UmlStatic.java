@@ -57,6 +57,14 @@ public class UmlStatic {
         return map;
     }
 
+    //菜单显示控制[项目管理]
+    public static Map<String,ArrayList<Object>> menuProjectController(ArrayList<Object> icon, ArrayList<Object> iconName){
+        map=new HashMap<>();
+        for (UserUmp userUmp:Statics.userUmpsStatisticsList){
+            map=addProjectMenu(userUmp.getRoleId(),icon,iconName);
+        }
+        return map;
+    }
 
     public static HashMap<String,ArrayList<Object>> addExpressMenu(String menu,ArrayList<Object> icon, ArrayList<Object> iconName){
 
@@ -125,6 +133,23 @@ public class UmlStatic {
                 iconName.add("工资统计");
                 iconName.add("账目管理");
                 iconName.add("账目统计");
+                map.put("icon", icon);
+                map.put("iconName", iconName);
+                break;
+        }
+
+        return map;
+    }
+
+    public static HashMap<String,ArrayList<Object>> addProjectMenu(String menu,ArrayList<Object> icon, ArrayList<Object> iconName) {
+
+        switch (menu) {//userType
+            case "8cb65d793df4457cae60484e6973e2d5"://财务人员
+            case "a6509c7f484b482ab979aff844acbd2f"://BOSS
+                icon.add(R.drawable.project_manager);
+                //icon.add(R.drawable.zhang_mutongji);
+                iconName.add("项目维护");
+                //iconName.add("账目统计");
                 map.put("icon", icon);
                 map.put("iconName", iconName);
                 break;

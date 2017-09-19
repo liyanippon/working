@@ -225,8 +225,12 @@ public class ToolUtils {
             case 9:
                 select = Statics.fssArrayList.size();
                 break;
+            case 10:
+                select = Statics.projectCycleDataList.size();
+                break;
+            case 11:
+                select = Statics.projectPeoplePageDataList.get(0).getRows().size();
         }
-        Log.d("BillingStatisticsActivi", "大小：" + select);
         for (int i = 0; i < select; i++) {
             View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(0, 0);

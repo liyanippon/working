@@ -23,7 +23,6 @@ import ui.activity.menu.MenuFragmentMainActivity;
  */
 
 public class IUserImpl implements IUser{
-
     /*
     * 读取配置文件 拼接所有的url
     */
@@ -76,11 +75,13 @@ public class IUserImpl implements IUser{
             Statics.FinancialSalaryGetWXStaffPayrollListUrl = IFengUrl + "/getWXStaffPayrollList.ajax";//员工工资查询数据
             Statics.FinancialSalaryGetWXOrgListUrl = IFengUrl + "/getWXOrg.ajax";//企业部门信息
             Statics.FinancialSalaryGetWXInsertPayrollUrl = IFengUrl + "/getWXInsertPayroll.ajax";//添加考勤
+            Statics.ProjectGetWXLoadProjectPageDataUrl = IFengUrl + "/getWXLoadProjectPageData.ajax";//查询所有项目
+            Statics.ProjectGetWXProjectCycleUrl = IFengUrl + "/getWXProjectCycle.ajax";//项目周期查询
+            Statics.ProjectGetWXLoadProjectPeoplePageDataUrl = IFengUrl + "/getWXLoadProjectPeoplePageData.ajax";//成员加入情况
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     /*
     * 对登录进行检查
     */
@@ -120,7 +121,6 @@ public class IUserImpl implements IUser{
         httpPost = new ExpressBillingManagementHttpPost(activity);
         httpPost.LoginHttp(urlString, userNameString, password, activity);
     }
-
     /*
         * 广播初始化
         */
@@ -148,9 +148,7 @@ public class IUserImpl implements IUser{
                 }
             }
         });
-
     }
-
     @Override
     public void initCrashHandler(Activity activity) {
         CrashHandler crashHandler = CrashHandler.getInstance();

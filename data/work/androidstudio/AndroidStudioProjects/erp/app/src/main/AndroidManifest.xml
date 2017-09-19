@@ -86,7 +86,8 @@
             android:name="ui.activity.LogisticsReportActivity"
             android:screenOrientation="portrait" />
         <activity android:name="ui.activity.FinancialSalaryStastisticsActivity" />
-        <activity android:name="ui.activity.AddFinancialSalaryActivity"></activity>
+        <activity android:name="ui.activity.AddFinancialSalaryActivity" />
+        <activity android:name="ui.activity.ProjectManagementActivity"></activity>
     </application>
 
 </manifest>

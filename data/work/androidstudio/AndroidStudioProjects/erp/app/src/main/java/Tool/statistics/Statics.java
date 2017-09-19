@@ -30,6 +30,9 @@ import model.FinancialCustomer;
 import model.FinancialManagement;
 import model.FinancialSalaryStatistics;
 import model.LogisticsReportSearch;
+import model.ProjectAllPageData;
+import model.ProjectCycleData;
+import model.ProjectPeoplePageData;
 import model.StaffName;
 import model.TimeBillingStatistics;
 import model.TimeExpressStatistics;
@@ -143,14 +146,19 @@ public class Statics {
     public static List<FinancialBillingGetWXSelectCustomer> fbgwxscList = new ArrayList<>();
     public static String FinancialBillingGetCurrentMoneyUrl ="http://192.168.1.54:8083/getWXSelectAll.ajax";//查看现在金额
     public static String CurrentMoney = null;
-
     //工资统计查询
     public static String FinancialSalaryGetWXStaffPayrollListUrl = "http://192.168.1.54:8083/getWXStaffPayrollList.ajax";//员工工资查询数据
     public static List<FinancialSalaryStatistics> fssArrayList = new ArrayList<>();//员工工资查询数据
     public static String FinancialSalaryGetWXOrgListUrl ="http://192.168.1.54:8083/getWXOrg.ajax";//单位部门信息
     public static List<CompanyDepartment> companyDepartmentsArrayList = new ArrayList<>();//单位部门数据
     public static String FinancialSalaryGetWXInsertPayrollUrl ="http://192.168.1.54:8083/getWXMonthPayrollList.ajax";//添加工资单
-
+    /**项目管理**/
+    public static String ProjectGetWXLoadProjectPageDataUrl = "http://192.168.1.54:8083/getWXLoadProjectPageData.ajax";//查询所有项目
+    public static List<ProjectAllPageData> projectAllPageDataArrayList =new ArrayList<>();//查询所有项目
+    public static String ProjectGetWXProjectCycleUrl= "http://192.168.1.54:8083/getWXProjectCycle.ajax";//项目回款周期情况
+    public static List<ProjectCycleData> projectCycleDataList = new ArrayList<>();//项目回款周期情况
+    public static String ProjectGetWXLoadProjectPeoplePageDataUrl = "http://192.168.1.54:8083/getWXLoadProjectPeoplePageData.ajax";//成员加入情况
+    public static List<ProjectPeoplePageData> projectPeoplePageDataList =new ArrayList<>();//成员加入情况
     /**用户权限管理**/
     public static ArrayList<UserUmp> userUmpsStatisticsList = new ArrayList<>();//考勤表格数据
     public static String ActivityType;//activity类型 （多个页面共用时使用）

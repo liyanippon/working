@@ -60,5 +60,9 @@ public class HttpTypeConstants {
     public static final String FinancialSalaryGetWXStaffPayrollListUrlType = "100510";//员工工资查询
     public static final String CompanyDepartmentListUrlType = "100511";//单位部门
     public static final String FinancialSalaryGetWXInsertPayrollUrlType = "100512";//添加工资单
+    /**项目管理**/
+    public static final String ProjectGetWXLoadProjectPageDataUrlType = "100600";//项目查询
+    public static final String ProjectGetWXProjectCycleUrlType = "100601";//项目周期查询
+    public static final String ProjectGetWXLoadProjectPeoplePageDataType = "100602";//项目成员情况
 
 }

@@ -32,6 +32,9 @@ import model.FinancialCustomer;
 import model.FinancialManagement;
 import model.FinancialSalaryStatistics;
 import model.LogisticsReportSearch;
+import model.ProjectAllPageData;
+import model.ProjectCycleData;
+import model.ProjectPeoplePageData;
 import model.StaffName;
 import model.TransferAccountClassify;
 import portface.LazyLoadFace;
@@ -42,7 +45,9 @@ import ui.activity.FinancialBillingManagementActivity;
 import ui.activity.FinancialSalaryStastisticsActivity;
 import ui.activity.FinancialStastisticsActivity;
 import ui.activity.LogisticsReportActivity;
+import ui.activity.ProjectManagementActivity;
 import ui.activity.TransferAccountActivity;
+import ui.adpter.ProjectManagementAdapter;
 
 /**
  * Created by admin on 2017/5/26.
@@ -368,4 +373,51 @@ public class HttpTypeUtil {
         }
         return result;
     }
+
+    public static void projectType(String result,String httpType) {//项目模块
+        ProjectAllPageData papd;
+        ProjectCycleData[] pcd;
+        ProjectPeoplePageData pppd;
+        switch (httpType){
+            case "100600":
+                Log.d("HttpTypeUtil", "项目查询信息：：" + result);
+                //json数据使用Gson框架解析
+                Statics.projectAllPageDataArrayList.clear();
+                papd = new Gson().fromJson(result, ProjectAllPageData.class);
+                Collections.addAll(Statics.projectAllPageDataArrayList,papd);//转化arrayList
+                Statics.page = ( Statics.projectAllPageDataArrayList.get(0).getTotal()+ 50 - 1) / 50;
+                //刷新异步刷新
+                ProjectManagementActivity.AdapterRefresh("projectAdapter");
+                break;
+            case "100601":
+                Log.d("HttpTypeUtil", "查询项目周期信息：："+result);
+                //json数据使用Gson框架解析
+                Statics.projectCycleDataList.clear();
+                if(result!=null&&!result.equals("")){
+                    pcd = new Gson().fromJson(result, ProjectCycleData[].class);
+                    Collections.addAll(Statics.projectCycleDataList,pcd);//转化arrayList
+                }
+                //刷新异步刷新
+                if(ProjectManagementActivity.isProject){
+                    ProjectManagementActivity.AdapterRefresh("projectTimeBackAdapter");
+                    ProjectManagementActivity.isProject = false;
+                }else{
+                    ProjectManagementAdapter.AdapterRefresh("projectTimeBackAdapter");
+                }
+
+                break;
+            case "100602":
+                Log.d("HttpTypeUtil", "查询项目成员信息：："+result);
+                //json数据使用Gson框架解析
+                Statics.projectPeoplePageDataList.clear();
+                pppd = new Gson().fromJson(result, ProjectPeoplePageData.class);
+                Collections.addAll(Statics.projectPeoplePageDataList,pppd);//转化arrayList
+                //刷新异步刷新
+                ProjectManagementAdapter.AdapterRefresh("projectPeopleAdapter");
+                break;
+        }
+
+    }
+
+
 }

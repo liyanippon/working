@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.example.admin.erp.R;
 import java.util.Properties;
 import Tool.crash.BaseActivity;
+import Tool.crash.LogcatHelper;
 import biz.IUserImpl;
 import http.ExpressBillingManagementHttpPost;
 public class MainActivity extends BaseActivity {
@@ -36,8 +37,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = MainActivity.this;
-        //LogcatHelper.getInstance(this).start();//保存日志
-        //iUser.initCrashHandler(activity);//系统异常处理
+        LogcatHelper.getInstance(this).start();//保存日志
+        iUser.initCrashHandler(activity);//系统异常处理
         super.onCreate(savedInstanceState);
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
