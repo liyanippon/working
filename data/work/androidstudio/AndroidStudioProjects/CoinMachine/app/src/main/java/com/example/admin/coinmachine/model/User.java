@@ -1,18 +1,16 @@
 package com.example.admin.coinmachine.model;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-
 /**
  * Created by admin on 2017/9/19.
  */
-@DatabaseTable(tableName = "tb_user")
+@DatabaseTable(tableName = "tb_user") //表名tb_user
 public class User {
-    @DatabaseField(generatedId = true)
+    @DatabaseField(generatedId = true)  //id自动增长
     private int id;
-    @DatabaseField(columnName = "name")
+    @DatabaseField(columnName = "name") //name列
     private String name;
-    @DatabaseField(columnName = "desc")
+    @DatabaseField(columnName = "desc") //desc列
     private String desc;
 
     public User()
