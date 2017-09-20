@@ -39,28 +39,23 @@ public class UserDao {
     }
     public void deleteUser(User user){
         DatabaseHelper helper = DatabaseHelper.getHelper(context);
-        try {
+        try{
             helper.getUserDao().delete(user);
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
     }
-
     public void updateUser(User user){
         DatabaseHelper helper = DatabaseHelper.getHelper(context);
-        try
-        {
+        try{
             user.setId(3);
             try {
                 helper.getUserDao().update(user);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }
-
-        } catch (SQLException e)
-        {
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }
-
 }

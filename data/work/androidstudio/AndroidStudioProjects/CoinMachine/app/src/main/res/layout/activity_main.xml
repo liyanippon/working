@@ -26,5 +26,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/image"
          />
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@+id/twocode"
+        />
 
 </LinearLayout>

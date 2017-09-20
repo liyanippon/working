@@ -1,27 +1,41 @@
 package com.example.admin.coinmachine.ui.activity;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.admin.coinmachine.common.BaseActivity;
 import com.example.admin.coinmachine.database.UserDao;
 import com.example.admin.coinmachine.http.StatisticUrl;
 import com.example.admin.coinmachine.model.User;
+import com.example.admin.coinmachine.paymentcode.CodeUtils;
+
 import java.util.List;
 public class MainActivity extends BaseActivity {
     private TextView iop;
-    private ImageView imageView;
+    private ImageView imageView,twocode;
+    public static Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        activity = MainActivity.this;
         initView();
         database();//数据库测试
         imageView();//图片缓存加载测试
+        twoCode();//二维码测试
+    }
+
+    private void twoCode() {
+        twocode.setBackgroundColor(Color.WHITE);
+        Log.d("MainActivity", twocode.getWidth() + ",," + twocode.getHeight());
+        Bitmap bitmap = CodeUtils.CreateTwoDCode("testtwocode", 300, 300);
+        twocode.setImageBitmap(bitmap);
     }
 
     private void imageView() {
@@ -42,6 +56,7 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         super.initView();
         imageView = (ImageView) findViewById(R.id.image);
+        twocode = (ImageView) findViewById(R.id.twocode);
     }
     public void testAddUser(){
         User ul = new User("zhy", "2B青年");

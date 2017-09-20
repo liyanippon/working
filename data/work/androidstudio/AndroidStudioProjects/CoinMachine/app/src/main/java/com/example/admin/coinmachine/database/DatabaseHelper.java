@@ -90,7 +90,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
         }
         return userDao;
     }
-
     /**
      * 释放资源
      */
