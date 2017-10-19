@@ -19,7 +19,7 @@ import java.util.List;
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
-import model.FinancialBillingGetWXsettlementMonth;
+import model.javabean.FinancialBillingGetWXsettlementMonth;
 
 /**
  * Created by admin on 2017/3/28.

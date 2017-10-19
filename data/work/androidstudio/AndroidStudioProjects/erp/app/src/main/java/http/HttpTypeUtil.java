@@ -1,8 +1,9 @@
 package http;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -11,33 +12,36 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 
+import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
 import broadcast.TYPE;
-import model.AttendanceStaffBelongProject;
-import model.AttendanceStatistics;
-import model.AttendanceWxDetaSearch;
-import model.AttendanceYear;
-import model.CompanyDepartment;
-import model.ExpressClassify;
-import model.ExpressExpensePayMethod;
-import model.FinancialAccount;
-import model.FinancialBillingGetWXSelectCustomer;
-import model.FinancialBillingGetWXSelectMonthAccount;
-import model.FinancialBillingGetWXsettlementMonth;
-import model.FinancialCustomer;
-import model.FinancialManagement;
-import model.FinancialSalaryStatistics;
-import model.LogisticsReportSearch;
-import model.ProjectAllPageData;
-import model.ProjectCycleData;
-import model.ProjectPeoplePageData;
-import model.StaffName;
-import model.TransferAccountClassify;
-import portface.LazyLoadFace;
+import model.javabean.AttendanceStaffBelongProject;
+import model.javabean.AttendanceStatistics;
+import model.javabean.AttendanceWxDetaSearch;
+import model.javabean.AttendanceYear;
+import model.javabean.CompanyDepartment;
+import model.javabean.DownLoadFile;
+import model.javabean.ExpressClassify;
+import model.javabean.ExpressExpensePayMethod;
+import model.javabean.FinancialAccount;
+import model.javabean.FinancialBillingGetWXSelectCustomer;
+import model.javabean.FinancialBillingGetWXSelectMonthAccount;
+import model.javabean.FinancialBillingGetWXsettlementMonth;
+import model.javabean.FinancialCustomer;
+import model.javabean.FinancialManagement;
+import model.javabean.FinancialSalaryStatistics;
+import model.javabean.LogisticsReportSearch;
+import model.javabean.ProjectAllPageData;
+import model.javabean.ProjectCycleData;
+import model.javabean.ProjectPeoplePageData;
+import model.javabean.ResourceGetWXExteriorProjects;
+import model.javabean.ResourceGetWXPageDataResourceProject;
+import model.javabean.ResourceGetWXWXPageDataResource;
+import model.javabean.StaffName;
+import model.javabean.TransferAccountClassify;
 import ui.activity.AttendanceStatisticsActivity;
 import ui.activity.BillingStatisticsActivity;
 import ui.activity.ExpressBillingManagementActivity;
@@ -45,18 +49,21 @@ import ui.activity.FinancialBillingManagementActivity;
 import ui.activity.FinancialSalaryStastisticsActivity;
 import ui.activity.FinancialStastisticsActivity;
 import ui.activity.LogisticsReportActivity;
+import ui.activity.OfficeDirActivity;
+import ui.activity.OutProjectManagementActivity;
 import ui.activity.ProjectManagementActivity;
+import ui.activity.ResourceManagementActivity;
 import ui.activity.TransferAccountActivity;
+import ui.adpter.OutResouceProjectAdpter;
 import ui.adpter.ProjectManagementAdapter;
+import ui.adpter.SourceManagementAdapter;
 
 /**
  * Created by admin on 2017/5/26.
  */
 
 public class HttpTypeUtil {
-
     private  Activity aActivity;
-
     public HttpTypeUtil(Activity activity){
         this.aActivity = activity;
     }
@@ -205,17 +212,30 @@ public class HttpTypeUtil {
             case "100501":
                 //json数据使用Gson框架解析
                 Log.d("HttpTypeUtil", "财务带条件查询:"+result);
-                Statics.financialManagementList.clear();
+                //Statics.financialManagementList.clear();
+                ArrayList<FinancialManagement> temp =new ArrayList<>();
+                FinancialManagement[] fm = new Gson().fromJson(result, FinancialManagement[].class);
                 if(result.indexOf("失败")!=-1){
 
                 }else {
-                    FinancialManagement[] fm = new Gson().fromJson(result, FinancialManagement[].class);
-                    Collections.addAll(Statics.financialManagementList,fm);//转化arrayList
-                    Statics.page = (Statics.financialManagementList.get(0).getData().get(0).getTotal() + Integer.parseInt("50") - 1) / Integer.parseInt("50");
+                    Collections.addAll(temp,fm);//转化arrayList
+                    //Collections.addAll(Statics.financialManagementList,fm);//转化arrayList
+                    Statics.page = (temp.get(0).getData().get(0).getTotal() + Integer.parseInt("50") - 1) / Integer.parseInt("50");
                 }
-
                 //FinancialBillingManagementActivity financialBillingManagementActivity =new FinancialBillingManagementActivity();
                 //financialBillingManagementActivity.AdapterRefresh("FinancialManagementHttpPost");
+                if(Statics.isPageUpload){//如果是翻页动作，则不清除以前的数据
+                    //Log.d("ExpressBillingManagemen", "翻页，数"+Statics.expressManagementList.get(0).getData().get(0).getRows().size());
+                    //Log.d("ExpressBillingManagemen", "翻页，数1:"+temp.get(0).getData().get(0).getRows().size());
+                    Statics.financialManagementList.get(0).getData().get(0).getRows().addAll(fm[0].getData().get(0).getRows());
+                    Log.d("HttpTypeUtil", "Statics.financialManagementList.size():" + Statics.financialManagementList.size());
+                    //Log.d("ExpressBillingManagemen", "翻页，数"+Statics.expressManagementList.get(0).getData().get(0).getRows().size());
+
+                }else {
+                    Statics.financialManagementList.clear();
+                    Statics.financialManagementList = temp;
+                }
+                Statics.isPageUpload = false;
                 FinancialBillingManagementActivity.AdapterRefresh("FinancialManagementHttpPost");
                 break;
             case "100502":
@@ -419,5 +439,94 @@ public class HttpTypeUtil {
 
     }
 
+    public static void resourceType(String result,String httpType) {//人力资源池模块
+        ResourceGetWXWXPageDataResource[] rgwdResource;
+        ResourceGetWXPageDataResourceProject rgwdrProject;
+        ResourceGetWXExteriorProjects rgwProject;
+        DownLoadFile[] downLoadFile;
+        switch (httpType){
+            case "100700":
+                Log.d("HttpTypeUtil", "人力资源池项目查询：：" + result);
+                //json数据使用Gson框架解析
+                ArrayList<ResourceGetWXWXPageDataResource> temp =new ArrayList<>();
+                rgwdResource = new Gson().fromJson(result, ResourceGetWXWXPageDataResource[].class);
+                Collections.addAll(temp,rgwdResource);//转化arrayList
+                Log.d("HttpTypeUtil", "正常");
+                /*result json数据解释，fileName 分为3部分，第一部分文件名，第二部分字符串长度（用于校验），第三部分是总条数*/
+                if(!temp.get(0).getFileName().contains(",")){
+                    Statics.page = (Integer.parseInt(temp.get(0).getFileName())+ 50 - 1) / 50;
+                }else {
+                    Log.d("HttpTypeUtil", "正常1");
+                    String[] parts = temp.get(0).getFileName().split(",");
+                    String name = null;
+                    if(parts.length==3){
+                        name = parts[2].toString();
+                        Statics.page = (Integer.parseInt(name)+ 50 - 1) / 50;
+                    }
+                }
 
+                if(Statics.isPageUpload){//如果是翻页动作，则不清除以前的数据
+                    List list = java.util.Arrays.asList(rgwdResource);
+                    Statics.rgwDataResourcesList.addAll(list);
+                }else {
+                    Statics.rgwDataResourcesList.clear();
+                    Statics.rgwDataResourcesList = temp;
+                }
+                Statics.isPageUpload = false;
+                //刷新异步刷新
+                ResourceManagementActivity.AdapterRefresh("resourceManagementAdapter");
+                break;
+            case "100701":
+                Log.d("HttpTypeUtil", "外部项目查询："+result);
+                //json数据使用Gson框架解析
+                Statics.rgwDataResourceProjectList.clear();
+                //if(result!=null&&!result.equals("")){
+                    rgwdrProject = new Gson().fromJson(result, ResourceGetWXPageDataResourceProject.class);
+                    Collections.addAll(Statics.rgwDataResourceProjectList,rgwdrProject);//转化arrayList
+                //}
+                //刷新不同的适配器
+                ResourceManagementActivity.AdapterRefresh("outResourceProjectAdpter");
+
+                break;
+            case "100702":
+                Log.d("HttpTypeUtil", "查询外部项目所有信息：："+result);
+                //json数据使用Gson框架解析
+                //Statics.resourceGetWXExteriorProjectsList.clear();
+                ArrayList<ResourceGetWXExteriorProjects> temps =new ArrayList<>();
+                rgwProject = new Gson().fromJson(result, ResourceGetWXExteriorProjects.class);
+                Collections.addAll(temps,rgwProject);//转化arrayList
+                Statics.page = ( temps.get(0).getTotal()+ 50 - 1) / 50;//页数
+                if(Statics.isPageUpload){//如果是翻页动作，则不清除以前的数据
+                    Statics.resourceGetWXExteriorProjectsList.get(0).getRows().addAll(rgwProject.getRows());
+                }else {
+                    Statics.resourceGetWXExteriorProjectsList.clear();
+                    Statics.resourceGetWXExteriorProjectsList = temps;
+                }
+                Statics.isPageUpload = false;
+                if(!OutResouceProjectAdpter.isOutResouceProjectAdpter){
+                    OutProjectManagementActivity.AdapterRefresh("projectAdapter");
+                }else{
+                    //刷新dialog
+                    OutResouceProjectAdpter.AdapterRefresh("projectAdapter");
+                }
+                break;
+            case "100703":
+                //需要校验长度 长度不对的话
+                ResourceGetWXWXPageDataResource rgwdResource1=Statics.rgwDataResourcesList.get(SourceManagementAdapter.items);
+                String[] parts = rgwdResource1.getFileName().split(",");
+                String name = null;
+                if(parts.length==3){
+                    name = parts[1].toString();
+                }
+                if(result.length()==Integer.parseInt(name)){//校验大小
+                    Statics.downLoadFile = new String();
+                    Statics.downLoadFile = result;
+                    SourceManagementAdapter.AdapterRefresh("wordAadpter");
+                }else{
+                    Toast.makeText(SourceManagementAdapter.activity, "服务器忙，请稍后再试", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+
+    }
 }

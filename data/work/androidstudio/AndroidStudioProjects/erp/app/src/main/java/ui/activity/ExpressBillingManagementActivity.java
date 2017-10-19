@@ -29,11 +29,12 @@ import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
-import biz.ExpressBillingManagerImpl;
+import model.javabean.ExpressManagement;
+import presenter.ExpressBillingManagerPresenter;
+import presenter.ExpressBillingManagerPresenterImpl;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
-import model.ExpressManagement;
 import portface.LazyLoadFace;
 import ui.adpter.ExpressManagementAdapter;
 import ui.xlistview.XListView;
@@ -64,13 +65,15 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     public static boolean deleteSuccess = false;
     public static Activity activityExpress;
     public static boolean isAdd = false;
-    ExpressBillingManagerImpl ebmi = new ExpressBillingManagerImpl();
+    ExpressBillingManagerPresenterImpl ebmi = new ExpressBillingManagerPresenterImpl();
+    //ExpressBillingManagerPresenter ebmPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("物流账单管理");
         setContentView(R.layout.activity_expressbilling_management);
 
+        //ebmPresenter = new ExpressBillingManagerPresenterImpl();
         //添加返回按钮
         ToolUtils.backButton(this);
         context = getApplicationContext();
@@ -84,6 +87,7 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         //刚进入页面就要显示数据
         progressDialog = ProgressDialog.show(ExpressBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
         String result = httpPost.searchHttp(httpUrl, "", "", "", ExpressBillingManagementActivity.this, page);
+        //ebmPresenter.searchClick(httpUrl, "", "", "", ExpressBillingManagementActivity.this, page);
         accountLv.setPullLoadEnable(true);
         expressManagementAdapter = new ExpressManagementAdapter(ExpressBillingManagementActivity.this);
         accountLv.setAdapter(expressManagementAdapter);
@@ -377,6 +381,8 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Statics.isPageUpload = true;
+                Log.d("ExpressBillingManagemen", "翻页");
                 page++;
                 if (page >= Statics.page) {
                     page = Statics.page;
@@ -447,7 +453,6 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
             }
         });
     }
-
     public static void AdapterRefresh(String type) {
         switch (type) {
             case "accountManagementAdapter":
@@ -467,13 +472,12 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
 
                 break;
             case "reasonSpinner":
-                /*if (arr_adapter != null) {
+                if (arr_adapter != null) {
                     arr_adapter.notifyDataSetChanged();
-                }*/
+                }
                 initBroadCast();
                 break;
         }
-
     }
 
 }

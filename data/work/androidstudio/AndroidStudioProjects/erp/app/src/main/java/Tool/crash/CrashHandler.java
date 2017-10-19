@@ -22,9 +22,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import Tool.statistics.Statics;
-import ui.activity.MainActivity;
 
 /**
  * Created by admin on 2017/5/23.
@@ -121,6 +119,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
 
         final String msg = ex.getLocalizedMessage();
+        Log.d(TAG, "获得当地信息：：" + msg);//zijiade
         // 使用Toast来显示异常信息
         new Thread() {
             @Override
@@ -143,6 +142,12 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private boolean exceptionFilter(String exception) {//过滤掉某些无法处理的异常
         switch (exception){
             case "java.lang.IllegalThreadStateException: Thread already started":
+                exceptionBoolean = false;
+                break;
+            case "rx.exceptions.OnErrorNotImplementedException: Block 127 not found":
+                exceptionBoolean = false;
+                break;
+            case "rx.exceptions.OnErrorNotImplementedException":
                 exceptionBoolean = false;
                 break;
         }

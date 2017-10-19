@@ -5,6 +5,8 @@ import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
 import com.example.admin.erp.R;
 
 /**
@@ -24,7 +26,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         ActivityCollector.addActivity(this);//对所有Activity进行统一处理
         setContentView(R.layout.activity_main);
-
     }
 
     @Override

@@ -5,11 +5,10 @@
     <TableRow
         >
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/number"
             android:layout_weight="0.5"
-            android:layout_gravity="center"
             android:textColor="#000000"
             android:gravity="center"
             />
@@ -18,7 +17,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/type"
             android:layout_weight="1"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:textColor="#000000"
             />
         <TextView
@@ -31,10 +30,11 @@
             android:textColor="#000000"
             />
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:id="@+id/billingTime"
-            android:layout_weight="1"
+            android:layout_weight="1.25"
+            android:lines="1"
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="#000000"

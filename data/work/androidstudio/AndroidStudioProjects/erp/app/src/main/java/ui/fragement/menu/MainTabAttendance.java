@@ -22,6 +22,7 @@ import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
+import ui.activity.AttendanceCardActivity;
 import ui.activity.AttendanceStatisticsActivity;
 
 @SuppressLint("NewApi")
@@ -40,7 +41,7 @@ public class MainTabAttendance extends Fragment {
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.main_tab_attendance, null);
+		view = inflater.inflate(R.layout.main_tab_works, null);
 		//http://www.cnblogs.com/tinyphp/p/3855224.html 可下载
 		spinnerData();
 		init();
@@ -63,7 +64,7 @@ public class MainTabAttendance extends Fragment {
 	}
 
 	private void init() {
-		gridView = (GridView) view.findViewById(R.id.tab01_grid);
+		gridView = (GridView) view.findViewById(R.id.tab_grid);
 		//新建List
 		data_list = new ArrayList<>();
 		//获取数据
@@ -103,6 +104,10 @@ public class MainTabAttendance extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			switch (data_list.get(position).get("text").toString()){
+				case "考勤打卡":
+					in = new Intent(getActivity(), AttendanceCardActivity.class);//考勤打卡
+					startActivity(in);
+					break;
 				case "考勤统计":
 					in = new Intent(getActivity(), AttendanceStatisticsActivity.class);//考勤统计
 					startActivity(in);

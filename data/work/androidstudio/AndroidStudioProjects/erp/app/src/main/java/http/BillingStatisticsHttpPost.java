@@ -65,17 +65,14 @@ public class BillingStatisticsHttpPost {
                 resultString = "error";
             }
         });
-
         return resultString;
     }
-
     public String searchYearHttp(String httpUrl) {//年份查询
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         Log.v("test", "httpUrl:" + httpUrl);
         params.put("httpUrl", httpUrl);
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
@@ -84,7 +81,6 @@ public class BillingStatisticsHttpPost {
                 resultString = "success";
                 JsonResolve.jsonBillingSearchYear(result);//json解析
             }
-
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
@@ -93,10 +89,8 @@ public class BillingStatisticsHttpPost {
                 ExceptionUtil.httpPost("BillingStatisticsHttpPost");
             }
         });
-
         return resultString;
     }
-
     public String searchCustomerHttp(String httpUrl, String year, String type, String month, final Activity activity) {//客户统计查询
         Log.d("search",year+"*"+month+"*"+type);
         if("全部".equals(year)){
@@ -105,7 +99,6 @@ public class BillingStatisticsHttpPost {
         if("全部".equals(type)){
             type = "";
         }
-
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("httpUrl", httpUrl);
@@ -113,7 +106,6 @@ public class BillingStatisticsHttpPost {
         params.put("month", month);
         params.put("type", type);//快递类别，圆通或韵达
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
@@ -123,7 +115,6 @@ public class BillingStatisticsHttpPost {
                 resultString = "success";
                 JsonResolve.jsonSearchCustomer(result, activity);//json解析
             }
-
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);
@@ -133,7 +124,6 @@ public class BillingStatisticsHttpPost {
         });
         return resultString;
     }
-
     public String searchXqCustomerHttp(String httpUrl, String year, String type, String month, String customerId, String classify, String reason ,final Activity activity) {//客户统计查询
         Log.d("test34",year+"**"+month);
         if("全部".equals(year)){
@@ -157,20 +147,16 @@ public class BillingStatisticsHttpPost {
         params.put("classify", classify);
         params.put("reason", reason);
         params.put("type", type);//快递类别，圆通或韵达
-
         finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
-
             @Override
             public void onSuccess(Object o) {//网络请求网络请求成功
                 super.onSuccess(o);
 
                 String result = (String) o;//从从网络端返回数据
-
                 Log.d("test9", "Xq:" + result);
                 resultString = "success";
                 JsonResolve.jsonSearchXiangxi(result, activity);//json解析
             }
-
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                 super.onFailure(t, errorNo, strMsg);

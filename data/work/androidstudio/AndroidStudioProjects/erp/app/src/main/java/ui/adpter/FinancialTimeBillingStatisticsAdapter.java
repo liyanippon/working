@@ -15,8 +15,7 @@ import com.example.admin.erp.R;
 import java.math.BigDecimal;
 import java.util.List;
 
-import model.FinancialBillingGetWXsettlementMonth;
-import model.TimeBillingStatistics;
+import model.javabean.FinancialBillingGetWXsettlementMonth;
 
 /**
  * Created by admin on 2017/3/1.

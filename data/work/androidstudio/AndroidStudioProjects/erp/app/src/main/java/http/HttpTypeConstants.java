@@ -64,5 +64,10 @@ public class HttpTypeConstants {
     public static final String ProjectGetWXLoadProjectPageDataUrlType = "100600";//项目查询
     public static final String ProjectGetWXProjectCycleUrlType = "100601";//项目周期查询
     public static final String ProjectGetWXLoadProjectPeoplePageDataType = "100602";//项目成员情况
+    /**人员资源池**/
+    public static final String ResourceGetWXWXPageDataResourceUrlType = "100700";//人员资料查询
+    public static final String ResourceGetWXPageDataResourceProjectUrlType = "100701";//外部项目查询
+    public static final String ResourceGetWXExteriorProjectsUrlType = "100702";//外部项目所有查询查询
+    public static final String ResourceGetDownLoadFileUrlType = "100703";//获取简历下载
 
 }

@@ -3,10 +3,11 @@ package http;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import com.example.admin.erp.MainActivity;
 import com.google.gson.Gson;
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
@@ -15,21 +16,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.lang.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import Tool.JsonResolve;
 import Tool.statistics.ExceptionUtil;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
 import broadcast.TYPE;
-import model.AttendanceStatistics;
-import model.ExpressClassify;
-import model.ExpressManagement;
-import model.TransferAccountClassify;
-import model.UserUmp;
+import model.javabean.ExpressManagement;
+import model.javabean.UserUmp;
 import portface.LazyLoadFace;
 import ui.activity.ExpressBillingManagementActivity;
-import ui.activity.MainActivity;
-import ui.activity.TransferAccountActivity;
 
 /**
  * Created by admin on 2017/2/21.
@@ -205,10 +202,25 @@ public class ExpressBillingManagementHttpPost {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Statics.expressManagementList.clear();
+                //Statics.expressManagementList.clear();
+                ArrayList<ExpressManagement> temp =new ArrayList<>();
                 ExpressManagement[] fc = new Gson().fromJson(results, ExpressManagement[].class);
-                Collections.addAll(Statics.expressManagementList,fc);//转化arrayList
+                //Collections.addAll(Statics.expressManagementList,fc);//转化arrayList
+                Collections.addAll(temp,fc);//转化arrayList
+                if(Statics.isPageUpload){//如果是翻页动作，则不清除以前的数据
+                    Log.d("ExpressBillingManagemen", "翻页，数"+Statics.expressManagementList.get(0).getData().get(0).getRows().size());
+                    Log.d("ExpressBillingManagemen", "翻页，数1:"+temp.get(0).getData().get(0).getRows().size());
+                    Statics.expressManagementList.get(0).getData().get(0).getRows().addAll(fc[0].getData().get(0).getRows());
+                    Log.d("ExpressBillingManagemen", "翻页，数"+Statics.expressManagementList.get(0).getData().get(0).getRows().size());
+
+                }else {
+                    Statics.expressManagementList.clear();
+                    Statics.expressManagementList = temp;
+                }
+                Statics.isPageUpload = false;
                 ExpressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
+                //回调接口
+
             }
 
             @Override
@@ -219,7 +231,9 @@ public class ExpressBillingManagementHttpPost {
                     resultString = "error";
                     Log.d("test", strMsg);
                 }
-                ExpressBillingManagementActivity.progressDialog.dismiss();
+                if(ExpressBillingManagementActivity.progressDialog!=null){
+                    ExpressBillingManagementActivity.progressDialog.dismiss();
+                }
             }
         });
         return resultString;

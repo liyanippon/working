@@ -33,9 +33,8 @@ import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.BillingStatisticsHttpPost;
 import http.ExpressBillingManagementHttpPost;
-import model.CustomerBillingStatistics;
-import model.TimeBillingStatistics;
-import model.XiangxiBillingStatistics;
+import model.javabean.TimeBillingStatistics;
+import model.javabean.XiangxiBillingStatistics;
 import portface.LazyLoadFace;
 import ui.adpter.TimeBillingStatisticsAdapter;
 import ui.adpter.XiangxiBillingStatisticsAdapter;
@@ -44,7 +43,7 @@ import ui.fragement.InoutComeZhuFragment;
 
 public class LogisticsReportActivity extends BaseActivity implements android.os.Handler.Callback {
     public static ListView timeListView, customerListView;
-    private ViewGroup tableTitle, tableTitle1;
+    private ViewGroup tableTitle;
     private BillingStatisticsHttpPost billingStatisticsHttpPost;
     private ExpressBillingManagementHttpPost httpPost;
     private Spinner typeSpinner,yearSpinner,classifySpinner;
@@ -58,9 +57,7 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
     private List<XiangxiBillingStatistics> xiangxiBillingStatisticsList;
     private AlertDialog dlg;
     private ListView listView;
-    private int count = 0;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
-    //public static TextView currentMoneyStatistics;
     private String month;
     //统计图
     private static BarChart mCombinedChart;

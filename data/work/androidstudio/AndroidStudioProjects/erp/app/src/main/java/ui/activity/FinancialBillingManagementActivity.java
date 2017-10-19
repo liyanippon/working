@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,14 +26,13 @@ import java.util.List;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
-import broadcast.BroadCastTool;
 import broadcast.FreshenBroadcastReceiver;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
-import http.HttpTypeUtil;
-import model.*;
-import model.FinancialManagement;
-import portface.LazyLoadFace;
+import model.javabean.ExpressClassify;
+import model.javabean.FinancialAccount;
+import model.javabean.FinancialCustomer;
+import model.javabean.FinancialManagement;
 import ui.adpter.FinancialManagementAdapter;
 import ui.xlistview.XListView;
 
@@ -243,10 +241,13 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         //数据
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (ExpressClassify.DataBean ac:Statics.expressClassifyList.get(0).getData()) {
-            Log.d("FinancialBillingManagem", "label:" + ac.getName().toString());
-            data_list.add(ac.getName().toString());
+        if(Statics.expressClassifyList.size()!=0){
+            for (ExpressClassify.DataBean ac:Statics.expressClassifyList.get(0).getData()) {
+                Log.d("FinancialBillingManagem", "label:" + ac.getName().toString());
+                data_list.add(ac.getName().toString());
+            }
         }
+
         data_classify = new ArrayList<>();
         data_classify = data_list;
         //适配器
@@ -373,6 +374,8 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Statics.isPageUpload = true;
+                Log.d("ExpressBillingManagemen", "翻页");
                 page++;
                 if (page >= Statics.page) {
                     page = Statics.page;

@@ -21,30 +21,26 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.example.admin.erp.R;
 import com.github.mikephil.charting.charts.BarChart;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import Tool.StatisticalGraph.CombinedBarChartUtil;
+
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.customerWidget.PullScrollView;
 import Tool.statistics.Statics;
-import http.BillingStatisticsHttpPost;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
-import model.AttendanceStaffBelongProject;
-import model.AttendanceStatistics;
-import model.AttendanceWxDetaSearch;
-import portface.LazyLoadFace;
+import model.javabean.AttendanceStaffBelongProject;
+import model.javabean.AttendanceStatistics;
+import model.javabean.AttendanceWxDetaSearch;
 import ui.adpter.AttendanceBelongProjectStatisticsAdapter;
 import ui.adpter.AttendanceStatisticsAdapter;
 import ui.adpter.AttendanceXiangxiStatisticsAdapter;
-import ui.adpter.CustomerBillingStatisticsAdapter;
-import ui.adpter.MonthXiangxiBillingStatisticsAdapter;
 import ui.fragement.AttendanceChartsFragmentActivity;
 import ui.fragement.AttendanceZhuFragment;
 
@@ -114,7 +110,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
         param.put("userId","");
         param.put("year",yearSpinnerString);
         param.put("month",monthSpinnerString);
-
         HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
         //attendanceStatisticsHttpPost.searchStatisticsHttp(Statics.AttendanceStatisticsSearchUrl, "", Integer.toString(now.get(Calendar.YEAR)), Integer.toString(month), AttendanceStatisticsActivity.this);
         attendanceStatisticsList =new ArrayList<>();
@@ -125,7 +120,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
         search.setOnClickListener(this);
         activity = AttendanceStatisticsActivity.this;
         mCombinedChart.setOnClickListener(this);
-
         //下拉刷新
         handler = new Handler(getMainLooper(), this);
         pullScrollView.setOnRefreshListener(new PullScrollView.onRefreshListener() {
@@ -139,7 +133,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
                         if("全部".equals(nameSpinnerString)){
                             nameSpinnerString = "";
                         }else{
-
                         }
                         param=new HashMap<>();
                         param.put("userId",nameSpinnerString);
@@ -152,7 +145,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
             }
         });
     }
-
     //显示详情
     AdapterView.OnItemClickListener ao = new AdapterView.OnItemClickListener() {
         @Override
@@ -162,7 +154,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
             belongProjectAlertDialog(position);
         }
     };
-
     private void belongProjectAlertDialog(int position){//获取员工所在项目组
         final String yearString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumYear();//选中年
         final String monthString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumMonth();//选中月
@@ -201,7 +192,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
             }
         });
     }
-
     private void xiangxiAlertDialog(String yearString, String monthString, String userId, int positon, String ida) {//详细信息对话框
         //String yearString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumYear();//选中年
         //String monthString = Statics.attendanceStatisticsList.get(position).getTAttendanceSumMonth();//选中月
@@ -236,7 +226,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
         lp.width = display.getWidth(); //设置宽度
         dlg.getWindow().setAttributes(lp);
     }
-
     //返回按钮事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -247,7 +236,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -287,7 +275,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
                 break;
         }
     }
-
     private void spinnerType() {
         //姓名查询
         /*AttendanceStatisticsHttpPost ash = new AttendanceStatisticsHttpPost();
@@ -418,7 +405,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
             }
         });
     }
-
     private String currentTime(String type) {
         //获取当前时间
         Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
@@ -434,7 +420,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
         }
         return null;
     }
-
     public void init() {
         attendListView = (ListView) findViewById(R.id.lv);
         tableTitle = (ViewGroup) findViewById(R.id.table_title);
@@ -446,7 +431,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
         mCombinedChart = (BarChart)findViewById(R.id.barChart);
         titleMonth = (TextView) findViewById(R.id.titleMonth);
         pullScrollView = (PullScrollView) findViewById(R.id.test);
-
     }
     public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
@@ -475,7 +459,6 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
                 break;
         }
     }
-
     @Override
     public boolean handleMessage(Message msg) {
         return false;

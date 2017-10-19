@@ -3,7 +3,6 @@ package ui.fragement;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import java.util.List;
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
-import model.FinancialBillingGetWXsettlementMonth;
+import model.javabean.FinancialBillingGetWXsettlementMonth;
 
 /**
  * Created by admin on 2017/3/28.

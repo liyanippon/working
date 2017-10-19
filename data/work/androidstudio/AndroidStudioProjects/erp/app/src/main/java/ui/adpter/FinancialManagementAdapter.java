@@ -18,8 +18,7 @@ import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
-import model.FinancialManagement;
-import ui.activity.ExpressNumberManagerActivity;
+import model.javabean.FinancialManagement;
 import ui.activity.FinancialBillingManagementActivity;
 
 /**
@@ -110,7 +109,8 @@ public class FinancialManagementAdapter extends BaseAdapter {
             vh.price.setTextColor(Color.BLACK);
             vh.price.setText(price);
         }
-        vh.number.setText(number);
+        //vh.number.setText(number);
+        vh.number.setText(Integer.toString(++positions));
         vh.account.setText(account);
         vh.classify.setText(classify);
 //        vh.content.setText(content);

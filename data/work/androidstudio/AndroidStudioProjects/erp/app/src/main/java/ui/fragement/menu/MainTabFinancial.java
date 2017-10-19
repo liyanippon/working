@@ -37,7 +37,7 @@ public class MainTabFinancial extends Fragment {
     private ArrayList<Object> iconName;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        newsLayout = inflater.inflate(R.layout.main_tab_financial, container, false);
+        newsLayout = inflater.inflate(R.layout.main_tab_works, container, false);
         spinnerData();
         init();
         gridView.setOnItemClickListener(g);
@@ -57,7 +57,7 @@ public class MainTabFinancial extends Fragment {
         }.run();
     }
     private void init() {
-        gridView = (GridView) newsLayout.findViewById(R.id.tab02_grid);
+        gridView = (GridView) newsLayout.findViewById(R.id.tab_grid);
         //新建List
         data_list = new ArrayList<>();
         //获取数据

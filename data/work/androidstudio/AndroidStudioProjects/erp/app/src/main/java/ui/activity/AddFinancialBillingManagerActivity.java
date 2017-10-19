@@ -3,9 +3,7 @@ package ui.activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,10 +24,9 @@ import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
-import model.AccountClassify;
-import model.ExpressClassify;
-import model.FinancialAccount;
-import model.FinancialCustomer;
+import model.javabean.ExpressClassify;
+import model.javabean.FinancialAccount;
+import model.javabean.FinancialCustomer;
 
 public class AddFinancialBillingManagerActivity extends BaseActivity {
     private Button add, reset;

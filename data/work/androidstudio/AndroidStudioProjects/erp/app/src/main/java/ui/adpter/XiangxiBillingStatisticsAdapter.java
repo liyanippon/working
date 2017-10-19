@@ -14,7 +14,7 @@ import com.example.admin.erp.R;
 
 import java.util.List;
 
-import model.XiangxiBillingStatistics;
+import model.javabean.XiangxiBillingStatistics;
 
 /**
  * Created by admin on 2017/3/8.

@@ -2,7 +2,6 @@ package ui.adpter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.admin.erp.R;
-import java.math.BigDecimal;
+
 import java.util.List;
-import model.FinancialSalaryStatistics;
+
+import model.javabean.FinancialSalaryStatistics;
 
 /**
  * Created by admin on 2017/8/14.

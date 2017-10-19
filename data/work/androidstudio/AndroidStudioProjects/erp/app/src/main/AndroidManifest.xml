@@ -8,16 +8,22 @@
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+    <!--anroid 进程长期保存不被杀死，加上Persistent属性-->
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:persistent="true"
+        >
         <activity
-            android:name="ui.activity.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -87,7 +93,13 @@
             android:screenOrientation="portrait" />
         <activity android:name="ui.activity.FinancialSalaryStastisticsActivity" />
         <activity android:name="ui.activity.AddFinancialSalaryActivity" />
-        <activity android:name="ui.activity.ProjectManagementActivity"></activity>
+        <activity android:name="ui.activity.ProjectManagementActivity" />
+        <activity android:name="ui.activity.ResourceManagementActivity" />
+        <activity android:name="ui.activity.AddPersonActivity" />
+        <activity android:name="ui.activity.OfficeOnlineActivity" />
+        <activity android:name="ui.activity.OfficeDirActivity" />
+        <activity android:name="ui.activity.OutProjectManagementActivity" />
+        <activity android:name="ui.activity.AttendanceCardActivity"></activity>
     </application>
 
 </manifest>

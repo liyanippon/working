@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -22,16 +21,14 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
-import http.HttpBase;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
-import model.ExpressManagement;
-import model.ProjectAllPageData;
+import model.javabean.ExpressManagement;
+import model.javabean.ProjectAllPageData;
 import ui.activity.ExpressBillingManagementActivity;
 import ui.activity.ProjectManagementActivity;
 

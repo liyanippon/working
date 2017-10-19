@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.UserUmp;
+import model.javabean.UserUmp;
 
 /**
  * *权限分配
@@ -66,6 +66,15 @@ public class UmlStatic {
         return map;
     }
 
+    //菜单显示控制[人力资源管理]
+    public static Map<String,ArrayList<Object>> menuResourceController(ArrayList<Object> icon, ArrayList<Object> iconName){
+        map=new HashMap<>();
+        for (UserUmp userUmp:Statics.userUmpsStatisticsList){
+            map=addResourceMenu(userUmp.getRoleId(),icon,iconName);
+        }
+        return map;
+    }
+
     public static HashMap<String,ArrayList<Object>> addExpressMenu(String menu,ArrayList<Object> icon, ArrayList<Object> iconName){
 
         switch (menu){//userType
@@ -111,8 +120,11 @@ public class UmlStatic {
         switch (menu){//userType
             case "8cb65d793df4457cae60484e6973e2d5"://财务人员
             case "f8dc2c2f6ece4f38a8df43ab4d4a4c5d"://项目经理
-            case "a6509c7f484b482ab979aff844acbd2f"://BOSS
+            case "a6509c7f484b482ab979aff844acbd2f"://BOSS考勤打卡
+                                                        //所有员工
+                icon.add(R.drawable.kaoqindaka);
                 icon.add(R.drawable.kaoqintongji);
+                iconName.add("考勤打卡");
                 iconName.add("考勤统计");
                 map.put("icon",icon);
                 map.put("iconName",iconName);
@@ -155,6 +167,22 @@ public class UmlStatic {
                 break;
         }
 
+        return map;
+    }
+
+    public static HashMap<String,ArrayList<Object>> addResourceMenu(String menu,ArrayList<Object> icon, ArrayList<Object> iconName) {
+
+        switch (menu) {//userType
+            case "8cb65d793df4457cae60484e6973e2d5"://财务人员
+            case "a6509c7f484b482ab979aff844acbd2f"://BOSS
+                icon.add(R.drawable.resource);
+                icon.add(R.drawable.outproject);
+                iconName.add("信息维护");
+                iconName.add("外部项目");
+                map.put("icon", icon);
+                map.put("iconName", iconName);
+                break;
+        }
         return map;
     }
 

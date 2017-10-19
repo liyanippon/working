@@ -13,7 +13,7 @@ import com.example.admin.erp.R;
 
 import java.util.List;
 
-import model.TimeExpressStatistics;
+import model.javabean.TimeExpressStatistics;
 
 /**
  * Created by admin on 2017/3/1.

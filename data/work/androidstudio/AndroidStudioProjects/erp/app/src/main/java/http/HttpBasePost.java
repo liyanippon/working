@@ -7,12 +7,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import Tool.statistics.Statics;
 import ui.activity.AttendanceStatisticsActivity;
 import ui.activity.FinancialBillingManagementActivity;
 import ui.activity.FinancialSalaryStastisticsActivity;
 import ui.activity.FinancialStastisticsActivity;
 import ui.activity.LogisticsReportActivity;
+import ui.activity.OutProjectManagementActivity;
 import ui.activity.ProjectManagementActivity;
+import ui.activity.ResourceManagementActivity;
+import ui.adpter.ProjectManagementAdapter;
 
 /**
  * Created by admin on 2017/3/27.
@@ -38,7 +43,6 @@ public class HttpBasePost {
                                 params.put(me.getKey()+"", me.getValue()+"");
                         }
                 }
-
                 Log.d("HttpBasePost", "http:" + httpUrl);
                 params.put("httpUrl", httpUrl);
                 finalHttp.post(httpUrl, params, new AjaxCallBack<Object>() {
@@ -66,14 +70,15 @@ public class HttpBasePost {
                                         resultString = HttpTypeUtil.financialType(result,httpType);
                                 }else if(httpType.equals("100600")||httpType.equals("100601")||httpType.equals("100602")){//项目模块
                                         HttpTypeUtil.projectType(result,httpType);
+                                }else if(httpType.equals("100700")||httpType.equals("100701")||httpType.equals("100702")//人力资源模块
+                                        ||httpType.equals("100703")){
+                                        HttpTypeUtil.resourceType(result,httpType);
                                 }
-
                         }
 
                         @Override
                         public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败
                                 super.onFailure(t, errorNo, strMsg);
-
                                 Log.d("HttpBasePost", "失败信息"+strMsg);
                                 switch (httpType){
                                         case "100400":
@@ -97,6 +102,18 @@ public class HttpBasePost {
                                                 Log.d("HttpBasePost", "100600");
                                                 ProjectManagementActivity.progressDialog.dismiss();
                                                 break;
+                                        case "100601":
+                                                //刷新异步刷新
+                                                ProjectManagementActivity.progressDialog.dismiss();
+                                                break;
+                                        case "100700":
+                                        case "100701":
+                                                ResourceManagementActivity.progressDialog.dismiss();
+                                                break;
+                                        case "100702":
+                                                OutProjectManagementActivity.progressDialog.dismiss();
+                                                break;
+
                                 }
 
                         }
@@ -104,6 +121,8 @@ public class HttpBasePost {
 
                 return "success";
         }
+
+
 
         /*public static void postHttp(String httpUrl, HashMap<String,String> param, final String httpType){ //okhttp不支持直接刷新UI  client = new OkHttpClient();
                 FormEncodingBuilder  builder  = new FormEncodingBuilder();

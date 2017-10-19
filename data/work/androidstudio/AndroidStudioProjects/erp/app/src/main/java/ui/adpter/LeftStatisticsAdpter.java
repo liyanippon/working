@@ -12,7 +12,7 @@ import com.example.admin.erp.R;
 
 import java.util.List;
 
-import model.FinancialSalaryStatistics;
+import model.javabean.FinancialSalaryStatistics;
 
 /**
  * Created by admin on 2017/8/14.

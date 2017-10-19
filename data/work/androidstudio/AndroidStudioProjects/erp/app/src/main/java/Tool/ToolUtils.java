@@ -2,7 +2,11 @@ package Tool;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,7 +17,34 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.json.JSONException;
+
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
+import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,16 +55,18 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import java.util.logging.Logger;
 import Tool.statistics.Statics;
 import ui.activity.FinancialSalaryStastisticsActivity;
+import ui.activity.OfficeDirActivity;
 import ui.adpter.FinancialSalaryStatisticsAdapter;
+import ui.adpter.SourceManagementAdapter;
 
 /**
  * Created by admin on 2017/2/21.
  */
-
 public class ToolUtils {
+
     final static int[] sizeTable = {9, 99, 999, 9999, 99999, 999999, 9999999,
             99999999, 999999999, Integer.MAX_VALUE};
 
@@ -287,4 +320,147 @@ public class ToolUtils {
             }
         });
     }
+    public static ArrayList<String> getFileName(String path) {//获取路径下的所有文件名
+        /*File f = new File(path);
+        if (!f.exists()) {
+            System.out.println(path + " not exists");
+            return null;
+        }
+        File fa[] = f.listFiles();
+        ArrayList<String> list = new ArrayList<>() ;
+        for (int i = 0; i < fa.length; i++) {
+            File fs = fa[i];
+            *//*if (fs.isDirectory()) {
+                Toast.makeText(SourceManagementAdapter.activity, "是目录"+fs.getName(), Toast.LENGTH_SHORT).show();
+                list.add(fs.getName());
+            } else {
+                Toast.makeText(SourceManagementAdapter.activity, "bus是目录"+fs.getName(), Toast.LENGTH_SHORT).show();
+                System.out.println(fs.getName());
+                list.add(fs.getName());
+            }*//*
+            Toast.makeText(SourceManagementAdapter.activity, ""+fs.getName(), Toast.LENGTH_SHORT).show();
+            list.add(fs.getName());
+        }*/
+        ArrayList<String> list = new ArrayList<>() ;
+        File file = new File(path);
+        File[] array = file.listFiles();
+        for(int i=0;i<array.length;i++){
+            if(array[i].isFile()){
+                System.out.println("^^^^^" + array[i].getName());
+                //Toast.makeText(SourceManagementAdapter.activity, ""+array[i].getName(), Toast.LENGTH_SHORT).show();
+                list.add(array[i].getName());
+            }else if(array[i].isDirectory()){
+                //getFile(array[i].getPath());
+            }
+        }
+        return list;
+    }
+
+
+    //获取连接wifi的名字
+    public static String getWifiName(Activity activity){
+        WifiManager wifiManager = (WifiManager) activity.getSystemService(activity.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        Log.d("wifiInfo", wifiInfo.toString());
+        Log.d("SSID",wifiInfo.getSSID());
+        return wifiInfo.getSSID();
+    }
+
+    //获取网络时间
+    public static String getWifiTime(){
+        URL url = null;//取得资源对象
+        try {
+            url = new URL("http://www.baidu.com");
+            URLConnection uc = url.openConnection();//生成连接对象
+            uc.connect(); //发出连接
+            long ld = uc.getDate(); //取得网站日期时间
+            Date date = new Date(ld);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:aa");
+            Log.d("ToolUtils", "网络时间" + sdf.format(date));
+            return sdf.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "网络时间异常";
+        }
+    }
+
+    /**
+     * 解析返回下载数据
+     *
+     * @param soapObject
+     */
+    public static void parseSoapObjectDownload(String inputText,Activity activity) {// http://bbs.csdn.net/topics/391110763
+        //将要写入文件路径
+        FileOutputStream out=null;
+        BufferedWriter writer=null;
+        try {
+            //out=activity.openFileOutput("data", context.MODE_PRIVATE);//http://www.cnblogs.com/elleniou/archive/2012/05/17/2505630.html
+            out=activity.openFileOutput(Environment.getExternalStorageDirectory()+"/erp/person_history/a.gif", activity.MODE_PRIVATE);
+            writer=new BufferedWriter(new OutputStreamWriter(out));
+            writer.write(inputText);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        finally{
+            if(writer!=null){
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    //将文件转化为二进制
+    public static byte[] fileToTwoFlow(String imagePath)  {
+        FileInputStream fs = null;
+        ByteArrayOutputStream outStream;
+        try {
+            fs = new FileInputStream(imagePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        outStream = new ByteArrayOutputStream();
+        try {
+            byte[] buffer = new byte[2048];
+            int len = 0;
+            while (-1 != (len = fs.read(buffer))) {
+                outStream.write(buffer,0,len);
+            }
+            outStream.close();
+            fs.close();
+        } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        return outStream.toByteArray();
+    }
+    //将文件写入到磁盘
+    public static void writeImageToDisk(String pathStr, byte[] img, String fileName) {
+
+        try {
+            File file = new File(pathStr + fileName);
+            FileOutputStream fops = new FileOutputStream(file);
+            fops.write(img);
+            fops.flush();
+            fops.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(SourceManagementAdapter.activity, "写入异常", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+
+
+
 }

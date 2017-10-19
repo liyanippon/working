@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,7 +22,7 @@ import java.util.List;
 import Tool.ToolUtils;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
-import model.ExpressManagement;
+import model.javabean.ExpressManagement;
 import ui.activity.ExpressBillingManagementActivity;
 
 /**
@@ -37,11 +36,9 @@ public class ExpressManagementAdapter extends BaseAdapter {
     private int positions;
     private ViewHolder vh;
     private List<ViewHolder> holders = new ArrayList<ViewHolder>();
-
     public ExpressManagementAdapter(Activity accactivity) {
         this.activity = accactivity;
     }
-
     @Override
     public int getCount() {
         //Log.d("ExpressManagementAdapte", "查看" + Statics.expressManagementList.get(0).getData().get(0).getRows().size());
@@ -51,21 +48,16 @@ public class ExpressManagementAdapter extends BaseAdapter {
             return 0;
         }
     }
-
     @Override
     public Object getItem(int position) {
         return position;
     }
-
     @Override
     public long getItemId(int position) {
         return position;
     }
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
-
         positions = position;
         if (convertView == null) {
             vh = new ViewHolder();
@@ -82,7 +74,6 @@ public class ExpressManagementAdapter extends BaseAdapter {
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
-
         //获取数据和显示数据
         String number = Integer.toString((ExpressBillingManagementActivity.page-1)*50 + position+1);
         ExpressManagement.DataBean.RowsBean edrb=Statics.expressManagementList.get(0).getData().get(0).getRows().get(position);
@@ -112,9 +103,10 @@ public class ExpressManagementAdapter extends BaseAdapter {
             vh.billingTime.setTextColor(Color.BLACK);
             vh.sum.setTextColor(Color.BLACK);
         }
-        vh.number.setText(number);
+        //vh.number.setText(number);
+        vh.number.setText(Integer.toString(++positions));
         vh.number.setGravity(Gravity.CENTER);
-        vh.type.setText(type);
+        vh.type.setText(type.substring(0,2));
         vh.type.setGravity(Gravity.CENTER);
         vh.classify.setText(classify);
         vh.classify.setGravity(Gravity.CENTER);
@@ -125,7 +117,6 @@ public class ExpressManagementAdapter extends BaseAdapter {
         vh.operate.setOnClickListener(new Click(positions));//解决光标获取不对的问题
         return convertView;
     }
-
     private void showNormalDialog(final int item) {
             /* @setIcon 设置对话框图标
          * @setTitle 设置对话框标题
@@ -174,17 +165,12 @@ public class ExpressManagementAdapter extends BaseAdapter {
                 });
         // 显示
         normalDialog.show();
-
     }
-
-
     public class Click implements View.OnClickListener {
         int item= 0;
-
         public Click(int position) {
             item= position;
         }
-
         @Override
         public void onClick(View v) {
             httpPost = new ExpressBillingManagementHttpPost();
@@ -192,9 +178,7 @@ public class ExpressManagementAdapter extends BaseAdapter {
             ExpressBillingManagementActivity.transferAccounts.setVisibility(View.INVISIBLE);
             showNormalDialog(item);
         }
-
     }
-
     class ViewHolder {
         TextView number, type, classify,  billingTime, sum, operate;
     }

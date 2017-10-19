@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.IntentFilter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -34,11 +29,9 @@ import Tool.crash.BaseActivity;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
-import http.ExpressBillingManagementHttpPost;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
-import model.ExpressExpensePayMethod;
-import model.TransferAccountClassify;
+import model.javabean.TransferAccountClassify;
 import portface.LazyLoadFace;
 
 public class TransferAccountActivity extends BaseActivity {

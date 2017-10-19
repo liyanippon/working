@@ -8,14 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.admin.erp.R;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import Tool.statistics.Statics;
-import model.AttendanceStaffBelongProject;
-import model.AttendanceWxDetaSearch;
+import model.javabean.AttendanceStaffBelongProject;
+
 /**
  * Created by admin on 2017/6/28.
  */

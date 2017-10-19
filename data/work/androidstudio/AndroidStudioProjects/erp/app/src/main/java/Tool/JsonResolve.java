@@ -6,25 +6,24 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
 import broadcast.TYPE;
-import model.AccountClassify;
-import model.AccountReason;
-import model.AccountType;
-import model.AttendanceStatistics;
-import model.Customer;
-import model.CustomerBillingStatistics;
-import model.ExpressManagement;
-import model.ExpressNumberManagement;
-import model.ExpressPerson;
-import model.ExpressPersonStatistic;
-import model.ExpressPersonStatisticsXiangqing;
-import model.ExpressPieceCountMonth;
-import model.TimeBillingStatistics;
-import model.TimeExpressStatistics;
-import model.XiangxiBillingStatistics;
+import model.javabean.AccountReason;
+import model.javabean.AccountType;
+import model.javabean.Customer;
+import model.javabean.CustomerBillingStatistics;
+import model.javabean.ExpressNumberManagement;
+import model.javabean.ExpressPerson;
+import model.javabean.ExpressPersonStatistic;
+import model.javabean.ExpressPersonStatisticsXiangqing;
+import model.javabean.ExpressPieceCountMonth;
+import model.javabean.TimeBillingStatistics;
+import model.javabean.TimeExpressStatistics;
+import model.javabean.XiangxiBillingStatistics;
 import ui.activity.AddExpressBillingManagerActivity;
 import ui.activity.BillingStatisticsActivity;
 import ui.activity.ExpressBillingManagementActivity;
@@ -41,142 +40,6 @@ import ui.fragement.ExpressPiecesDetailsChartsFragementActivity;
 public class JsonResolve {
     final static int[] sizeTable = {9, 99, 999, 9999, 99999, 999999, 9999999,
             99999999, 999999999, Integer.MAX_VALUE};
-
-    /*//json解析 项目管理
-    public static void jsonAccountManager(String json, Activity activity, String rows) {
-        try {
-            //解析前先清空
-            Log.v("test", "jsonAccountManager");
-            JSONArray jsonArray = new JSONArray(json);
-            JSONObject jsonObject = jsonArray.getJSONObject(0);
-            JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            JSONObject jsonObject1 = jsonArray1.getJSONObject(0);
-            String total = jsonObject1.get("total").toString();
-            Log.d("test7", "total:" + total);
-            Statics.page = (Integer.parseInt(total) + Integer.parseInt(rows) - 1) / Integer.parseInt(rows);
-
-            JSONArray jsonArray2 = jsonObject1.getJSONArray("rows");
-            Statics.expressManagementList.clear();
-            for (int k = 0; k < jsonArray2.length(); k++) {
-                JSONObject jsonObject2 = jsonArray2.getJSONObject(k);
-                String id = jsonObject2.getString("id");
-                String type = jsonObject2.getString("type");
-                String classify = jsonObject2.getString("classify");
-                String reason = jsonObject2.getString("reason");
-                String sum = jsonObject2.getString("sum");
-                String createBy = jsonObject2.getString("createBy");
-                String customerId = jsonObject2.getString("customerId");
-                String remark = jsonObject2.getString("description");
-                String paymentMethod = jsonObject2.getString("paymentMethod");
-
-                //对出账进行处理，去除样式，进账则不用
-                if(!classify.equals("进账")){//以b为分割
-                    classify = "出账";
-                    String typeString[] =type.split("<b>");
-                    Log.d("asda",customerId);
-                    Log.d("asda",remark);
-
-                    String customerIdString[] = customerId.split("<b>");
-                    String remarkString[] = remark.split("<b>");
-                    String reasonString[] = reason.split("<b>");
-                    String createByString[] = createBy.split("<b>");
-                    String paymentMethodString[] = paymentMethod.split("<b>");
-                    for(int i=0;i<typeString.length;i++){
-                        Log.d("asda",typeString[i]);
-                        if(i==1){
-                            Log.d("asda",typeString[i]);
-                            type=typeString[i].split("</b>")[0];
-                            customerId=customerIdString[i].split("</b>")[0];
-                            remark=remarkString[i].split("</b>")[0];
-                            reason=reasonString[i].split("</b>")[0];
-                            createBy=createByString[i].split("</b>")[0];
-                            paymentMethod=paymentMethodString[i].split("</b>")[0];
-                            Log.d("asda","sss:"+customerId+remark);
-                        }
-                    }
-                }else{
-
-                    Log.d("asllll",remark);
-                    String customerIdString[] = customerId.split(">");
-                    String remarkString[] = remark.split(">");
-                    String reasonString[] = reason.split(">");
-                    String createByString[] = createBy.split(">");
-                    for(int i=0;i<remarkString.length;i++){
-                        Log.d("asda",remarkString[i]);
-                        if(i==1){
-                            Log.d("asda",customerIdString[i]);
-
-                            customerId=customerIdString[i].split("</")[0];
-                            remark=remarkString[i].split("</")[0];
-                            //createBy=createByString[i].split("</span>")[0];
-                            Log.d("asda","sss:"+customerId+remark);
-                        }
-                    }
-
-                }
-
-                //账单时间
-                JSONObject billingObject3 = jsonObject2.getJSONObject("billingTime");
-                String date = billingObject3.getString("date");
-                String month = billingObject3.getString("month");
-                String time = billingObject3.getString("time");
-                String yearString = billingObject3.getString("year");
-                //----------------------------------------------------------------------------------
-                String year = ToolUtils.timeDateFormat(yearString);
-                StringBuffer billingSb=new StringBuffer();
-                int temp = Integer.parseInt(month);
-                billingSb.append(year).append("-").append(++temp).append("-").append(date);
-                Log.d("yeayr",billingSb.toString());
-
-                //创建时间
-                JSONObject createObject3 = jsonObject2.getJSONObject("createTime");
-                String date1 = createObject3.getString("date");
-                String month1 = createObject3.getString("month");
-                String time1 = createObject3.getString("time");
-                String hours = createObject3.getString("hours");
-                String minutes = createObject3.getString("minutes");
-                String seconds = createObject3.getString("seconds");
-                String yearString1 = billingObject3.getString("year");
-                //----------------------------------------------------------------------------------
-                String year1 = ToolUtils.timeDateFormat(yearString1);
-                StringBuffer createSb=new StringBuffer();
-                int temp1 = Integer.parseInt(month);
-                createSb.append(year1).append("/").append(++temp1).append("/").append(date1).append(" ")
-                        .append(hours).append(":").append(minutes).append(":").append(seconds);
-                Log.d("yeayr:",createSb.toString());
-                Log.d("test3", "----------------------------------");
-                Log.d("test3", "sum:" + sum);
-                Log.d("test3", "type:" + type);
-                String typeString = "";
-                //type 去除快递2个字
-                if(type!=null&&!"".equals(type)){
-                    typeString=type.substring(0,2);
-                    Log.d("type","typeString:"+typeString);
-                }
-
-                Log.d("JsonResolve", "输出：" + id + "[]" + typeString + classify + "[]" + billingSb.toString() + "[]" + createBy.toString() + "[]" + reason + "[]" + sum
-                        + "[]" + createBy + "[]" + customerId + "[]" + remark + "[]" + paymentMethod);
-                ExpressManagement financialManagement = new ExpressManagement(id, typeString, classify,billingSb.toString()
-                        ,createSb.toString(),reason, sum, createBy, customerId, remark,paymentMethod);
-                Log.d("JsonResolve", "知道");
-                Statics.expressManagementList.add(financialManagement);
-                ExpressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
-            }
-            //刷新
-            //AccountManagementAdapter accountManagementAdapter =new AccountManagementAdapter(activity);
-            //AccountManagementActivity.accountLv.setAdapter(accountManagementAdapter);
-            //AccountManagementActivity.accountManagementAdapter.notifyDataSetChanged();
-            //ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
-
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.d("JsonResolve", "异常");
-        }
-
-    }*/
-
     public static void jsonAccountReasonSearch(String json, Activity activity) {//详细
         try {
             //解析前先清空
@@ -213,6 +76,7 @@ public class JsonResolve {
                     BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"SearchReasonSpinner");
                     //ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
                     ExpressBillingManagementActivity.AdapterRefresh("reasonSpinner");
+
                     Log.d("aleand","发送广播");
                     Statics.ActivityType = "";
                 }else if(Statics.ActivityType.equals("LogisticsReportActivity")){
@@ -495,7 +359,8 @@ public class JsonResolve {
             Statics.page = (Integer.parseInt(total) + Integer.parseInt(rows) - 1) / Integer.parseInt(rows);
             JSONArray jsonArray2 = jsonObject1.getJSONArray("rows");
             Log.d("JsonResolve", "详细信息：" + json);
-            Statics.enmList.clear();
+            //Statics.enmList.clear();
+            ArrayList<ExpressNumberManagement> temps =new ArrayList<>();
             for (int k = 0; k < jsonArray2.length(); k++) {
                 JSONObject jsonObject2 = jsonArray2.getJSONObject(k);
                 String id = jsonObject2.getString("id");
@@ -520,9 +385,25 @@ public class JsonResolve {
                 sb.append(year).append("-").append(++temp).append("-").append(day);
 
                 ExpressNumberManagement expressNumberManagement = new ExpressNumberManagement(id, expressName, type, expresscount, sb.toString(), remark);
-                Statics.enmList.add(expressNumberManagement);
+                //Statics.enmList.add(expressNumberManagement);
+                temps.add(expressNumberManagement);
                 expressNumberManagement = null;
             }
+            //temps = Statics.enmList;
+            if(Statics.isPageUpload){//如果是翻页动作，则不清除以前的数据
+                /*Log.d("ExpressBillingManagemen", "翻页，数"+Statics.expressManagementList.get(0).getData().get(0).getRows().size());
+                Log.d("ExpressBillingManagemen", "翻页，数1:"+temp.get(0).getData().get(0).getRows().size());
+                Statics.expressManagementList.get(0).getData().get(0).getRows().addAll(fc[0].getData().get(0).getRows());
+                Log.d("ExpressBillingManagemen", "翻页，数"+Statics.expressManagementList.get(0).getData().get(0).getRows().size());*/
+                Statics.enmList.addAll(temps);
+                temps.clear();
+
+            }else {
+                Statics.enmList.clear();
+                Statics.enmList = temps;
+
+            }
+            Statics.isPageUpload = false;
             //刷新
             expressNumberManagerActivity.AdapterRefresh("accountManagementAdapter");
 

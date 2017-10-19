@@ -2,7 +2,6 @@ package ui.adpter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,13 +12,11 @@ import android.widget.TextView;
 import com.example.admin.erp.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import Tool.ToolUtils;
-import model.AttendanceWxDetaSearch;
-import model.FinancialBillingGetWXsettlementMonth;
+import model.javabean.AttendanceWxDetaSearch;
 
 /**
  * Created by admin on 2017/6/5.

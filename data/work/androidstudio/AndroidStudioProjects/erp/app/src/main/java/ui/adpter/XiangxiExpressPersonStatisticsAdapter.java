@@ -3,7 +3,6 @@ package ui.adpter;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.example.admin.erp.R;
 
 import java.util.List;
 
-import model.ExpressPersonStatisticsXiangqing;
+import model.javabean.ExpressPersonStatisticsXiangqing;
 
 /**
  * Created by admin on 2017/3/8.

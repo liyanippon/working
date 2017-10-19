@@ -28,11 +28,6 @@ import http.ExpressNumberManagementHttpPost;
 import http.ExpressStatisticsHttpPost;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
-import ui.activity.BillingStatisticsActivity;
-import ui.activity.ExpressBillingManagementActivity;
-import ui.activity.ExpressNumberManagerActivity;
-import ui.activity.ExpressStatisticsActivity;
-import ui.activity.LogisticsReportActivity;
 import ui.activity.ProjectManagementActivity;
 
 @SuppressLint("NewApi")
@@ -53,7 +48,7 @@ public class MainTabProject extends Fragment implements AdapterView.OnItemClickL
 	private ArrayList<Object> iconName;
 	private HashMap<String,String> param;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.main_tab_03, null);
+		view = inflater.inflate(R.layout.main_tab_works, null);
 		//http://www.cnblogs.com/tinyphp/p/3855224.html 可下载
 		spinnerData();
 		init();
@@ -99,7 +94,7 @@ public class MainTabProject extends Fragment implements AdapterView.OnItemClickL
 	}
 
 	private void init() {
-		gridView = (GridView) view.findViewById(R.id.tab02_grid);
+		gridView = (GridView) view.findViewById(R.id.tab_grid);
 		//新建List
 		data_list = new ArrayList<Map<String, Object>>();
 		//获取数据

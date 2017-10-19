@@ -1,21 +1,16 @@
 package broadcast;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 import android.widget.Adapter;
-
 import Tool.statistics.Statics;
 import portface.LazyLoadFace;
-import ui.activity.MainActivity;
 import ui.activity.menu.MenuFragmentMainActivity;
-
 /**
  * Created by admin on 2017/4/26.
  */
-
 public class BroadCastTool {
      public static void sendMyBroadcast(TYPE type, Context context, String description) {
         Intent intent = new Intent();
@@ -28,5 +23,4 @@ public class BroadCastTool {
                 break;
         }
     }
-
 }

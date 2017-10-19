@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -15,8 +16,9 @@ import com.example.admin.erp.R;
 import java.util.Properties;
 import Tool.crash.BaseActivity;
 import Tool.crash.LogcatHelper;
-import biz.IUserImpl;
 import http.ExpressBillingManagementHttpPost;
+import presenter.LoginPresenterImpl;
+
 public class MainActivity extends BaseActivity {
     public static EditText userName;
     public static EditText userPassword;
@@ -33,7 +35,7 @@ public class MainActivity extends BaseActivity {
     private RelativeLayout background;
     public static ProgressBar loginProgressBar;
     private InputMethodManager imm;//键盘处理
-    IUserImpl iUser = new IUserImpl();
+    LoginPresenterImpl iUser ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = MainActivity.this;
@@ -43,7 +45,7 @@ public class MainActivity extends BaseActivity {
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);
 
-        findview();//查找控件
+        initView();//查找控件
         iUser.readProperties(properties,activity);//读取配置文件
         if (sp.getBoolean("checkboxBoolean", false)){
             userName.setText(sp.getString("uname", null));
@@ -51,17 +53,15 @@ public class MainActivity extends BaseActivity {
             rememberMe.setChecked(true);
         }
     }
-
     @Override
     public void onClick(View v) {
         super.onClick(v);
-
         switch (v.getId()) {
             case R.id.login:
                 imm.hideSoftInputFromWindow(userName.getWindowToken(), 0); //强制隐藏键盘
                 imm.hideSoftInputFromWindow(userPassword.getWindowToken(), 0); //强制隐藏键盘
                 iUser.initBroadCast(activity,userNameString);
-                iUser.check(activity,httpPost,rememberMe,sp);
+                iUser.validateCredentials(activity,httpPost,rememberMe,sp);
                 break;
             case R.id.reset:
                 userName.setText("");
@@ -71,8 +71,7 @@ public class MainActivity extends BaseActivity {
                 break;
         }
     }
-
-    private void findview(){
+    private void initView(){
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         sp = this.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
         background = (RelativeLayout) findViewById(R.id.activity_main2);
@@ -86,10 +85,8 @@ public class MainActivity extends BaseActivity {
         reset.setOnClickListener(this);
         properties = new Properties();
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 }

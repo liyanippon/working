@@ -15,8 +15,7 @@ import com.example.admin.erp.R;
 import java.math.BigDecimal;
 import java.util.List;
 
-import model.CustomerBillingStatistics;
-import model.FinancialBillingGetWXSelectCustomer;
+import model.javabean.FinancialBillingGetWXSelectCustomer;
 
 /**
  * Created by admin on 2017/3/3.

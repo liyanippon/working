@@ -15,9 +15,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,15 +28,12 @@ import Tool.customerWidget.NoscrollListView;
 import Tool.customerWidget.PullScrollView;
 import Tool.customerWidget.SyncHorizontalScrollView;
 import Tool.statistics.Statics;
-import http.BillingStatisticsHttpPost;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
-import model.CompanyDepartment;
-import model.FinancialSalaryStatistics;
-import ui.adpter.CustomerBillingStatisticsAdapter;
+import model.javabean.CompanyDepartment;
 import ui.adpter.FinancialSalaryStatisticsAdapter;
 import ui.adpter.LeftStatisticsAdpter;
-import ui.fragement.AttendanceZhuFragment;
+
 /**
  * 工资统计
  * */

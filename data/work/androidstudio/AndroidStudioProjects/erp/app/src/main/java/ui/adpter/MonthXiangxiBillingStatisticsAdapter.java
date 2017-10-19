@@ -10,12 +10,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.admin.erp.R;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
 import Tool.ToolUtils;
-import model.FinancialBillingGetWXSelectMonthAccount;
-import model.XiangxiBillingStatistics;
+import model.javabean.FinancialBillingGetWXSelectMonthAccount;
 
 /**
  * Created by admin on 2017/3/8.

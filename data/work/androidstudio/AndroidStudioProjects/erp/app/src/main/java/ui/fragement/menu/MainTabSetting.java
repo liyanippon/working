@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import com.example.admin.erp.MainActivity;
 import com.example.admin.erp.R;
 import Tool.statistics.Statics;
-import ui.activity.MainActivity;
-
 @SuppressLint("NewApi")
 public class MainTabSetting extends Fragment{
 	private View settingLayout;
@@ -29,14 +28,12 @@ public class MainTabSetting extends Fragment{
 
 		return settingLayout;
 	}
-
 	private void init(LayoutInflater inflater,ViewGroup container) {
 		settingLayout = inflater.inflate(R.layout.main_tab_setting, container, false);
 		userName = (TextView) settingLayout.findViewById(R.id.userName);
 		exitAccount = (Button) settingLayout.findViewById(R.id.exitAccount);
 		exitAccount.setOnClickListener(o);
 	}
-
 	View.OnClickListener o = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {

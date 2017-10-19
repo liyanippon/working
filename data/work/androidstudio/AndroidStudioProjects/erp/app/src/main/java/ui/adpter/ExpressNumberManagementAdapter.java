@@ -90,7 +90,7 @@ public class ExpressNumberManagementAdapter extends BaseAdapter {
         String type = Statics.enmList.get(position).getType().trim();
         String expressCount = Statics.enmList.get(position).getExpressCount().trim();
         String billingTime = Statics.enmList.get(position).getBillingTime().trim();
-        vh.number.setText(number);
+        vh.number.setText(Integer.toString(++positions));
         vh.type.setText(type);
         vh.expressName.setText(expressName);
         vh.expressCount.setText(expressCount);

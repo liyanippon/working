@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
+
+import com.example.admin.erp.MainActivity;
+
 import java.util.Properties;
 import Tool.crash.CrashHandler;
 import Tool.statistics.Statics;
@@ -15,7 +18,6 @@ import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
 import portface.LazyLoadFace;
-import ui.activity.MainActivity;
 import ui.activity.menu.MenuFragmentMainActivity;
 
 /**

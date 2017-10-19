@@ -9,13 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.admin.erp.R;
 
 import java.util.List;
 
-import model.TimeBillingStatistics;
+import model.javabean.TimeBillingStatistics;
 
 /**
  * Created by admin on 2017/3/1.

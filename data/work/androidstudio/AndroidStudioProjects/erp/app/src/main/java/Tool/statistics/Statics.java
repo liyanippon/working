@@ -1,44 +1,48 @@
 package Tool.statistics;
-import android.app.Activity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import model.AccountClassify;
-import model.AttendanceStaffBelongProject;
-import model.AttendanceWxDetaSearch;
-import model.CompanyDepartment;
-import model.ExpressClassify;
-import model.ExpressExpensePayMethod;
-import model.AccountReason;
-import model.AccountType;
-import model.AttendanceStatistics;
-import model.AttendanceYear;
-import model.Customer;
-import model.CustomerBillingStatistics;
-import model.ExpressManagement;
-import model.ExpressNumberManagement;
-import model.ExpressPerson;
-import model.ExpressPersonStatistic;
-import model.ExpressPersonStatisticsXiangqing;
-import model.ExpressPieceCountMonth;
-import model.FinancialAccount;
-import model.FinancialBilingGetXWstatisticalData;
-import model.FinancialBillingGetWXSelectCustomer;
-import model.FinancialBillingGetWXSelectMonthAccount;
-import model.FinancialBillingGetWXsettlementMonth;
-import model.FinancialCustomer;
-import model.FinancialManagement;
-import model.FinancialSalaryStatistics;
-import model.LogisticsReportSearch;
-import model.ProjectAllPageData;
-import model.ProjectCycleData;
-import model.ProjectPeoplePageData;
-import model.StaffName;
-import model.TimeBillingStatistics;
-import model.TimeExpressStatistics;
-import model.TransferAccountClassify;
-import model.UserUmp;
-import model.XiangxiBillingStatistics;
+
+import model.javabean.AccountReason;
+import model.javabean.AccountType;
+import model.javabean.AttendanceStaffBelongProject;
+import model.javabean.AttendanceStatistics;
+import model.javabean.AttendanceWxDetaSearch;
+import model.javabean.AttendanceYear;
+import model.javabean.CompanyDepartment;
+import model.javabean.Customer;
+import model.javabean.CustomerBillingStatistics;
+import model.javabean.DownLoadFile;
+import model.javabean.ExpressClassify;
+import model.javabean.ExpressExpensePayMethod;
+import model.javabean.ExpressManagement;
+import model.javabean.ExpressNumberManagement;
+import model.javabean.ExpressPerson;
+import model.javabean.ExpressPersonStatistic;
+import model.javabean.ExpressPersonStatisticsXiangqing;
+import model.javabean.ExpressPieceCountMonth;
+import model.javabean.FinancialAccount;
+import model.javabean.FinancialBilingGetXWstatisticalData;
+import model.javabean.FinancialBillingGetWXSelectCustomer;
+import model.javabean.FinancialBillingGetWXSelectMonthAccount;
+import model.javabean.FinancialBillingGetWXsettlementMonth;
+import model.javabean.FinancialCustomer;
+import model.javabean.FinancialManagement;
+import model.javabean.FinancialSalaryStatistics;
+import model.javabean.LogisticsReportSearch;
+import model.javabean.ProjectAllPageData;
+import model.javabean.ProjectCycleData;
+import model.javabean.ProjectPeoplePageData;
+import model.javabean.ResourceGetWXExteriorProjects;
+import model.javabean.ResourceGetWXPageDataResourceProject;
+import model.javabean.ResourceGetWXWXPageDataResource;
+import model.javabean.StaffName;
+import model.javabean.TimeBillingStatistics;
+import model.javabean.TimeExpressStatistics;
+import model.javabean.TransferAccountClassify;
+import model.javabean.UserUmp;
+import model.javabean.XiangxiBillingStatistics;
+
 /**
  * Created by admin on 2017/2/21.
  */
@@ -159,7 +163,19 @@ public class Statics {
     public static List<ProjectCycleData> projectCycleDataList = new ArrayList<>();//项目回款周期情况
     public static String ProjectGetWXLoadProjectPeoplePageDataUrl = "http://192.168.1.54:8083/getWXLoadProjectPeoplePageData.ajax";//成员加入情况
     public static List<ProjectPeoplePageData> projectPeoplePageDataList =new ArrayList<>();//成员加入情况
+    /**人力资源管理**/
+    public static String ResourceGetWXWXPageDataResourceUrl = "http://192.168.1.54:8083/getWXPageDataResource.ajax";//人力资源分页查询
+    public static List<ResourceGetWXWXPageDataResource> rgwDataResourcesList = new ArrayList<>();
+    public static String ResourceGetWXPageDataResourceProjectUrl = "http://192.168.1.54:8083/getWXPageDataResourceProjects.ajax";//人力资源项目分页查询
+    public static List<ResourceGetWXPageDataResourceProject> rgwDataResourceProjectList = new ArrayList<>();
+    public static String ResourceGetWXExteriorProjectsUrl ="http://192.168.1.54:8083/getWXExteriorProjects.ajax";//外部项目
+    public static List<ResourceGetWXExteriorProjects> resourceGetWXExteriorProjectsList = new ArrayList<>();
+    public static String ResourceGetDownLoadFileUrl = "http://192.168.1.54:8083/downloadFile.ajax";//简历word请求地址
+    //public static List<DownLoadFile> downLoadFileList=new ArrayList<>();//保存简历文件流
+    public static String downLoadFile ;//保存简历文件流
     /**用户权限管理**/
     public static ArrayList<UserUmp> userUmpsStatisticsList = new ArrayList<>();//考勤表格数据
     public static String ActivityType;//activity类型 （多个页面共用时使用）
+
+    public static boolean isPageUpload = false;//是否向上翻页
 }
