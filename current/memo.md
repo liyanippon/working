@@ -32,7 +32,7 @@ git commit -m "changed the foldername whaddup"//正常提交
 
 
 https://www.west.cn/manager/vhost/index.asp?module=detail&sid=1079584   虚拟主机
-
+ceshi
 
 
 
