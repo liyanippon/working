@@ -71,7 +71,7 @@ public class SourceManagementAdapter extends BaseAdapter {
     private InputMethodManager imm;//键盘处理
     static Thread httpThread,writeFileThread;
     private static String fileNameStrings;
-    private long exitTime = 0;
+    private long exitTime = 0 , fileNameTime = 0;
     public SourceManagementAdapter(Activity activity) {
         this.activity = activity;
     }
@@ -133,11 +133,9 @@ public class SourceManagementAdapter extends BaseAdapter {
 
     public class Click implements View.OnClickListener {
         int item= 0;
-
         public Click(int position) {
             item= position;
         }
-
         @Override
         public void onClick(View v) {
             switch (v.getId()){
@@ -145,9 +143,6 @@ public class SourceManagementAdapter extends BaseAdapter {
                     exitTime = ToolUtils.muchClick(exitTime);
                     if(exitTime!=0){
                         detailsDialog(item);
-                        Toast.makeText(activity, "大于3秒", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(activity, "小于3秒", Toast.LENGTH_SHORT).show();
                     }
                     break;
             }
@@ -179,10 +174,9 @@ public class SourceManagementAdapter extends BaseAdapter {
         fileName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exitTime = 0;
-                exitTime = ToolUtils.muchClick(exitTime);
-                if(exitTime!=0){
-                    exitTime = System.currentTimeMillis();
+                fileNameTime = ToolUtils.muchClick(fileNameTime);
+                if(fileNameTime!=0){
+                    fileNameTime = System.currentTimeMillis();
                     ResourceGetWXWXPageDataResource rgwdResource=Statics.rgwDataResourcesList.get(items);
                     String fileName = rgwdResource.getFileName();
                     id = rgwdResource.getId();
@@ -216,7 +210,6 @@ public class SourceManagementAdapter extends BaseAdapter {
     class ViewHolder {
         TextView number, name, sex,  phone, educationalBackground, details,history;
     }
-
     public void openFile(String fileNameId,String fileNameString){
         if (dir.exists()){
             //判断目录下是否有该文件名，如果有立即使用，没有从网络端下载再使用
@@ -266,7 +259,6 @@ public class SourceManagementAdapter extends BaseAdapter {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-
                 //线程安全
                 try {
                     writeFileThread = new Thread(new SyncThread(pathStr,img,fileNameStrings));

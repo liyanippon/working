@@ -71,6 +71,8 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
     private static Activity activity;
     private PullScrollView pullScrollView;
     private Handler handler ;
+    private long exitTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +123,11 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
 
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        xiangxiAlertDialog(position,yearSpinnerString, finalMonthString);//详细信息
+                        exitTime = ToolUtils.muchClick(exitTime);
+                        if(exitTime!=0) {
+                            exitTime = System.currentTimeMillis();
+                            xiangxiAlertDialog(position, yearSpinnerString, finalMonthString);//详细信息
+                        }
                     }
                 });
             }
@@ -223,73 +229,6 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
                 startActivity(in);
                 break;
         }
-    }
-
-    private void spinnerType() {
-        Log.d("test", "spinnerType");
-        //数据
-        //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
-        data_list = new ArrayList<>();
-        data_list.add("全部");
-        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
-            data_list.add(Statics.accountTypeList.get(i).getName());
-        }
-
-        //适配器
-        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list);
-        //设置样式
-        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
-        //加载适配器
-        typeSpinner.setAdapter(arr_adapter);
-        data_list = null;
-
-        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
-                    typeSpinnerString = "全部";
-                }else{
-                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
-                }
-                data_list = null;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        //数据
-        //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
-        ArrayList<String> yearlist = new ArrayList<>();
-        yearlist.add("全部");
-        for (int i=0;i<Statics.billingYear.size();i++){
-            yearlist.add(Statics.billingYear.get(i));
-        }
-        //适配器
-        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, yearlist);
-        //设置样式
-        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
-        //加载适配器
-        yearSpinner.setAdapter(arr_adapter);
-        data_list = null;
-        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
-                    yearSpinnerString = "全部";
-                }else{
-                    yearSpinnerString = Statics.billingYear.get(--position);
-                }
-                data_list = null;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
 
     }
     public void init() {

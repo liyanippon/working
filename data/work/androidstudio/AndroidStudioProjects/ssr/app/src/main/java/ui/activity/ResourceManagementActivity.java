@@ -63,6 +63,8 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
     private static OutResouceProjectAdpter outResourceProjectAdpter;
     public EditText staffName;
     private String staffNameString = "";
+    private long exitTime = 0, resourceLvTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,34 +100,37 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
         resourceLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {//点击时查看详细信息
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                LayoutInflater inflater = getLayoutInflater();
-                final View layout = inflater.inflate(R.layout.outprojectmanager_dialog_time_item, null);//获取自定义布局
-                lvs = (ListView) layout.findViewById(R.id.lvs);
-                ResourceGetWXWXPageDataResource rgwdResource=Statics.rgwDataResourcesList.get(position-1);
-                //查询项目周期情况
-                param = new HashMap<>();
-                Log.d("ResourceManagementActiv", "idid::" + rgwdResource.getId()+";;;"+Statics.ResourceGetWXPageDataResourceProjectUrl);
-                param.put("id",rgwdResource.getId());//projectid
-                param.put("page", Integer.toString(page));
-                param.put("rows", "50");
-                //isProject = true;
-                HttpBasePost.postHttp(Statics.ResourceGetWXPageDataResourceProjectUrl, param, HttpTypeConstants.ResourceGetWXPageDataResourceProjectUrlType);
-                outResourceProjectAdpter = new OutResouceProjectAdpter(activity);//项目信息
-                lvs.setAdapter(outResourceProjectAdpter);
-                //创建人就是用户名
-                builder.setView(layout);
-                dlg = builder.create();
-                dlg.show();
-                //dlg.getWindow().setLayout(1500, 1500);
-                WindowManager windowManager = getWindowManager();
-                Display display = windowManager.getDefaultDisplay();
-                WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
-                lp.width = (int) (display.getWidth()); //设置宽度
-                dlg.getWindow().setAttributes(lp);
+                resourceLvTime = ToolUtils.muchClick(resourceLvTime);
+                if(resourceLvTime!=0) {
+                    resourceLvTime = System.currentTimeMillis();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View layout = inflater.inflate(R.layout.outprojectmanager_dialog_time_item, null);//获取自定义布局
+                    lvs = (ListView) layout.findViewById(R.id.lvs);
+                    ResourceGetWXWXPageDataResource rgwdResource = Statics.rgwDataResourcesList.get(position - 1);
+                    //查询项目周期情况
+                    param = new HashMap<>();
+                    Log.d("ResourceManagementActiv", "idid::" + rgwdResource.getId() + ";;;" + Statics.ResourceGetWXPageDataResourceProjectUrl);
+                    param.put("id", rgwdResource.getId());//projectid
+                    param.put("page", Integer.toString(page));
+                    param.put("rows", "50");
+                    //isProject = true;
+                    HttpBasePost.postHttp(Statics.ResourceGetWXPageDataResourceProjectUrl, param, HttpTypeConstants.ResourceGetWXPageDataResourceProjectUrlType);
+                    outResourceProjectAdpter = new OutResouceProjectAdpter(activity);//项目信息
+                    lvs.setAdapter(outResourceProjectAdpter);
+                    //创建人就是用户名
+                    builder.setView(layout);
+                    dlg = builder.create();
+                    dlg.show();
+                    //dlg.getWindow().setLayout(1500, 1500);
+                    WindowManager windowManager = getWindowManager();
+                    Display display = windowManager.getDefaultDisplay();
+                    WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+                    lp.width = (int) (display.getWidth()); //设置宽度
+                    dlg.getWindow().setAttributes(lp);
+                }
             }
         });
-        //spinnerType();
     }
     //返回按钮事件
     @Override
@@ -137,45 +142,8 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
         }
         return super.onOptionsItemSelected(item);
     }
-    private void spinnerType() {
-        Log.d("test", "spinnerType");
-        //数据（快递类型：圆通，韵达）
-        //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
-        data_list = new ArrayList<>();
-        data_list.add("全部");
-        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
-            data_list.add(Statics.accountTypeList.get(i).getName());
-        }
-        //适配器
-        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
-        //设置样式
-        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
-        //加载适配器
-        typeSpinner.setAdapter(arr_adapter);
-        data_list = null;
-
-        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.v("test8",Integer.toString(position)+"ss");
-                if(position == 0){
-                    typeSpinnerString = "全部";
-                }else{
-                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
-                }
-                data_list = null;
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
     private void init() {
         search = findViewById(R.id.search);
-        //add = findViewById(R.id.add);
-        //addPerson = findViewById(R.id.add_person);
-        //addPersonProject = findViewById(R.id.add_person_project);
         typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
         resourceLv = (XListView) findViewById(R.id.xListView);
         staffName = (EditText) findViewById(R.id.staff_name);
@@ -187,44 +155,20 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.search:
-                    staffNameString = staffName.getText().toString().trim();
-                    param = new HashMap<>();
-                    param.put("name",staffNameString);
-                    param.put("page", Integer.toString(page));
-                    param.put("rows", "50");
-                    HttpBasePost.postHttp(Statics.ResourceGetWXWXPageDataResourceUrl,param,HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
-                    break;
-                case R.id.add:
-                    add();
+                    exitTime = ToolUtils.muchClick(exitTime);
+                    if(exitTime!=0) {
+                        exitTime = System.currentTimeMillis();
+                        staffNameString = staffName.getText().toString().trim();
+                        param = new HashMap<>();
+                        param.put("name", staffNameString);
+                        param.put("page", Integer.toString(page));
+                        param.put("rows", "50");
+                        HttpBasePost.postHttp(Statics.ResourceGetWXWXPageDataResourceUrl, param, HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
+                    }
                     break;
             }
         }
     };
-    private void add() {
-        addPerson.setVisibility(View.VISIBLE);
-        addPersonProject.setVisibility(View.VISIBLE);
-        ScaleAnimation sa = new ScaleAnimation(1.0f, 1.1f, 1.0f, 1.1f, 100.0f, 120.0f);
-        sa.setDuration(1000);
-        addPerson.startAnimation(sa);
-        addPersonProject.startAnimation(sa);
-        addPerson.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*Intent in = new Intent(activity, AddPersonActivity.class);//添加人员
-                activity.startActivity(in);*/
-                Intent in = new Intent(activity,OfficeOnlineActivity.class);
-                startActivity(in);
-            }
-        });
-        addPersonProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("ResourceManagementActiv", "sdf");
-                Intent ins = new Intent(activity,OfficeDirActivity.class);//添加人员项目
-                activity.startActivity(ins);
-            }
-        });
-    }
     @Override
     public void onRefresh() {
         mHandler.postDelayed(new Runnable() {

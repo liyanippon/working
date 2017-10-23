@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,8 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.admin.erp.R;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,21 +111,7 @@ public class MainTabAttendance extends Fragment {
 	public void onResume() {
 		super.onResume();
 
-		/*ACache mCache = ACache.get(getActivity());
-		//String result = mCache.getAsString("uml");
-		//mCache.clear();清空所有数据 mCache.remove(key);移除某个数据
-		Statics.userUmpsStatisticsList = (ArrayList<UserUmp>) mCache.getAsObject("uml");
-		Toast.makeText(getActivity(), Statics.userUmpsStatisticsList.size()+"", Toast.LENGTH_SHORT).show();*/
-		/*//json数据使用Gson框架解析
-		Statics.userUmpsStatisticsList.clear();
-		UserUmp[] as = new Gson().fromJson(result, UserUmp[].class);
-		Collections.addAll(Statics.userUmpsStatisticsList, as);//转化arrayList*/
-		/*spinnerData();
-		init();
-		gridView.setOnItemClickListener(g);*/
-
 	}
-
 
 	AdapterView.OnItemClickListener g = new AdapterView.OnItemClickListener() {
 		@Override

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -28,8 +29,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
+import java.util.Properties;
+
+import Tool.ACache;
 import Tool.crash.ActivityCollector;
 import Tool.crash.BaseActivity;
+import Tool.statistics.Statics;
+import http.HttpTypeConstants;
+import model.javabean.UserUmp;
+import presenter.LoginPresenterImpl;
 import ui.activity.BillingStatisticsActivity;
 import ui.adpter.MFragmentPagerAdapter;
 import ui.fragement.menu.MainTabAttendance;
@@ -71,6 +79,8 @@ public class MenuFragmentMainActivity extends BaseActivity{
     private static final int NOTIFYID_1 = 1;
     private Button btn_show_normal;
     private Button btn_close_normal;
+    private Properties properties;
+    LoginPresenterImpl presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +124,8 @@ public class MenuFragmentMainActivity extends BaseActivity{
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
     }
+
+
     //再按一次返回键退出程序
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -134,17 +146,42 @@ public class MenuFragmentMainActivity extends BaseActivity{
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+
+        //outState.putSerializable("UserUmp",Statics.userUmpsStatisticsList);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        //Statics.userUmpsStatisticsList = (ArrayList<UserUmp>) savedInstanceState.getSerializable("UserUmp");
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+
+        //內存不足
+        if (level == TRIM_MEMORY_MODERATE) {
+
+        }
+    }
+
     @Override
     protected void onResume() {
-        /**
-         * 设置为竖屏
-         */
-
-        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
         super.onResume();
+
+        ACache aCache = ACache.get(getApplicationContext());
+        //使用getAsObject()，直接进行强转
+        Statics.userUmpsStatisticsList = (ArrayList<UserUmp>) aCache.getAsObject("UserUmp");
+        presenter=new LoginPresenterImpl();
+        properties = new Properties();
+        presenter.readProperties(properties,MenuFragmentMainActivity.this);//读取配置文件
+        new HttpTypeConstants();
     }
     /**
      * 初始化头标

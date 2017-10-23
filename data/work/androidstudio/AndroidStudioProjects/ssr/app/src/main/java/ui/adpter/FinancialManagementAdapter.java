@@ -31,6 +31,7 @@ public class FinancialManagementAdapter extends BaseAdapter {
     private int positions;
     private ViewHolder vh;
     private List<ViewHolder> holders = new ArrayList<ViewHolder>();
+    private long exitTime = 0;
     public FinancialManagementAdapter(Activity accactivity) {
         this.activity = accactivity;
     }
@@ -170,7 +171,11 @@ public class FinancialManagementAdapter extends BaseAdapter {
 
         @Override
         public void onClick(View v) {
-            showNormalDialog(item);
+            exitTime = ToolUtils.muchClick(exitTime);
+            if(exitTime!=0) {
+                exitTime = System.currentTimeMillis();
+                showNormalDialog(item);
+            }
         }
 
     }

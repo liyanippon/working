@@ -8,7 +8,11 @@ import android.widget.CheckBox;
 import com.example.admin.erp.LoginView;
 import com.example.admin.erp.MainActivity;
 import com.example.admin.erp.OnLoginFinishedListener;
+
+import java.util.ArrayList;
 import java.util.Properties;
+
+import Tool.ACache;
 import Tool.crash.CrashHandler;
 import Tool.statistics.Statics;
 import broadcast.Config;
@@ -24,6 +28,8 @@ import ui.activity.menu.MenuFragmentMainActivity;
 public class LoginPresenterImpl implements LoginPresenter,OnLoginFinishedListener {
     private LoginView loginView;
     private LoginModel loginModel;
+    public LoginPresenterImpl() {
+    }
     public LoginPresenterImpl(LoginView loginView) {
         this.loginView = loginView;
         this.loginModel = new LoginModelImpl();
@@ -37,6 +43,7 @@ public class LoginPresenterImpl implements LoginPresenter,OnLoginFinishedListene
             properties.load(activity.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
             //Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
+            ArrayList<String> urlList = new ArrayList<>();
             Statics.LoginUrl = IFengLoginUrl;//本地登录
             String IFengUrl = properties.getProperty("IFengUrl").trim();
             String UmpUrl = properties.getProperty("UmpUrl").trim();
@@ -87,6 +94,7 @@ public class LoginPresenterImpl implements LoginPresenter,OnLoginFinishedListene
             Statics.ResourceGetWXPageDataResourceProjectUrl = IFengUrl + "/getWXPageDataResourceProjects.ajax";//人力资源池外部项目查询
             Statics.ResourceGetWXExteriorProjectsUrl = IFengUrl + "/getWXExteriorProjects.ajax";//人力资源池外部项目所有查询
             Statics.ResourceGetDownLoadFileUrl = IFengUrl + "/downloadFile.ajax";//简历word请求地址
+
         } catch (Exception e) {
             e.printStackTrace();
         }

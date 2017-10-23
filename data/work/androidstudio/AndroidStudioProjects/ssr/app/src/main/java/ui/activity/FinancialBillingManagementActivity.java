@@ -54,6 +54,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
     static FreshenBroadcastReceiver broadcast;
     private HashMap<String,String> param;
+    private long addTime = 0,searchTime = 0 ,exitTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,49 +87,59 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         accountLv.setDivider(new ColorDrawable(Color.BLUE));
         accountLv.setDividerHeight(1);
         mHandler = new Handler();
-        //暂时先不处理
         accountLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {//点击时查看详细信息
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                xiangxiAlertDialog(position);
+                exitTime = ToolUtils.muchClick(exitTime);
+                if(exitTime!=0) {
+                    exitTime = System.currentTimeMillis();
+                    xiangxiAlertDialog(position);
+                }
             }
         });
         spinnerType();
         search.setOnClickListener(new View.OnClickListener() {//查询
             @Override
             public void onClick(View v) {
-                //条件查询
-                page = 1;
-                progressDialog = ProgressDialog.show(FinancialBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                SearchBoolean = true;
-                String httpUrl = Statics.FinancialBillingManagementUrl;
-                Log.d("FinancialBillingManagem", typeSpinnerString + classifySpinnerString + customerNameSpinner);
-                if("全部".equals(typeSpinnerString)){
-                    typeSpinnerString = "";
+                searchTime = ToolUtils.muchClick(searchTime);
+                if(searchTime!=0) {
+                    searchTime = System.currentTimeMillis();
+                    //条件查询
+                    page = 1;
+                    progressDialog = ProgressDialog.show(FinancialBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
+                    SearchBoolean = true;
+                    String httpUrl = Statics.FinancialBillingManagementUrl;
+                    Log.d("FinancialBillingManagem", typeSpinnerString + classifySpinnerString + customerNameSpinner);
+                    if ("全部".equals(typeSpinnerString)) {
+                        typeSpinnerString = "";
+                    }
+                    if ("全部".equals(classifySpinnerString)) {
+                        classifySpinnerString = "";
+                    }
+                    if ("全部".equals(customerNameSpinnerString)) {
+                        customerNameSpinnerString = "";
+                    }
+                    Log.d("FinancialBillingManagem", "参数验证" + typeSpinnerString + "&" + classifySpinnerString + "&" + customerNameSpinnerString);
+                    param = new HashMap<>();
+                    param.put("billType", typeSpinnerString);
+                    param.put("billClassify", classifySpinnerString);
+                    param.put("billCustomerId", customerNameSpinnerString);
+                    param.put("pageNumber", Integer.toString(page));
+                    param.put("option", "1");
+                    param.put("pageSize", "50");
+                    HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl, param, HttpTypeConstants.FinancialBillingManagementUrlType);
                 }
-                if("全部".equals(classifySpinnerString)){
-                    classifySpinnerString = "";
-                }
-                if("全部".equals(customerNameSpinnerString)){
-                    customerNameSpinnerString = "";
-                }
-                Log.d("FinancialBillingManagem", "参数验证"+typeSpinnerString+"&"+classifySpinnerString+"&"+customerNameSpinnerString);
-                param=new HashMap<>();
-                param.put("billType",typeSpinnerString);
-                param.put("billClassify",classifySpinnerString);
-                param.put("billCustomerId",customerNameSpinnerString);
-                param.put("pageNumber",Integer.toString(page));
-                param.put("option","1");
-                param.put("pageSize","50");
-                HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
-                //String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, customerNameSpinnerString, FinancialBillingManagementActivity.this, page);
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(FinancialBillingManagementActivity.this, AddFinancialBillingManagerActivity.class);
-                startActivity(in);
+                    addTime = ToolUtils.muchClick(addTime);
+                    if(addTime!=0) {
+                        addTime = System.currentTimeMillis();
+                        Intent in = new Intent(FinancialBillingManagementActivity.this, AddFinancialBillingManagerActivity.class);
+                        startActivity(in);
+                    }
             }
         });
     }

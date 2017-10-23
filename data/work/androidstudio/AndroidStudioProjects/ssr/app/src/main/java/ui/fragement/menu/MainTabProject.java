@@ -47,6 +47,8 @@ public class MainTabProject extends Fragment implements AdapterView.OnItemClickL
 	private ArrayList<Object> icon;
 	private ArrayList<Object> iconName;
 	private HashMap<String,String> param;
+
+	private long exitTime = 0;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.main_tab_works, null);
 		//http://www.cnblogs.com/tinyphp/p/3855224.html 可下载
@@ -133,8 +135,12 @@ public class MainTabProject extends Fragment implements AdapterView.OnItemClickL
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		switch (data_list.get(position).get("text").toString()){
 			case "项目维护"://项目维护
-				in = new Intent(getActivity(), ProjectManagementActivity.class);
-				startActivity(in);
+				exitTime = ToolUtils.muchClick(exitTime);
+				if(exitTime!=0) {
+					exitTime = System.currentTimeMillis();
+					in = new Intent(getActivity(), ProjectManagementActivity.class);
+					startActivity(in);
+				}
 				break;
 			/*case "物流统计":
 				in = new Intent(getActivity(), BillingStatisticsActivity.class);

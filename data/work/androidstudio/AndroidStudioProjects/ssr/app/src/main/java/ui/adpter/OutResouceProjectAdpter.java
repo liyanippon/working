@@ -40,6 +40,7 @@ public class OutResouceProjectAdpter extends BaseAdapter {
     private static ListView lvs;
     private String projectNameString;
     public static boolean isOutResouceProjectAdpter = false;
+    private long exitTime = 0;
     public OutResouceProjectAdpter(Activity activityBilling) {
         inflater = LayoutInflater.from(activityBilling);
         this.activity = activityBilling;
@@ -93,31 +94,35 @@ public class OutResouceProjectAdpter extends BaseAdapter {
     View.OnClickListener o =new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            LayoutInflater inflater = ResourceManagementActivity.activity.getLayoutInflater();
-            final View layout = inflater.inflate(R.layout.outprojectmanager_information_item, null);//获取自定义布局
-            lvs = (ListView) layout.findViewById(R.id.lvs);
-            //查询项目周期情况
-            int page = 1;
-            param = new HashMap<>();
-            param.put("projectName",projectNameString);//应该有一个上传人员id
-            param.put("page", Integer.toString(page));
-            param.put("rows", "1000");
-            //isProject = true;
-            isOutResouceProjectAdpter = true;
-            HttpBasePost.postHttp(Statics.ResourceGetWXExteriorProjectsUrl, param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
-            outResouceProjecInformationtAdpter = new OutResouceProjecInformationtAdpter(activity);//项目信息
-            lvs.setAdapter(outResouceProjecInformationtAdpter);
-            //创建人就是用户名
-            builder.setView(layout);
-            dlg = builder.create();
-            dlg.show();
-            //dlg.getWindow().setLayout(1500, 1500);
-            WindowManager windowManager = ResourceManagementActivity.activity.getWindowManager();
-            Display display = windowManager.getDefaultDisplay();
-            WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
-            lp.width = (int) (display.getWidth()); //设置宽度
-            dlg.getWindow().setAttributes(lp);
+            exitTime = ToolUtils.muchClick(exitTime);
+            if(exitTime!=0) {
+                exitTime = System.currentTimeMillis();
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                LayoutInflater inflater = ResourceManagementActivity.activity.getLayoutInflater();
+                final View layout = inflater.inflate(R.layout.outprojectmanager_information_item, null);//获取自定义布局
+                lvs = (ListView) layout.findViewById(R.id.lvs);
+                //查询项目周期情况
+                int page = 1;
+                param = new HashMap<>();
+                param.put("projectName", projectNameString);//应该有一个上传人员id
+                param.put("page", Integer.toString(page));
+                param.put("rows", "1000");
+                //isProject = true;
+                isOutResouceProjectAdpter = true;
+                HttpBasePost.postHttp(Statics.ResourceGetWXExteriorProjectsUrl, param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
+                outResouceProjecInformationtAdpter = new OutResouceProjecInformationtAdpter(activity);//项目信息
+                lvs.setAdapter(outResouceProjecInformationtAdpter);
+                //创建人就是用户名
+                builder.setView(layout);
+                dlg = builder.create();
+                dlg.show();
+                //dlg.getWindow().setLayout(1500, 1500);
+                WindowManager windowManager = ResourceManagementActivity.activity.getWindowManager();
+                Display display = windowManager.getDefaultDisplay();
+                WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+                lp.width = (int) (display.getWidth()); //设置宽度
+                dlg.getWindow().setAttributes(lp);
+            }
         }
     };
     public static void AdapterRefresh(String type) {//刷新adapter

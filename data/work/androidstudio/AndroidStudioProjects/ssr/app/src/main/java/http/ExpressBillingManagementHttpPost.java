@@ -137,10 +137,10 @@ public class ExpressBillingManagementHttpPost {
                 Statics.userUmpsStatisticsList.clear();
                 UserUmp[] as = new Gson().fromJson(result, UserUmp[].class);
                 Collections.addAll(Statics.userUmpsStatisticsList, as);//转化arrayList
-                /*//缓存本地
+                //缓存本地
                 ACache mCache = ACache.get(context);
                 //只能使用List的子类
-                mCache.put("uml", Statics.userUmpsStatisticsList,7 * ACache.TIME_DAY);*/
+                mCache.put("UserUmp", Statics.userUmpsStatisticsList,7 * ACache.TIME_DAY);
 
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL, context, "login");//发送广播
             }

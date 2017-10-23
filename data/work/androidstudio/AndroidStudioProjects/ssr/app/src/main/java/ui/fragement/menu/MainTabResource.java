@@ -39,6 +39,8 @@ public class MainTabResource extends Fragment {
     //动态菜单
     private ArrayList<Object> icon;
     private ArrayList<Object> iconName;
+    private long exitTime = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         newsLayout = inflater.inflate(R.layout.main_tab_works, container, false);
@@ -48,18 +50,6 @@ public class MainTabResource extends Fragment {
         return newsLayout;
     }
 
-    /*private void spinnerData() {
-        //获取数据 下拉菜单
-        new Runnable() {
-            @Override
-            public void run() {
-                HttpBasePost.postHttp(Statics.FinancialBillingGetWXAccountsTypeUrl,null, HttpTypeConstants.FinancialBillingGetWXAccountsTypeUrlType);//账目下拉框
-                HttpBasePost.postHttp(Statics.FinancialAccountCustomerUrl,null, HttpTypeConstants.FinancialAccountCustomerUrlType);
-                HttpBasePost.postHttp(Statics.AccountClassifyUrl,null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
-                HttpBasePost.postHttp(Statics.FinancialSalaryGetWXOrgListUrl,null,HttpTypeConstants.CompanyDepartmentListUrlType);//单位下拉框
-            }
-        }.run();
-    }*/
     private void init() {
         gridView = (GridView) newsLayout.findViewById(R.id.tab_grid);
         //新建List
@@ -98,12 +88,21 @@ public class MainTabResource extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (position) {
                 case 0:
-                    in = new Intent(getActivity(), ResourceManagementActivity.class);//信息维护
-                    startActivity(in);
+                    exitTime = ToolUtils.muchClick(exitTime);
+                    if(exitTime!=0) {
+                        exitTime = System.currentTimeMillis();
+                        in = new Intent(getActivity(), ResourceManagementActivity.class);//信息维护
+                        startActivity(in);
+                    }
                     break;
                 case 1:
-                    in = new Intent(getActivity(), OutProjectManagementActivity.class);//外部项目
-                    startActivity(in);
+                    exitTime = ToolUtils.muchClick(exitTime);
+                    if(exitTime!=0) {
+                        exitTime = System.currentTimeMillis();
+                        in = new Intent(getActivity(), OutProjectManagementActivity.class);//外部项目
+                        startActivity(in);
+                    }
+                    break;
             }
         }
     };

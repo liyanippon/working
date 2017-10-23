@@ -12,7 +12,6 @@ import model.javabean.AttendanceYear;
 import model.javabean.CompanyDepartment;
 import model.javabean.Customer;
 import model.javabean.CustomerBillingStatistics;
-import model.javabean.DownLoadFile;
 import model.javabean.ExpressClassify;
 import model.javabean.ExpressExpensePayMethod;
 import model.javabean.ExpressManagement;

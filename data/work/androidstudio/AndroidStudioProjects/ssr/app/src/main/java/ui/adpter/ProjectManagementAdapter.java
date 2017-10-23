@@ -49,6 +49,7 @@ public class ProjectManagementAdapter extends BaseAdapter {
     private static ListView lvs;
     private static ListView lv;
     private static MemberDetailsAdpter memberDetailsAdpter;
+    private long exitTime = 0;
     public ProjectManagementAdapter(Activity activity) {
         this.activity = activity;
     }
@@ -181,62 +182,66 @@ public class ProjectManagementAdapter extends BaseAdapter {
            /* if(v.getId() == R.id.del){
                 showNormalDelDialog(item);//删除对话框
             }else*/ if(v.getId() == R.id.details){
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(activity);
-                LayoutInflater inflater = ProjectManagementActivity.activity.getLayoutInflater();
-                final View layout = inflater.inflate(R.layout.projectmanager_dialog_detailed_item, null);//获取自定义布局
-                lvs = (ListView) layout.findViewById(R.id.lvs);
-                lv = (ListView) layout.findViewById(R.id.lv);
-                ProjectAllPageData.RowsBean projectAllPageDate=Statics.projectAllPageDataArrayList.get(0).getRows().get(item);
-                //查询项目周期情况
-                param = new HashMap<>();
-                param.put("id",projectAllPageDate.getId());//projectid
-                HttpBasePost.postHttp(Statics.ProjectGetWXProjectCycleUrl, param, HttpTypeConstants.ProjectGetWXProjectCycleUrlType);
-                timeBackAdpter = new TimeBackAdpter(ProjectManagementActivity.activity,Statics.projectCycleDataList);//回款时间
-                lvs.setAdapter(timeBackAdpter);
-                //成员情况
-                param =new HashMap<>();
-                param.put("projectId",projectAllPageDate.getId());
-                HttpBasePost.postHttp(Statics.ProjectGetWXLoadProjectPeoplePageDataUrl,param,HttpTypeConstants.ProjectGetWXLoadProjectPeoplePageDataType);
-                memberDetailsAdpter = new MemberDetailsAdpter(ProjectManagementActivity.activity,Statics.projectPeoplePageDataList);
-                lv.setAdapter(memberDetailsAdpter);
-                TextView projectName = (TextView) layout.findViewById(R.id.project_name);//项目名称
-                TextView projectManager = (TextView) layout.findViewById(R.id.project_manager);//项目经理
-                TextView yjStartTime = (TextView) layout.findViewById(R.id.yjstart_time);//预计开始时间
-                TextView sjStarttime = (TextView) layout.findViewById(R.id.sjstart_time);//实际开始时间
-                TextView jEndTime = (TextView) layout.findViewById(R.id.jend_time);//结束时间
-                TextView period = (TextView) layout.findViewById(R.id.period);//收款周期
-                TextView money = (TextView) layout.findViewById(R.id.money);//金额
-                TextView states = (TextView) layout.findViewById(R.id.states);//合同状态
-                TextView description = (TextView) layout.findViewById(R.id.project_description);//项目描述
-                projectName.setText(projectAllPageDate.getProjectName());
-                projectManager.setText(projectAllPageDate.getProjectManager());
-                yjStartTime.setText(ToolUtils.getYearMonthDate(projectAllPageDate.getYjstartTime()));
-                sjStarttime.setText(ToolUtils.getYearMonthDate(projectAllPageDate.getStartTime()));
-                jEndTime.setText(ToolUtils.getYearMonthDate(projectAllPageDate.getEndTime()));
-                if(projectAllPageDate.getSum()>0){
-                    money.setText(Double.toString(projectAllPageDate.getSum()));
-                }else{
-                    money.setText("");
+                exitTime = ToolUtils.muchClick(exitTime);
+                if(exitTime!=0) {
+                    exitTime = System.currentTimeMillis();
+                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(activity);
+                    LayoutInflater inflater = ProjectManagementActivity.activity.getLayoutInflater();
+                    final View layout = inflater.inflate(R.layout.projectmanager_dialog_detailed_item, null);//获取自定义布局
+                    lvs = (ListView) layout.findViewById(R.id.lvs);
+                    lv = (ListView) layout.findViewById(R.id.lv);
+                    ProjectAllPageData.RowsBean projectAllPageDate = Statics.projectAllPageDataArrayList.get(0).getRows().get(item);
+                    //查询项目周期情况
+                    param = new HashMap<>();
+                    param.put("id", projectAllPageDate.getId());//projectid
+                    HttpBasePost.postHttp(Statics.ProjectGetWXProjectCycleUrl, param, HttpTypeConstants.ProjectGetWXProjectCycleUrlType);
+                    timeBackAdpter = new TimeBackAdpter(ProjectManagementActivity.activity, Statics.projectCycleDataList);//回款时间
+                    lvs.setAdapter(timeBackAdpter);
+                    //成员情况
+                    param = new HashMap<>();
+                    param.put("projectId", projectAllPageDate.getId());
+                    HttpBasePost.postHttp(Statics.ProjectGetWXLoadProjectPeoplePageDataUrl, param, HttpTypeConstants.ProjectGetWXLoadProjectPeoplePageDataType);
+                    memberDetailsAdpter = new MemberDetailsAdpter(ProjectManagementActivity.activity, Statics.projectPeoplePageDataList);
+                    lv.setAdapter(memberDetailsAdpter);
+                    TextView projectName = (TextView) layout.findViewById(R.id.project_name);//项目名称
+                    TextView projectManager = (TextView) layout.findViewById(R.id.project_manager);//项目经理
+                    TextView yjStartTime = (TextView) layout.findViewById(R.id.yjstart_time);//预计开始时间
+                    TextView sjStarttime = (TextView) layout.findViewById(R.id.sjstart_time);//实际开始时间
+                    TextView jEndTime = (TextView) layout.findViewById(R.id.jend_time);//结束时间
+                    TextView period = (TextView) layout.findViewById(R.id.period);//收款周期
+                    TextView money = (TextView) layout.findViewById(R.id.money);//金额
+                    TextView states = (TextView) layout.findViewById(R.id.states);//合同状态
+                    TextView description = (TextView) layout.findViewById(R.id.project_description);//项目描述
+                    projectName.setText(projectAllPageDate.getProjectName());
+                    projectManager.setText(projectAllPageDate.getProjectManager());
+                    yjStartTime.setText(ToolUtils.getYearMonthDate(projectAllPageDate.getYjstartTime()));
+                    sjStarttime.setText(ToolUtils.getYearMonthDate(projectAllPageDate.getStartTime()));
+                    jEndTime.setText(ToolUtils.getYearMonthDate(projectAllPageDate.getEndTime()));
+                    if (projectAllPageDate.getSum() > 0) {
+                        money.setText(Double.toString(projectAllPageDate.getSum()));
+                    } else {
+                        money.setText("");
+                    }
+                    period.setText(projectAllPageDate.getProjectCycle());
+                    description.setText(projectAllPageDate.getMome());
+                    String state = "";
+                    if (projectAllPageDate.getStu().equals("017001")) {
+                        state = "项目进行中";
+                    } else if (projectAllPageDate.getStu().equals("017002")) {
+                        state = "项目已结束";
+                    }
+                    states.setText(state);
+                    //创建人就是用户名
+                    builder.setView(layout);
+                    dlg = builder.create();
+                    dlg.show();
+                    //dlg.getWindow().setLayout(1500, 1500);
+                    WindowManager windowManager = ProjectManagementActivity.activity.getWindowManager();
+                    Display display = windowManager.getDefaultDisplay();
+                    WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+                    lp.width = (int) (display.getWidth()); //设置宽度
+                    dlg.getWindow().setAttributes(lp);
                 }
-                period.setText(projectAllPageDate.getProjectCycle());
-                description.setText(projectAllPageDate.getMome());
-                String state = "";
-                if(projectAllPageDate.getStu().equals("017001")){
-                    state = "项目进行中";
-                }else if(projectAllPageDate.getStu().equals("017002")){
-                    state = "项目已结束";
-                }
-                states.setText(state);
-                //创建人就是用户名
-                builder.setView(layout);
-                dlg = builder.create();
-                dlg.show();
-                //dlg.getWindow().setLayout(1500, 1500);
-                WindowManager windowManager = ProjectManagementActivity.activity.getWindowManager();
-                Display display = windowManager.getDefaultDisplay();
-                WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
-                lp.width = (int) (display.getWidth()); //设置宽度
-                dlg.getWindow().setAttributes(lp);
             }
         }
     }

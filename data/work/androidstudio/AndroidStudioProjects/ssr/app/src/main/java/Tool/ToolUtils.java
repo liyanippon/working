@@ -2,7 +2,6 @@ package Tool;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -19,47 +18,29 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.apache.poi.xwpf.usermodel.XWPFTable;
-import org.apache.poi.xwpf.usermodel.XWPFTableCell;
-import org.apache.poi.xwpf.usermodel.XWPFTableRow;
-import org.json.JSONException;
+import com.google.gson.Gson;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.RandomAccessFile;
-import java.math.BigInteger;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
+
 import Tool.statistics.Statics;
 import ui.activity.FinancialSalaryStastisticsActivity;
-import ui.activity.OfficeDirActivity;
-import ui.adpter.FinancialSalaryStatisticsAdapter;
 import ui.adpter.SourceManagementAdapter;
 
 /**
@@ -142,8 +123,6 @@ public class ToolUtils {
         sb.append(yearString);
         return sb.toString();
     }
-
-
     public static Set compare(String[] strs){
         boolean result = false;
         //用于存放数组中出现相同的元素
@@ -161,7 +140,6 @@ public class ToolUtils {
         }
         return set;
     }
-
     //去掉ArrayList当中的重复元素，不改变位置
     public static ArrayList<Object> removeDuplicate(ArrayList<Object> arrayList) {
         if(arrayList==null||arrayList.size()==0){
@@ -176,8 +154,6 @@ public class ToolUtils {
         }
         return arrayList;
     }
-
-
     //添加返回按钮
     public static void backButton(AppCompatActivity appCompatActivity) {
         android.support.v7.app.ActionBar actionBar = appCompatActivity.getSupportActionBar();
@@ -186,7 +162,6 @@ public class ToolUtils {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
-
     /** * 获取指定日期是星期几
      * 参数为null时表示获取当前日期是星期几
      * @param date
@@ -213,7 +188,6 @@ public class ToolUtils {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);
     }
-
     /**
      * 动态设置ListView的高度
      * @param listView
@@ -287,7 +261,6 @@ public class ToolUtils {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -313,10 +286,8 @@ public class ToolUtils {
                     }
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
@@ -334,8 +305,6 @@ public class ToolUtils {
         }
         return list;
     }
-
-
     //获取连接wifi的名字
     public static String getWifiName(Activity activity){
         WifiManager wifiManager = (WifiManager) activity.getSystemService(activity.WIFI_SERVICE);
@@ -344,7 +313,6 @@ public class ToolUtils {
         Log.d("SSID",wifiInfo.getSSID());
         return wifiInfo.getSSID();
     }
-
     //获取网络时间
     public static String getWifiTime(){
         URL url = null;//取得资源对象
@@ -395,8 +363,6 @@ public class ToolUtils {
             }
         }
     }
-
-
     //将文件转化为二进制
     public static byte[] fileToTwoFlow(String imagePath)  {
         FileInputStream fs = null;
@@ -437,14 +403,15 @@ public class ToolUtils {
         }
 
     }
-
     //连续点击超过3秒执行
     public static long muchClick(long exitTime){
-        if((System.currentTimeMillis()-exitTime) > 3000){
+        if((System.currentTimeMillis()-exitTime) > 2500){
             exitTime = System.currentTimeMillis();
             return exitTime;
         }
         return 0;
     }
+
+    //取出所有httpUrl
 
 }

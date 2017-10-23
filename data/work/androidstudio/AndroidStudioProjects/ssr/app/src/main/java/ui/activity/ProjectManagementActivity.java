@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -75,6 +76,9 @@ public class ProjectManagementActivity extends BaseActivity implements XListView
     private static ListView lvs;
     private static TimeBackAdpter timeBackAdpter;
     public static Boolean isProject = false;
+    private long exitTime = 0 ,projectLvExitTime = 0;
+    private InputMethodManager imm;//键盘处理
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,28 +128,32 @@ public class ProjectManagementActivity extends BaseActivity implements XListView
         projectLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {//点击时查看详细信息
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                LayoutInflater inflater = getLayoutInflater();
-                final View layout = inflater.inflate(R.layout.projectmanager_dialog_backtime_item, null);//获取自定义布局
-                lvs = (ListView) layout.findViewById(R.id.lvs);
-                ProjectAllPageData.RowsBean projectAllPageDate=Statics.projectAllPageDataArrayList.get(0).getRows().get(position-1);
-                //查询项目周期情况
-                param = new HashMap<>();
-                param.put("id",projectAllPageDate.getId());//projectid
-                isProject = true;
-                HttpBasePost.postHttp(Statics.ProjectGetWXProjectCycleUrl, param, HttpTypeConstants.ProjectGetWXProjectCycleUrlType);
-                timeBackAdpter = new TimeBackAdpter(ProjectManagementActivity.activity,Statics.projectCycleDataList);//回款时间
-                lvs.setAdapter(timeBackAdpter);
-                //创建人就是用户名
-                builder.setView(layout);
-                dlg = builder.create();
-                dlg.show();
-                //dlg.getWindow().setLayout(1500, 1500);
-                WindowManager windowManager = getWindowManager();
-                Display display = windowManager.getDefaultDisplay();
-                WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
-                lp.width = (int) (display.getWidth()); //设置宽度
-                dlg.getWindow().setAttributes(lp);
+                projectLvExitTime = ToolUtils.muchClick(projectLvExitTime);
+                if(projectLvExitTime!=0) {
+                    projectLvExitTime = System.currentTimeMillis();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View layout = inflater.inflate(R.layout.projectmanager_dialog_backtime_item, null);//获取自定义布局
+                    lvs = (ListView) layout.findViewById(R.id.lvs);
+                    ProjectAllPageData.RowsBean projectAllPageDate = Statics.projectAllPageDataArrayList.get(0).getRows().get(position - 1);
+                    //查询项目周期情况
+                    param = new HashMap<>();
+                    param.put("id", projectAllPageDate.getId());//projectid
+                    isProject = true;
+                    HttpBasePost.postHttp(Statics.ProjectGetWXProjectCycleUrl, param, HttpTypeConstants.ProjectGetWXProjectCycleUrlType);
+                    timeBackAdpter = new TimeBackAdpter(ProjectManagementActivity.activity, Statics.projectCycleDataList);//回款时间
+                    lvs.setAdapter(timeBackAdpter);
+                    //创建人就是用户名
+                    builder.setView(layout);
+                    dlg = builder.create();
+                    dlg.show();
+                    //dlg.getWindow().setLayout(1500, 1500);
+                    WindowManager windowManager = getWindowManager();
+                    Display display = windowManager.getDefaultDisplay();
+                    WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+                    lp.width = (int) (display.getWidth()); //设置宽度
+                    dlg.getWindow().setAttributes(lp);
+                }
             }
         });
     }
@@ -174,22 +182,33 @@ public class ProjectManagementActivity extends BaseActivity implements XListView
         super.onClick(v);
         switch (v.getId()) {
             case R.id.searchTime:
-                searchTime();
+                exitTime = ToolUtils.muchClick(exitTime);
+                if(exitTime!=0) {
+                    exitTime = System.currentTimeMillis();
+                    //隐藏键盘
+                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(searchTime.getWindowToken(), 0); //强制隐藏键盘
+                    searchTime();
+                }
                 break;
             case R.id.search:
-                //条件查询
-                page = 1;
-                SearchBoolean = true;
-                billingTimeString = searchTime.getText().toString().trim();
-                projectNameString = projectName.getText().toString().trim();
-                Log.d("ProjectManagementActivi", "search:" + projectNameString + "?" + billingTimeString);
-                progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
-                param = new HashMap<>();
-                param.put("projectName",projectNameString);
-                param.put("startTime",billingTimeString);
-                param.put("page", Integer.toString(page));
-                param.put("rows", "50");
-                HttpBasePost.postHttp(Statics.ProjectGetWXLoadProjectPageDataUrl, param, HttpTypeConstants.ProjectGetWXLoadProjectPageDataUrlType);
+                exitTime = ToolUtils.muchClick(exitTime);
+                if(exitTime!=0) {
+                    exitTime = System.currentTimeMillis();
+                    //条件查询
+                    page = 1;
+                    SearchBoolean = true;
+                    billingTimeString = searchTime.getText().toString().trim();
+                    projectNameString = projectName.getText().toString().trim();
+                    Log.d("ProjectManagementActivi", "search:" + projectNameString + "?" + billingTimeString);
+                    progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
+                    param = new HashMap<>();
+                    param.put("projectName", projectNameString);
+                    param.put("startTime", billingTimeString);
+                    param.put("page", Integer.toString(page));
+                    param.put("rows", "50");
+                    HttpBasePost.postHttp(Statics.ProjectGetWXLoadProjectPageDataUrl, param, HttpTypeConstants.ProjectGetWXLoadProjectPageDataUrlType);
+                }
                 break;
         }
     }

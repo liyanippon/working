@@ -80,6 +80,7 @@ public class IUserImpl implements IUser{
             Statics.ProjectGetWXLoadProjectPageDataUrl = IFengUrl + "/getWXLoadProjectPageData.ajax";//查询所有项目
             Statics.ProjectGetWXProjectCycleUrl = IFengUrl + "/getWXProjectCycle.ajax";//项目周期查询
             Statics.ProjectGetWXLoadProjectPeoplePageDataUrl = IFengUrl + "/getWXLoadProjectPeoplePageData.ajax";//成员加入情况
+
         } catch (Exception e) {
             e.printStackTrace();
         }

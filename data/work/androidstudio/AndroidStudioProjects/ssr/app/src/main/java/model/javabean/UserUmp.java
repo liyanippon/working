@@ -1,10 +1,12 @@
 package model.javabean;
 
+import java.io.Serializable;
+
 /**
  * Created by admin on 2017/5/9.
  */
 
-public class UserUmp {
+public class UserUmp implements Serializable {
 
 
     /**

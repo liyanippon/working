@@ -2,6 +2,7 @@ package ui.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -72,6 +73,12 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        add.setClickable(true);
+    }
+
     View.OnClickListener o = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -85,6 +92,8 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
                             ) {
                         Toast.makeText(AddFinancialBillingManagerActivity.this, "所填数据不能为空", Toast.LENGTH_LONG).show();
                     } else {
+                        add.setClickable(false);
+                        add.setBackgroundColor(Color.rgb(0x66,0x66,0x66));
                         param=new HashMap<>();
                         param.put("id","");
                         param.put("createBy",Statics.Name);
@@ -104,12 +113,6 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
                             Toast.makeText(AddFinancialBillingManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                             finish();
                         }
-                        /*if ("success".equals(httpPost.addCountManagerHttp(Statics.AddFinancialBillingUrl,accountSpinnerString
-                                ,classifySpinnerString,timeString,contentString
-                                ,priceString,customerNameSpinnerString,remarkString))) {
-                            Toast.makeText(AddFinancialBillingManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }*/
                     }
                     break;
                 case R.id.reset:

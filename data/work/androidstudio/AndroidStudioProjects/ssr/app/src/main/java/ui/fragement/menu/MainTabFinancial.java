@@ -35,6 +35,7 @@ public class MainTabFinancial extends Fragment {
     //动态菜单
     private ArrayList<Object> icon;
     private ArrayList<Object> iconName;
+    private long exitTime = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         newsLayout = inflater.inflate(R.layout.main_tab_works, container, false);
@@ -94,16 +95,28 @@ public class MainTabFinancial extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (position) {
                 case 0:
-                    in = new Intent(getActivity(), FinancialSalaryStastisticsActivity.class);//工资统计表
-                    startActivity(in);
+                    exitTime = ToolUtils.muchClick(exitTime);
+                    if(exitTime!=0) {
+                        exitTime = System.currentTimeMillis();
+                        in = new Intent(getActivity(), FinancialSalaryStastisticsActivity.class);//工资统计表
+                        startActivity(in);
+                    }
                     break;
                 case 1:
-                    in = new Intent(getActivity(), FinancialBillingManagementActivity.class);//账目管理
-                    startActivity(in);
+                    exitTime = ToolUtils.muchClick(exitTime);
+                    if(exitTime!=0) {
+                        exitTime = System.currentTimeMillis();
+                        in = new Intent(getActivity(), FinancialBillingManagementActivity.class);//账目管理
+                        startActivity(in);
+                    }
                     break;
                 case 2:
-                    in = new Intent(getActivity(), FinancialStastisticsActivity.class);//账目统计
-                    startActivity(in);
+                    exitTime = ToolUtils.muchClick(exitTime);
+                    if(exitTime!=0) {
+                        exitTime = System.currentTimeMillis();
+                        in = new Intent(getActivity(), FinancialStastisticsActivity.class);//账目统计
+                        startActivity(in);
+                    }
                     break;
 
             }

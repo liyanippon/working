@@ -61,6 +61,7 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
     private PullScrollView pullScrollView;
     private Handler handler ;
     public static boolean salartBoolean = false;
+    private long exitTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -320,18 +321,22 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
                     startActivity(in);
                     break;
                 case R.id.search://条件检索
-                    if(nameSpinnerString.equals("全部")){
-                        nameSpinnerString = "";
+                    exitTime = ToolUtils.muchClick(exitTime);
+                    if(exitTime!=0) {
+                        exitTime = System.currentTimeMillis();
+                        if (nameSpinnerString.equals("全部")) {
+                            nameSpinnerString = "";
+                        }
+                        progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
+                        param = new HashMap<>();
+                        param.put("userId", nameSpinnerString);
+                        param.put("year", yearSpinnerString);
+                        param.put("month", monthSpinnerString);
+                        param.put("orgId", departmentSpinnerString);
+                        Log.d("FinancialSalaryStastist", "ces");
+                        Log.d("FinancialSalaryStastist", "检索条件:" + nameSpinnerString + "@" + yearSpinnerString + "@" + monthSpinnerString + "??" + departmentSpinnerString + "!!" + nameSpinnerString);
+                        HttpBasePost.postHttp(Statics.FinancialSalaryGetWXStaffPayrollListUrl, param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
                     }
-                    progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
-                    param = new HashMap<>();
-                    param.put("userId",nameSpinnerString);
-                    param.put("year",yearSpinnerString);
-                    param.put("month",monthSpinnerString);
-                    param.put("orgId",departmentSpinnerString);
-                    Log.d("FinancialSalaryStastist", "ces");
-                    Log.d("FinancialSalaryStastist", "检索条件:"+nameSpinnerString+"@"+yearSpinnerString+"@"+monthSpinnerString+"??"+departmentSpinnerString+"!!"+nameSpinnerString);
-                    HttpBasePost.postHttp(Statics.FinancialSalaryGetWXStaffPayrollListUrl,param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
                     break;
             }
         }
