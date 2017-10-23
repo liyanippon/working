@@ -1,0 +1,93 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion '24.0.0'
+    defaultConfig {
+        applicationId "com.example.admin.erp"
+        minSdkVersion 19
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+    dexOptions {
+        preDexLibraries = false
+    }
+    defaultConfig {
+        multiDexEnabled true
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {//自定义layout目录结构
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layout',//系统模块不可缺少
+                            'src/main/res',//系统模块不可缺少
+                            'src/main/res/layout/common/xlistview', //公共 下拉上拉翻刷新
+                            'src/main/res/layout/common/fragement', //公共 fragement
+                            'src/main/res/layout/common/control_widget', //公共 控件样式
+                            'src/main/res/layout/attendance_management_statistics', //考勤统计
+                            'src/main/res/layout/goods_bill_management', //物流账单管理
+                            'src/main/res/layout/goods_bill_statistics',//物流账单统计分析
+                            'src/main/res/layout/salesman_collect_count',//业务员揽件量
+                            'src/main/res/layout/salesman_collect_statistics',//业务员揽件量统计分析
+                            'src/main/res/layout/salesman_manage',//业务员管理（无效）
+                            'src/main/res/layout/financial_billing_management',//财务账单管理
+                            'src/main/res/layout/financial_billing_statistics',//财务账单统计
+                            'src/main/res/layout/financial_salary_statistics',//财务工资统计
+                            'src/main/res/layout/project_management',//项目管理
+                            'src/main/res/layout/resource_information_management'//人力资源管理
+                    ]
+        }
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile files('libs/afinal_0.5.1_bin.jar')
+    compile files('libs/annotations-891e9623e997cafcd5c658ab313af6c4.jar')
+    compile files('libs/achartengine-1.1.0.jar')
+    compile files('libs/mpandroidchartlibrary-2-2-4.jar')
+    compile files('libs/nineoldandroids-2.4.0.jar')
+    compile files('libs/gson-2.8.0.jar')
+    compile files('libs/butterknife-7.0.1.jar')
+    //屏幕适配
+    compile files('libs/gradle-wrapper.jar')
+    compile files('libs/poi-3.14-20160307.jar')
+    compile files('libs/poi-ooxml-3.14-20160307.jar')
+    compile files('libs/poi-scratchpad-3.14-20160307.jar')
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:percent:24.2.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    testCompile 'junit:junit:4.12'
+}

@@ -1,0 +1,297 @@
+package ui.activity;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.ScaleAnimation;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.admin.erp.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Tool.ToolUtils;
+import Tool.crash.BaseActivity;
+import Tool.statistics.Statics;
+import biz.ExpressBillingManagerImpl;
+import broadcast.Config;
+import broadcast.FreshenBroadcastReceiver;
+import http.ExpressBillingManagementHttpPost;
+import http.HttpBasePost;
+import http.HttpTypeConstants;
+import http.HttpTypeUtil;
+import model.ExpressManagement;
+import portface.LazyLoadFace;
+import ui.adpter.ExpressManagementAdapter;
+import ui.adpter.SourceManagementAdapter;
+import ui.xlistview.XListView;
+
+public class ResourceManagementActivity extends BaseActivity implements XListView.IXListViewListener {
+    public static View search, add, addPerson, addPersonProject;
+    private Spinner typeSpinner;
+    public static List<String> data_list;
+    public static ArrayAdapter<String> arr_adapter;
+    private String typeSpinnerString;
+    public static SourceManagementAdapter sourceManagementAdapter;
+    public static XListView mListView, resourceLv;
+    private ArrayAdapter<String> mAdapter;
+    private ArrayList<String> items = new ArrayList<>();
+    private Handler mHandler;
+    public static int page = 1;
+    private ExpressBillingManagementHttpPost httpPost;
+    private AlertDialog dlg,dlgMenu;
+    public static Context context;
+    public static ProgressDialog progressDialog = null;//加载数据显示进度条
+    public static boolean deleteSuccess = false;
+    public static Activity activity;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTitle("信息维护");
+        setContentView(R.layout.activity_resource_management);
+
+
+        //添加返回按钮
+        ToolUtils.backButton(this);
+        context = getApplicationContext();
+        activity = ResourceManagementActivity.this;
+        init();
+        //空查询
+        page = 1;//显示页数
+        httpPost = new ExpressBillingManagementHttpPost();
+        String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+        //刚进入页面就要显示数据
+        //progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
+        HttpBasePost.postHttp(Statics.TimeSearchUrl,null,HttpTypeConstants.ResourceGetWXLoadProjectPageDataUrlType);
+        resourceLv.setPullLoadEnable(true);
+        sourceManagementAdapter = new SourceManagementAdapter(activity);
+        resourceLv.setAdapter(sourceManagementAdapter);
+        resourceLv.setXListViewListener(this);
+        resourceLv.setDivider(new ColorDrawable(Color.BLUE));
+        resourceLv.setDividerHeight(1);
+        mHandler = new Handler();
+        resourceLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {//点击时查看详细信息
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                LayoutInflater inflater = getLayoutInflater();
+                final View layout = inflater.inflate(R.layout.resourcemanager_dialog_detailed_item, null);//获取自定义布局
+                TextView name = (TextView) layout.findViewById(R.id.name);//姓名
+                TextView sex = (TextView) layout.findViewById(R.id.sex);//性别
+                TextView phone = (TextView) layout.findViewById(R.id.phone);//联系电话
+                TextView educationalBackground = (TextView) layout.findViewById(R.id.background);//学历
+                TextView idcard = (TextView) layout.findViewById(R.id.idcard);//身份证
+                TextView email = (TextView) layout.findViewById(R.id.email);//邮箱
+                TextView remark = (TextView) layout.findViewById(R.id.remark);//备注
+                ExpressManagement.DataBean.RowsBean edrb=Statics.expressManagementList.get(0).getData().get(0).getRows().get(position-1);
+                name.setText(edrb.getType());
+                sex.setText(edrb.getClassify());
+                phone.setText(edrb.getReason());
+                educationalBackground.setText(edrb.getPaymentMethod());
+                idcard.setText(edrb.getSum().toString());
+                email.setText(edrb.getCustomerId());
+                remark.setText(edrb.getDescription());
+                //createuser.setText(edrb.getCreateBy());
+                int temp = edrb.getBillingTime().getMonth();
+                int temps = edrb.getCreateTime().getMonth();
+                String billingTimes = ToolUtils.timeDateFormat(Integer.toString(edrb.getBillingTime().getYear()))+"-"+(++temp)
+                        +"-"+edrb.getBillingTime().getDate();
+                //billingTime.setText(billingTimes);
+                String createTimes = ToolUtils.timeDateFormat(Integer.toString(edrb.getCreateTime().getYear()))+"-"+(++temps)
+                        +"-"+edrb.getCreateTime().getDate()+" "
+                        +edrb.getCreateTime().getHours()+":"
+                        + edrb.getCreateTime().getMinutes()+":"
+                        +edrb.getCreateTime().getSeconds();
+                //billingTime.setText(billingTimes);
+                //createTime.setText(createTimes);
+                //创建人就是用户名
+                builder.setView(layout);
+                dlg = builder.create();
+                dlg.show();
+                //dlg.getWindow().setLayout(1500, 1500);
+                WindowManager windowManager = getWindowManager();
+                Display display = windowManager.getDefaultDisplay();
+                WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+                lp.width = (int) (display.getWidth()); //设置宽度
+                dlg.getWindow().setAttributes(lp);
+            }
+        });
+        spinnerType();
+    }
+    //返回按钮事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void spinnerType() {
+        Log.d("test", "spinnerType");
+        //数据（快递类型：圆通，韵达）
+        //httpPost =new HttpPost();
+        //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
+        data_list = new ArrayList<>();
+        data_list.add("全部");
+        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
+            data_list.add(Statics.accountTypeList.get(i).getName());
+        }
+        //适配器
+        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
+        //设置样式
+        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+        //加载适配器
+        typeSpinner.setAdapter(arr_adapter);
+        data_list = null;
+
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.v("test8",Integer.toString(position)+"ss");
+                if(position == 0){
+                    typeSpinnerString = "全部";
+                }else{
+                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
+                }
+                data_list = null;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void init() {
+
+        search = findViewById(R.id.search);
+        add = findViewById(R.id.add);
+        addPerson = findViewById(R.id.add_person);
+        addPersonProject = findViewById(R.id.add_person_project);
+        typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
+        resourceLv = (XListView) findViewById(R.id.xListView);
+        add.setOnClickListener(o);
+        search.setOnClickListener(o);
+    }
+    View.OnClickListener o = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.search:
+
+                    break;
+                case R.id.add:
+                    add();
+                    break;
+            }
+        }
+    };
+
+    private void add() {
+        addPerson.setVisibility(View.VISIBLE);
+        addPersonProject.setVisibility(View.VISIBLE);
+        ScaleAnimation sa = new ScaleAnimation(1.0f, 1.1f, 1.0f, 1.1f, 100.0f, 120.0f);
+        sa.setDuration(1000);
+        addPerson.startAnimation(sa);
+        addPersonProject.startAnimation(sa);
+        addPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent in = new Intent(activity, AddPersonActivity.class);//添加人员
+                activity.startActivity(in);*/
+                Intent in = new Intent(activity,OfficeOnlineActivity.class);
+                startActivity(in);
+            }
+        });
+        addPersonProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ResourceManagementActiv", "sdf");
+                Intent ins = new Intent(activity,OfficeDirActivity.class);//添加人员项目
+                activity.startActivity(ins);
+            }
+        });
+    }
+
+    @Override
+    public void onRefresh() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                httpPost = new ExpressBillingManagementHttpPost();
+                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+                //String result = httpPost.searchHttp(httpUrl ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,activity,page);
+                onLoad();
+            }
+        }, 2000);
+    }
+    @Override
+    public void onLoadMore() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                page++;
+                if (page >= Statics.page) {
+                    page = Statics.page;
+                    Toast.makeText(activity,"已经是最后一页了",Toast.LENGTH_SHORT).show();
+                }
+                //大于总页数，不向下翻页
+                //String result = httpPost.searchHttp(httpUrl ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,activity,page);
+                onLoad();
+            }
+        }, 2000);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+            httpPost.searchHttp(httpUrl ,"" ,"" ,"",activity,1);//刷新页面
+    }
+    private void onLoad() {
+        resourceLv.stopRefresh();
+        resourceLv.stopLoadMore();
+        resourceLv.setRefreshTime("刚刚");
+    }
+    public static void AdapterRefresh(String type) {
+        switch (type) {
+            case "resourceManagementAdapter":
+                if (sourceManagementAdapter != null){
+                    sourceManagementAdapter.notifyDataSetChanged();
+                    progressDialog.dismiss();
+                }
+                if(Statics.isDelete){
+                    Toast.makeText(activity,"删除成功",Toast.LENGTH_SHORT).show();
+                    Statics.isDelete = false;
+                }
+
+                break;
+            case "reasonSpinner":
+                break;
+        }
+    }
+}

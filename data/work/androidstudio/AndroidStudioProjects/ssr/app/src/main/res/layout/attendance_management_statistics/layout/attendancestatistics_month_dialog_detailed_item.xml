@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="3dp"
+        android:background="@drawable/linearlayout_shape_corner"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/linearlayout_shape_corner_top"
+            android:gravity="center"
+            android:text="考勤明细"
+            android:textColor="#0e2d5f"
+            android:textSize="18sp"
+
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#686867" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/linearlayout_shape_corner_center"
+            >
+
+            <TextView
+                android:id="@+id/text_id"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:text=""
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="1.5dip"
+                android:layout_height="fill_parent"
+                android:background="#B4B3B3" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="日期"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="1.5dip"
+                android:layout_height="fill_parent"
+                android:background="#B4B3B3" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:text="正常工时"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="1.5dip"
+                android:layout_height="fill_parent"
+                android:background="#B4B3B3" />
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:text="普通加班"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="1.5dip"
+                android:layout_height="fill_parent"
+                android:background="#B4B3B3" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:text="节假日加班"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="1.5dip"
+                android:layout_height="fill_parent"
+                android:background="#B4B3B3" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:text="请假工时"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+            <View
+                android:layout_width="1.5dip"
+                android:layout_height="fill_parent"
+                android:background="#B4B3B3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip"
+                android:text="审核状态"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#B4B3B3" />
+        <ListView
+            android:id="@+id/month_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="#B4B3B3"
+            android:dividerHeight="1.0dip"
+            android:listSelector="#ffff00"
+            ></ListView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dip"
+            android:background="#686867"/>
+    </LinearLayout>
+</LinearLayout>

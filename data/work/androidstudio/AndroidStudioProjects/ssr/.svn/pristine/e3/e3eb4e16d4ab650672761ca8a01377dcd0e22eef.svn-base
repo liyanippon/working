@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.admin.erp">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="ui.activity.MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="ui.activity.ExpressBillingManagementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.AddExpressBillingManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.AddFinancialBillingManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.AddExpressNumberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.BillingStatisticsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.ExpressNumberManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.ExpressStatisticsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.TongjiGraphActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.ZheXianGraphActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.fragement.ChartsFragementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.fragement.ExpressPiecesChartsFragementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.fragement.ExpressPiecesDetailsChartsFragementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.fragement.ExpressPiecesPersonDetailsChartsFragementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.fragement.AttendanceChartsFragmentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.menu.MenuFragmentMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.AttendanceStatisticsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.FinancialBillingManagementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ui.activity.FinancialStastisticsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="ui.activity.TransferAccountActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.LogisticsReportActivity"
+            android:screenOrientation="portrait"
+            />
+    </application>
+
+</manifest>

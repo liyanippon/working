@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f0f0f0"
+    tools:context="ui.activity.FinancialSalaryStastisticsActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical">
+
+        <include layout="@layout/search" />
+        <View
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="#686867"/>
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:id="@+id/table_title1"
+            android:orientation="vertical">
+        </LinearLayout>
+        <View
+            android:layout_width="1.5dp"
+            android:layout_height="50dp"
+            android:background="#B4B3B3"
+            />
+            <include layout="@layout/title" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="#686867"/>
+
+        <Tool.customerWidget.PullScrollView
+            android:layout_below="@+id/searchcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/test"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="正在刷新"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+        <ScrollView
+            android:id="@+id/scroll_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal"
+                >
+
+
+                <Tool.customerWidget.NoscrollListView
+                    android:id="@+id/lv_left"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:divider="#B4B3B3"
+                    android:dividerHeight="1.0dip"
+                    android:background="#ffffff"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:fadingEdge="none"
+                    android:scrollbars="none"/>
+                <View
+                    android:layout_width="1.5dp"
+                    android:layout_height="match_parent"
+                    android:background="#B4B3B3"/>
+                <LinearLayout
+                    android:id="@+id/lin_data_content"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+                    <Tool.customerWidget.SyncHorizontalScrollView
+                        android:id="@+id/data_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never"
+                        android:scrollbars="none">
+                        <Tool.customerWidget.NoscrollListView
+                            android:id="@+id/lv_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:overScrollMode="never"
+                            android:background="#ffffff"
+                            android:cacheColorHint="@android:color/transparent"
+                            android:divider="#B4B3B3"
+                            android:dividerHeight="1.0dip"
+                            android:fadingEdge="none"
+                            android:listSelector="#00ff00"
+                            android:scrollbars="none"/>
+                    </Tool.customerWidget.SyncHorizontalScrollView>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+        </Tool.customerWidget.PullScrollView>
+    </LinearLayout>
+</LinearLayout>
+
+
+

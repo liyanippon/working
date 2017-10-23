@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/linearlayout_shape_corner_center"
+    >
+    <!--<View
+        android:layout_width="2dp"
+        android:layout_height="fill_parent"
+        android:background="#686867"/>-->
+    <TextView
+        android:id="@+id/text_id"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:lines="1"
+        android:layout_weight="0.5"
+        android:text="" />
+
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/classifyname"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="年" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+    <TextView
+        android:id="@+id/resonname"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="月份" />
+
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dip"
+        android:textColor="#000000"
+        android:paddingTop="10dip"
+        android:textSize="15sp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="账目" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:text="类型"
+        android:textColor="#000000"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:textColor="#000000"
+        android:lines="1"
+        android:textSize="15sp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="合计(元)" />
+
+    <!--<View
+        android:layout_width="2dp"
+        android:layout_height="fill_parent"
+        android:background="#686867"/>-->
+
+
+</LinearLayout>

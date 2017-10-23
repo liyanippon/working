@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f0f0f0"
+    tools:context="ui.activity.FinancialSalaryStastisticsActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical">
+        <!--<TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <TableRow>-->
+
+        <Tool.customerWidget.PercentLinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/yearSpinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="#00bfff"
+                android:layout_weight="1"
+                app:layout_widthPercent="18%"></Spinner>
+
+            <Spinner
+                android:id="@+id/monthSpinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="#00bfff"
+                android:layout_weight="1"
+                app:layout_widthPercent="19%"></Spinner>
+
+            <Spinner
+                android:id="@+id/companySpinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="#00bfff"
+                android:layout_weight="1"
+                app:layout_widthPercent="35%"></Spinner>
+            <Spinner
+                android:id="@+id/nameSpinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="#00bfff"
+                android:layout_weight="1"
+                app:layout_widthPercent="19%"></Spinner>
+
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:background="#00bfff"
+                android:clickable="true"
+                android:gravity="center"
+                android:src="@drawable/search1" />
+        </Tool.customerWidget.PercentLinearLayout>
+        <View
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="#686867"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:id="@+id/table_title1"
+            android:orientation="vertical"></LinearLayout>
+
+        <View
+            android:layout_width="1.5dp"
+            android:layout_height="50dp"
+            android:background="#B4B3B3"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/table_title"
+            android:orientation="vertical">
+
+            <Tool.customerWidget.SyncHorizontalScrollView
+                android:id="@+id/header_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/lin_year_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_data"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        android:textColor="#000000"
+                        android:text="年份"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:id="@+id/textView6"
+                        android:layout_width="100dp"
+                        android:textSize="16sp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="月份" />
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="员工姓名"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        android:text="基本工资"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        android:text="出差补助"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:text="奖金工资"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        android:text="交通补助"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        android:textColor="#000000"
+                        android:text="加班补助"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:text="报销"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        android:text="全额工资"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:text="病事假工资"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:text="住房公积金"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:text="养老保险"/>
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:text="医疗保险"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="失业保险"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:text="应税所得额"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:text="个税"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:text="实发工资"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="50dp"
+                        android:background="#B4B3B3"/>
+                </LinearLayout>
+            </Tool.customerWidget.SyncHorizontalScrollView>
+
+        </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="#686867"/>
+
+        <ScrollView
+            android:id="@+id/scroll_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal">
+
+                <Tool.customerWidget.NoscrollListView
+                    android:id="@+id/lv_left"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:divider="#B4B3B3"
+                    android:dividerHeight="1.0dip"
+                    android:background="#ffffff"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:fadingEdge="none"
+                    android:listSelector="#ffff00"
+                    android:scrollbars="none"/>
+
+                <View
+                    android:layout_width="1.5dp"
+                    android:layout_height="match_parent"
+                    android:background="#B4B3B3"/>
+
+                <LinearLayout
+                    android:id="@+id/lin_data_content"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <Tool.customerWidget.SyncHorizontalScrollView
+                        android:id="@+id/data_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never"
+                        android:scrollbars="none">
+
+                        <Tool.customerWidget.NoscrollListView
+                            android:id="@+id/lv_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:overScrollMode="never"
+                            android:background="#ffffff"
+                            android:cacheColorHint="@android:color/transparent"
+                            android:divider="#B4B3B3"
+                            android:dividerHeight="1.0dip"
+                            android:fadingEdge="none"
+                            android:listSelector="#00ff00"
+                            android:scrollbars="none"/>
+                    </Tool.customerWidget.SyncHorizontalScrollView>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="70dp"
+        android:clickable="true"
+        android:src="@drawable/add" />
+
+</FrameLayout>

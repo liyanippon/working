@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ly_main_tab_bottom"
+    android:layout_width="fill_parent"
+    android:layout_height="60dp"
+    android:layout_alignParentBottom="true"
+    android:background="#ffffff" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:id="@+id/attendance_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/kaoqin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="false"
+                android:src="@drawable/kaoqin_down" />
+
+            <TextView
+                android:id="@+id/kaoqintext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="考勤" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/express_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/express"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="false"
+                android:src="@drawable/wuliu_up" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/expresstext"
+                android:text="物流" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/project_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/project"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="false"
+                android:src="@drawable/project_up" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/projecttext"
+                android:text="项目" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/caiwu_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/caiwu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="false"
+                android:src="@drawable/caiwu_up" />
+
+            <TextView
+                android:id="@+id/caiwutext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="财务" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/seting_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="false"
+                android:src="@drawable/setting_up" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/settingtext"
+                android:text="设置" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    tools:context="ui.activity.FinancialStastisticsActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
+        <!--<LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:text="@string/year"
+                />
+            <Spinner
+                android:layout_marginLeft="1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/yearSpinner"
+                android:background="@drawable/shape_editor"
+                android:layout_weight="1"
+                >
+            </Spinner>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                />
+            <Spinner
+                android:layout_marginLeft="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/typeSpinner"
+                android:layout_weight="1"
+                android:background="@drawable/shape_editor"
+                >
+            </Spinner>
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/search"/>
+
+        </LinearLayout>-->
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
+            <TableRow>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="账目统计"
+                    android:textColor="#000000"
+                    />
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#0000ff"
+                    android:id="@+id/zhuXing"
+                    android:clickable="true"
+                    android:layout_gravity="bottom"
+                    android:src="@drawable/graph"
+                    />
+            </TableRow>
+        </TableLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/currentMoney"
+                android:background="#e6f0ff"
+                android:layout_marginTop="5dp"
+                android:textColor="#0e2d5f"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="银行余额 : 0元 , 现金余额 : 0元"
+                />
+        </TableLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="#686867"/>
+
+            <include
+                layout="@layout/billingstatics_yearmonlist_layout"
+                android:id="@+id/table_title"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="#686867"/>
+
+            <ListView
+                android:id="@+id/lv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="#B4B3B3"
+                android:dividerHeight="1.0dip"
+                android:fadingEdge="none"
+                android:listSelector="#ffff00"></ListView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#A7A5A5"/>
+            <!--<TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/customerstatistic"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#A7A5A5"/>
+
+            <include
+                layout="@layout/billingstatics_customerlist_layout"
+                android:id="@+id/table_title1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dip"
+                android:background="#686867"/>
+
+            <ListView
+                android:id="@+id/customerListView"
+                android:layout_width="fill_parent"
+                android:layout_height="400dp"
+                android:layout_weight="1"
+                android:background="@drawable/listview_bg"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="#B4B3B3"
+                android:dividerHeight="1.0dip"
+                android:fadingEdge="none"
+                android:listSelector="#ffff00"
+                android:scrollbars="none"></ListView>-->
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,190 @@
+package model.javabean;
+
+import java.util.List;
+
+/**
+ * Created by admin on 2017/9/30.
+ */
+
+public class ResourceGetWXWXPageDataResource {
+
+    /**
+     * rows : [{"contact":"15524737511","createrBy":"liudongmei","createrTime":1506677065138,"delete":"0","description":"","education":"","employeeId":"00009","file":"QzpcZmFrZXBhdGhcOWU5LmdpZg==","id":"155247375113813ab9dd1f443e48eb7","idCard":"","mail":"","name":"手打","sex":"","updateBy":"liudongmei","updateTime":1506677065138},{"contact":"15214214101","createrBy":"liudongmei","createrTime":1506734754891,"delete":"0","description":"","education":"","employeeId":"00010","file":"","id":"15214214101a9122d5a0b4f4c5484d9","idCard":"","mail":"","name":"测试","sex":"","updateBy":"liudongmei","updateTime":1506734753271},{"contact":"15321412121","createrBy":"liudongmei","createrTime":1506734896463,"delete":"0","description":"","education":"","employeeId":"00011","file":"","id":"15321412121f3a24336d15349bdb832","idCard":"","mail":"","name":"测试","sex":"","updateBy":"liudongmei","updateTime":1506734896463},{"contact":"15213012145","createrBy":"liudongmei","createrTime":1506738380753,"delete":"0","description":"","education":"","employeeId":"00012","file":"","id":"1521301214504d983cf2c9d40ebab94","idCard":"","mail":"","name":"测试","sex":"","updateBy":"liudongmei","updateTime":1506738380753},{"contact":"15642132111","createrBy":"liudongmei","createrTime":1506738752264,"delete":"0","description":"","education":"","employeeId":"00013","file":"","id":"1564213211170c41c770b8b457cb79c","idCard":"","mail":"","name":"测试","sex":"","updateBy":"liudongmei","updateTime":1506738752264},{"contact":"15312312212","createrBy":"liudongmei","createrTime":1506739031801,"delete":"0","description":"","education":"","employeeId":"00014","file":"","id":"15312312212c62288ff3aad4e669279","idCard":"","mail":"","name":"测试","sex":"","updateBy":"liudongmei","updateTime":1506739031801},{"contact":"15321212312","createrBy":"liudongmei","createrTime":1506743634174,"delete":"0","description":"","education":"","employeeId":"00015","file":"","id":"1532121231254e67d9a793045bebf7e","idCard":"","mail":"","name":"上传","sex":"","updateBy":"liudongmei","updateTime":1506743634174},{"contact":"15231211111","createrBy":"liudongmei","createrTime":1506743701979,"delete":"0","description":"","education":"","employeeId":"00016","file":"","id":"1523121111184e3f6e39e96474a897f","idCard":"","mail":"","name":"测试","sex":"","updateBy":"liudongmei","updateTime":1506743701979},{"contact":"15524737570","createrBy":"liudongmei","createrTime":1506667159173,"delete":"0","description":"","education":"","employeeId":"00001","id":"15524737570c77e28f22a4247abbb3b","idCard":"","mail":"","name":"测试","sex":"男","updateBy":"liudongmei","updateTime":1506667159172},{"contact":"13941738451","createrBy":"liudongmei","createrTime":1506667252396,"delete":"0","description":"","education":"","employeeId":"00002","id":"13941738451cd900d0341c74427b753","idCard":"","mail":"","name":"程浩","sex":"","updateBy":"liudongmei","updateTime":1506667252396}]
+     * total : 16
+     */
+
+    private int total;
+    private List<RowsBean> rows;
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public List<RowsBean> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<RowsBean> rows) {
+        this.rows = rows;
+    }
+
+    public static class RowsBean {
+        /**
+         * contact : 15524737511
+         * createrBy : liudongmei
+         * createrTime : 1506677065138
+         * delete : 0
+         * description :
+         * education :
+         * employeeId : 00009
+         * file : QzpcZmFrZXBhdGhcOWU5LmdpZg==
+         * id : 155247375113813ab9dd1f443e48eb7
+         * idCard :
+         * mail :
+         * name : 手打
+         * sex :
+         * updateBy : liudongmei
+         * updateTime : 1506677065138
+         */
+
+        private String contact;
+        private String createrBy;
+        private long createrTime;
+        private String delete;
+        private String description;
+        private String education;
+        private String employeeId;
+        private String file;
+        private String id;
+        private String idCard;
+        private String mail;
+        private String name;
+        private String sex;
+        private String updateBy;
+        private long updateTime;
+
+        public String getContact() {
+            return contact;
+        }
+
+        public void setContact(String contact) {
+            this.contact = contact;
+        }
+
+        public String getCreaterBy() {
+            return createrBy;
+        }
+
+        public void setCreaterBy(String createrBy) {
+            this.createrBy = createrBy;
+        }
+
+        public long getCreaterTime() {
+            return createrTime;
+        }
+
+        public void setCreaterTime(long createrTime) {
+            this.createrTime = createrTime;
+        }
+
+        public String getDelete() {
+            return delete;
+        }
+
+        public void setDelete(String delete) {
+            this.delete = delete;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getEducation() {
+            return education;
+        }
+
+        public void setEducation(String education) {
+            this.education = education;
+        }
+
+        public String getEmployeeId() {
+            return employeeId;
+        }
+
+        public void setEmployeeId(String employeeId) {
+            this.employeeId = employeeId;
+        }
+
+        public String getFile() {
+            return file;
+        }
+
+        public void setFile(String file) {
+            this.file = file;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getIdCard() {
+            return idCard;
+        }
+
+        public void setIdCard(String idCard) {
+            this.idCard = idCard;
+        }
+
+        public String getMail() {
+            return mail;
+        }
+
+        public void setMail(String mail) {
+            this.mail = mail;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getSex() {
+            return sex;
+        }
+
+        public void setSex(String sex) {
+            this.sex = sex;
+        }
+
+        public String getUpdateBy() {
+            return updateBy;
+        }
+
+        public void setUpdateBy(String updateBy) {
+            this.updateBy = updateBy;
+        }
+
+        public long getUpdateTime() {
+            return updateTime;
+        }
+
+        public void setUpdateTime(long updateTime) {
+            this.updateTime = updateTime;
+        }
+    }
+}

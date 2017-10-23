@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ly_main_weixin"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="#FFEFDB"
+				>
+				<Tool.customerWidget.XCRoundImageView
+					android:id="@+id/head_imageview"
+					android:layout_width="80dp"
+					android:layout_height="80dp"
+					android:layout_margin="20dp"
+					android:src="@drawable/head"
+					>
+				</Tool.customerWidget.XCRoundImageView>
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					>
+					<!-- 用户昵称，无忧心情的布局 -->
+					<TextView
+						android:id="@+id/userName"
+						android:layout_marginTop="30dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="姓名"
+						android:textColor="#000000"
+						android:textSize="15sp"
+						android:textStyle="bold"
+						>
+					</TextView>
+					<TextView
+						android:layout_marginTop="10dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="个人信息>"
+						android:textColor="#000000"
+						android:textSize="13sp"
+						>
+					</TextView>
+				</LinearLayout>
+
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:background="#ffffff"
+				>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:layout_margin="10dp"
+					android:background="#ffffff"
+					android:visibility="invisible"
+					>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="70dp"
+						android:text="少小离家老大回"
+						/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="70dp"
+						android:text="少小离家老大回"
+						/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="70dp"
+						android:text="少小离家老大回"
+						/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="50dp"
+						android:text="少小离家老大回"
+						/>
+
+				</LinearLayout>
+				<Button
+					android:id="@+id/exitAccount"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					android:text="退出当前账户"
+					android:layout_marginLeft="10dp"
+					android:layout_marginRight="10dp"
+					android:layout_marginBottom="10dp"
+					android:textColor="#ffffff"
+					android:textSize="15sp"
+					android:background="#ee777C"
+					android:layout_gravity="center"
+					/>
+			</LinearLayout>
+
+		</LinearLayout>
+	</ScrollView>
+
+
+</LinearLayout>

@@ -1,0 +1,84 @@
+TASK com.example.admin.erp id=227
+  ACTIVITY com.example.admin.erp/.AccountManagementActivity 436bc078 pid=28445
+    Local FragmentActivity 445958b8 State:
+      mCreated=truemResumed=true mStopped=false mReallyStopped=false
+      mLoadersStarted=true
+    FragmentManager misc state:
+      mHost=android.support.v4.app.FragmentActivity$HostCallbacks@44595b80
+      mContainer=android.support.v4.app.FragmentActivity$HostCallbacks@44595b80
+      mCurState=5 mStateSaved=false mDestroyed=false
+    View Hierarchy:
+      com.android.internal.policy.impl.PhoneWindow$DecorView{44597af8 V.E..... ... 0,0-768,1184}
+        android.widget.LinearLayout{44598228 V.E..... ... 0,0-768,1184}
+          android.view.ViewStub{44598cc8 G.E..... ... 0,0-0,0 #102030e}
+          android.widget.FrameLayout{44598f28 V.E..... ... 0,50-768,1184}
+            android.support.v7.widget.ActionBarOverlayLayout{44599760 V.ED.... ... 0,0-768,1134 #7f0c005c app:id/decor_content_parent}
+              android.support.v7.widget.ContentFrameLayout{44599e98 V.ED.... ... 0,112-768,1134 #1020002 android:id/content}
+                android.widget.FrameLayout{445a1698 V.E..... ... 0,0-768,1022 #7f0c007a app:id/activity_account_management2}
+                  android.widget.LinearLayout{445a1b08 V.E..... ... 0,10-768,1022}
+                    android.widget.TableLayout{445a1e28 V.E..... ... 0,0-768,70}
+                      android.widget.TableRow{445a2318 V.E..... ... 0,0-768,70}
+                        android.support.v7.widget.AppCompatSpinner{445a2660 VFED..C. ... 4,0-242,70 #7f0c006d app:id/typeSpinner}
+                          android.widget.LinearLayout{445c2078 V.E..... ... 0,0-238,70}
+                            android.widget.TextView{445c2370 V.ED.... ... 0,0-208,70 #7f0c00b1 app:id/txtvwSpinner}
+                        android.support.v7.widget.AppCompatSpinner{445a3a20 VFED..C. ... 244,0-378,70 #7f0c006e app:id/classifySpinner}
+                          android.widget.LinearLayout{4478faa0 V.E..... ... 0,0-134,70}
+                            android.widget.TextView{4478fd50 V.ED.... ... 0,0-104,70 #7f0c00b1 app:id/txtvwSpinner}
+                        android.support.v7.widget.AppCompatSpinner{445a4de0 VFED..C. ... 380,0-704,70 #7f0c006f app:id/reasonSpinner}
+                          android.widget.LinearLayout{447bf378 V.E..... ... 0,0-324,70}
+                            android.widget.TextView{447bf628 V.ED.... ... 0,0-156,70 #7f0c00b1 app:id/txtvwSpinner}
+                        android.support.v7.widget.AppCompatImageView{445a61e8 V.ED..C. ... 704,0-768,64 #7f0c007b app:id/search}
+                    android.widget.LinearLayout{445a6a20 V.E..... ... 2,72-766,129}
+                      android.support.v7.widget.AppCompatTextView{445a6e50 V.ED.... ... 0,0-105,57}
+                      android.support.v7.widget.AppCompatTextView{445a7868 V.ED.... ... 105,0-294,57}
+                      android.support.v7.widget.AppCompatTextView{445a7d88 V.ED.... ... 294,0-483,57}
+                      android.support.v7.widget.AppCompatTextView{445a82a8 V.ED.... ... 483,0-658,57}
+                      android.support.v7.widget.AppCompatTextView{445a87c8 V.ED.... ... 658,0-764,57}
+                    xlistview.XListView{445a90b8 VFED.VC. F.. 0,131-768,1012 #7f0c007c app:id/xListView}
+                      xlistview.XListViewHeader{445aa570 V.E..... ... 0,0-768,0}
+                        android.widget.LinearLayout{445aab10 V.E..... ... 0,0-768,0}
+                          android.widget.RelativeLayout{445aadf8 V.E..... ... 0,-120-768,0 #7f0c00b5 app:id/header_content}
+                            android.widget.LinearLayout{445ab258 V.E..... ... 275,11-492,108 #7f0c00b6 app:id/header_text}
+                              android.support.v7.widget.AppCompatTextView{445ab678 V.ED.... ... 36,0-180,49 #7f0c00b7 app:id/header_hint_textview}
+                              android.widget.LinearLayout{445abb98 V.E..... ... 0,55-217,97}
+                                android.support.v7.widget.AppCompatTextView{445abe70 V.ED.... ... 0,0-217,42}
+                                android.support.v7.widget.AppCompatTextView{445ac398 V.ED.... ... 217,0-217,42 #7f0c00b8 app:id/header_time}
+                            android.support.v7.widget.AppCompatImageView{445ac940 V.ED.... ... 206,14-270,106 #7f0c00b9 app:id/xlistview_header_arrow}
+                            android.widget.ProgressBar{445b2e60 I.ED.... ... 196,30-256,90 #7f0c00ba app:id/header_progressbar}
+                      xlistview.XListViewFooter{445b4260 V.E...C. ... 0,2-768,67}
+                        android.widget.LinearLayout{445b4700 V.E..... ... 0,0-768,65}
+                          android.widget.RelativeLayout{445b49e8 V.E..... ... 0,0-768,65 #7f0c00b2 app:id/xlistview_footer_content}
+                            android.widget.ProgressBar{445b4e98 I.ED.... ... 336,0-432,65 #7f0c00b3 app:id/xlistview_footer_progressbar}
+                            android.support.v7.widget.AppCompatTextView{445b5668 V.ED.... ... 312,8-456,57 #7f0c00b4 app:id/xlistview_footer_hint_textview}
+                  android.support.v7.widget.AppCompatImageView{445b61b0 V.ED..C. ... 664,918-728,982 #7f0c001a app:id/add}
+              android.support.v7.widget.ActionBarContainer{4459a348 V.ED.... ... 0,0-768,112 #7f0c005d app:id/action_bar_container}
+                android.support.v7.widget.Toolbar{4459a908 V.E..... ... 0,0-768,112 #7f0c005e app:id/action_bar}
+                  android.support.v7.widget.AppCompatTextView{4459ee68 V.ED.... ... 32,29-90,83}
+                  android.support.v7.widget.ActionMenuView{44606998 V.E..... ... 768,0-768,112}
+                android.support.v7.widget.ActionBarContextView{4459e098 G.E..... ... 0,0-0,0 #7f0c005f app:id/action_context_bar}
+
+  ACTIVITY com.example.admin.erp/.CensusActivity 435e9840 pid=28445
+    Local FragmentActivity 44405420 State:
+      mCreated=truemResumed=false mStopped=true mReallyStopped=true
+      mLoadersStarted=true
+    FragmentManager misc state:
+      mHost=android.support.v4.app.FragmentActivity$HostCallbacks@444056b0
+      mContainer=android.support.v4.app.FragmentActivity$HostCallbacks@444056b0
+      mCurState=2 mStateSaved=true mDestroyed=false
+    View Hierarchy:
+      com.android.internal.policy.impl.PhoneWindow$DecorView{44406978 I.E..... ... 0,0-768,1184}
+        android.widget.LinearLayout{444070a8 V.E..... ... 0,0-768,1184}
+          android.view.ViewStub{44407b48 G.E..... ... 0,0-0,0 #102030e}
+          android.widget.FrameLayout{44407da8 V.E..... ... 0,50-768,1184}
+            android.support.v7.widget.ActionBarOverlayLayout{444085e0 V.ED.... ... 0,0-768,1134 #7f0c005c app:id/decor_content_parent}
+              android.support.v7.widget.ContentFrameLayout{44408d18 V.ED.... ... 0,112-768,1134 #1020002 android:id/content}
+                android.widget.RelativeLayout{44412e90 V.E..... ... 0,0-768,1022 #7f0c0086 app:id/activity_census}
+                  android.widget.LinearLayout{44414600 V.E..... ... 0,0-768,1022 #7f0c0087 app:id/my_fragment}
+                    android.widget.ListView{44414a10 VFED.VC. F.. 0,0-768,194 #7f0c0092 app:id/fm}
+                      android.support.v7.widget.AppCompatTextView{44476030 V.ED.... ... 0,0-768,96 #1020014 android:id/text1}
+                      android.support.v7.widget.AppCompatTextView{444781d8 V.ED.... ... 0,98-768,194 #1020014 android:id/text1}
+              android.support.v7.widget.ActionBarContainer{444091c8 V.ED.... ... 0,0-768,112 #7f0c005d app:id/action_bar_container}
+                android.support.v7.widget.Toolbar{44409788 V.E..... ... 0,0-768,112 #7f0c005e app:id/action_bar}
+                  android.support.v7.widget.AppCompatTextView{444106a8 V.ED.... ... 32,29-90,83}
+                  android.support.v7.widget.ActionMenuView{44478eb0 V.E..... ... 768,0-768,112}
+                android.support.v7.widget.ActionBarContextView{4440cf50 G.E..... ... 0,0-0,0 #7f0c005f app:id/action_context_bar}

@@ -1,0 +1,40 @@
+package Tool.crash;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+/**
+ * Created by admin on 2017/5/23.
+ */
+
+public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        initCrashHandler();
+        super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);//对所有Activity进行统一处理
+
+    }
+
+    private void initCrashHandler() {
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        // 注册crashHandler
+        crashHandler.init(getApplicationContext());
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+}

@@ -1,0 +1,77 @@
+package ui.adpter;
+
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import com.example.admin.erp.R;
+
+import java.util.List;
+
+import Tool.ToolUtils;
+import Tool.statistics.Statics;
+import model.javabean.ProjectCycleData;
+import model.javabean.ResourceGetWXPageDataResourceProject;
+
+/**
+ * Created by admin on 2017/8/14.
+ */
+
+public class OutResouceProjectAdpter extends BaseAdapter {
+    private Context context;
+    private Activity activity;
+    private LayoutInflater inflater;
+    public OutResouceProjectAdpter(Activity activityBilling) {
+        inflater = LayoutInflater.from(activityBilling);
+        this.activity = activityBilling;
+    }
+    @Override
+    public int getCount() {
+        if(Statics.rgwDataResourceProjectList==null||Statics.rgwDataResourceProjectList.size()==0||Statics.rgwDataResourceProjectList.get(0).getRows().size()==0){
+            return 0;
+        }else {
+            return Statics.rgwDataResourceProjectList.size();
+        }
+    }
+    @Override
+    public Object getItem(int position) {
+        return Statics.rgwDataResourceProjectList.get(0).getRows().size();
+    }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder = null;
+        if (convertView == null) {
+            holder = new ViewHolder();
+            convertView = LayoutInflater.from(this.activity).inflate(R.layout.time_resource_item_layout, null);
+            holder.number = (TextView) convertView.findViewById(R.id.number);
+            holder.projectName = (TextView) convertView.findViewById(R.id.project_name);
+            holder.inPeriod = (TextView) convertView.findViewById(R.id.in_peroid);
+            holder.outPeroid = (TextView) convertView.findViewById(R.id.out_peroid);
+            holder.details = (TextView) convertView.findViewById(R.id.details);
+            holder.operate = (TextView) convertView.findViewById(R.id.operate);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        ResourceGetWXPageDataResourceProject.RowsBean rgwdrp = Statics.rgwDataResourceProjectList.get(0).getRows().get(position);
+        holder.projectName.setText(rgwdrp.getProjectId());
+        holder.inPeriod.setText(ToolUtils.getYearMonthDate(rgwdrp.getJoinTime()));
+        holder.outPeroid.setText(ToolUtils.getYearMonthDate(rgwdrp.getLeaveTime()));
+        holder.details.setText(rgwdrp.getDescription());
+        position++;
+        holder.number.setText(position+"");
+        return convertView;
+    }
+    class ViewHolder {
+        TextView number,projectName, inPeriod, outPeroid, details, operate;
+    }
+}

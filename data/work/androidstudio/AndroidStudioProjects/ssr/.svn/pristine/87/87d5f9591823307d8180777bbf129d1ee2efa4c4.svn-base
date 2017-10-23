@@ -1,0 +1,11 @@
+#网络连接地址（公共）
+#IFengLoginUrl[登录模块]
+#IFengUrl[业务模块]
+#UmpUrl[权限模块]
+IFengLoginUrl = http://i.yifeng-dl.com
+IFengUrl = http://erp.yifeng-dl.com
+UmpUrl = http://ump.yifeng-dl.com
+#IFengLoginUrl = http://192.168.1.54:8081/login.jhtml
+#IFengUrl = http://192.168.1.54:8083
+#UmpUrl = http://192.168.1.54:8082
+
