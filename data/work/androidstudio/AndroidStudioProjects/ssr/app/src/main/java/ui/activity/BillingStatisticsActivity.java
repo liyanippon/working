@@ -123,10 +123,14 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
                                                                     //显示对话框，在对话框中使用ListView
                                                                     AlertDialog.Builder builder = new AlertDialog.Builder(BillingStatisticsActivity.this);
                                                                     LayoutInflater inflater = getLayoutInflater();
-                                                                    final View layout = inflater.inflate(R.layout.billingstatistics_dialog_detailed_item, null);//获取自定义布局
+                                                                    View layout = inflater.inflate(R.layout.billingstatistics_dialog_detailed_item, null);//获取自定义布局
                                                                     listView = (ListView) layout.findViewById(R.id.lv);
-                                                                    //tableTitle = (ViewGroup) layout.findViewById(R.id.table_title);
-                                                                    //tableTitle.setBackgroundColor(Color.rgb(230, 240, 255));
+                                                                    /*TextView leibie= (TextView) layout.findViewById(R.id.yewuleibie);
+                                                                    TextView leixing = (TextView) layout.findViewById(R.id.yewuleixing);
+                                                                    TextView fangshi = (TextView) layout.findViewById(R.id.zhifufangshi);
+                                                                    leibie.setText("业务类别");
+                                                                    leixing.setText("业务类型");
+                                                                    fangshi.setText("支付方式");*/
                                                                     xiangxiBillingStatisticsList = Statics.xiangxiBillingStatisticsArrayList;
                                                                     xiangxiAdapter = new XiangxiBillingStatisticsAdapter(BillingStatisticsActivity.this, xiangxiBillingStatisticsList);
                                                                     listView.setAdapter(xiangxiAdapter);

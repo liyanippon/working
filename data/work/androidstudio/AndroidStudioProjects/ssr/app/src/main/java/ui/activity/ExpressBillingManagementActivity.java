@@ -3,6 +3,7 @@ package ui.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,16 +27,23 @@ import android.widget.Toast;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
+import http.HttpTypeConstants;
 import model.javabean.ExpressManagement;
+import model.javabean.UserUmp;
 import presenter.ExpressBillingManagerPresenter;
 import presenter.ExpressBillingManagerPresenterImpl;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
 import portface.LazyLoadFace;
+import presenter.LoginPresenterImpl;
 import ui.adpter.ExpressManagementAdapter;
 import ui.xlistview.XListView;
 
@@ -68,6 +76,8 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     ExpressBillingManagerPresenterImpl ebmi = new ExpressBillingManagerPresenterImpl();
     //ExpressBillingManagerPresenter ebmPresenter;
     private long exitTime = 0, accountLvTime = 0;
+    LoginPresenterImpl presenter;
+    Properties properties;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -416,13 +426,6 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     protected void onResume() {
         super.onResume();
 
-        newBilling.setVisibility(View.INVISIBLE);
-        transferAccounts.setVisibility(View.INVISIBLE);
-        String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-        if(isAdd){
-            httpPost.searchHttp(httpUrl ,"" ,"" ,"",ExpressBillingManagementActivity.this,1);//刷新页面
-            isAdd = false;
-        }
 
     }
 
@@ -483,7 +486,6 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                     Toast.makeText(activityExpress,"转账成功",Toast.LENGTH_SHORT).show();
                     Statics.isTransfer = false;
                 }
-
                 break;
             case "reasonSpinner":
                 if (arr_adapter != null) {

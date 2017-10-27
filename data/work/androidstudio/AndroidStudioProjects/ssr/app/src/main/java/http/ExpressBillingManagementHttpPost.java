@@ -21,6 +21,7 @@ import java.util.Collections;
 
 import Tool.ACache;
 import Tool.JsonResolve;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.ExceptionUtil;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
@@ -140,8 +141,8 @@ public class ExpressBillingManagementHttpPost {
                 //缓存本地
                 ACache mCache = ACache.get(context);
                 //只能使用List的子类
-                mCache.put("UserUmp", Statics.userUmpsStatisticsList,7 * ACache.TIME_DAY);
-
+                mCache.put(AchacheConstant.USER_UMP, Statics.userUmpsStatisticsList,7 * ACache.TIME_DAY);//缓存用户权限
+                mCache.put(AchacheConstant.USER_NAME,Statics.Name);//缓存用户名字
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL, context, "login");//发送广播
             }
             @Override
@@ -208,6 +209,7 @@ public class ExpressBillingManagementHttpPost {
                     Statics.page = (Integer.parseInt(total) + Integer.parseInt(rows) - 1) / Integer.parseInt(rows);
                 } catch (JSONException e) {
                     e.printStackTrace();
+
                 }
                 //Statics.expressManagementList.clear();
                 ArrayList<ExpressManagement> temp =new ArrayList<>();
@@ -225,6 +227,7 @@ public class ExpressBillingManagementHttpPost {
                     Statics.expressManagementList = temp;
                 }
                 Statics.isPageUpload = false;
+                Log.d("ExpressBillingManagemen", "成功1");
                 ExpressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
                 //回调接口
 

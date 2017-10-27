@@ -1,51 +1,278 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="ui.activity.AttendanceCardActivity">
-
-    <FrameLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/punch_clock"
-        android:clickable="true"
+    <View
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cdcdcd"
+        android:layout_marginBottom="2dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         >
-        <ImageView
+        <RelativeLayout
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/name_iv"
+                android:id="@+id/name_iv"
+                />
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:text="李延斤"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@id/name_iv"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="李延"
+                    android:textSize="17sp"
+                    android:textColor="#000000"
+                    android:id="@+id/name_title"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="考勤组：考勤二组"
+                    android:id="@+id/attendance_party"
+                    />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="----.--.--"
+                android:id="@+id/attend_date"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="20dp"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cdcdcd"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <FrameLayout
+            android:visibility="invisible"
+            android:id="@+id/punch_clock"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:clickable="true">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/time_round" />
+            <TextView
+                android:id="@+id/during_am"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="45dp"
+                android:text="-   -   -   -"
+                android:textColor="#ffffff"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/inworking_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="80dp"
+                android:text="00:00:00"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/punch_clock1"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp"
+            android:visibility="invisible"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/time_round" />
+
+            <TextView
+                android:id="@+id/during_pm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="45dp"
+                android:text="-   -   -   -"
+                android:textColor="#ffffff"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/outworking_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="80dp"
+                android:text="00:00:00"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
+        </FrameLayout>
+        <LinearLayout
+            android:visibility="invisible"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/time_round"
-            />
-        <TextView
-            android:layout_marginTop="45dp"
-            android:layout_marginLeft="28dp"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="上班打卡"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:textColor="#ffffff"
-            />
-        <TextView
-            android:layout_marginTop="80dp"
-            android:layout_marginLeft="50dp"
-            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="100dp"
+            android:id="@+id/in_work"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上班时间8:30"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="打卡时间"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/card_time_am"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0:00:00"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <TextView
+                android:layout_marginTop="7dp"
+                android:background="@drawable/text_view_border"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已上传"
+                android:id="@+id/in_update_ok"
+                android:textColor="#0000ff"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="invisible"
+            android:layout_below="@id/in_work"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="--:--:--"
-            android:textSize="15sp"
-            android:textColor="#ffffff"
-            android:id="@+id/start_time"
-            />
-
-        <TextView
+            android:orientation="vertical"
+            android:layout_marginTop="150dp"
+            android:layout_marginLeft="100dp"
+            android:id="@+id/out_work"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下班时间18:00"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="打卡时间"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/card_time_pm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0:00:00"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <TextView
+                android:layout_marginTop="7dp"
+                android:background="@drawable/text_view_border"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已上传"
+                android:id="@+id/out_update_ok"
+                android:textColor="#0000ff"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_below="@id/punch_clock"
+            android:id="@+id/area_true"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="已进入wifi办公考勤区域"
-
-            />
-
-    </FrameLayout>
-
-</merge>
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:visibility="invisible">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/update" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="已进入wifi考勤范围"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_below="@id/punch_clock1"
+            android:id="@+id/area_true1"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:visibility="invisible">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/update" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="已进入wifi考勤范围"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -38,7 +38,9 @@ import Tool.statistics.Statics;
 import http.HttpTypeConstants;
 import model.javabean.UserUmp;
 import presenter.LoginPresenterImpl;
+import thread.ResumeStart;
 import ui.activity.BillingStatisticsActivity;
+import ui.activity.MainActivity;
 import ui.adpter.MFragmentPagerAdapter;
 import ui.fragement.menu.MainTabAttendance;
 import ui.fragement.menu.MainTabExpress;
@@ -151,37 +153,20 @@ public class MenuFragmentMainActivity extends BaseActivity{
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
 
-        //outState.putSerializable("UserUmp",Statics.userUmpsStatisticsList);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        //Statics.userUmpsStatisticsList = (ArrayList<UserUmp>) savedInstanceState.getSerializable("UserUmp");
-    }
-
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-
-        //內存不足
-        if (level == TRIM_MEMORY_MODERATE) {
-
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        ACache aCache = ACache.get(getApplicationContext());
-        //使用getAsObject()，直接进行强转
-        Statics.userUmpsStatisticsList = (ArrayList<UserUmp>) aCache.getAsObject("UserUmp");
-        presenter=new LoginPresenterImpl();
-        properties = new Properties();
-        presenter.readProperties(properties,MenuFragmentMainActivity.this);//读取配置文件
-        new HttpTypeConstants();
+        Thread resumeStart = new Thread(new ResumeStart(MenuFragmentMainActivity.this));
+        resumeStart.start();
     }
     /**
      * 初始化头标

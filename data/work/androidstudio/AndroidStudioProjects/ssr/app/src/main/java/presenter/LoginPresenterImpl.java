@@ -42,9 +42,9 @@ public class LoginPresenterImpl implements LoginPresenter,OnLoginFinishedListene
         try {
             properties.load(activity.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
-            //Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
+            Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
             ArrayList<String> urlList = new ArrayList<>();
-            Statics.LoginUrl = IFengLoginUrl;//本地登录
+            //Statics.LoginUrl = IFengLoginUrl;//本地登录
             String IFengUrl = properties.getProperty("IFengUrl").trim();
             String UmpUrl = properties.getProperty("UmpUrl").trim();
             Statics.UmlUrl = UmpUrl + "/setRoles/loadRoleUserId.ajax";

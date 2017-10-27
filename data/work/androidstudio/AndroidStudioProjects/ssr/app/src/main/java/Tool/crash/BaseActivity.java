@@ -1,5 +1,6 @@
 package Tool.crash;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.admin.erp.R;
+
+import thread.ResumeStart;
+import ui.activity.MainActivity;
+import ui.activity.menu.MenuFragmentMainActivity;
 
 /**
  * Created by admin on 2017/5/23.
@@ -29,6 +34,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
@@ -39,6 +45,22 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+
+        //內存不足
+        if (level == TRIM_MEMORY_MODERATE) {
+
+        }
     }
 
 }

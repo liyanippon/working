@@ -14,8 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import com.example.admin.erp.R;
 import java.util.Properties;
+
+import Tool.ACache;
 import Tool.crash.BaseActivity;
 import Tool.crash.LogcatHelper;
+import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import presenter.LoginPresenterImpl;
 
@@ -85,6 +88,16 @@ public class MainActivity extends BaseActivity {
         reset.setOnClickListener(this);
         properties = new Properties();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //缓存本地
+        ACache mCache = ACache.get(getApplicationContext());
+        mCache.clear();//清除所有缓存
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -23,12 +23,9 @@
         android:layout_height="1dip"
         android:background="#A7A5A5"/>
 
-    <!--<include
-        layout="@layout/billingstatics_xiangqinglist_layout"
-        android:id="@+id/table_title"/>-->
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:background="@drawable/linearlayout_shape_corner_center"
             >
@@ -41,7 +38,7 @@
                 android:paddingTop="10dip"
                 android:textColor="#000000"
                 android:textSize="15sp"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:text="序号" />
 
             <View
@@ -58,7 +55,8 @@
                 android:textSize="15sp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="@string/classifyname" />
+                android:id="@+id/yewuleibie"
+                android:text="业务类别" />
             <View
                 android:layout_width="1.5dip"
                 android:layout_height="fill_parent"
@@ -71,8 +69,9 @@
                 android:textColor="#000000"
                 android:textSize="15sp"
                 android:layout_weight="2"
+                android:id="@+id/yewuleixing"
                 android:gravity="center"
-                android:text="@string/resonname" />
+                android:text="业务类型" />
 
             <View
                 android:layout_width="1.5dip"
@@ -80,7 +79,7 @@
                 android:background="#B4B3B3"/>
 
             <TextView
-                android:id="@+id/type"
+                android:id="@+id/zhifufangshi"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dip"
@@ -119,7 +118,6 @@
                 android:paddingBottom="10dip"
                 android:paddingTop="10dip"
                 android:textColor="#000000"
-                android:lines="1"
                 android:textSize="15sp"
                 android:layout_weight="1.5"
                 android:gravity="center"
@@ -136,7 +134,6 @@
                 android:paddingBottom="10dip"
                 android:paddingTop="10dip"
                 android:textColor="#000000"
-                android:lines="1"
                 android:textSize="15sp"
                 android:layout_weight="3"
                 android:gravity="center"

@@ -85,7 +85,7 @@ public class ExpressManagementAdapter extends BaseAdapter {
                 +"-"+edrb.getBillingTime().getDate();
         String sum = edrb.getSum()+"";
         if(!"进账".equals(edrb.getClassify())){
-            type = type.split("<b>")[1].split("</b>")[0];
+                type = type.split("<b>")[1].split("</b>")[0];
             classify = classify.split("<b>")[1].split("</b>")[0];
             vh.type.setTextColor(Color.RED);
             vh.classify.setTextColor(Color.RED);
@@ -106,7 +106,11 @@ public class ExpressManagementAdapter extends BaseAdapter {
         //vh.number.setText(number);
         vh.number.setText(Integer.toString(++positions));
         vh.number.setGravity(Gravity.CENTER);
-        vh.type.setText(type.substring(0,2));
+        if(type.length()>2){
+            vh.type.setText(type.substring(0,2));
+        }else{
+            vh.type.setText("");
+        }
         vh.type.setGravity(Gravity.CENTER);
         vh.classify.setText(classify);
         vh.classify.setGravity(Gravity.CENTER);

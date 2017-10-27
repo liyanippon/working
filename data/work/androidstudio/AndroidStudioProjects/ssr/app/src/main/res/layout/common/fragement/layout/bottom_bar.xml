@@ -18,7 +18,7 @@
 
             <LinearLayout
                 android:id="@+id/attendance_text"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:descendantFocusability="beforeDescendants"
                 android:gravity="center"
@@ -41,7 +41,7 @@
 
             <LinearLayout
                 android:id="@+id/express_text"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:descendantFocusability="beforeDescendants"
                 android:gravity="center"
@@ -64,7 +64,7 @@
 
             <LinearLayout
                 android:id="@+id/project_text"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:descendantFocusability="beforeDescendants"
                 android:gravity="center"
@@ -87,7 +87,7 @@
 
             <LinearLayout
                 android:id="@+id/caiwu_text"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:descendantFocusability="beforeDescendants"
                 android:gravity="center"
@@ -110,7 +110,7 @@
 
             <LinearLayout
                 android:id="@+id/resource_text"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:descendantFocusability="beforeDescendants"
                 android:gravity="center"
@@ -133,7 +133,7 @@
 
             <LinearLayout
                 android:id="@+id/seting_layout"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:descendantFocusability="beforeDescendants"
                 android:gravity="center"

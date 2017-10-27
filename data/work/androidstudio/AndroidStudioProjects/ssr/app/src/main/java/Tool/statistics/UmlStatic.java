@@ -122,9 +122,9 @@ public class UmlStatic {
             case "f8dc2c2f6ece4f38a8df43ab4d4a4c5d"://项目经理
             case "a6509c7f484b482ab979aff844acbd2f"://BOSS考勤打卡
                                                         //所有员工
-                //icon.add(R.drawable.kaoqindaka);
+                icon.add(R.drawable.kaoqindaka);
                 icon.add(R.drawable.kaoqintongji);
-                //iconName.add("考勤打卡");
+                iconName.add("考勤打卡");
                 iconName.add("考勤统计");
                 map.put("icon",icon);
                 map.put("iconName",iconName);

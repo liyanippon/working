@@ -54,12 +54,9 @@ public class MainTabProject extends Fragment implements AdapterView.OnItemClickL
 		//http://www.cnblogs.com/tinyphp/p/3855224.html 可下载
 		spinnerData();
 		init();
-
 		gridView.setOnItemClickListener(this);
 		return view;
 	}
-
-
 	private void spinnerData() {
 		//获取数据 下拉菜单
 		httpPost = new ExpressBillingManagementHttpPost();
@@ -130,6 +127,7 @@ public class MainTabProject extends Fragment implements AdapterView.OnItemClickL
 		}
 		return data_list;
 	}
+
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
