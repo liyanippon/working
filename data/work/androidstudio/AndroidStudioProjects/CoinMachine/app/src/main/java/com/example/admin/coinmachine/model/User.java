@@ -1,6 +1,8 @@
 package com.example.admin.coinmachine.model;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Created by admin on 2017/9/19.
  */
