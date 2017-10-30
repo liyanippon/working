@@ -32,6 +32,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         ActivityCollector.addActivity(this);//对所有Activity进行统一处理
         setContentView(R.layout.activity_main);
 
+        Log.d("BaseActivity", "log");
     }
 
 

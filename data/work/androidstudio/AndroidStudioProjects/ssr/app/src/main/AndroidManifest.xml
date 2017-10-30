@@ -92,15 +92,33 @@
         <activity
             android:name="ui.activity.LogisticsReportActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="ui.activity.FinancialSalaryStastisticsActivity" />
-        <activity android:name="ui.activity.AddFinancialSalaryActivity" />
-        <activity android:name="ui.activity.ProjectManagementActivity" />
-        <activity android:name="ui.activity.ResourceManagementActivity" />
-        <activity android:name="ui.activity.AddPersonActivity" />
-        <activity android:name="ui.activity.OfficeOnlineActivity" />
-        <activity android:name="ui.activity.OfficeDirActivity" />
-        <activity android:name="ui.activity.OutProjectManagementActivity" />
-        <activity android:name="ui.activity.AttendanceCardActivity"></activity>
+        <activity android:name="ui.activity.FinancialSalaryStastisticsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.AddFinancialSalaryActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.ProjectManagementActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.ResourceManagementActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.AddPersonActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.OfficeOnlineActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.OfficeDirActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.OutProjectManagementActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="ui.activity.AttendanceCardActivity"
+            android:screenOrientation="portrait"
+            ></activity>
     </application>
 
 </manifest>

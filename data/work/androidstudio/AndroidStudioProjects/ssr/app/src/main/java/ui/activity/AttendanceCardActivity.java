@@ -31,7 +31,7 @@ import thread.TimeThread;
  * 考勤打卡
  * */
 public class AttendanceCardActivity extends BaseActivity {
-    private static TextView inWorkTime,outWorkTime,duringAm, duringPm,attendDate;
+    private static TextView inWorkTime,outWorkTime,duringAm, duringPm,attendDate, inAttendCard, outAttendCard;
     public static FrameLayout inPunchClock,outPunch_clock;
     private static Activity activity;
     private static boolean isStartTime = false, isEndTime = false;//将其存入缓存当中
@@ -87,6 +87,8 @@ public class AttendanceCardActivity extends BaseActivity {
         inAreaTrue = (LinearLayout) findViewById(R.id.area_true);
         outAreaTrue = (LinearLayout) findViewById(R.id.area_true1);
         attendDate = (TextView) findViewById(R.id.attend_date);
+        inAttendCard = (TextView) findViewById(R.id.in_attend_card);
+        outAttendCard = (TextView) findViewById(R.id.out_attend_card);
         inPunchClock.setOnClickListener(o);
         outPunch_clock.setOnClickListener(o);
     }
@@ -109,6 +111,7 @@ public class AttendanceCardActivity extends BaseActivity {
                         isStartTime = true;
                         cardTimeAm.setText(workingTimeString.split(" ")[1]);
                         Toast.makeText(AttendanceCardActivity.this, "上班打卡成功", Toast.LENGTH_SHORT).show();
+                        //inAreaTrue.setVisibility(View.INVISIBLE);
                         //morningIv.setImageResource(R.drawable.after_inwork);
                         aCache.put(AchacheConstant.IS_STARTTIME,Boolean.toString(isStartTime));//转为String
                         aCache.put(AchacheConstant.IN_WORKINGTIME,workingTimeString);//上班时间
@@ -121,6 +124,8 @@ public class AttendanceCardActivity extends BaseActivity {
                         //morning1.setVisibility(View.VISIBLE);//上传到服务器后设定
                     }else if(isStartTime&&!isEndTime){//下班打卡
                         isEndTime = true;
+                        //inAreaTrue.setVisibility(View.INVISIBLE);
+                        //outAreaTrue.setVisibility(View.INVISIBLE);
                         aCache.put(AchacheConstant.IS_ENDTIME,Boolean.toString(isEndTime));//转为String
                         aCache.put(AchacheConstant.OUT_WORKINGTIME,workingTimeString);//下班时间
                         cardTimePm.setText(workingTimeString.split(" ")[1]);
@@ -158,38 +163,37 @@ public class AttendanceCardActivity extends BaseActivity {
                     if(!isStartTime){
                         inPunchClock.setVisibility(View.VISIBLE);
                         duringAm.setText("上班打卡");
-                        String wifiName=ToolUtils.getWifiName(activity).trim();
-                        Log.d("wifiName",wifiName);
-                        if(wifiName.contains("yifeng")){
-                            inAreaTrue.setVisibility(View.VISIBLE);
-                        }else{
-                            Toast.makeText(activity, ToolUtils.getWifiName(activity), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(activity, "不在考勤范围外出打卡", Toast.LENGTH_SHORT).show();
-                            //以后给出对话框，让用户选择
-                        }
 
                     }else if(!isEndTime){
                         inPunchClock.setVisibility(View.INVISIBLE);
                         outPunch_clock.setVisibility(View.VISIBLE);
-                        inAreaTrue.setVisibility(View.INVISIBLE);
                         duringPm.setText("下班打卡");
                         inWork.setVisibility(View.VISIBLE);
-                        String wifiName=ToolUtils.getWifiName(activity).trim();
-                        Log.d("wifiName",wifiName);
-                        if(wifiName.contains("yifeng")){
-                            outAreaTrue.setVisibility(View.VISIBLE);
-                        }else{
-                            Toast.makeText(activity, ToolUtils.getWifiName(activity), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(activity, "不在考勤范围外出打卡", Toast.LENGTH_SHORT).show();
-                            //以后给出对话框，让用户选择
-                        }
+
                     }else{
                         inPunchClock.setVisibility(View.INVISIBLE);
                         outPunch_clock.setVisibility(View.INVISIBLE);
                         inWork.setVisibility(View.VISIBLE);
                         outWork.setVisibility(View.VISIBLE);
-                        inAreaTrue.setVisibility(View.INVISIBLE);
-                        outAreaTrue.setVisibility(View.INVISIBLE);
+                    }
+                    String wifiName=ToolUtils.getWifiName(activity).trim();
+                    if(wifiName.contains("yunvend")){
+                        inAttendCard.setVisibility(View.INVISIBLE);
+                        outAttendCard.setVisibility(View.INVISIBLE);
+                        if(!isStartTime){
+                            inAreaTrue.setVisibility(View.VISIBLE);
+                        }else if(!isEndTime){
+                            inAreaTrue.setVisibility(View.INVISIBLE);
+                            outAreaTrue.setVisibility(View.VISIBLE);
+                        }else {
+                            inAreaTrue.setVisibility(View.INVISIBLE);
+                            outAreaTrue.setVisibility(View.INVISIBLE);
+                        }
+                    }else{
+                        //Toast.makeText(activity, ToolUtils.getWifiName(activity), Toast.LENGTH_SHORT).show();
+                        //以后给出对话框，让用户选择
+                        inAttendCard.setVisibility(View.VISIBLE);
+                        outAttendCard.setVisibility(View.VISIBLE);
                     }
                     workingTimeString = msg.obj.toString();
                     inWorkTime.setText(workingTimeString.split(" ")[1]);

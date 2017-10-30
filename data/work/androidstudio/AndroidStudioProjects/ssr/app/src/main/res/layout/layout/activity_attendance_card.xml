@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
-                android:text="李延斤"
+                android:text="李延进"
                 />
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -180,24 +180,39 @@
                     android:textColor="#000000"
                     android:textSize="16sp" />
             </LinearLayout>
-            <TextView
-                android:layout_marginTop="7dp"
-                android:background="@drawable/text_view_border"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="已上传"
-                android:id="@+id/in_update_ok"
-                android:textColor="#0000ff"
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/text_view_border"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已上传"
+                    android:id="@+id/in_update_ok"
+                    android:textColor="#0000ff"
+                    />
+                <TextView
+                    android:visibility="invisible"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/text_view_border"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/in_attend_card"
+                    android:textColor="#0000ff"
+                    android:text="外出考勤"
+                    />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:visibility="invisible"
             android:layout_below="@id/in_work"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="150dp"
             android:layout_marginLeft="100dp"
+            android:visibility="invisible"
             android:id="@+id/out_work"
             >
             <TextView
@@ -226,15 +241,31 @@
                     android:textColor="#000000"
                     android:textSize="16sp" />
             </LinearLayout>
-            <TextView
-                android:layout_marginTop="7dp"
-                android:background="@drawable/text_view_border"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="已上传"
-                android:id="@+id/out_update_ok"
-                android:textColor="#0000ff"
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/text_view_border"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已上传"
+                    android:id="@+id/out_update_ok"
+                    android:textColor="#0000ff"
+                    />
+                <TextView
+                    android:layout_marginTop="7dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/text_view_border"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/out_attend_card"
+                    android:text="外出考勤"
+                    android:visibility="invisible"
+                    android:textColor="#0000ff"
+                    />
+            </LinearLayout>
+
         </LinearLayout>
         <LinearLayout
             android:layout_below="@id/punch_clock"

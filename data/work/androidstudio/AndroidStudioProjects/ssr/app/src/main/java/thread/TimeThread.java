@@ -24,7 +24,7 @@ private boolean timeSend;
     public void run() {
         while (this.timeSend){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(800);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -47,6 +47,7 @@ private boolean timeSend;
         String time = null;
         try {
             //url = new URL("http://www.baidu.com");
+            //url = new URL("http://210.72.145.39");
             url = new URL("http://www.ntsc.ac.cn");//中国科学院国家授时中心
             //url = new URL("http://www.bjtime.cn");
             URLConnection uc = url.openConnection();//生成连接对象
