@@ -7,7 +7,9 @@ import android.view.animation.ScaleAnimation;
 
 import com.example.admin.erp.LoginView;
 
+import Tool.ACache;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import model.LoginModel;
@@ -34,8 +36,9 @@ public class ExpressBillingManagerPresenterImpl implements ExpressBillingManager
         ExpressBillingManagementActivity.progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
         ExpressBillingManagementActivity.SearchBoolean = true;
         httpPost = new ExpressBillingManagementHttpPost();
-        String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-        String result = httpPost.searchHttp(httpUrl, typeSpinnerString, classifySpinnerString, reasonSpinnerString, activity, ExpressBillingManagementActivity.page);
+        //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+        ACache mAcache = ACache.get(activity);
+        String result = httpPost.searchHttp(mAcache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL), typeSpinnerString, classifySpinnerString, reasonSpinnerString, activity, ExpressBillingManagementActivity.page);
     }
 
     @Override

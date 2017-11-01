@@ -21,11 +21,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import http.ExpressNumberManagementHttpPost;
+import model.javabean.AccountType;
 
 public class AddExpressNumberActivity extends BaseActivity {
     private Button add, reset;
@@ -40,6 +43,7 @@ public class AddExpressNumberActivity extends BaseActivity {
     private Calendar calendar;
     //测试数据
     private static final String[] m={"A","B","C","D","E","F","G","其他","其他","其他"};
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +89,7 @@ public class AddExpressNumberActivity extends BaseActivity {
                         httpPost = new ExpressNumberManagementHttpPost();
                         Log.d("test", typeSpinnerString    + "@" + description );
                         if ("success".equals(httpPost.addExpressBillingHttp(
-                                Statics.ExpressCountSearch, typeSpinnerString,
+                                aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), typeSpinnerString,
                                 expressNameString, billNumberString,descriptionString ,billingTimeString))) {
                             Toast.makeText(AddExpressNumberActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                             finish();
@@ -137,10 +141,11 @@ public class AddExpressNumberActivity extends BaseActivity {
             }
         });
         ExpressBillingManagementHttpPost httpPost = new ExpressBillingManagementHttpPost();
-        httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl);
+        httpPost.accountTypeSearchHttp(aCache.getAsString(AchacheConstant.ACCOUNT_TYPE_URL),AddExpressNumberActivity.this);
         data_list2 = new ArrayList<>();//快递类型
-        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
-            data_list2.add(Statics.accountTypeList.get(i).getName());
+        ArrayList<AccountType> accountTypes = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
+        for (int i = 0; i < accountTypes.size(); i++) {
+            data_list2.add(accountTypes.get(i).getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list2);
@@ -151,7 +156,8 @@ public class AddExpressNumberActivity extends BaseActivity {
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                typeSpinnerString = Statics.accountTypeList.get(position).getId();
+                ArrayList<AccountType> accountTypes = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
+                typeSpinnerString = accountTypes.get(position).getId();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -166,5 +172,6 @@ public class AddExpressNumberActivity extends BaseActivity {
         billNumber = (EditText) findViewById(R.id.billNumber);
         description = (EditText) findViewById(R.id.remarkId);
         billingTime = (EditText) findViewById(R.id.billingTime);
+        aCache = ACache.get(AddExpressNumberActivity.this);
     }
 }

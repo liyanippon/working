@@ -258,7 +258,8 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
                 progressDialog.dismiss();
                 //测量高度;
                 ToolUtils.setListViewHeightBasedOnChildren(timeListView,5);
-                InoutComeZhuFragment inoutComeZhuFragment =new InoutComeZhuFragment("财务统计分析");
+                InoutComeZhuFragment inoutComeZhuFragment =InoutComeZhuFragment.newInstance("财务统计分析");
+                InoutComeZhuFragment.catlog = inoutComeZhuFragment.getArguments().getString("catlog");
                 inoutComeZhuFragment.setGrayValue();
                 inoutComeZhuFragment.initData(activity,mCombinedChart,true);
                 break;

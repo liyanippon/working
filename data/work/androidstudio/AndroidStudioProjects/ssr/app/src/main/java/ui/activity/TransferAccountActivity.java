@@ -25,8 +25,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
@@ -51,6 +53,7 @@ public class TransferAccountActivity extends BaseActivity {
     public static Context context;
     private HashMap<String,String> param;
     public static Activity activity;
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +128,8 @@ public class TransferAccountActivity extends BaseActivity {
                     param.put("id", "");
                     param.put("poundage",poundageString);
                     Statics.isTransfer = true;
-                    if ("success".equals(HttpBasePost.postHttp(Statics.FinancialBillingManagementSearchUrl,param,HttpTypeConstants.TransferAccount))){//进账出账下拉框
+                    aCache = ACache.get(activity);
+                    if ("success".equals(HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL),param,HttpTypeConstants.TransferAccount))){//进账出账下拉框
                         //Toast.makeText(TransferAccountActivity.this, "转账成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }

@@ -98,7 +98,7 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
         //*           *设置数据            */
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
 
-        if(list.get(1)!=null){
+        if(list.size()!=0 && list.get(1)!=null){
             dataSets.add(generateBarData(jinEntries,list));
             for (int i=0;i<list.size();i++){
                 Log.d("list","图例:"+list.get(i));
@@ -354,7 +354,7 @@ public class CombinedBarChartUtil  extends BaseChartUtil {
 
     private BarDataSet generateBarData1(ArrayList<BarEntry> entries,List<String> list) {
         String PictureTag ;
-        if (list!=null){
+        if (list!=null && list.size()!=0){
             PictureTag = list.get(0);
         }else{
             PictureTag = "";

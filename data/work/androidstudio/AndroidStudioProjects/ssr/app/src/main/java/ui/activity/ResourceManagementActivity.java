@@ -82,7 +82,7 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
         //空查询
         page = 1;//显示页数
         httpPost = new ExpressBillingManagementHttpPost();
-        String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+        //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
         //刚进入页面就要显示数据
         progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
         param = new HashMap<>();

@@ -18,6 +18,8 @@ import Tool.crash.LogcatHelper;
 import http.ExpressBillingManagementHttpPost;
 import presenter.LoginPresenter;
 import presenter.LoginPresenterImpl;
+import service.ErpService;
+
 public class MainActivity extends BaseActivity implements View.OnClickListener,LoginView{
     public static EditText userName;
     public static EditText userPassword;
@@ -39,8 +41,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,L
     protected void onCreate(Bundle savedInstanceState) {
         activity = MainActivity.this;
         presenter=new LoginPresenterImpl(this);
-        LogcatHelper.getInstance(this).start();//保存日志
-        presenter.initCrashHandler(activity);//系统异常处理
+        //LogcatHelper.getInstance(this).start();//保存日志
+        //presenter.initCrashHandler(activity);//系统异常处理
         super.onCreate(savedInstanceState);
         setTitle("统一登录平台");
         setContentView(R.layout.activity_main);

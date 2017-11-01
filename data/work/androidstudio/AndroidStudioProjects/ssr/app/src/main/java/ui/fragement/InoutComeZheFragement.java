@@ -1,8 +1,10 @@
 package ui.fragement;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +43,15 @@ public class InoutComeZheFragement extends Fragment {
             "1", "2", "3", "4", "5",
             "6", "7", "8", "9", "10",
             "11", "12"};
-    private String catlog;
+    public String catlog;
 
-    public InoutComeZheFragement(){
-    }
-    public InoutComeZheFragement(String catlog){
-        this.catlog=catlog;
+    public static InoutComeZheFragement newInstance(String catlog)
+    {
+        InoutComeZheFragement fragment = new InoutComeZheFragement();
+        Bundle bundle = new Bundle();
+        bundle.putString("catlog", catlog);
+        fragment.setArguments(bundle);
+        return fragment ;
     }
 
     @Override

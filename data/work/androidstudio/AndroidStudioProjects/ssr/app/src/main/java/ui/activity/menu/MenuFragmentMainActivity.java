@@ -1,5 +1,5 @@
 package ui.activity.menu;
-
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -27,10 +27,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.admin.erp.MainActivity;
 import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.Properties;
-
 import Tool.ACache;
 import Tool.crash.ActivityCollector;
 import Tool.crash.BaseActivity;
@@ -38,9 +39,9 @@ import Tool.statistics.Statics;
 import http.HttpTypeConstants;
 import model.javabean.UserUmp;
 import presenter.LoginPresenterImpl;
+import service.ErpService;
 import thread.ResumeStart;
 import ui.activity.BillingStatisticsActivity;
-import ui.activity.MainActivity;
 import ui.adpter.MFragmentPagerAdapter;
 import ui.fragement.menu.MainTabAttendance;
 import ui.fragement.menu.MainTabExpress;
@@ -50,7 +51,8 @@ import ui.fragement.menu.MainTabResource;
 import ui.fragement.menu.MainTabSetting;
 
 public class MenuFragmentMainActivity extends BaseActivity{
-    private LinearLayout attendanceTextView,expressTextView,financialTextView,setting_layout,projectTextView,resourceTextView;
+    private LinearLayout attendanceTextView,expressTextView,financialTextView
+            ,setting_layout,projectTextView,resourceTextView;
     //实现Tab滑动效果
     private ViewPager mViewPager;
     //动画图片
@@ -70,7 +72,7 @@ public class MenuFragmentMainActivity extends BaseActivity{
     private ArrayList<Fragment> fragmentArrayList;
     //管理Fragment
     private android.support.v4.app.FragmentManager fragmentManager;
-    public Context context;
+    public static Activity context;
     private ImageButton express,attendance,setting,financial,project,resource;
     private TextView expresstext,attendancetext,settingtext,financialtext,projectText,resourceText;
     private long exitTime = 0;
@@ -90,7 +92,6 @@ public class MenuFragmentMainActivity extends BaseActivity{
         setContentView(R.layout.activity_menu_fragment_main);
 
         context = MenuFragmentMainActivity.this;
-
         //初始化TextView
         InitTextView();
         //初始化ImageView
@@ -100,30 +101,12 @@ public class MenuFragmentMainActivity extends BaseActivity{
         //初始化ViewPager
         InitViewPager();
 
-        /*//添加消息推送
-        mNManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        //定义一个PendingIntent点击Notification后启动一个Activity
-        Intent it = new Intent(this, BillingStatisticsActivity.class);//测试
-        PendingIntent pit = PendingIntent.getActivity(this, 0, it, 0);
-
-        //设置图片,通知标题,发送时间,提示方式等属性
-        Notification.Builder mBuilder = new Notification.Builder(this);
-        mBuilder.setContentTitle("回款通知")                        //标题
-                .setContentText("？？项目回款已到账")      //内容
-                .setSubText("点击查看")                    //内容下面的一小段文字
-                .setTicker("收到叶良辰发送过来的信息~")             //收到信息后状态栏显示的文字信息
-                .setWhen(System.currentTimeMillis())           //设置通知时间
-                .setSmallIcon(R.mipmap.ic_launcher)            //设置小图标
-                //.setLargeIcon(LargeBitmap)                     //设置大图标
-                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)    //设置默认的三色灯与振动器
-                //.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.biaobiao))  //设置自定义的提示音
-                .setAutoCancel(true)                           //设置点击后取消Notification
-                .setContentIntent(pit);                        //设置PendingIntent
-        notify1 = mBuilder.build();
-        mNManager.notify(NOTIFYID_1, notify1);*/
     }
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
+
+        /*Intent intent =new Intent(MenuFragmentMainActivity.this, ErpService.class);
+        startService(intent);*/
         return super.onCreateView(name, context, attrs);
     }
 
@@ -148,17 +131,14 @@ public class MenuFragmentMainActivity extends BaseActivity{
         }
         return super.onKeyDown(keyCode, event);
     }
-
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
 
     }
-
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
     }
 
     @Override
@@ -451,7 +431,7 @@ public class MenuFragmentMainActivity extends BaseActivity{
         @Override
         public void onPageScrollStateChanged(int state) {
         }
-    };
+    }
     /**
      * 设置动画图片宽度
      * @param mWidth

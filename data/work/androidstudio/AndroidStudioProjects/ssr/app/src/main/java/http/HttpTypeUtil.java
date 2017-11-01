@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import Tool.ACache;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
 import broadcast.TYPE;
@@ -97,10 +99,11 @@ public class HttpTypeUtil {
                 Log.d("HttpTypeUtil", "转账结果"+result);
                 ExpressBillingManagementActivity.isAdd = true;
                 ExpressBillingManagementHttpPost httpPost = new ExpressBillingManagementHttpPost();
-                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+                //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
                 Activity activity;
                 activity = ExpressBillingManagementActivity.activityExpress;
-                httpPost.searchHttp(httpUrl, "", "", "", activity, 1);
+                ACache mCache = ACache.get(activity);
+                httpPost.searchHttp(mCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL), "", "", "", activity, 1);
                 break;
             /*case "100111":
                 //物流报表月份查询

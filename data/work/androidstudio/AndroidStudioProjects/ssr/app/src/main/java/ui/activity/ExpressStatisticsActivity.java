@@ -30,13 +30,16 @@ import com.github.mikephil.charting.data.BarEntry;
 import java.util.ArrayList;
 import java.util.List;
 
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.customerWidget.PullScrollView;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressStatisticsHttpPost;
+import model.javabean.AccountType;
 import model.javabean.ExpressPersonStatistic;
 import model.javabean.ExpressPersonStatisticsXiangqing;
 import model.javabean.TimeExpressStatistics;
@@ -88,6 +91,7 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
     private PullScrollView pullScrollView;
     private Handler handler ;
     private long exitTime = 0 ,expressTime = 0;
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +109,7 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
         //首次访问 空查询
         progressDialog = ProgressDialog.show(ExpressStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
         expressStatisticsHttpPost = new ExpressStatisticsHttpPost();
-        expressStatisticsHttpPost.searchTimeHttp(Statics.TimeStatisticSearchUrl, yearSpinnerString, "", ExpressStatisticsActivity.this);
+        expressStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_STATISTIC_SEARCH_URL), yearSpinnerString, "", ExpressStatisticsActivity.this);
         timeExpressStatisticsesList = new ArrayList<>();
         timeExpressStatisticsesList = Statics.expressTimeList;
         timeAdapter = new TimeExpressStatisticsAdapter(ExpressStatisticsActivity.this, timeExpressStatisticsesList);
@@ -129,7 +133,7 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
                 if (!onsearchclick) {
                     typeSpinnerString = "";
                 }
-                expressStatisticsHttpPost.searchExpressPersonStatisticsHttp(Statics.ExpressStatisticSearchUrl, yearSpinnerString, typeSpinnerString, month, ExpressStatisticsActivity.this);
+                expressStatisticsHttpPost.searchExpressPersonStatisticsHttp(aCache.getAsString(AchacheConstant.EXPRESS_STATISTIC_SEARCH_URL), yearSpinnerString, typeSpinnerString, month, ExpressStatisticsActivity.this);
                 expressPersonStatisticList = Statics.expressPersonStatisticList;
                 expressPersionAdapter = new ExpressPersonStatisticsAdapter(ExpressStatisticsActivity.this, expressPersonStatisticList);
                 expressPersonListView.setAdapter(expressPersionAdapter);
@@ -193,7 +197,7 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
                     public void run() {
                         //表格数据刷新
                         expressStatisticsHttpPost = new ExpressStatisticsHttpPost();
-                        expressStatisticsHttpPost.searchTimeHttp(Statics.TimeStatisticSearchUrl, yearSpinnerString, "", ExpressStatisticsActivity.this);
+                        expressStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_STATISTIC_SEARCH_URL),yearSpinnerString, "", ExpressStatisticsActivity.this);
                         expressPersonStatisticList = null;
                         expressPersionAdapter = new ExpressPersonStatisticsAdapter(ExpressStatisticsActivity.this, expressPersonStatisticList);
                         expressPersonListView.setAdapter(expressPersionAdapter);
@@ -226,7 +230,7 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
                         Log.v("test2", "R.id.search");
                         progressDialog = ProgressDialog.show(ExpressStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
                         onsearchclick = true;
-                        expressStatisticsHttpPost.searchTimeHttp(Statics.TimeStatisticSearchUrl, yearSpinnerString, typeSpinnerString, ExpressStatisticsActivity.this);
+                        expressStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_STATISTIC_SEARCH_URL), yearSpinnerString, typeSpinnerString, ExpressStatisticsActivity.this);
                         timeExpressStatisticsesList = Statics.expressTimeList;
                         timeAdapter = new TimeExpressStatisticsAdapter(ExpressStatisticsActivity.this, timeExpressStatisticsesList);
                         timeListView.setAdapter(timeAdapter);
@@ -280,8 +284,9 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
         data_list = new ArrayList<>();
         data_list.clear();
         data_list.add("全部");
-        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
-            data_list.add(Statics.accountTypeList.get(i).getName());
+        ArrayList<AccountType> arrayList = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
+        for (int i = 0; i < arrayList.size(); i++) {
+            data_list.add(arrayList.get(i).getName());
         }
 
         //适配器
@@ -295,29 +300,23 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<AccountType> accountTypes = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
                 if (position == 0) {
                     typeSpinnerString = "全部";
                 } else {
-                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
+                    typeSpinnerString = accountTypes.get(--position).getId();
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
         //数据
-        //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl, AccountManagementActivity.this);
-
         ArrayList<String> yearlist = new ArrayList<>();
-        //yearlist.add("全部");
         for (int i = 0; i < Statics.expressYear.size(); i++) {
             yearlist.add(Statics.expressYear.get(i));
         }
-
-
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, yearlist);
         //设置样式
@@ -329,11 +328,6 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                /*if (position == 0) {
-                    yearSpinnerString = "全部";
-                } else {
-                    yearSpinnerString = Statics.expressYear.get(--position);
-                }*/
                 yearSpinnerString = Statics.expressYear.get(position);
                 data_list = null;
             }
@@ -342,7 +336,6 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
     }
     public void init() {
         timeListView = (ListView) findViewById(R.id.timeListView);
@@ -362,7 +355,7 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
         epdz = new ExpressPieceDetailsZhuFragment();
         eppdz = new ExpressPiecePersonDetailsZhuFragment();
         pullScrollView = (PullScrollView) findViewById(R.id.test);
-
+        aCache = ACache.get(ExpressStatisticsActivity.this);
     }
     public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
@@ -418,7 +411,6 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
                 break;
         }
     }
-
     private static void initBroadCastXiangxi() {//详细
             //广播初始化 必须动态注册才能实现回调
             FreshenBroadcastReceiver broadcast = new FreshenBroadcastReceiver();

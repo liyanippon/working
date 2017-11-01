@@ -33,10 +33,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.ExpressNumberManagementHttpPost;
+import model.javabean.AccountType;
 import portface.LazyLoadFace;
 import ui.adpter.ExpressNumberManagementAdapter;
 import ui.xlistview.XListView;
@@ -68,7 +71,7 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
     private int currentYear, currentMon, currentDate;
     public static ProgressDialog progressDialog = null;//加载数据显示进度条
     private long exitTime = 0 ,expressLvTime = 0;
-
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,12 +103,12 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
             }
         });
         httpPost = new ExpressNumberManagementHttpPost();
-        String httpUrl = Statics.ExpressCountSearch;
+        //String httpUrl = Statics.ExpressCountSearch;
         //刚进入页面就要显示数据
         //accountManagementAdapter =new AccountManagementAdapter(getApplicationContext());
         //accountLv.setAdapter(accountManagementAdapter);
         progressDialog = ProgressDialog.show(ExpressNumberManagerActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-        String result = httpPost.searchHttp(httpUrl, "", "", "", ExpressNumberManagerActivity.this, page);
+        String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), "", "", "", ExpressNumberManagerActivity.this, page);
         //accountLv = (XListView) findViewById(R.id.xListView);
         expressLv.setPullLoadEnable(true);
         enmAdapter = new ExpressNumberManagementAdapter(ExpressNumberManagerActivity.this);
@@ -181,8 +184,8 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
                     SearchBoolean = true;
                     billingTimeString = searchTime.getText().toString().trim();
                     httpPost = new ExpressNumberManagementHttpPost();
-                    String httpUrl = Statics.ExpressCountSearch;
-                    String result = httpPost.searchHttp(httpUrl, expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
+                    //String httpUrl = Statics.ExpressCountSearch;
+                    String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
                 }
                 break;
             case R.id.add:
@@ -202,8 +205,9 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
         //httpPost.accountTypeSearchHttp(Constants.AccountTypeUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
-            data_list.add(Statics.accountTypeList.get(i).getName());
+        ArrayList<AccountType> accountTypes = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
+        for (int i = 0; i < accountTypes.size(); i++) {
+            data_list.add(accountTypes.get(i).getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -245,10 +249,11 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<AccountType> arrayList = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
                 if (position == 0) {
                     typeSpinnerString = "全部";
                 } else {
-                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
+                    typeSpinnerString = arrayList.get(--position).getId();
                 }
                 data_list = null;
             }
@@ -282,6 +287,7 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
         expressPersonSpinner = (Spinner) findViewById(R.id.expressPersonSpinner);
         expressLv = (XListView) findViewById(R.id.xListView);
         searchTime = (EditText) findViewById(R.id.searchTime);
+        aCache = ACache.get(ExpressNumberManagerActivity.this);
     }
     @Override
     public void onRefresh() {
@@ -289,8 +295,8 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
             @Override
             public void run() {
                 httpPost = new ExpressNumberManagementHttpPost();
-                String httpUrl = Statics.ExpressCountSearch;
-                String result = httpPost.searchHttp(httpUrl, expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
+                //String httpUrl = Statics.ExpressCountSearch;
+                String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
                 onLoad();
             }
         }, 2000);
@@ -309,9 +315,9 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
                 }
                 //大于总页数，不向下翻页
                 httpPost = new ExpressNumberManagementHttpPost();
-                String httpUrl = Statics.ExpressCountSearch;
+                //String httpUrl = Statics.ExpressCountSearch;
                 Log.d("typeyy", expressPersonSpinnerString + typeSpinnerString + billingTimeString);
-                String result = httpPost.searchHttp(httpUrl, expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
+                String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
                 enmAdapter.notifyDataSetChanged();
                 onLoad();
 
@@ -340,8 +346,8 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
     @Override
     protected void onResume() {
         super.onResume();
-        String httpUrl = Statics.ExpressCountSearch;
-        httpPost.searchHttp(httpUrl, "", "", "", ExpressNumberManagerActivity.this, 1);//刷新页面
+        //String httpUrl = Statics.ExpressCountSearch;
+        httpPost.searchHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), "", "", "", ExpressNumberManagerActivity.this, 1);//刷新页面
     }
     private void onLoad() {
         expressLv.stopRefresh();

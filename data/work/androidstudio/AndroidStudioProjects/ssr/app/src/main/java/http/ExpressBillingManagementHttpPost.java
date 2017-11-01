@@ -43,6 +43,7 @@ public class ExpressBillingManagementHttpPost {
     private Context context;
     private Activity activitys ;
     private LazyLoadFace lazyLoad;
+    ACache mCache;
     public ExpressBillingManagementHttpPost() {
     }
     public ExpressBillingManagementHttpPost(Context context) {
@@ -87,7 +88,9 @@ public class ExpressBillingManagementHttpPost {
                             Statics.sessionId = sessionid;
                             Statics.results = success;
                             Statics.Name = username;
-                            UmlHttp(Statics.UmlUrl, sessionid, username);
+                            //缓存本地
+                            mCache = ACache.get(context);
+                            UmlHttp(mCache.getAsString(AchacheConstant.UML_URL), sessionid, username);
                             Log.d("uml", sessionid);
                             break;
                     }
@@ -139,9 +142,9 @@ public class ExpressBillingManagementHttpPost {
                 UserUmp[] as = new Gson().fromJson(result, UserUmp[].class);
                 Collections.addAll(Statics.userUmpsStatisticsList, as);//转化arrayList
                 //缓存本地
-                ACache mCache = ACache.get(context);
+                mCache = ACache.get(context);
                 //只能使用List的子类
-                mCache.put(AchacheConstant.USER_UMP, Statics.userUmpsStatisticsList,7 * ACache.TIME_DAY);//缓存用户权限
+                mCache.put(AchacheConstant.USER_UMP, Statics.userUmpsStatisticsList,1 * ACache.TIME_DAY);//缓存用户权限
                 mCache.put(AchacheConstant.USER_NAME,Statics.Name);//缓存用户名字
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL, context, "login");//发送广播
             }
@@ -316,8 +319,9 @@ public class ExpressBillingManagementHttpPost {
                 Log.d("deletesss", "delete" + result);
                 resultString = "success";
                 //刷新页面
-                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-                searchHttp(httpUrl, "", "", "", activity, 1);//刷新页面
+                //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+                mCache = ACache.get(activity);
+                searchHttp(mCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL), "", "", "", activity, 1);//刷新页面
 
             }
 
@@ -364,7 +368,7 @@ public class ExpressBillingManagementHttpPost {
         if ("全部".equals(classifyId)) {//以进账为默认
             classifyId = Statics.accountClassifyList.get(1).getId();
         }*/
-        if ("全部".equals(classifyId)) {//以进账为默认
+        if ("全部".equals(classifyId) && Statics.expressClassifyList.size()!=0) {//以进账为默认
             classifyId = Statics.expressClassifyList.get(0).getData().get(1).getId();
         }
         finalHttp = new FinalHttp();
@@ -390,7 +394,7 @@ public class ExpressBillingManagementHttpPost {
         return resultString;
     }
 
-    public String accountTypeSearchHttp(String httpUrl) {//accountTypeSearchHttp 快递类型 圆通韵达
+    public String accountTypeSearchHttp(String httpUrl, final Activity activity) {//accountTypeSearchHttp 快递类型 圆通韵达
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("httpUrl", httpUrl);
@@ -401,7 +405,7 @@ public class ExpressBillingManagementHttpPost {
                 String result = (String) o;//从从网络端返回数据
                 Log.d("menu", result);
                 resultString = "success";
-                JsonResolve.jsonAccountTypeSearch(result);//json解析
+                JsonResolve.jsonAccountTypeSearch(result,activity);//json解析
             }
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败

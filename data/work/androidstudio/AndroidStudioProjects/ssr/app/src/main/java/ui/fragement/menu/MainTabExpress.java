@@ -16,7 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import Tool.ACache;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
 import http.ExpressBillingManagementHttpPost;
@@ -52,9 +55,11 @@ public class MainTabExpress extends Fragment implements AdapterView.OnItemClickL
 	private ArrayList<Object> iconName;
 	private HashMap<String,String> param;
 	private long exitTime = 0;
+	ACache aCache;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.main_tab_works, null);
 		//http://www.cnblogs.com/tinyphp/p/3855224.html 可下载
+		aCache = ACache.get(getActivity());
 		spinnerData();
 		init();
 
@@ -70,29 +75,27 @@ public class MainTabExpress extends Fragment implements AdapterView.OnItemClickL
 		//账单统计
 		Statics.billingYear.clear();
 		billingStatisticsHttpPost = new BillingStatisticsHttpPost();
-		billingStatisticsHttpPost.searchYearHttp(Statics.YearSearchUrl);
+		billingStatisticsHttpPost.searchYearHttp(aCache.getAsString(AchacheConstant.YEAR_SEARCH_URL));
 		//快递管理
-		String ExpressPersonNameSearchUrl = Statics.ExpressPersonNameSearchUrl;
+		//String ExpressPersonNameSearchUrl = Statics.ExpressPersonNameSearchUrl;
 		expressNumberManagementHttpPost =new ExpressNumberManagementHttpPost();
-		expressNumberManagementHttpPost.expressPersionSearchHttp(ExpressPersonNameSearchUrl);
+		expressNumberManagementHttpPost.expressPersionSearchHttp(aCache.getAsString(AchacheConstant.EXPRESS_PERSSON_NAME_SEARCH_URL));
 		//年份
 		Statics.expressYear.clear();
 		expressStatisticsHttpPost = new ExpressStatisticsHttpPost();
-		expressNumberManagementHttpPost.searchExpressYearHttp(Statics.ExpressYearSearchUrl);
+		expressNumberManagementHttpPost.searchExpressYearHttp(aCache.getAsString(AchacheConstant.EXPRESS_YEAR_SEARCH_URL));
 	}
 
 	private void spinner() {
 		//获取数据 下拉菜单
 		//AllCustomer
-				httpPost.customerSearchHttp(Statics.AllCustomerUrl);
-				HttpBasePost.postHttp(Statics.AccountClassifyUrl,null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
+				httpPost.customerSearchHttp(aCache.getAsString(AchacheConstant.All_CUSTOMER_URL));
+				HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.ACCOUNT_CLASSIFY_URL),null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
 				param=new HashMap<>();
 				param.put("option","3");
-				HttpBasePost.postHttp(Statics.AccountClassifyUrl,param,HttpTypeConstants.TransferAccountType);//转账下拉菜单
-				//httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl);
-				//httpPost.accountClassifySearchHttp(Statics.AccountClassifyUrl,"3");
-				httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl);
-				httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, Statics.accountClassify, getActivity());
+				HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.ACCOUNT_CLASSIFY_URL),param,HttpTypeConstants.TransferAccountType);//转账下拉菜单
+				httpPost.accountTypeSearchHttp(aCache.getAsString(AchacheConstant.ACCOUNT_TYPE_URL),getActivity());
+				httpPost.accountReasonSearchHttp(aCache.getAsString(AchacheConstant.ACCOUNT_REASON_URL), Statics.accountClassify, getActivity());
 				Log.d("MainTabExpress", "支付方式");
 				HttpBasePost.postHttp(Statics.ExpressGetWXExpenseAccountPaymentMethod //支付方式下拉菜单
 				,null, HttpTypeConstants.ExpressGetWXExpenseAccountPaymentMethod);

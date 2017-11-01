@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Tool.ACache;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.ExpressNumberManagementHttpPost;
 import ui.activity.ExpressBillingManagementActivity;
@@ -34,7 +36,7 @@ public class ExpressNumberManagementAdapter extends BaseAdapter {
     private ViewHolder vh;
     private List<ViewHolder> holders = new ArrayList<>();
     private Calendar calendar;
-
+    ACache aCache;
     public ExpressNumberManagementAdapter(Activity accactivity) {
         this.activity = accactivity;
     }
@@ -116,7 +118,8 @@ public class ExpressNumberManagementAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
-                        if ("success".equals(httpPost.delExpressManagerHttp(Statics.ExpressCountSearch, id ,activity))) {
+                        aCache = ACache.get(activity);
+                        if ("success".equals(httpPost.delExpressManagerHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), id ,activity))) {
                             Toast.makeText(activity, "删除成功", Toast.LENGTH_SHORT).show();
 
                         } else {

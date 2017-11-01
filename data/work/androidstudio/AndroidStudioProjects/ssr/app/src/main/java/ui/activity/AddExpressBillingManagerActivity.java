@@ -20,12 +20,16 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
+import model.javabean.AccountType;
 import model.javabean.ExpressExpensePayMethod;
 import portface.LazyLoadFace;
 public class AddExpressBillingManagerActivity extends BaseActivity{
@@ -43,7 +47,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
     private static ArrayList data_list1;
     static FreshenBroadcastReceiver broadcast;
     public static Context context;
-
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
         context = getApplicationContext();
         initBroadCast();
         init();
+
         spinnerType();
         calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
@@ -103,7 +108,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
                     httpPost = new ExpressBillingManagementHttpPost();
                     Log.d("test", typeSpinnerString + "@" + classifySpinnerString + "@" + reasonSpinnerString + "@" + priceString + "@" + remarkString + "@" + customerSpinnerString);
                     if ("success".equals(httpPost.addCountManagerHttp(
-                            Statics.FinancialBillingManagementSearchUrl, typeSpinnerString, classifySpinnerString,
+                            aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL), typeSpinnerString, classifySpinnerString,
                             reasonSpinnerString, priceString, remarkString, customerSpinnerString ,billingTimeString,payMethodSpinnerString))) {
                         Toast.makeText(AddExpressBillingManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                         finish();
@@ -141,7 +146,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
     private void spinnerType() {
         //数据 customer
         httpPost = new ExpressBillingManagementHttpPost();
-        httpPost.customerSearchHttp(Statics.AllCustomerUrl);
+        httpPost.customerSearchHttp(aCache.getAsString(AchacheConstant.All_CUSTOMER_URL));
         data_list = new ArrayList<>();
         for (int i = 0; i < Statics.customerList.size(); i++) {
             data_list.add(Statics.customerList.get(i).getName());
@@ -169,10 +174,11 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
         Log.d("test", "spinnerType");
         //数据 accountType
         httpPost = new ExpressBillingManagementHttpPost();
-        httpPost.accountTypeSearchHttp(Statics.AccountTypeUrl);
+        httpPost.accountTypeSearchHttp(aCache.getAsString(AchacheConstant.ACCOUNT_TYPE_URL),AddExpressBillingManagerActivity.this);
         data_list = new ArrayList<>();
-        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
-            data_list.add(Statics.accountTypeList.get(i).getName());
+        ArrayList<AccountType> accountTypeArrayList = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
+        for (int i = 0; i < accountTypeArrayList.size(); i++) {
+            data_list.add(accountTypeArrayList.get(i).getName());
         }
         for (int j = 0; j < data_list.size(); j++) {
             Log.v("data-list", "--" + data_list.get(j));
@@ -203,7 +209,8 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                typeSpinnerString = Statics.accountTypeList.get(position).getId();
+                ArrayList<AccountType> arrayList = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
+                typeSpinnerString = arrayList.get(position).getId();
                 data_list = null;
             }
 
@@ -223,7 +230,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
                 //数据
                 Statics.ActivityType = "addExpress";
                 httpPost = new ExpressBillingManagementHttpPost();
-                httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, classifySpinnerString, AddExpressBillingManagerActivity.this);
+                httpPost.accountReasonSearchHttp(aCache.getAsString(AchacheConstant.ACCOUNT_REASON_URL), classifySpinnerString, AddExpressBillingManagerActivity.this);
                 data_list1 = new ArrayList<>();
                 for (int i = 0; i < Statics.accountReasonList.size(); i++) {
                     data_list1.add(Statics.accountReasonList.get(i).getName());
@@ -279,7 +286,6 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
 
     }
     private void init() {
-
         reset = (Button) findViewById(R.id.reset);
         add = (Button) findViewById(R.id.add);
         typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
@@ -293,6 +299,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
         customSpinner = (Spinner) findViewById(R.id.customerId);
         buttonPanel = (RelativeLayout) findViewById(R.id.buttonPanel);
         billingTime = (EditText) findViewById(R.id.billingTime);
+        aCache = ACache.get(AddExpressBillingManagerActivity.this);
     }
 
     private static void initBroadCast() {

@@ -9,7 +9,9 @@ import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 import net.tsz.afinal.http.AjaxParams;
 
+import Tool.ACache;
 import Tool.JsonResolve;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.ExceptionUtil;
 import Tool.statistics.Statics;
 import ui.activity.ExpressNumberManagerActivity;
@@ -24,6 +26,7 @@ public class ExpressNumberManagementHttpPost{
     public static String resultString = "error";
     private boolean result = false;
     private Context context;
+    ACache aCache;
 
     public ExpressNumberManagementHttpPost(){
 
@@ -147,8 +150,9 @@ public class ExpressNumberManagementHttpPost{
 
                 //刷新页面
                 Log.v("test","notifyDataSetInvalidated");
-                String httpUrl = Statics.ExpressCountSearch;
-                searchHttp(httpUrl ,"" ,"" ,"",activity,1);//刷新页面
+                //String httpUrl = Statics.ExpressCountSearch;
+                aCache = ACache.get(activity);
+                searchHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH) ,"" ,"" ,"",activity,1);//刷新页面
             }
 
             @Override

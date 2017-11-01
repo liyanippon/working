@@ -41,23 +41,24 @@ public class ChartsFragementActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chart_fragement);
 
-        Bundle bundle = new Bundle();
-        bundle = this.getIntent().getExtras();
+        Bundle bundle = this.getIntent().getExtras();
         String catlog=null;
         if(bundle!=null){
             catlog =bundle.getString("catlog");
         }
 
-
         mViewPager=(ViewPager) findViewById(R.id.viewpager);
         fragmentList=new ArrayList<>();
-        zhuFragment=new InoutComeZhuFragment(catlog);
-        zheFragement=new InoutComeZheFragement(catlog);
+        zhuFragment=InoutComeZhuFragment.newInstance(catlog);
+        zheFragement=InoutComeZheFragement.newInstance(catlog);
+
         fragmentList.add(zhuFragment);
         fragmentList.add(zheFragement);
         screenWidth=getResources().getDisplayMetrics().widthPixels;
         mViewPager.setAdapter(new MyFrageStatePagerAdapter(getSupportFragmentManager()));
     }
+
+
 
 
     class MyFrageStatePagerAdapter extends FragmentStatePagerAdapter {

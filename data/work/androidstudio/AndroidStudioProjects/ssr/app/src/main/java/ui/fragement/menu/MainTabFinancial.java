@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import Tool.ACache;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
 import http.ExpressBillingManagementHttpPost;
@@ -36,9 +39,12 @@ public class MainTabFinancial extends Fragment {
     private ArrayList<Object> icon;
     private ArrayList<Object> iconName;
     private long exitTime = 0;
+    ACache aCache;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         newsLayout = inflater.inflate(R.layout.main_tab_works, container, false);
+        aCache = ACache.get(getActivity());
         spinnerData();
         init();
         gridView.setOnItemClickListener(g);
@@ -52,7 +58,7 @@ public class MainTabFinancial extends Fragment {
             public void run() {
                 HttpBasePost.postHttp(Statics.FinancialBillingGetWXAccountsTypeUrl,null, HttpTypeConstants.FinancialBillingGetWXAccountsTypeUrlType);//账目下拉框
                 HttpBasePost.postHttp(Statics.FinancialAccountCustomerUrl,null, HttpTypeConstants.FinancialAccountCustomerUrlType);
-                HttpBasePost.postHttp(Statics.AccountClassifyUrl,null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.ACCOUNT_CLASSIFY_URL),null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
                 HttpBasePost.postHttp(Statics.FinancialSalaryGetWXOrgListUrl,null,HttpTypeConstants.CompanyDepartmentListUrlType);//单位下拉框
             }
         }.run();

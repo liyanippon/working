@@ -2,6 +2,8 @@ package Tool;
 
 import android.app.Activity;
 import android.util.Log;
+
+import com.example.admin.erp.MainActivity;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +11,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import broadcast.BroadCastTool;
 import broadcast.TYPE;
@@ -40,6 +44,7 @@ import ui.fragement.ExpressPiecesDetailsChartsFragementActivity;
 public class JsonResolve {
     final static int[] sizeTable = {9, 99, 999, 9999, 99999, 999999, 9999999,
             99999999, 999999999, Integer.MAX_VALUE};
+    static ACache aCache;
     public static void jsonAccountReasonSearch(String json, Activity activity) {//详细
         try {
             //解析前先清空
@@ -103,22 +108,26 @@ public class JsonResolve {
     }
 
 
-    public static void jsonAccountTypeSearch(String json) {//快递类型 圆通韵达
+    public static void jsonAccountTypeSearch(String json,Activity Activity) {//快递类型 圆通韵达
+        ArrayList<AccountType> accountTypeList;
         try {
             //解析前先清空
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Statics.accountTypeList.clear();
+            //Statics.accountTypeList.clear();
+            accountTypeList = new ArrayList<>();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String id = jsonObject1.getString("id");
                 String name = jsonObject1.getString("name");
                 AccountType accountType = new AccountType(id, name);
-                Statics.accountTypeList.add(accountType);
+                accountTypeList.add(accountType);
                 accountType = null;
             }
-
+            //保存到缓存当中
+            aCache = ACache.get(Activity);
+            aCache.put(AchacheConstant.ACCOUNT_TYPE_LIST,accountTypeList,1 * ACache.TIME_DAY);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

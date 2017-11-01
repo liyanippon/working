@@ -7,11 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.admin.erp.R;
-
 import thread.ResumeStart;
-import ui.activity.MainActivity;
 import ui.activity.menu.MenuFragmentMainActivity;
 
 /**
@@ -33,6 +30,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         Log.d("BaseActivity", "log");
+        Log.d("BaseActivity", "logss");
     }
 
 

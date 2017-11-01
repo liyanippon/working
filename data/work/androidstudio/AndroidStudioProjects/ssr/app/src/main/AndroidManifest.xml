@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!--anroid 进程长期保存不被杀死，加上Persistent属性-->
     <application
@@ -119,6 +120,18 @@
         <activity android:name="ui.activity.AttendanceCardActivity"
             android:screenOrientation="portrait"
             ></activity>
-    </application>
 
+        <service android:name="service.ErpService"
+            android:process=":ErpService" />
+        <receiver android:name="service.BootReceiver">
+                    <intent-filter>
+                        <action android:name="android.intent.action.BOOT_COMPLETED" />
+                    </intent-filter>
+        </receiver>
+        <receiver  android:name="service.Alarmreceiver" >
+                 <intent-filter>
+                     <action android:name="arui.alarm.action" />
+                 </intent-filter>
+        </receiver>
+    </application>
 </manifest>

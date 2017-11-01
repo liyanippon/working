@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import Tool.ACache;
 import Tool.crash.CrashHandler;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
@@ -42,26 +43,26 @@ public class LoginPresenterImpl implements LoginPresenter,OnLoginFinishedListene
         try {
             properties.load(activity.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
-            Statics.LoginUrl = IFengLoginUrl + "/identify/login.jhtml"; //外网登录
-            ArrayList<String> urlList = new ArrayList<>();
-            //Statics.LoginUrl = IFengLoginUrl;//本地登录
+            Statics.LoginUrl = IFengLoginUrl;
+            //缓存本地
+            ACache mCache = ACache.get(activity);
             String IFengUrl = properties.getProperty("IFengUrl").trim();
             String UmpUrl = properties.getProperty("UmpUrl").trim();
-            Statics.UmlUrl = UmpUrl + "/setRoles/loadRoleUserId.ajax";
-            Statics.FinancialBillingManagementSearchUrl = IFengUrl + "/wxApi.ajax";
-            Statics.AllCustomerUrl = IFengUrl + "/getWXAllCustomer.ajax";
-            Statics.AccountReasonUrl = IFengUrl + "/getWXExpenseAccountReason.ajax";
-            Statics.AccountClassifyUrl = IFengUrl + "/getWXExpenseAccountClassify.ajax";
-            Statics.AccountTypeUrl = IFengUrl + "/getWXExpenseAccountType.ajax";
-            Statics.TimeSearchUrl = IFengUrl + "/getWXTjsjList.ajax";
-            Statics.CustomerSearchUrl = IFengUrl + "/getWXCustomerTjsjList.ajax";
-            Statics.YearSearchUrl = IFengUrl + "/getWXYearAccountStatistics.ajax";
-            Statics.XqCustomerSearchUrl = IFengUrl + "/getWXCustomerTjxq.ajax";
-            Statics.ExpressYearSearchUrl = IFengUrl + "/getWXYearNumberStatistics.ajax";
-            Statics.ExpressPersonNameSearchUrl = IFengUrl + "/getWXAllNumber.ajax";
-            Statics.ExpressCountSearch = IFengUrl + "/wxApiNumber.ajax";
-            Statics.TimeStatisticSearchUrl = IFengUrl + "/getWXTjsjListNumber.ajax";
-            Statics.ExpressStatisticSearchUrl = IFengUrl + "/getCustomerTjsjListNumber.ajax";
+            mCache.put(AchacheConstant.UML_URL, UmpUrl + "/setRoles/loadRoleUserId.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL, IFengUrl + "/wxApi.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.All_CUSTOMER_URL, IFengUrl + "/getWXAllCustomer.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.ACCOUNT_REASON_URL, IFengUrl + "/getWXExpenseAccountReason.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.ACCOUNT_CLASSIFY_URL, IFengUrl + "/getWXExpenseAccountClassify.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.ACCOUNT_TYPE_URL, IFengUrl + "/getWXExpenseAccountType.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.TIME_SEARCH_URL, IFengUrl + "/getWXTjsjList.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.CUSTOMER_SEARCH_URL, IFengUrl + "/getWXCustomerTjsjList.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.YEAR_SEARCH_URL, IFengUrl + "/getWXYearAccountStatistics.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.XQCUSTOMER_SEARCH_URL, IFengUrl + "/getWXCustomerTjxq.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.EXPRESS_YEAR_SEARCH_URL, IFengUrl + "/getWXYearNumberStatistics.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.EXPRESS_PERSSON_NAME_SEARCH_URL, IFengUrl + "/getWXAllNumber.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.EXPRESS_COUNT_SEARCH, IFengUrl + "/wxApiNumber.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.TIME_STATISTIC_SEARCH_URL, IFengUrl + "/getWXTjsjListNumber.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.EXPRESS_STATISTIC_SEARCH_URL, IFengUrl + "/getCustomerTjsjListNumber.ajax",1 * ACache.TIME_DAY);
             Statics.ExpressXqTimeSearchUrl = IFengUrl + "/getCustomerTjxqNumber.ajax";
             Statics.ExpressPieceMonthDaySearchUrl = IFengUrl + "/getWxXAxisDay.ajax";
             Statics.ExpressPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataDay.ajax";

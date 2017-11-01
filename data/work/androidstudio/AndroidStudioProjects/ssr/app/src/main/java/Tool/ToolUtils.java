@@ -60,8 +60,7 @@ public class ToolUtils {
     //统计图y轴转换
     public static int tongJiTuY(List<Double> input) {//计算y轴最大值
         //取得y轴最大值
-        Log.d("test","iop"+Integer.toString(input.size()));
-        if (input.size() == 0){
+        if ( input == null || input.size() == 0 ){
             return 0;
         }
         int yZhi = Collections.max(input).intValue();//当前整数

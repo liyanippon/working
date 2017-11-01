@@ -35,6 +35,7 @@ import Tool.crash.BaseActivity;
 import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.HttpTypeConstants;
+import model.javabean.AccountType;
 import model.javabean.ExpressManagement;
 import model.javabean.UserUmp;
 import presenter.ExpressBillingManagerPresenter;
@@ -78,11 +79,210 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     private long exitTime = 0, accountLvTime = 0;
     LoginPresenterImpl presenter;
     Properties properties;
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("物流账单管理");
         setContentView(R.layout.activity_expressbilling_management);
+    }
+
+    //返回按钮事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void spinnerType() {
+        Log.d("test", "spinnerType");
+        //数据（快递类型：圆通，韵达）
+        data_list = new ArrayList<>();
+        data_list.add("全部");
+        ArrayList<AccountType> accountTypes = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
+        for (int i = 0; i < accountTypes.size(); i++) {
+            data_list.add(accountTypes.get(i).getName());
+        }
+        //适配器
+        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
+        //设置样式
+        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+        //加载适配器
+        typeSpinner.setAdapter(arr_adapter);
+        data_list = null;
+
+        //数据（业务分类：进账，出账）
+        data_list = new ArrayList<>();
+        data_list.add("全部");
+        for (int i = 0; Statics.expressClassifyList.size()!=0&&Statics.expressClassifyList.get(0).getData().size() > 0 && i < Statics.expressClassifyList.get(0).getData().size(); i++) {
+            data_list.add(Statics.expressClassifyList.get(0).getData().get(i).getName());
+            Log.d("ytpe",Statics.expressClassifyList.get(0).getData().get(i).getName());
+        }
+        //适配器
+        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
+        //设置样式
+        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+        //加载适配器
+        classifySpinner.setAdapter(arr_adapter);
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.v("test8",Integer.toString(position)+"ss");
+                ArrayList<AccountType> arrayList = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
+                if(position == 0){
+                    typeSpinnerString = "全部";
+                }else{
+                    typeSpinnerString = arrayList.get(--position).getId();
+                }
+                data_list = null;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        classifySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                Statics.ActivityType = "ExpressBillingManagementActivity";
+                //二级联动
+                if(position == 0){
+                    classifySpinnerString = "全部";
+                }else{
+                    classifySpinnerString = Statics.expressClassifyList.get(0).getData().get(--position).getId();
+                }
+                Log.v("test2", "classifySpinnerString:" + classifySpinnerString);
+                //数据
+                httpPost = new ExpressBillingManagementHttpPost();
+                Log.v("test2", "PrereasonSpinner:" + Boolean.toString(ExpressBillingManagementActivity.reasonSpinner == null));
+                httpPost.accountReasonSearchHttp(aCache.getAsString(AchacheConstant.ACCOUNT_REASON_URL), classifySpinnerString, ExpressBillingManagementActivity.this);
+
+                data_list = new ArrayList<>();
+                data_list.add("全部");
+
+                Log.d("ExpressBillingManagemen", "quanbu" + classifySpinnerString);
+                for (int i = 0; i < Statics.accountReasonList.size() ; i++) {
+                    data_list.add(Statics.accountReasonList.get(i).getName());
+                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
+                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getId());
+
+                }
+                //适配器
+                arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
+                //设置样式
+                arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+                //加载适配器
+                reasonSpinner.setAdapter(arr_adapter);
+
+                Log.v("test2", "After:" + Boolean.toString(ExpressBillingManagementActivity.reasonSpinner == null));
+                reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (position <= Statics.accountReasonList.size()) {//需要仔细
+                            if(position == 0){
+                                reasonSpinnerString = "全部";
+                                Log.d("ExpressBillingManagemen", "代号："+"全部");
+
+                            }else{
+                                reasonSpinnerString = Statics.accountReasonList.get(--position).getId();
+                                Log.d("ExpressBillingManagemen", "代号："+reasonSpinnerString);
+                            }
+                        } else {
+                            Log.v("test", "position:" + Integer.toString(position) + "@" +
+                                    "Static.accountReasonList.size()" + Integer.toString(Statics.accountReasonList.size()));
+                            Log.d("ExpressBillingManagemen","代号::"+position+"@@"+Integer.toString(Statics.accountReasonList.size()-1));
+                        }
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void init() {
+
+        search = findViewById(R.id.search);
+        add = findViewById(R.id.add);
+        typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
+        classifySpinner = (Spinner) findViewById(R.id.classifySpinner);
+        reasonSpinner = (Spinner) findViewById(R.id.reasonSpinner);
+        accountLv = (XListView) findViewById(R.id.xListView);
+        newBilling = findViewById(R.id.newBilling);
+        transferAccounts = findViewById(R.id.transferAccounts);
+        add.setOnClickListener(o);
+        search.setOnClickListener(o);
+    }
+
+    View.OnClickListener o = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.search:
+                    exitTime = ToolUtils.muchClick(exitTime);
+                    if(exitTime!=0) {
+                        exitTime = System.currentTimeMillis();
+                        ebmi.search(activityExpress, httpPost, typeSpinnerString, classifySpinnerString, reasonSpinnerString);
+                    }
+                    break;
+                case R.id.add:
+                    exitTime = ToolUtils.muchClick(exitTime);
+                    if(exitTime!=0) {
+                        exitTime = System.currentTimeMillis();
+                        ebmi.add(activityExpress);
+                    }
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onRefresh() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                httpPost = new ExpressBillingManagementHttpPost();
+                //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+                String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL) ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,ExpressBillingManagementActivity.this,page);
+                onLoad();
+            }
+        }, 2000);
+    }
+
+    @Override
+    public void onLoadMore() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Statics.isPageUpload = true;
+                Log.d("ExpressBillingManagemen", "翻页");
+                page++;
+                if (page >= Statics.page) {
+                    page = Statics.page;
+                    Toast.makeText(ExpressBillingManagementActivity.this,"已经是最后一页了",Toast.LENGTH_SHORT).show();
+                }
+                //大于总页数，不向下翻页
+                httpPost = new ExpressBillingManagementHttpPost();
+                //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+                String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL) ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,ExpressBillingManagementActivity.this,page);
+                onLoad();
+
+            }
+        }, 2000);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         //ebmPresenter = new ExpressBillingManagerPresenterImpl();
         //添加返回按钮
@@ -94,10 +294,11 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         //空查询
         page = 1;//显示页数
         httpPost = new ExpressBillingManagementHttpPost();
-        String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+        aCache = ACache.get(activityExpress);
+        //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
         //刚进入页面就要显示数据
         progressDialog = ProgressDialog.show(ExpressBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-        String result = httpPost.searchHttp(httpUrl, "", "", "", ExpressBillingManagementActivity.this, page);
+        String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL), "", "", "", ExpressBillingManagementActivity.this, page);
         //ebmPresenter.searchClick(httpUrl, "", "", "", ExpressBillingManagementActivity.this, page);
         accountLv.setPullLoadEnable(true);
         expressManagementAdapter = new ExpressManagementAdapter(ExpressBillingManagementActivity.this);
@@ -223,218 +424,11 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         });
         spinnerType();
     }
-
-
-    //返回按钮事件
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish(); // back button
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void spinnerType() {
-        Log.d("test", "spinnerType");
-        //数据（快递类型：圆通，韵达）
-        //httpPost =new HttpPost();
-        //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
-        data_list = new ArrayList<>();
-        data_list.add("全部");
-        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
-            data_list.add(Statics.accountTypeList.get(i).getName());
-        }
-        //适配器
-        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
-        //设置样式
-        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
-        //加载适配器
-        typeSpinner.setAdapter(arr_adapter);
-        data_list = null;
-
-        //数据（业务分类：进账，出账）
-        //httpPost =new HttpPost();
-        //httpPost.accountClassifySearchHttp(Static.AccountClassifyUrl, AccountManagementActivity.this);
-        data_list = new ArrayList<>();
-        data_list.add("全部");
-        for (int i = 0; Statics.expressClassifyList.get(0).getData().size() > 0 && i < Statics.expressClassifyList.get(0).getData().size(); i++) {
-            data_list.add(Statics.expressClassifyList.get(0).getData().get(i).getName());
-            Log.d("ytpe",Statics.expressClassifyList.get(0).getData().get(i).getName());
-        }
-        //适配器
-        arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
-        //设置样式
-        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
-        //加载适配器
-        classifySpinner.setAdapter(arr_adapter);
-        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.v("test8",Integer.toString(position)+"ss");
-                if(position == 0){
-                    typeSpinnerString = "全部";
-                }else{
-                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
-                }
-                data_list = null;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        classifySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                Statics.ActivityType = "ExpressBillingManagementActivity";
-                //二级联动
-                if(position == 0){
-                    classifySpinnerString = "全部";
-                }else{
-                    classifySpinnerString = Statics.expressClassifyList.get(0).getData().get(--position).getId();
-                }
-                Log.v("test2", "classifySpinnerString:" + classifySpinnerString);
-                //数据
-                httpPost = new ExpressBillingManagementHttpPost();
-                Log.v("test2", "PrereasonSpinner:" + Boolean.toString(ExpressBillingManagementActivity.reasonSpinner == null));
-                httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, classifySpinnerString, ExpressBillingManagementActivity.this);
-
-                data_list = new ArrayList<>();
-                data_list.add("全部");
-
-                Log.d("ExpressBillingManagemen", "quanbu" + classifySpinnerString);
-                for (int i = 0; i < Statics.accountReasonList.size() ; i++) {
-                    data_list.add(Statics.accountReasonList.get(i).getName());
-                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
-                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getId());
-
-                }
-                //适配器
-                arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
-                //设置样式
-                arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
-                //加载适配器
-                reasonSpinner.setAdapter(arr_adapter);
-
-                Log.v("test2", "After:" + Boolean.toString(ExpressBillingManagementActivity.reasonSpinner == null));
-                reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (position <= Statics.accountReasonList.size()) {//需要仔细
-                            if(position == 0){
-                                reasonSpinnerString = "全部";
-                                Log.d("ExpressBillingManagemen", "代号："+"全部");
-
-                            }else{
-                                reasonSpinnerString = Statics.accountReasonList.get(--position).getId();
-                                Log.d("ExpressBillingManagemen", "代号："+reasonSpinnerString);
-                            }
-                        } else {
-                            Log.v("test", "position:" + Integer.toString(position) + "@" +
-                                    "Static.accountReasonList.size()" + Integer.toString(Statics.accountReasonList.size()));
-                            Log.d("ExpressBillingManagemen", "代号："+"都不是");
-                            Log.d("ExpressBillingManagemen","代号::"+position+"@@"+Integer.toString(Statics.accountReasonList.size()-1));
-                        }
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
-    private void init() {
-
-        search = findViewById(R.id.search);
-        add = findViewById(R.id.add);
-        typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
-        classifySpinner = (Spinner) findViewById(R.id.classifySpinner);
-        reasonSpinner = (Spinner) findViewById(R.id.reasonSpinner);
-        accountLv = (XListView) findViewById(R.id.xListView);
-        newBilling = findViewById(R.id.newBilling);
-        transferAccounts = findViewById(R.id.transferAccounts);
-        add.setOnClickListener(o);
-        search.setOnClickListener(o);
-    }
-
-    View.OnClickListener o = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.search:
-                    exitTime = ToolUtils.muchClick(exitTime);
-                    if(exitTime!=0) {
-                        exitTime = System.currentTimeMillis();
-                        ebmi.search(activityExpress, httpPost, typeSpinnerString, classifySpinnerString, reasonSpinnerString);
-                    }
-                    break;
-                case R.id.add:
-                    exitTime = ToolUtils.muchClick(exitTime);
-                    if(exitTime!=0) {
-                        exitTime = System.currentTimeMillis();
-                        ebmi.add(activityExpress);
-                    }
-                    break;
-            }
-        }
-    };
-
-    @Override
-    public void onRefresh() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                httpPost = new ExpressBillingManagementHttpPost();
-                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-                String result = httpPost.searchHttp(httpUrl ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,ExpressBillingManagementActivity.this,page);
-                onLoad();
-            }
-        }, 2000);
-    }
-
-    @Override
-    public void onLoadMore() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Statics.isPageUpload = true;
-                Log.d("ExpressBillingManagemen", "翻页");
-                page++;
-                if (page >= Statics.page) {
-                    page = Statics.page;
-                    Toast.makeText(ExpressBillingManagementActivity.this,"已经是最后一页了",Toast.LENGTH_SHORT).show();
-                }
-                //大于总页数，不向下翻页
-                httpPost = new ExpressBillingManagementHttpPost();
-                String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-                String result = httpPost.searchHttp(httpUrl ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,ExpressBillingManagementActivity.this,page);
-                onLoad();
-
-            }
-        }, 2000);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-    }
-
     private void onLoad() {
         accountLv.stopRefresh();
         accountLv.stopLoadMore();
         accountLv.setRefreshTime("刚刚");
     }
-
     private static void initBroadCast() {
         Log.d("express","广播初始化");
         //广播初始化 必须动态注册才能实现回调
@@ -444,7 +438,6 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         if(context!=null){
             context.registerReceiver(broadcast, intentFilter);
         }
-
         broadcast.setLazyLoadFace(new LazyLoadFace() {
             @Override
             public void AdapterRefresh(String type) {

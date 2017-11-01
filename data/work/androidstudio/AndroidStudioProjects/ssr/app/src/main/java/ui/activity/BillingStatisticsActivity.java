@@ -28,13 +28,16 @@ import com.github.mikephil.charting.charts.BarChart;
 import java.util.ArrayList;
 import java.util.List;
 
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.customerWidget.PullScrollView;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.BillingStatisticsHttpPost;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
+import model.javabean.AccountType;
 import model.javabean.CustomerBillingStatistics;
 import model.javabean.TimeBillingStatistics;
 import model.javabean.XiangxiBillingStatistics;
@@ -71,7 +74,7 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
     private PullScrollView pullScrollView;
     private Handler handler;
     private long exitTime = 0, customerTime = 0;
-
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +92,7 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
 
         HttpBasePost.postHttp(Statics.ExpressGetWXPaymentMethod, null, HttpTypeConstants.ExpressGetWXPaymentMethod);//获取当前资金情况
         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
-        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "", "", "", BillingStatisticsActivity.this, "BillingStatisticsActivity");
+        billingStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_SEARCH_URL), "2017", "", "", "", BillingStatisticsActivity.this, "BillingStatisticsActivity");
         timeBillingStatisticsList = Statics.timeBillingStatisticsList;
         timeAdapter = new TimeBillingStatisticsAdapter(BillingStatisticsActivity.this, timeBillingStatisticsList);
         timeListView.setAdapter(timeAdapter);
@@ -105,7 +108,7 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
                 customerListView.setVisibility(View.VISIBLE);
                 month = Statics.timeBillingStatisticsList.get(position).getMonth();
                 Log.d("search", typeSpinnerString);
-                billingStatisticsHttpPost.searchCustomerHttp(Statics.CustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, BillingStatisticsActivity.this);
+                billingStatisticsHttpPost.searchCustomerHttp(aCache.getAsString(AchacheConstant.CUSTOMER_SEARCH_URL), yearSpinnerString, typeSpinnerString, month, BillingStatisticsActivity.this);
                 customerBillingStatisticsList = Statics.customerBillingStatisticsArrayList;
                 customerAdapter = new CustomerBillingStatisticsAdapter(BillingStatisticsActivity.this, customerBillingStatisticsList);
                 customerListView.setAdapter(customerAdapter);
@@ -119,18 +122,12 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
                                                                     month = Statics.customerBillingStatisticsArrayList.get(position).getMonth();
                                                                     listView = null;
                                                                     //递类型，月份，客户名客户名以检索
-                                                                    billingStatisticsHttpPost.searchXqCustomerHttp(Statics.XqCustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, customerId, "", "", BillingStatisticsActivity.this);
+                                                                    billingStatisticsHttpPost.searchXqCustomerHttp(aCache.getAsString(AchacheConstant.XQCUSTOMER_SEARCH_URL), yearSpinnerString, typeSpinnerString, month, customerId, "", "", BillingStatisticsActivity.this);
                                                                     //显示对话框，在对话框中使用ListView
                                                                     AlertDialog.Builder builder = new AlertDialog.Builder(BillingStatisticsActivity.this);
                                                                     LayoutInflater inflater = getLayoutInflater();
                                                                     View layout = inflater.inflate(R.layout.billingstatistics_dialog_detailed_item, null);//获取自定义布局
                                                                     listView = (ListView) layout.findViewById(R.id.lv);
-                                                                    /*TextView leibie= (TextView) layout.findViewById(R.id.yewuleibie);
-                                                                    TextView leixing = (TextView) layout.findViewById(R.id.yewuleixing);
-                                                                    TextView fangshi = (TextView) layout.findViewById(R.id.zhifufangshi);
-                                                                    leibie.setText("业务类别");
-                                                                    leixing.setText("业务类型");
-                                                                    fangshi.setText("支付方式");*/
                                                                     xiangxiBillingStatisticsList = Statics.xiangxiBillingStatisticsArrayList;
                                                                     xiangxiAdapter = new XiangxiBillingStatisticsAdapter(BillingStatisticsActivity.this, xiangxiBillingStatisticsList);
                                                                     listView.setAdapter(xiangxiAdapter);
@@ -163,7 +160,7 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
                     public void run() {
                         //表格数据刷新
                         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
-                        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "", "", "", activity, "BillingStatisticsActivity");
+                        billingStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_SEARCH_URL), "2017", "", "", "", activity, "BillingStatisticsActivity");
                         //BillingStatisticsActivity.timeAdapter.notifyDataSetChanged();
                         HttpBasePost.postHttp(Statics.ExpressGetWXPaymentMethod, null, HttpTypeConstants.ExpressGetWXPaymentMethod);//获取当前资金情况
                         if (customerBillingStatisticsList != null) {
@@ -203,7 +200,7 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
                         exitTime = System.currentTimeMillis();
                         Log.v("test2", "R.id.search");
                         progressDialog = ProgressDialog.show(BillingStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
-                        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString
+                        billingStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_SEARCH_URL), yearSpinnerString
                                 , typeSpinnerString, "", "", activity, "BillingStatisticsActivity");
                         timeBillingStatisticsList = Statics.timeBillingStatisticsList;
                         timeAdapter = new TimeBillingStatisticsAdapter(BillingStatisticsActivity.this, timeBillingStatisticsList);
@@ -232,8 +229,9 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
         //数据
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
-            data_list.add(Statics.accountTypeList.get(i).getName());
+        ArrayList<AccountType> typeArrayList = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
+        for (int i = 0; i < typeArrayList.size(); i++) {
+            data_list.add(typeArrayList.get(i).getName());
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list);
@@ -246,10 +244,11 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<AccountType> typeArrayList = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
                 if (position == 0) {
                     typeSpinnerString = "全部";
                 } else {
-                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
+                    typeArrayList.get(--position).getId();
                 }
                 data_list = null;
             }
@@ -300,7 +299,7 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
         currentMoneyStatistics = (TextView) findViewById(R.id.currentMoneyStatistics);
         mCombinedChart = (BarChart) findViewById(R.id.barChart);
         pullScrollView = (PullScrollView) findViewById(R.id.test);
-
+        aCache = ACache.get(BillingStatisticsActivity.this);
     }
 
     public static void AdapterRefresh(String type) {//刷新adapter
@@ -311,7 +310,8 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
                 //测量高度
                 ToolUtils.setListViewHeightBasedOnChildren(timeListView, 1);
                 //统计图
-                InoutComeZhuFragment inoutComeZhuFragment = new InoutComeZhuFragment("物流统计分析");
+                InoutComeZhuFragment inoutComeZhuFragment = InoutComeZhuFragment.newInstance("物流统计分析");
+                inoutComeZhuFragment.catlog = inoutComeZhuFragment.getArguments().getString("catlog");
                 inoutComeZhuFragment.setGrayValue();
                 inoutComeZhuFragment.initData(activity, mCombinedChart, true);
                 break;

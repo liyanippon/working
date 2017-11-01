@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import Tool.ACache;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import http.HttpBasePost;
@@ -50,6 +52,7 @@ public class ProjectManagementAdapter extends BaseAdapter {
     private static ListView lv;
     private static MemberDetailsAdpter memberDetailsAdpter;
     private long exitTime = 0;
+    ACache aCache ;
     public ProjectManagementAdapter(Activity activity) {
         this.activity = activity;
     }
@@ -148,7 +151,8 @@ public class ProjectManagementAdapter extends BaseAdapter {
                             Log.d("ExpressManagementAdapte", "chuzhag"+sum+";"+classify+";"+paymentMethod);
                         }
                         Statics.isDelete = true;
-                        if ("success".equals(httpPost.delAccountManagerHttp(Statics.FinancialBillingManagementSearchUrl, id, sum
+                        aCache = ACache.get(activity);
+                        if ("success".equals(httpPost.delAccountManagerHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL), id, sum
                                 ,classify,paymentMethod,activity))) {
                             ExpressBillingManagementActivity.progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
                         } else {

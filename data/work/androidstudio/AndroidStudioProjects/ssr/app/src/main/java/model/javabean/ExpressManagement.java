@@ -1,5 +1,6 @@
 package model.javabean;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by admin on 2017/2/22.
  */
 
-public class ExpressManagement {
+public class ExpressManagement implements Serializable{
 
 
     private List<DataBean> data;

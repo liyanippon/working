@@ -25,14 +25,18 @@ import com.example.admin.erp.R;
 import com.github.mikephil.charting.charts.BarChart;
 import java.util.ArrayList;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.customerWidget.PullScrollView;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.BillingStatisticsHttpPost;
 import http.ExpressBillingManagementHttpPost;
+import model.javabean.AccountType;
 import model.javabean.TimeBillingStatistics;
 import model.javabean.XiangxiBillingStatistics;
 import portface.LazyLoadFace;
@@ -68,11 +72,20 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
     private PullScrollView pullScrollView;
     private Handler handler ;
     private long exitTime = 0 ,timeList = 0;
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("统计报表");
         setContentView(R.layout.activity_logistics_report);
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         //添加返回按钮
         ToolUtils.backButton(this);
@@ -86,7 +99,7 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
         progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
         Statics.ActivityType = "LogisticsReportActivity";
         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
-        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "" ,  ""  , "", activity,"LogisticsReportActivity");
+        billingStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_SEARCH_URL), "2017", "" ,  ""  , "", activity,"LogisticsReportActivity");
         timeBillingStatisticsList = Statics.timeBillingStatisticsList;
         BillingStatisticsActivity.timeAdapter = new TimeBillingStatisticsAdapter(activity, timeBillingStatisticsList);
         timeListView.setAdapter(BillingStatisticsActivity.timeAdapter);
@@ -104,7 +117,7 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
                     month = Statics.timeBillingStatisticsList.get(position).getMonth();
                     listView = null;
                     //递类型，月份，客户名以检索 (检索条件新增业务分类和业务类型)
-                    billingStatisticsHttpPost.searchXqCustomerHttp(Statics.XqCustomerSearchUrl, yearSpinnerString, typeSpinnerString, month, "", classifySpinnerString, reasonSpinnerString, activity);
+                    billingStatisticsHttpPost.searchXqCustomerHttp(aCache.getAsString(AchacheConstant.XQCUSTOMER_SEARCH_URL), yearSpinnerString, typeSpinnerString, month, "", classifySpinnerString, reasonSpinnerString, activity);
                     //显示对话框，在对话框中使用ListView
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     LayoutInflater inflater = getLayoutInflater();
@@ -142,7 +155,7 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
                         //表格数据刷新
                         Statics.ActivityType = "LogisticsReportActivity";
                         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
-                        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, "2017", "" ,  ""  , "", activity,"LogisticsReportActivity");
+                        billingStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_SEARCH_URL), "2017", "" ,  ""  , "", activity,"LogisticsReportActivity");
                         BillingStatisticsActivity.timeAdapter.notifyDataSetChanged();
                         pullScrollView.stopRefresh();
                     }
@@ -162,7 +175,7 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
                         exitTime = System.currentTimeMillis();
                         Statics.ActivityType = "LogisticsReportActivity";
                         progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条
-                        billingStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString, typeSpinnerString
+                        billingStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_SEARCH_URL), yearSpinnerString, typeSpinnerString
                                 , classifySpinnerString, reasonSpinnerString, activity, "LogisticsReportActivity");
                         timeBillingStatisticsList = Statics.timeBillingStatisticsList;
                         BillingStatisticsActivity.timeAdapter = new TimeBillingStatisticsAdapter(activity, timeBillingStatisticsList);
@@ -226,8 +239,9 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
         //httpPost.accountTypeSearchHttp(Static.AccountTypeUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; i < Statics.accountTypeList.size(); i++) {
-            data_list.add(Statics.accountTypeList.get(i).getName().replace("快递",""));
+        ArrayList<AccountType> accountTypes = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
+        for (int i = 0; i < accountTypes.size(); i++) {
+            data_list.add(accountTypes.get(i).getName().replace("快递",""));
         }
         //适配器
         arr_adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_display_style, R.id.txtvwSpinner, data_list);
@@ -240,10 +254,11 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<AccountType> accountTypes = (ArrayList<AccountType>) aCache.getAsObject(AchacheConstant.ACCOUNT_TYPE_LIST);
                 if (position == 0) {
                     typeSpinnerString = "全部";
                 } else {
-                    typeSpinnerString = Statics.accountTypeList.get(--position).getId();
+                    typeSpinnerString = accountTypes.get(--position).getId();
                 }
                 data_list = null;
             }
@@ -272,11 +287,6 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
         yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                /*if (position == 0) {
-                    yearSpinnerString = "全部";
-                } else {
-                    yearSpinnerString = Statics.billingYear.get(position);
-                }*/
                 yearSpinnerString = Statics.billingYear.get(position);
                 data_list = null;
             }
@@ -287,11 +297,9 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
         });
 
         //数据（业务分类：进账，出账 和 业务类型 二级联动）
-        //httpPost =new HttpPost();
-        //httpPost.accountClassifySearchHttp(Static.AccountClassifyUrl, AccountManagementActivity.this);
         data_list = new ArrayList<>();
         data_list.add("全部");
-        for (int i = 0; Statics.expressClassifyList.get(0).getData().size() > 0 && i < Statics.expressClassifyList.get(0).getData().size(); i++) {
+        for (int i = 0; Statics.expressClassifyList.size()!=0 && Statics.expressClassifyList.get(0).getData().size() > 0 && i < Statics.expressClassifyList.get(0).getData().size(); i++) {
             data_list.add(Statics.expressClassifyList.get(0).getData().get(i).getName());
             Log.d("ytpe",Statics.expressClassifyList.get(0).getData().get(i).getName());
         }
@@ -316,7 +324,7 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
                 //数据
                 httpPost = new ExpressBillingManagementHttpPost();
                 Log.v("test2", "PrereasonSpinner:" + Boolean.toString(reasonSpinner == null));
-                httpPost.accountReasonSearchHttp(Statics.AccountReasonUrl, classifySpinnerString, activity);
+                httpPost.accountReasonSearchHttp(aCache.getAsString(AchacheConstant.ACCOUNT_REASON_URL), classifySpinnerString, activity);
 
                 data_list1 = new ArrayList<>();
                 data_list1.add("全部");
@@ -362,7 +370,6 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
     }
 
     //返回按钮事件
@@ -393,6 +400,7 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
         //currentMoneyStatistics = (TextView) findViewById(R.id.currentMoneyStatistics);
         mCombinedChart = (BarChart) findViewById(R.id.barChart);
         pullScrollView = (PullScrollView) findViewById(R.id.test);
+        aCache = ACache.get(LogisticsReportActivity.this);
 
     }
 
@@ -406,7 +414,8 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
                 //测量高度
                 ToolUtils.setListViewHeightBasedOnChildren(timeListView,1);
                 //统计图
-                InoutComeZhuFragment inoutComeZhuFragment = new InoutComeZhuFragment("物流统计分析");
+                InoutComeZhuFragment inoutComeZhuFragment = InoutComeZhuFragment.newInstance("物流统计分析");
+                inoutComeZhuFragment.catlog = inoutComeZhuFragment.getArguments().getString("catlog");
                 inoutComeZhuFragment.setGrayValue();
                 inoutComeZhuFragment.initData(activity ,mCombinedChart,true);
                 break;

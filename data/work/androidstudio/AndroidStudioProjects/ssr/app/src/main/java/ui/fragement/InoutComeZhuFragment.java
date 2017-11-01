@@ -1,5 +1,6 @@
 package ui.fragement;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,18 +42,24 @@ public class InoutComeZhuFragment extends Fragment {
             "1月", "2月", "3月", "4月", "5月",
             "6月", "7月", "8月", "9月", "10月",
             "11月", "12月"};
-    private String catlog;
+    public static String catlog;
     List<String> list =new ArrayList<>();//图例
     List<Double> input;//y轴最大值
-    public InoutComeZhuFragment( ){}
-    public InoutComeZhuFragment(String catlog){
-        this.catlog=catlog;
+
+
+    public static InoutComeZhuFragment newInstance(String catlog)
+    {
+        InoutComeZhuFragment fragment = new InoutComeZhuFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("catlog", catlog);
+        fragment.setArguments(bundle);
+        return fragment ;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("test","outcome:");
+
     }
 
     @Nullable
@@ -94,12 +101,13 @@ public class InoutComeZhuFragment extends Fragment {
                 input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getIncome()));
                 input.add(Double.parseDouble(Statics.timeBillingStatisticsList.get(i).getOutcom()));
             }
-
+            Log.d("InoutComeZhuFragment", "input.size():" + Statics.timeBillingStatisticsList.size());
             list =new ArrayList<>();//图例
             list.add("出账");
             list.add("进账");
             description = "进账出账柱型统计图";
         }
+
         int yZhi = ToolUtils.tongJiTuY(input);
         maxValue=(float) yZhi;
         Activity activitys = getActivity();
