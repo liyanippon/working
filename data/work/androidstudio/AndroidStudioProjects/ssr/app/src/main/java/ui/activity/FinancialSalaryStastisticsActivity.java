@@ -22,11 +22,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.customerWidget.NoscrollListView;
 import Tool.customerWidget.PullScrollView;
 import Tool.customerWidget.SyncHorizontalScrollView;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
@@ -62,6 +65,7 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
     private Handler handler ;
     public static boolean salartBoolean = false;
     private long exitTime = 0;
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +89,7 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
         param.put("month",monthSpinnerString);
         param.put("orgId","8d670a31e1cb42a9843d036d9aaefe98");//默认大连翼峰软件有限公司
         Log.d("FinancialSalaryStastist", "默认年月:" + yearSpinnerString + monthSpinnerString + departmentSpinnerString);
-        HttpBasePost.postHttp(Statics.FinancialSalaryGetWXStaffPayrollListUrl,param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_SALARY_GETWXSTAFF_PAYROLL_LIST_URL),param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
         leftStatisticsAdpter = new LeftStatisticsAdpter(activity, Statics.fssArrayList);
         mLeft.setAdapter(leftStatisticsAdpter);
         //测量高度
@@ -102,7 +106,7 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
                     @Override
                     public void run() {
                         //表格数据刷新
-                        HttpBasePost.postHttp(Statics.FinancialSalaryGetWXStaffPayrollListUrl,param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
+                        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_SALARY_GETWXSTAFF_PAYROLL_LIST_URL),param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
                         pullScrollView.stopRefresh();
                     }
                 }, 5000);
@@ -309,7 +313,7 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
         search = (ImageView) findViewById(R.id.search);
         search.setOnClickListener(o);
         pullScrollView = (PullScrollView) findViewById(R.id.test);
-
+        aCache = ACache.get(FinancialSalaryStastisticsActivity.this);
     }
 
     View.OnClickListener o = new View.OnClickListener() {
@@ -335,7 +339,7 @@ public class FinancialSalaryStastisticsActivity extends BaseActivity implements 
                         param.put("orgId", departmentSpinnerString);
                         Log.d("FinancialSalaryStastist", "ces");
                         Log.d("FinancialSalaryStastist", "检索条件:" + nameSpinnerString + "@" + yearSpinnerString + "@" + monthSpinnerString + "??" + departmentSpinnerString + "!!" + nameSpinnerString);
-                        HttpBasePost.postHttp(Statics.FinancialSalaryGetWXStaffPayrollListUrl, param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
+                        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_SALARY_GETWXSTAFF_PAYROLL_LIST_URL), param, HttpTypeConstants.FinancialSalaryGetWXStaffPayrollListUrlType);
                     }
                     break;
             }

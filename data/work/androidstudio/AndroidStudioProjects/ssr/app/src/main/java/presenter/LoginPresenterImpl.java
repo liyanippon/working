@@ -63,39 +63,38 @@ public class LoginPresenterImpl implements LoginPresenter,OnLoginFinishedListene
             mCache.put(AchacheConstant.EXPRESS_COUNT_SEARCH, IFengUrl + "/wxApiNumber.ajax",1 * ACache.TIME_DAY);
             mCache.put(AchacheConstant.TIME_STATISTIC_SEARCH_URL, IFengUrl + "/getWXTjsjListNumber.ajax",1 * ACache.TIME_DAY);
             mCache.put(AchacheConstant.EXPRESS_STATISTIC_SEARCH_URL, IFengUrl + "/getCustomerTjsjListNumber.ajax",1 * ACache.TIME_DAY);
-            Statics.ExpressXqTimeSearchUrl = IFengUrl + "/getCustomerTjxqNumber.ajax";
-            Statics.ExpressPieceMonthDaySearchUrl = IFengUrl + "/getWxXAxisDay.ajax";
-            Statics.ExpressPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataDay.ajax";
-            Statics.ExpressPersonPieceDaySearchUrl = IFengUrl + "/getWxSeriesDataAmount.ajax";
-            Statics.AttendanceStatisticsSearchUrl = IFengUrl + "/getWxAllAttendanceMonthSum.ajax";
-            Statics.searchYearUrl = IFengUrl + "/getWxAllYears.ajax";
-            Statics.FinancialAccountCustomerUrl = IFengUrl + "/getWXBillCustomer.ajax";
-            Statics.FinancialBillingManagementUrl = IFengUrl + "/getWXBillRecords.ajax";
-            Statics.FinancialBillingManagementDelUrl = IFengUrl + "/WXdeleteBillRecords.ajax";
-            Statics.AddFinancialBillingUrl = IFengUrl + "/getWXInsertOrUpdateBillRecords.ajax";
-            Statics.FinancialBillingGetWXAccountsTypeUrl = IFengUrl + "/getWXAccountsType.ajax";
-            Statics.FinancialBillingGetWXsettlementMonthUrl = IFengUrl + "/getWXsettlementMonth.ajax";
-            Statics.FinancialBillingGetWXSelectMonthAccountUrl = IFengUrl + "/getWXSelectMonthAccount.ajax";
-            Statics.FinancialBillingGetCurrentMoneyUrl = IFengUrl + "/getWXSelectAll.ajax";
-            Statics.ExpressGetWXPaymentMethod = IFengUrl + "/getWXPaymentMethod.ajax";
-            Statics.ExpressGetWXExpenseAccountPaymentMethod = IFengUrl + "/getWXExpenseAccountPaymentMethod.ajax";
-            Statics.GetWXAttendanceDetaSearchUrl = IFengUrl + "/getWXAttendanceDeta.ajax";
-            Statics.GetWXProjectSearchUrl = IFengUrl + "/getWXProject.ajax";
-            Statics.GetWXExpenseAccountReasonUrl = IFengUrl + "/getWXExpenseAccountReason.ajax";//转账业务类型
-            Statics.GetWXNewAddUrl = IFengUrl + "/getWXNewAdd.ajax";//转账提交单
-            Statics.FinancialBillingGetWXSelectCustomerDetails = IFengUrl + "/getWXSelectCustomerDetails.ajax";//账目统计详细查询（客户）
-            Statics.AttendanceGetWXAttendanceNameUrl = IFengUrl + "/getWXAttendanceName.ajax";//员工姓名
-            Statics.FinancialSalaryGetWXStaffPayrollListUrl = IFengUrl + "/getWXStaffPayrollList.ajax";//员工工资查询数据
-            Statics.FinancialSalaryGetWXOrgListUrl = IFengUrl + "/getWXOrg.ajax";//企业部门信息
-            Statics.FinancialSalaryGetWXInsertPayrollUrl = IFengUrl + "/getWXInsertPayroll.ajax";//添加考勤
-            Statics.ProjectGetWXLoadProjectPageDataUrl = IFengUrl + "/getWXLoadProjectPageData.ajax";//查询所有项目
-            Statics.ProjectGetWXProjectCycleUrl = IFengUrl + "/getWXProjectCycle.ajax";//项目周期查询
-            Statics.ProjectGetWXLoadProjectPeoplePageDataUrl = IFengUrl + "/getWXLoadProjectPeoplePageData.ajax";//成员加入情况
-            Statics.ResourceGetWXWXPageDataResourceUrl = IFengUrl + "/getWXPageDataResource.ajax";//人力资源池查询
-            Statics.ResourceGetWXPageDataResourceProjectUrl = IFengUrl + "/getWXPageDataResourceProjects.ajax";//人力资源池外部项目查询
-            Statics.ResourceGetWXExteriorProjectsUrl = IFengUrl + "/getWXExteriorProjects.ajax";//人力资源池外部项目所有查询
-            Statics.ResourceGetDownLoadFileUrl = IFengUrl + "/downloadFile.ajax";//简历word请求地址
-
+            mCache.put(AchacheConstant.EXPRESS_XQTIME_SEARCH_URL, IFengUrl + "/getCustomerTjxqNumber.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.EXPRESS_PIECE_MONTHDAY_SEARCH_URL, IFengUrl + "/getWxXAxisDay.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.EXPRESS_PIECE_DAY_SEARCH_URL, IFengUrl + "/getWxSeriesDataDay.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.EXPRESS_PERSON_PIECE_DAY_SEARCH_URL, IFengUrl + "/getWxSeriesDataAmount.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.ATTENDANCE_STATISTICS_SEARCH_URL, IFengUrl + "/getWxAllAttendanceMonthSum.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.SEARCH_YEAR_URL, IFengUrl + "/getWxAllYears.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_ACCOUNT_CUSTOMER_URL, IFengUrl + "/getWXBillCustomer.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_BILLING_MANAGEMENT_URL, IFengUrl + "/getWXBillRecords.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_BILLING_MANAGEMENT_DEL_URL, IFengUrl + "/WXdeleteBillRecords.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.ADD_FINANCIAL_BILLING_URL, IFengUrl + "/getWXInsertOrUpdateBillRecords.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_BILLING_GETWXACCOUNTS_TYPE_URL, IFengUrl + "/getWXAccountsType.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_BILLING_GETWXSETTLEMENT_MONTH_URL, IFengUrl + "/getWXsettlementMonth.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_BILLING_GETWXSELECT_MONTH_ACCOUNT_URL, IFengUrl + "/getWXSelectMonthAccount.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_BILLING_GETCURRENT_MONTH_URL, IFengUrl + "/getWXSelectAll.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.EXPRESS_GETWXPAYMENT_METHOD, IFengUrl + "/getWXPaymentMethod.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.EXPRESS_GETWXEXPENSE_ACCOUNT_PAYMENT_METHOD, IFengUrl + "/getWXExpenseAccountPaymentMethod.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.GET_WXATTENDANCE_DETA, IFengUrl + "/getWXAttendanceDeta.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.GET_WXPROJECT_SEARCH_URL, IFengUrl + "/getWXProject.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.GET_WXEXPENSE_ACCOUNT_REASON_URL, IFengUrl + "/getWXExpenseAccountReason.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.GET_WXNEWADD_URL, IFengUrl + "/getWXNewAdd.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_BILLING_GETWX_SELECE_CUSTOMER_DETAILS, IFengUrl + "/getWXNewAdd.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.ATTENDANCE_GETWX_ATTENDANCE_NAME_URL, IFengUrl + "/getWXAttendanceName.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_SALARY_GETWXSTAFF_PAYROLL_LIST_URL, IFengUrl + "/getWXStaffPayrollList.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_SALARY_GETWXORG_LIST_URL, IFengUrl + "/getWXOrg.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.FINANCIAL_SALARY_GETWXINSERT_PAYROLL_URL, IFengUrl + "/getWXInsertPayroll.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.PROJECT_GETWXLOAD_PROJECT_PAGEDATA_URL, IFengUrl + "/getWXLoadProjectPageData.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.PROJECT_GETWXPROJECT_CYCLE_URL, IFengUrl + "/getWXProjectCycle.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.PROJECT_GETWXLOAD_PROJECT_PEOPLE_PAGE_DATA_URL, IFengUrl + "/getWXLoadProjectPeoplePageData.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.RESOURCE_GETWXWXP_PAGEDATA_RESOURCE_URL, IFengUrl + "/getWXPageDataResource.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.RESOURCE_GETWXPAGEDATA_RESOURCE_PROJECT_URL, IFengUrl + "/getWXPageDataResourceProjects.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.RESOURCE_GETWXEXTERIOR_PROJECTS_URL, IFengUrl + "/getWXExteriorProjects.ajax",1 * ACache.TIME_DAY);
+            mCache.put(AchacheConstant.RESOURCE_GETDOWNLOADFILE_URL, IFengUrl + "/downloadFile.ajax",1 * ACache.TIME_DAY);
         } catch (Exception e) {
             e.printStackTrace();
         }

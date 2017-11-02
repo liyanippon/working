@@ -14,10 +14,14 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
+import http.HttpTypeUtil;
 import model.javabean.FinancialManagement;
 import ui.activity.FinancialBillingManagementActivity;
 
@@ -36,7 +40,7 @@ public class FinancialManagementAdapter extends BaseAdapter {
         this.activity = accactivity;
     }
     private HashMap<String,String> param;
-
+    ACache aCache;
     @Override
     public int getCount() {
         if (Statics.financialManagementList.size() != 0
@@ -60,7 +64,7 @@ public class FinancialManagementAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-
+        aCache = ACache.get(activity);
         positions = position;
         if (convertView == null) {
             vh = new ViewHolder();
@@ -141,9 +145,9 @@ public class FinancialManagementAdapter extends BaseAdapter {
                         //...To-do
                         param=new HashMap<>();
                         param.put("id", id);
-                        if ("success".equals(HttpBasePost.postHttp(Statics.FinancialBillingManagementDelUrl, param, HttpTypeConstants.FinancialBillingManagementDelUrlType))) {
+                        new HttpTypeUtil(activity);
+                        if ("success".equals(HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_MANAGEMENT_DEL_URL), param, HttpTypeConstants.FinancialBillingManagementDelUrlType))) {
                             Toast.makeText(activity, "删除成功", Toast.LENGTH_SHORT).show();
-
                         } else {
                             Toast.makeText(activity, "删除失败", Toast.LENGTH_SHORT).show();
                         }

@@ -90,7 +90,7 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
         //首次访问
         progressDialog = ProgressDialog.show(BillingStatisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
 
-        HttpBasePost.postHttp(Statics.ExpressGetWXPaymentMethod, null, HttpTypeConstants.ExpressGetWXPaymentMethod);//获取当前资金情况
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.EXPRESS_GETWXPAYMENT_METHOD), null, HttpTypeConstants.ExpressGetWXPaymentMethod);//获取当前资金情况
         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
         billingStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_SEARCH_URL), "2017", "", "", "", BillingStatisticsActivity.this, "BillingStatisticsActivity");
         timeBillingStatisticsList = Statics.timeBillingStatisticsList;
@@ -162,7 +162,7 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
                         billingStatisticsHttpPost = new BillingStatisticsHttpPost();
                         billingStatisticsHttpPost.searchTimeHttp(aCache.getAsString(AchacheConstant.TIME_SEARCH_URL), "2017", "", "", "", activity, "BillingStatisticsActivity");
                         //BillingStatisticsActivity.timeAdapter.notifyDataSetChanged();
-                        HttpBasePost.postHttp(Statics.ExpressGetWXPaymentMethod, null, HttpTypeConstants.ExpressGetWXPaymentMethod);//获取当前资金情况
+                        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.EXPRESS_GETWXPAYMENT_METHOD), null, HttpTypeConstants.ExpressGetWXPaymentMethod);//获取当前资金情况
                         if (customerBillingStatisticsList != null) {
                             customerBillingStatisticsList.clear();//搜索将下面的数据清空
                         }
@@ -178,7 +178,6 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
             }
         });
     }
-
     //返回按钮事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -189,7 +188,6 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
         }
         return super.onOptionsItemSelected(item);
     }
-
     View.OnClickListener o = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -223,7 +221,6 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
             }
         }
     };
-
     private void spinnerType() {
         Log.d("test", "spinnerType");
         //数据
@@ -281,9 +278,7 @@ public class BillingStatisticsActivity extends BaseActivity implements android.o
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
     }
-
     public void init() {
         timeListView = (ListView) findViewById(R.id.lv);
         tableTitle = (ViewGroup) findViewById(R.id.table_title);

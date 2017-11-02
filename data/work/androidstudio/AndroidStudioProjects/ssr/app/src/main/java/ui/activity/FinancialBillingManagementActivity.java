@@ -23,8 +23,11 @@ import com.example.admin.erp.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import broadcast.FreshenBroadcastReceiver;
 import http.HttpBasePost;
@@ -55,6 +58,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
     static FreshenBroadcastReceiver broadcast;
     private HashMap<String,String> param;
     private long addTime = 0,searchTime = 0 ,exitTime = 0;
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +71,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         init();
         //空查询
         page = 1;//显示页数
-        String httpUrl = Statics.FinancialBillingManagementUrl;
+        //String httpUrl = Statics.FinancialBillingManagementUrl;
         //刚进入页面就要显示数据
         Log.d("FinancialBillingManagem", "ces");
         progressDialog = ProgressDialog.show(FinancialBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
@@ -78,7 +82,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         param.put("billType",typeSpinnerString);
         param.put("billClassify",classifySpinnerString);
         param.put("billCustomerId",customerNameSpinnerString);
-        HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_MANAGEMENT_URL),param,HttpTypeConstants.FinancialBillingManagementUrlType);
         //String result = httpPost.searchHttp(httpUrl, "", "", "", FinancialBillingManagementActivity.this, page);
         accountLv.setPullLoadEnable(true);
         financialManagementAdapter = new FinancialManagementAdapter(FinancialBillingManagementActivity.this);
@@ -108,7 +112,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                     page = 1;
                     progressDialog = ProgressDialog.show(FinancialBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
                     SearchBoolean = true;
-                    String httpUrl = Statics.FinancialBillingManagementUrl;
+                    //String httpUrl = Statics.FinancialBillingManagementUrl;
                     Log.d("FinancialBillingManagem", typeSpinnerString + classifySpinnerString + customerNameSpinner);
                     if ("全部".equals(typeSpinnerString)) {
                         typeSpinnerString = "";
@@ -127,7 +131,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                     param.put("pageNumber", Integer.toString(page));
                     param.put("option", "1");
                     param.put("pageSize", "50");
-                    HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl, param, HttpTypeConstants.FinancialBillingManagementUrlType);
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_MANAGEMENT_URL), param, HttpTypeConstants.FinancialBillingManagementUrlType);
                 }
             }
         });
@@ -215,10 +219,10 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
     protected void onResume() {
         super.onResume();
 
-        String httpUrl = Statics.FinancialBillingManagementUrl;
+        //String httpUrl = Statics.FinancialBillingManagementUrl;
         //httpPost.searchHttp(httpUrl ,"" ,"" ,"",FinancialBillingManagementActivity.this,1);//刷新页面
         Log.d("FinancialBillingManagem", "添加后刷新");
-        HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,null,HttpTypeConstants.FinancialBillingManagementUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_MANAGEMENT_URL),null,HttpTypeConstants.FinancialBillingManagementUrlType);
     }
     //返回按钮事件
     @Override
@@ -350,6 +354,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         classifySpinner = (Spinner) findViewById(R.id.classifySpinner);
         customerNameSpinner = (Spinner) findViewById(R.id.customerNameSpinner);
         accountLv = (XListView) findViewById(R.id.xListView);
+        aCache = ACache.get(FinancialBillingManagementActivity.this);
     }
 
     @Override
@@ -357,6 +362,7 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                page =1;
                 if("全部".equals(typeSpinnerString)){
                     typeSpinnerString = "";
                 }
@@ -372,9 +378,9 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                 param.put("billCustomerId",customerNameSpinnerString);
                 param.put("option","1");
                 param.put("pageSize","50");
-                param.put("pageNumber",Integer.toString(page));
+                param.put("pageNumber",Integer.toString(1));
                 Log.d("FinancialBillingManagem", "下拉刷新"+typeSpinnerString+":"+classifySpinnerString+":"+customerNameSpinnerString+page);
-                HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_MANAGEMENT_URL),param,HttpTypeConstants.FinancialBillingManagementUrlType);
                 onLoad();
             }
         }, 2000);
@@ -385,44 +391,44 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Statics.isPageUpload = true;
+
                 Log.d("ExpressBillingManagemen", "翻页");
                 page++;
-                if (page >= Statics.page) {
+                if (page > Statics.page) {
                     page = Statics.page;
+                    //大于总页数，不向下翻页
                     Toast.makeText(FinancialBillingManagementActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
-                }
-                //大于总页数，不向下翻页
-                if("全部".equals(typeSpinnerString)){
-                    typeSpinnerString = "";
-                }
-                if("全部".equals(classifySpinnerString)){
-                    classifySpinnerString = "";
-                }
-                if("全部".equals(customerNameSpinnerString)){
-                    customerNameSpinnerString = "";
-                }
-                param=new HashMap<>();
-                param.put("billType",typeSpinnerString);
-                param.put("billClassify",classifySpinnerString);
-                param.put("billCustomerId",customerNameSpinnerString);
-                param.put("pageNumber",Integer.toString(page));
-                param.put("option","1");
-                param.put("pageSize","50");
+                }else if(page < Statics.page){
+                    Statics.isPageUpload = true;
+                    if("全部".equals(typeSpinnerString)){
+                        typeSpinnerString = "";
+                    }
+                    if("全部".equals(classifySpinnerString)){
+                        classifySpinnerString = "";
+                    }
+                    if("全部".equals(customerNameSpinnerString)){
+                        customerNameSpinnerString = "";
+                    }
+                    param=new HashMap<>();
+                    param.put("billType",typeSpinnerString);
+                    param.put("billClassify",classifySpinnerString);
+                    param.put("billCustomerId",customerNameSpinnerString);
+                    param.put("pageNumber",Integer.toString(page));
+                    param.put("option","1");
+                    param.put("pageSize","50");
 
-                HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,param,HttpTypeConstants.FinancialBillingManagementUrlType);
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_MANAGEMENT_URL),param,HttpTypeConstants.FinancialBillingManagementUrlType);
+                }
                 onLoad();
 
             }
         }, 2000);
     }
-
     private void onLoad() {
         accountLv.stopRefresh();
         accountLv.stopLoadMore();
         accountLv.setRefreshTime("刚刚");
     }
-
     public static void AdapterRefresh(String type) {
         switch (type) {
             case "FinancialManagementHttpPost":
@@ -430,7 +436,6 @@ public class FinancialBillingManagementActivity extends BaseActivity implements 
                     financialManagementAdapter.notifyDataSetChanged();
                     progressDialog.dismiss();
                 }
-
                 break;
             case "reasonSpinner":
                 break;

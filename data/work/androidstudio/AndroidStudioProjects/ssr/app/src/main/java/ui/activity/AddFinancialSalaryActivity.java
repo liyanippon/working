@@ -21,8 +21,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.customerWidget.YearMonthPickerDialog;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import http.HttpBasePost;
@@ -42,6 +45,7 @@ public class AddFinancialSalaryActivity extends AppCompatActivity {
     private Calendar calendar;
     private int currentYear,currentMon;
     private String[] time;
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,7 +214,7 @@ public class AddFinancialSalaryActivity extends AppCompatActivity {
                         param.put("updateTime", billingTimeString);
                         param.put("yes", relavenceSpinnerString);//是否关联加班
                         param.put("type",buildStyleSpinnerString);//生成方式
-                        HttpBasePost.postHttp(Statics.FinancialSalaryGetWXInsertPayrollUrl,param, HttpTypeConstants.FinancialSalaryGetWXInsertPayrollUrlType);
+                        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_SALARY_GETWXINSERT_PAYROLL_URL),param, HttpTypeConstants.FinancialSalaryGetWXInsertPayrollUrlType);
                         finish();
                     }
                     break;
@@ -293,6 +297,7 @@ public class AddFinancialSalaryActivity extends AppCompatActivity {
         ToolUtils.setPoint(endowmentInsurance);
         ToolUtils.setPoint(medicalInsurance);
         ToolUtils.setPoint(unemploymentInsurance);
+        aCache = ACache.get(AddFinancialSalaryActivity.this);
     }
 
     //返回按钮事件

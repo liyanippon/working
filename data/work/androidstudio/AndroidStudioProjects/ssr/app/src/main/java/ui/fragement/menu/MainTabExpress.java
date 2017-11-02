@@ -97,7 +97,7 @@ public class MainTabExpress extends Fragment implements AdapterView.OnItemClickL
 				httpPost.accountTypeSearchHttp(aCache.getAsString(AchacheConstant.ACCOUNT_TYPE_URL),getActivity());
 				httpPost.accountReasonSearchHttp(aCache.getAsString(AchacheConstant.ACCOUNT_REASON_URL), Statics.accountClassify, getActivity());
 				Log.d("MainTabExpress", "支付方式");
-				HttpBasePost.postHttp(Statics.ExpressGetWXExpenseAccountPaymentMethod //支付方式下拉菜单
+				HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.EXPRESS_GETWXEXPENSE_ACCOUNT_PAYMENT_METHOD) //支付方式下拉菜单
 				,null, HttpTypeConstants.ExpressGetWXExpenseAccountPaymentMethod);
 	}
 

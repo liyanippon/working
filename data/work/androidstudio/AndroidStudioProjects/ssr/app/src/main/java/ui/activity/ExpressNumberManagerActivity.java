@@ -294,9 +294,11 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 httpPost = new ExpressNumberManagementHttpPost();
                 //String httpUrl = Statics.ExpressCountSearch;
-                String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
+                page = 1;
+                String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, 1);
                 onLoad();
             }
         }, 2000);
@@ -306,19 +308,20 @@ public class ExpressNumberManagerActivity extends BaseActivity implements XListV
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Statics.isPageUpload = true;
                 Log.d("ExpressBillingManagemen", "翻页");
                 page++;
-                if (page >= Statics.page) {
+                if (page > Statics.page) {
                     page = Statics.page;
+                    //大于总页数，不向下翻页
                     Toast.makeText(ExpressNumberManagerActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
+                }else if(page < Statics.page){
+                    Statics.isPageUpload = true;
+                    httpPost = new ExpressNumberManagementHttpPost();
+                    //String httpUrl = Statics.ExpressCountSearch;
+                    Log.d("typeyy", expressPersonSpinnerString + typeSpinnerString + billingTimeString);
+                    String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
+                    enmAdapter.notifyDataSetChanged();
                 }
-                //大于总页数，不向下翻页
-                httpPost = new ExpressNumberManagementHttpPost();
-                //String httpUrl = Statics.ExpressCountSearch;
-                Log.d("typeyy", expressPersonSpinnerString + typeSpinnerString + billingTimeString);
-                String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), expressPersonSpinnerString, typeSpinnerString, billingTimeString, ExpressNumberManagerActivity.this, page);
-                enmAdapter.notifyDataSetChanged();
                 onLoad();
 
             }

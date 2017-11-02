@@ -198,13 +198,13 @@ public class ProjectManagementAdapter extends BaseAdapter {
                     //查询项目周期情况
                     param = new HashMap<>();
                     param.put("id", projectAllPageDate.getId());//projectid
-                    HttpBasePost.postHttp(Statics.ProjectGetWXProjectCycleUrl, param, HttpTypeConstants.ProjectGetWXProjectCycleUrlType);
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.PROJECT_GETWXPROJECT_CYCLE_URL), param, HttpTypeConstants.ProjectGetWXProjectCycleUrlType);
                     timeBackAdpter = new TimeBackAdpter(ProjectManagementActivity.activity, Statics.projectCycleDataList);//回款时间
                     lvs.setAdapter(timeBackAdpter);
                     //成员情况
                     param = new HashMap<>();
                     param.put("projectId", projectAllPageDate.getId());
-                    HttpBasePost.postHttp(Statics.ProjectGetWXLoadProjectPeoplePageDataUrl, param, HttpTypeConstants.ProjectGetWXLoadProjectPeoplePageDataType);
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.PROJECT_GETWXLOAD_PROJECT_PEOPLE_PAGE_DATA_URL), param, HttpTypeConstants.ProjectGetWXLoadProjectPeoplePageDataType);
                     memberDetailsAdpter = new MemberDetailsAdpter(ProjectManagementActivity.activity, Statics.projectPeoplePageDataList);
                     lv.setAdapter(memberDetailsAdpter);
                     TextView projectName = (TextView) layout.findViewById(R.id.project_name);//项目名称

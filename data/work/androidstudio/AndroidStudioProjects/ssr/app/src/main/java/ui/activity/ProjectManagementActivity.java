@@ -33,8 +33,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import model.javabean.ProjectAllPageData;
 import presenter.ExpressBillingManagerPresenterImpl;
@@ -78,7 +80,7 @@ public class ProjectManagementActivity extends BaseActivity implements XListView
     public static Boolean isProject = false;
     private long exitTime = 0 ,projectLvExitTime = 0;
     private InputMethodManager imm;//键盘处理
-
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +119,7 @@ public class ProjectManagementActivity extends BaseActivity implements XListView
         param = new HashMap<>();
         param.put("page", Integer.toString(page));
         param.put("rows", "50");
-        HttpBasePost.postHttp(Statics.ProjectGetWXLoadProjectPageDataUrl, param, HttpTypeConstants.ProjectGetWXLoadProjectPageDataUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.PROJECT_GETWXLOAD_PROJECT_PAGEDATA_URL), param, HttpTypeConstants.ProjectGetWXLoadProjectPageDataUrlType);
         projectLv.setPullLoadEnable(true);
         projectManagementAdapter = new ProjectManagementAdapter(activity);
         projectLv.setAdapter(projectManagementAdapter);
@@ -140,7 +142,7 @@ public class ProjectManagementActivity extends BaseActivity implements XListView
                     param = new HashMap<>();
                     param.put("id", projectAllPageDate.getId());//projectid
                     isProject = true;
-                    HttpBasePost.postHttp(Statics.ProjectGetWXProjectCycleUrl, param, HttpTypeConstants.ProjectGetWXProjectCycleUrlType);
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.PROJECT_GETWXPROJECT_CYCLE_URL), param, HttpTypeConstants.ProjectGetWXProjectCycleUrlType);
                     timeBackAdpter = new TimeBackAdpter(ProjectManagementActivity.activity, Statics.projectCycleDataList);//回款时间
                     lvs.setAdapter(timeBackAdpter);
                     //创建人就是用户名
@@ -176,6 +178,7 @@ public class ProjectManagementActivity extends BaseActivity implements XListView
         searchTime = (EditText) findViewById(R.id.searchTime);
         projectName = (EditText) findViewById(R.id.project_name);
         search.setOnClickListener(this);
+        aCache = ACache.get(ProjectManagementActivity.this);
     }
     @Override
     public void onClick(View v) {
@@ -207,7 +210,7 @@ public class ProjectManagementActivity extends BaseActivity implements XListView
                     param.put("startTime", billingTimeString);
                     param.put("page", Integer.toString(page));
                     param.put("rows", "50");
-                    HttpBasePost.postHttp(Statics.ProjectGetWXLoadProjectPageDataUrl, param, HttpTypeConstants.ProjectGetWXLoadProjectPageDataUrlType);
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.PROJECT_GETWXLOAD_PROJECT_PAGEDATA_URL), param, HttpTypeConstants.ProjectGetWXLoadProjectPageDataUrlType);
                 }
                 break;
         }
@@ -239,10 +242,10 @@ public class ProjectManagementActivity extends BaseActivity implements XListView
         param = new HashMap<>();
         param.put("projectName",projectNameString);
         param.put("startTime",billingTimeString);
-        param.put("page", Integer.toString(page));
+        param.put("page", Integer.toString(1));
         param.put("rows", "50");
         Log.d("timeeee","时间："+billingTimeString);
-        HttpBasePost.postHttp(Statics.ProjectGetWXLoadProjectPageDataUrl, param, HttpTypeConstants.ProjectGetWXLoadProjectPageDataUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.PROJECT_GETWXLOAD_PROJECT_PAGEDATA_URL), param, HttpTypeConstants.ProjectGetWXLoadProjectPageDataUrlType);
         onLoad();
     }
     @Override
@@ -251,19 +254,21 @@ public class ProjectManagementActivity extends BaseActivity implements XListView
             @Override
             public void run() {
                 page++;
-                if (page >= Statics.page) {
+                if (page > Statics.page) {
                     page = Statics.page;
+                    //大于总页数，不向下翻页
                     Toast.makeText(activity,"已经是最后一页了",Toast.LENGTH_SHORT).show();
+                }else if(page < Statics.page){
+                    Statics.isPageUpload = true;
+                    billingTimeString = searchTime.getText().toString().trim();
+                    projectNameString = projectName.getText().toString().trim();
+                    param = new HashMap<>();
+                    param.put("projectName",projectNameString);
+                    param.put("startTime",billingTimeString);
+                    param.put("page", Integer.toString(page));
+                    param.put("rows", "50");
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.PROJECT_GETWXLOAD_PROJECT_PAGEDATA_URL), param, HttpTypeConstants.ProjectGetWXLoadProjectPageDataUrlType);
                 }
-                //大于总页数，不向下翻页
-                billingTimeString = searchTime.getText().toString().trim();
-                projectNameString = projectName.getText().toString().trim();
-                param = new HashMap<>();
-                param.put("projectName",projectNameString);
-                param.put("startTime",billingTimeString);
-                param.put("page", Integer.toString(page));
-                param.put("rows", "50");
-                HttpBasePost.postHttp(Statics.ProjectGetWXLoadProjectPageDataUrl, param, HttpTypeConstants.ProjectGetWXLoadProjectPageDataUrlType);
                 onLoad();
 
             }

@@ -26,9 +26,12 @@ import com.github.mikephil.charting.charts.BarChart;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.customerWidget.PullScrollView;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
@@ -44,7 +47,6 @@ import ui.fragement.ChartsFragementActivity;
 import ui.fragement.InoutComeZhuFragment;
 
 public class FinancialStastisticsActivity extends BaseActivity implements android.os.Handler.Callback{
-
     public static ListView timeListView, customerListView;
     public LinearLayout linear;//设置隐藏
     public static TextView currentMoney;
@@ -72,7 +74,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
     private PullScrollView pullScrollView;
     private Handler handler ;
     private long exitTime = 0;
-
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +90,8 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
         //首次访问
         progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
         //financialStatisticsHttpPost.searchCurrentMoneyHttp(Statics.FinancialBillingGetCurrentMoneyUrl);//获取当前资金情况
-        HttpBasePost.postHttp(Statics.FinancialBillingGetCurrentMoneyUrl,null, HttpTypeConstants.FinancialBillingGetCurrentMoneyUrlType);//获取当前资金情况
-        HttpBasePost.postHttp(Statics.FinancialBillingGetWXsettlementMonthUrl,null, HttpTypeConstants.FinancialBillingGetWXsettlementMonthUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_GETCURRENT_MONTH_URL),null, HttpTypeConstants.FinancialBillingGetCurrentMoneyUrlType);//获取当前资金情况
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_GETWXSETTLEMENT_MONTH_URL),null, HttpTypeConstants.FinancialBillingGetWXsettlementMonthUrlType);
         //financialStatisticsHttpPost.searchTimeHttp(Statics.FinancialBillingGetWXsettlementMonthUrl, "", "", FinancialStastisticsActivity.this);//
         timeBillingStatisticsList = Statics.fbgwxSettlementMonthList;
         timeAdapter = new FinancialTimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
@@ -114,7 +116,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
                 param.put("id",Statics.Name);
                 param.put("year",yearSpinnerString);
                 param.put("month",monthString);
-                HttpBasePost.postHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl,param,HttpTypeConstants.FinancialBillingGetWXSelectMonthAccountUrlType);
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_GETWXSELECT_MONTH_ACCOUNT_URL),param,HttpTypeConstants.FinancialBillingGetWXSelectMonthAccountUrlType);
                 fbgwxscList = Statics.fbgwxscList;
                 customerAdapter = new FinancialCustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, fbgwxscList);
                 customerListView.setAdapter(customerAdapter);
@@ -143,7 +145,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
                     @Override
                     public void run() {
                         //表格数据刷新
-                        HttpBasePost.postHttp(Statics.FinancialBillingGetWXsettlementMonthUrl,null, HttpTypeConstants.FinancialBillingGetWXsettlementMonthUrlType);
+                        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_GETWXSETTLEMENT_MONTH_URL),null, HttpTypeConstants.FinancialBillingGetWXsettlementMonthUrlType);
                         fbgwxscList = null;
                         customerAdapter = new FinancialCustomerBillingStatisticsAdapter(FinancialStastisticsActivity.this, fbgwxscList);
                         customerListView.setAdapter(customerAdapter);
@@ -153,9 +155,6 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
             }
         });
     }
-
-
-
     //返回按钮事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -179,7 +178,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
         param.put("month",monthString);
         param.put("id",Statics.fbgwxscList.get(position).getId());
         Log.d("FinancialStastisticsAct", "年月：" + yearSpinnerString + monthString + Statics.fbgwxscList.get(position).getFy_name());
-        HttpBasePost.postHttp(Statics.FinancialBillingGetWXSelectCustomerDetails,param,HttpTypeConstants.FinancialBillingGetWXSelectCustomerDetailsUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_GETWX_SELECE_CUSTOMER_DETAILS),param,HttpTypeConstants.FinancialBillingGetWXSelectCustomerDetailsUrlType);
         //financialStatisticsHttpPost.searchXqMonthBillHttp(Statics.FinancialBillingGetWXSelectMonthAccountUrl, yearSpinnerString, typeString, monthString);//
         //显示对话框，在对话框中使用ListView
         listView = null;
@@ -203,9 +202,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
         WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
         lp.width = display.getWidth(); //设置宽度
         dlg.getWindow().setAttributes(lp);
-
     }
-
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -214,7 +211,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
                 Log.v("test2", "R.id.search");
                 progressDialog = ProgressDialog.show(FinancialStastisticsActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
                 //financialStatisticsHttpPost.searchTimeHttp(Statics.TimeSearchUrl, yearSpinnerString, typeSpinnerString, FinancialStastisticsActivity.this);//
-                HttpBasePost.postHttp(Statics.FinancialBillingGetWXsettlementMonthUrl,null, HttpTypeConstants.FinancialBillingGetWXsettlementMonthUrlType);
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_GETWXSETTLEMENT_MONTH_URL),null, HttpTypeConstants.FinancialBillingGetWXsettlementMonthUrlType);
                 timeBillingStatisticsList = Statics.fbgwxSettlementMonthList;
                 timeAdapter = new FinancialTimeBillingStatisticsAdapter(FinancialStastisticsActivity.this, timeBillingStatisticsList);
                 timeListView.setAdapter(timeAdapter);
@@ -229,7 +226,6 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
                 startActivity(in);
                 break;
         }
-
     }
     public void init() {
         timeListView = (ListView) findViewById(R.id.lv);
@@ -249,7 +245,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
         //linear = (LinearLayout) findViewById(R.id.linear);
         mCombinedChart = (BarChart) findViewById(R.id.barChart);
         pullScrollView = (PullScrollView) findViewById(R.id.test);
-
+        aCache = ACache.get(FinancialStastisticsActivity.this);
     }
     public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
@@ -281,7 +277,6 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
                 break;
         }
     }
-
     @Override
     public boolean handleMessage(Message msg) {
         return false;

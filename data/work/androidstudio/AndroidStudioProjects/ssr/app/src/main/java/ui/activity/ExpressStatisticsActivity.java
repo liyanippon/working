@@ -91,7 +91,7 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
     private PullScrollView pullScrollView;
     private Handler handler ;
     private long exitTime = 0 ,expressTime = 0;
-    ACache aCache;
+    static ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,7 +153,7 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
                                                                          //递类型，月份，客户名客户名以检索
                                                                          Log.d("test90", "express:" + typeSpinnerString);
                                                                          Log.d("xiangxixinx", yearSpinnerString + "@" + typeSpinnerString + "@" + month + expressPersonId);
-                                                                         expressStatisticsHttpPost.searchXqExpressPersonHttp(Statics.ExpressXqTimeSearchUrl, "2017", typeSpinnerString, month, expressPersonId, ExpressStatisticsActivity.this);
+                                                                         expressStatisticsHttpPost.searchXqExpressPersonHttp(aCache.getAsString(AchacheConstant.EXPRESS_XQTIME_SEARCH_URL), "2017", typeSpinnerString, month, expressPersonId, ExpressStatisticsActivity.this);
                                                                          //显示对话框，在对话框中使用ListView
                                                                          AlertDialog.Builder builder = new AlertDialog.Builder(ExpressStatisticsActivity.this);
                                                                          LayoutInflater inflater = getLayoutInflater();
@@ -377,12 +377,12 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
                 //统计图
                 initBroadCast();
                 //处理月份天数和具体到每日的件数
-                ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
+                //ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
                 ExpressStatisticsHttpPost expressStatisticsHttpPost =new ExpressStatisticsHttpPost();
-                expressStatisticsHttpPost.searchDayCurrentMonth(ExpressPieceMonthDaySearchUrl,yearSpinnerString,month);
-                String ExpressPieceDaySearchUrl = Statics.ExpressPieceDaySearchUrl;
+                expressStatisticsHttpPost.searchDayCurrentMonth(aCache.getAsString(AchacheConstant.EXPRESS_PIECE_MONTHDAY_SEARCH_URL),yearSpinnerString,month);
+                //String ExpressPieceDaySearchUrl = Statics.ExpressPieceDaySearchUrl;
                 Log.d("ExpressStatisticsActivi", yearSpinnerString + "#" + month + "$" + type);
-                expressStatisticsHttpPost.searchDayCurrentMonthPieceCount(ExpressPieceDaySearchUrl,yearSpinnerString,month,typeSpinnerString,activity);
+                expressStatisticsHttpPost.searchDayCurrentMonthPieceCount(aCache.getAsString(AchacheConstant.EXPRESS_PIECE_DAY_SEARCH_URL),yearSpinnerString,month,typeSpinnerString,activity);
                 //以快递员数量统计
                 mCount = 0;
                 yVals1 =epdz.setGrayValue(mCount);
@@ -399,11 +399,11 @@ public class ExpressStatisticsActivity extends BaseActivity implements android.o
                 initBroadCastXiangxi();
             //处理月份天数和具体到每日的件数
                 Statics.isBroadCast =true;
-                ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
+                //ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
                 expressStatisticsHttpPost =new ExpressStatisticsHttpPost();
                 Log.d("test00",month+"月");
-                expressStatisticsHttpPost.searchDayCurrentMonth(ExpressPieceMonthDaySearchUrl,yearSpinnerString,month);
-                expressStatisticsHttpPost.searchPersonDayCurrentMonthPieceCount(Statics.ExpressPersonPieceDaySearchUrl, yearSpinnerString,  month, expressPersonId, activity);
+                expressStatisticsHttpPost.searchDayCurrentMonth(aCache.getAsString(AchacheConstant.EXPRESS_PIECE_MONTHDAY_SEARCH_URL),yearSpinnerString,month);
+                expressStatisticsHttpPost.searchPersonDayCurrentMonthPieceCount(aCache.getAsString(AchacheConstant.EXPRESS_PERSON_PIECE_DAY_SEARCH_URL), yearSpinnerString,  month, expressPersonId, activity);
                 //以快递员数量统计
                 mCount = 0;
                 yVals1 = eppdz.setGrayValue(mCount);

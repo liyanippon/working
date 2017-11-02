@@ -66,8 +66,8 @@ public class Statics {
     //public static ArrayList<AccountType> accountTypeList = new ArrayList<>();
     public static String accountClassify = "023001";//默认为进账，出账：023002
     public static int page = 0;//分页页数
-    public static String GetWXExpenseAccountReasonUrl;//转账业务类型
-    public static String GetWXNewAddUrl;//转账提交表单
+    //public static String GetWXExpenseAccountReasonUrl;//转账业务类型
+    //public static String GetWXNewAddUrl;//转账提交表单
     public static ArrayList<TransferAccountClassify> transferAccountClassifiesList =new ArrayList<>();//转账类型
     public static boolean isDelete = false;
     public static boolean isTransfer = false;
@@ -84,9 +84,9 @@ public class Statics {
     public static ArrayList<XiangxiBillingStatistics> xiangxiBillingStatisticsArrayList = new ArrayList<>();
     public static ArrayList<String> data_list = new ArrayList<>();
     public static String results = null;
-    public static String ExpressGetWXPaymentMethod = "http://192.168.1.51:8083/getWXPaymentMethod.ajax";
+    //public static String ExpressGetWXPaymentMethod = "http://192.168.1.51:8083/getWXPaymentMethod.ajax";
     public static String CurrentPayStatistic = null;
-    public static String ExpressGetWXExpenseAccountPaymentMethod = "http://192.168.1.51:8083/getWXExpenseAccountPaymentMethod.ajax";
+    //public static String ExpressGetWXExpenseAccountPaymentMethod = "http://192.168.1.51:8083/getWXExpenseAccountPaymentMethod.ajax";
     public static ArrayList<ExpressExpensePayMethod> expressPaymentMethodArrayList = new ArrayList<>();
     /**业务揽件和业务统计**/      //18 52
     public static ArrayList<ExpressNumberManagement> enmList = new ArrayList<>();
@@ -102,10 +102,10 @@ public class Statics {
     //public static String TimeStatisticSearchUrl = "http://192.168.1.18:8083/getWXTjsjListNumber.ajax";//月份统计
     public static ArrayList<TimeExpressStatistics> expressTimeList = new ArrayList<>();
     //public static String ExpressStatisticSearchUrl = "http://192.168.1.18:8083/getCustomerTjsjListNumber.ajax";//快递员统计
-    public static String ExpressXqTimeSearchUrl = "http://192.168.1.18:8083/getCustomerTjxqNumber.ajax";//快递员统计详情
-    public static String ExpressPieceMonthDaySearchUrl = "http://192.168.1.18:8083/getWxXAxisDay.ajax";    //当月有多少天
-    public static String ExpressPieceDaySearchUrl = "http://192.168.1.18:8083/getWxSeriesDataDay.ajax";   //具体件数
-    public static String ExpressPersonPieceDaySearchUrl = "http://192.168.1.51:8083/getWxSeriesDataAmount.ajax";//快递员统计图表
+    //public static String ExpressXqTimeSearchUrl = "http://192.168.1.18:8083/getCustomerTjxqNumber.ajax";//快递员统计详情
+    //public static String ExpressPieceMonthDaySearchUrl = "http://192.168.1.18:8083/getWxXAxisDay.ajax";    //当月有多少天
+    //public static String ExpressPieceDaySearchUrl = "http://192.168.1.18:8083/getWxSeriesDataDay.ajax";   //具体件数
+    //public static String ExpressPersonPieceDaySearchUrl = "http://192.168.1.51:8083/getWxSeriesDataAmount.ajax";//快递员统计图表
     public static String[] Xday;//存放当月天数
     public static ArrayList<ExpressPieceCountMonth> expressPieceCountMonthsList = new ArrayList<>();
     public static Boolean dayCount = false;//是否按天统计
@@ -113,9 +113,9 @@ public class Statics {
     //是否需要发送广播
     public static Boolean isBroadCast = false;
     /**考勤管理**/
-    public static String AttendanceStatisticsSearchUrl = "http://192.168.1.55:8083/getWxAllAttendanceMonthSum.ajax";//考勤查询url
-    public static String AttendanceGetWXAttendanceNameUrl = "http://192.168.1.59:8083/getWXAttendanceName.ajax";//员工姓名
-    public static String searchYearUrl = "http://192.168.1.55:8083/getWxAllYears.ajax";//年查询url
+    //public static String AttendanceStatisticsSearchUrl = "http://192.168.1.55:8083/getWxAllAttendanceMonthSum.ajax";//考勤查询url
+    //public static String AttendanceGetWXAttendanceNameUrl = "http://192.168.1.59:8083/getWXAttendanceName.ajax";//员工姓名
+    //public static String searchYearUrl = "http://192.168.1.55:8083/getWxAllYears.ajax";//年查询url
     public static ArrayList<AttendanceStatistics> attendanceStatisticsList = new ArrayList<>();//考勤表格数据
     public static ArrayList<String> searchNameId = new ArrayList<>(); //员工id
     public static ArrayList<StaffName> searchName = new ArrayList<>(); //员工姓名
@@ -123,53 +123,53 @@ public class Statics {
     public static Boolean personCount = false;//是否按人员统计
     public static String[] xPerson;//统计表中纵轴数据
     public static Boolean yPositon = false;//设置y轴显示默认false
-    public static String GetWXAttendanceDetaSearchUrl = "http://192.168.1.54:8083/getWXAttendanceDeta.ajax";//每个人考勤详细信息
-    public static String GetWXProjectSearchUrl = "http://192.168.1.53:8083/getWXProject.ajax";//获取项目id 得到所在项目组
+    //public static String GetWXAttendanceDetaSearchUrl = "http://192.168.1.54:8083/getWXAttendanceDeta.ajax";//每个人考勤详细信息
+    //public static String GetWXProjectSearchUrl = "http://192.168.1.53:8083/getWXProject.ajax";//获取项目id 得到所在项目组
     public static ArrayList<AttendanceWxDetaSearch> attendanceWxDetaSearchArrayList = new ArrayList<>();
     public static ArrayList<AttendanceStaffBelongProject> staffBelongProjectArrayList = new ArrayList<>();
     /**财务管理**/
-    public static String FinancialAccountCustomerUrl = "http://192.168.1.53:8083/getWXBillCustomer.ajax"; //账目客户名
+    //public static String FinancialAccountCustomerUrl = "http://192.168.1.53:8083/getWXBillCustomer.ajax"; //账目客户名
     public static ArrayList<FinancialCustomer> financialCustomersList = new ArrayList<>();//账目客户
     //账目管理
-    public static String FinancialBillingManagementUrl = "http://192.168.1.53:8083/getWXBillRecords.ajax"; //账目统计查询
-    public static String FinancialBillingManagementDelUrl = "http://192.168.1.53:8083/WXdeleteBillRecords.ajax";//删除账目统计
+    //public static String FinancialBillingManagementUrl = "http://192.168.1.53:8083/getWXBillRecords.ajax"; //账目统计查询
+    //public static String FinancialBillingManagementDelUrl = "http://192.168.1.53:8083/WXdeleteBillRecords.ajax";//删除账目统计
     public static ArrayList<FinancialManagement> financialManagementList = new ArrayList<>();//账目客户查询数据
-    public static String AddFinancialBillingUrl = "http://192.168.1.53:8083/getWXInsertOrUpdateBillRecords.ajax";//添加账单
+    //public static String AddFinancialBillingUrl = "http://192.168.1.53:8083/getWXInsertOrUpdateBillRecords.ajax";//添加账单
     //银行账目下拉框
-    public static String FinancialBillingGetWXAccountsTypeUrl = "http://192.168.1.53:8083/getWXAccountsType.ajax";//银行账目下拉框
+    //public static String FinancialBillingGetWXAccountsTypeUrl = "http://192.168.1.53:8083/getWXAccountsType.ajax";//银行账目下拉框
     public static ArrayList<FinancialAccount> financialAccountList = new ArrayList<>();//账目下拉框
     //账目统计
-    public static String FinancialBillingGetWXstatisticalDataUrl = "http://192.168.1.54:8083/getWXstatisticalData.ajax";//年月统计表（按时间统计）
+    //public static String FinancialBillingGetWXstatisticalDataUrl = "http://192.168.1.54:8083/getWXstatisticalData.ajax";//年月统计表（按时间统计）
     public static List<FinancialBilingGetXWstatisticalData> fbgxwStatisticalDataList = new ArrayList<>();//时间查询数据
-    public static String FinancialBillingGetWXsettlementMonthUrl = "http://192.168.1.54:8083/getWXsettlementMonth.ajax";//时间统计表
+    //public static String FinancialBillingGetWXsettlementMonthUrl = "http://192.168.1.54:8083/getWXsettlementMonth.ajax";//时间统计表
     public static List<FinancialBillingGetWXsettlementMonth> fbgwxSettlementMonthList = new ArrayList<>();//时间查询数据
-    public static String FinancialBillingGetWXSelectMonthAccountUrl ="http://192.168.1.54:8083/getWXSelectMonthAccount.ajax";//月份账目（详情）
-    public static String FinancialBillingGetWXSelectCustomerDetails = "http://192.168.1.53:8083/getWXSelectCustomerDetails.ajax";//月份账目（客户）
+    //public static String FinancialBillingGetWXSelectMonthAccountUrl ="http://192.168.1.54:8083/getWXSelectMonthAccount.ajax";//月份账目（详情）
+    //public static String FinancialBillingGetWXSelectCustomerDetails = "http://192.168.1.53:8083/getWXSelectCustomerDetails.ajax";//月份账目（客户）
     public static List<FinancialBillingGetWXSelectMonthAccount> fbgwxsmaList = new ArrayList<>();
     public static List<FinancialBillingGetWXSelectCustomer> fbgwxscList = new ArrayList<>();
-    public static String FinancialBillingGetCurrentMoneyUrl ="http://192.168.1.54:8083/getWXSelectAll.ajax";//查看现在金额
+    //public static String FinancialBillingGetCurrentMoneyUrl ="http://192.168.1.54:8083/getWXSelectAll.ajax";//查看现在金额
     public static String CurrentMoney = null;
     //工资统计查询
-    public static String FinancialSalaryGetWXStaffPayrollListUrl = "http://192.168.1.54:8083/getWXStaffPayrollList.ajax";//员工工资查询数据
+    //public static String FinancialSalaryGetWXStaffPayrollListUrl = "http://192.168.1.54:8083/getWXStaffPayrollList.ajax";//员工工资查询数据
     public static List<FinancialSalaryStatistics> fssArrayList = new ArrayList<>();//员工工资查询数据
-    public static String FinancialSalaryGetWXOrgListUrl ="http://192.168.1.54:8083/getWXOrg.ajax";//单位部门信息
+    //public static String FinancialSalaryGetWXOrgListUrl ="http://192.168.1.54:8083/getWXOrg.ajax";//单位部门信息
     public static List<CompanyDepartment> companyDepartmentsArrayList = new ArrayList<>();//单位部门数据
-    public static String FinancialSalaryGetWXInsertPayrollUrl ="http://192.168.1.54:8083/getWXMonthPayrollList.ajax";//添加工资单
+    //public static String FinancialSalaryGetWXInsertPayrollUrl ="http://192.168.1.54:8083/getWXMonthPayrollList.ajax";//添加工资单
     /**项目管理**/
-    public static String ProjectGetWXLoadProjectPageDataUrl = "http://192.168.1.54:8083/getWXLoadProjectPageData.ajax";//查询所有项目
+    //public static String ProjectGetWXLoadProjectPageDataUrl = "http://192.168.1.54:8083/getWXLoadProjectPageData.ajax";//查询所有项目
     public static List<ProjectAllPageData> projectAllPageDataArrayList =new ArrayList<>();//查询所有项目
-    public static String ProjectGetWXProjectCycleUrl= "http://192.168.1.54:8083/getWXProjectCycle.ajax";//项目回款周期情况
+    //public static String ProjectGetWXProjectCycleUrl= "http://192.168.1.54:8083/getWXProjectCycle.ajax";//项目回款周期情况
     public static List<ProjectCycleData> projectCycleDataList = new ArrayList<>();//项目回款周期情况
-    public static String ProjectGetWXLoadProjectPeoplePageDataUrl = "http://192.168.1.54:8083/getWXLoadProjectPeoplePageData.ajax";//成员加入情况
+    //public static String ProjectGetWXLoadProjectPeoplePageDataUrl = "http://192.168.1.54:8083/getWXLoadProjectPeoplePageData.ajax";//成员加入情况
     public static List<ProjectPeoplePageData> projectPeoplePageDataList =new ArrayList<>();//成员加入情况
     /**人力资源管理**/
-    public static String ResourceGetWXWXPageDataResourceUrl = "http://192.168.1.54:8083/getWXPageDataResource.ajax";//人力资源分页查询
+    //public static String ResourceGetWXWXPageDataResourceUrl = "http://192.168.1.54:8083/getWXPageDataResource.ajax";//人力资源分页查询
     public static List<ResourceGetWXWXPageDataResource> rgwDataResourcesList = new ArrayList<>();
-    public static String ResourceGetWXPageDataResourceProjectUrl = "http://192.168.1.54:8083/getWXPageDataResourceProjects.ajax";//人力资源项目分页查询
+    //public static String ResourceGetWXPageDataResourceProjectUrl = "http://192.168.1.54:8083/getWXPageDataResourceProjects.ajax";//人力资源项目分页查询
     public static List<ResourceGetWXPageDataResourceProject> rgwDataResourceProjectList = new ArrayList<>();
-    public static String ResourceGetWXExteriorProjectsUrl ="http://192.168.1.54:8083/getWXExteriorProjects.ajax";//外部项目
+    //public static String ResourceGetWXExteriorProjectsUrl ="http://192.168.1.54:8083/getWXExteriorProjects.ajax";//外部项目
     public static List<ResourceGetWXExteriorProjects> resourceGetWXExteriorProjectsList = new ArrayList<>();
-    public static String ResourceGetDownLoadFileUrl = "http://192.168.1.54:8083/downloadFile.ajax";//简历word请求地址
+    //public static String ResourceGetDownLoadFileUrl = "http://192.168.1.54:8083/downloadFile.ajax";//简历word请求地址
     public static String downLoadFile ;//保存简历文件流
     /**用户权限管理**/
     public static ArrayList<UserUmp> userUmpsStatisticsList = new ArrayList<>();

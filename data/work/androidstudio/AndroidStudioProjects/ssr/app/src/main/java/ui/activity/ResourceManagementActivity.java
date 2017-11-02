@@ -28,8 +28,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import http.HttpBasePost;
@@ -64,7 +67,7 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
     public EditText staffName;
     private String staffNameString = "";
     private long exitTime = 0, resourceLvTime = 0;
-
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +91,8 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
         param = new HashMap<>();
         param.put("page", Integer.toString(page));
         param.put("rows", "50");
-        Log.d("ResourceManagementActiv", "地址"+Statics.ResourceGetWXWXPageDataResourceUrl);
-        HttpBasePost.postHttp(Statics.ResourceGetWXWXPageDataResourceUrl,param,HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
+        //Log.d("ResourceManagementActiv", "地址"+Statics.ResourceGetWXWXPageDataResourceUrl);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXWXP_PAGEDATA_RESOURCE_URL),param,HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
         resourceLv.setPullLoadEnable(true);
         sourceManagementAdapter = new SourceManagementAdapter(activity);
         resourceLv.setAdapter(sourceManagementAdapter);
@@ -110,12 +113,11 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
                     ResourceGetWXWXPageDataResource rgwdResource = Statics.rgwDataResourcesList.get(position - 1);
                     //查询项目周期情况
                     param = new HashMap<>();
-                    Log.d("ResourceManagementActiv", "idid::" + rgwdResource.getId() + ";;;" + Statics.ResourceGetWXPageDataResourceProjectUrl);
                     param.put("id", rgwdResource.getId());//projectid
                     param.put("page", Integer.toString(page));
                     param.put("rows", "50");
                     //isProject = true;
-                    HttpBasePost.postHttp(Statics.ResourceGetWXPageDataResourceProjectUrl, param, HttpTypeConstants.ResourceGetWXPageDataResourceProjectUrlType);
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXPAGEDATA_RESOURCE_PROJECT_URL), param, HttpTypeConstants.ResourceGetWXPageDataResourceProjectUrlType);
                     outResourceProjectAdpter = new OutResouceProjectAdpter(activity);//项目信息
                     lvs.setAdapter(outResourceProjectAdpter);
                     //创建人就是用户名
@@ -149,6 +151,7 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
         staffName = (EditText) findViewById(R.id.staff_name);
         //add.setOnClickListener(o);
         search.setOnClickListener(o);
+        aCache = ACache.get(ResourceManagementActivity.this);
     }
     View.OnClickListener o = new View.OnClickListener() {
         @Override
@@ -163,7 +166,7 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
                         param.put("name", staffNameString);
                         param.put("page", Integer.toString(page));
                         param.put("rows", "50");
-                        HttpBasePost.postHttp(Statics.ResourceGetWXWXPageDataResourceUrl, param, HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
+                        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXWXP_PAGEDATA_RESOURCE_URL), param, HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
                     }
                     break;
             }
@@ -174,6 +177,7 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                page = 1;
                 Log.d("ResourceManagementActiv", "刷新" + staffNameString + "%%" + page);
                 //清除缓存
                 //清空缓存文件
@@ -181,9 +185,9 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
                 SourceManagementAdapter.deleteDirWihtFile(dirFile);//删除所有文件
                 param = new HashMap<>();
                 param.put("name",staffNameString);
-                param.put("page", Integer.toString(page));
+                param.put("page", Integer.toString(1));
                 param.put("rows", "50");
-                HttpBasePost.postHttp(Statics.ResourceGetWXWXPageDataResourceUrl,param,HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXWXP_PAGEDATA_RESOURCE_URL),param,HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
                 onLoad();
             }
         }, 2000);
@@ -193,19 +197,20 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Statics.isPageUpload = true;
                 page++;
-                if (page >= Statics.page) {
+                if (page > Statics.page) {
                     page = Statics.page;
+                    //大于总页数，不向下翻页
                     Toast.makeText(activity,"已经是最后一页了",Toast.LENGTH_SHORT).show();
-                }else{
+                }else if(page < Statics.page){
+                    Statics.isPageUpload = true;
                     param = new HashMap<>();
                     param.put("name",staffNameString);
                     param.put("page", Integer.toString(page));
                     param.put("rows", "50");
-                    HttpBasePost.postHttp(Statics.ResourceGetWXWXPageDataResourceUrl,param,HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXWXP_PAGEDATA_RESOURCE_URL),param,HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
                 }
-                //大于总页数，不向下翻页
+
                 onLoad();
             }
         }, 2000);
@@ -218,7 +223,7 @@ public class ResourceManagementActivity extends BaseActivity implements XListVie
         param.put("name",staffNameString);
         param.put("page", Integer.toString(page));
         param.put("rows", "50");
-        HttpBasePost.postHttp(Statics.ResourceGetWXWXPageDataResourceUrl,param,HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXWXP_PAGEDATA_RESOURCE_URL),param,HttpTypeConstants.ResourceGetWXWXPageDataResourceUrlType);
     }
     private void onLoad() {
         resourceLv.stopRefresh();

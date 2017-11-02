@@ -23,6 +23,7 @@ import java.util.Map;
 
 import Tool.ACache;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import Tool.statistics.UmlStatic;
 import http.HttpBasePost;
@@ -45,11 +46,13 @@ public class MainTabAttendance extends Fragment {
 	private ArrayList<Object> icon;
 	private ArrayList<Object> iconName;
 	private long exitTime = 0;
+	ACache aCache;
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.main_tab_works, null);
 		//http://www.cnblogs.com/tinyphp/p/3855224.html 可下载
+		aCache = ACache.get(getActivity());
 		spinnerData();
 		init();
 		gridView.setOnItemClickListener(g);
@@ -64,8 +67,8 @@ public class MainTabAttendance extends Fragment {
 			@Override
 			public void run() {
 				//httpPost.searchStaffNameHttp(Statics.AttendanceStatisticsSearchUrl,getActivity());
-				HttpBasePost.postHttp(Statics.AttendanceGetWXAttendanceNameUrl,null, HttpTypeConstants.SearchStuffName);//员工姓名
-				HttpBasePost.postHttp(Statics.searchYearUrl,null,HttpTypeConstants.SearchYearUrlType);//年份查询
+				HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.ATTENDANCE_GETWX_ATTENDANCE_NAME_URL),null, HttpTypeConstants.SearchStuffName);//员工姓名
+				HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.SEARCH_YEAR_URL),null,HttpTypeConstants.SearchYearUrlType);//年份查询
 			}
 		}.run();
 	}

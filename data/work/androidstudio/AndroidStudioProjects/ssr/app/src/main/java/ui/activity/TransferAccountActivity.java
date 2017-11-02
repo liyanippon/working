@@ -191,7 +191,7 @@ public class TransferAccountActivity extends BaseActivity {
                 }
                 param = new HashMap<>();
                 param.put("id",classifySpinnerString);
-                HttpBasePost.postHttp(Statics.GetWXExpenseAccountReasonUrl,param, HttpTypeConstants.GetWXExpenseAccountReasonUrl);//业务类型（转出账户）
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.GET_WXEXPENSE_ACCOUNT_REASON_URL),param, HttpTypeConstants.GetWXExpenseAccountReasonUrl);//业务类型（转出账户）
                 data_list1 = new ArrayList<>();
                 //适配器
                 arr_adapter1 = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list1);

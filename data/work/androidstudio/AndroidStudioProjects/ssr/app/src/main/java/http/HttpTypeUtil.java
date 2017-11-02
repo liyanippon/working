@@ -66,8 +66,10 @@ import ui.adpter.SourceManagementAdapter;
 
 public class HttpTypeUtil {
     private  Activity aActivity;
+    static ACache aCache;
     public HttpTypeUtil(Activity activity){
         this.aActivity = activity;
+        aCache = ACache.get(this.aActivity);
     }
 
     public static void expressType(String result,String httpType) {//物流模块
@@ -243,7 +245,7 @@ public class HttpTypeUtil {
                 break;
             case "100502":
                 //刷新页面
-                HttpBasePost.postHttp(Statics.FinancialBillingManagementUrl,null,HttpTypeConstants.FinancialBillingManagementUrlType);//刷新页面
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_MANAGEMENT_URL),null,HttpTypeConstants.FinancialBillingManagementUrlType);//刷新页面
                 break;
             case "100503":
                 Log.d("HttpTypeUtil", "添加数据:");

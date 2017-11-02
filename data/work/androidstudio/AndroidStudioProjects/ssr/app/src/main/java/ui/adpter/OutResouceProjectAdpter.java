@@ -18,7 +18,9 @@ import com.example.admin.erp.R;
 import java.util.HashMap;
 import java.util.List;
 
+import Tool.ACache;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
@@ -41,6 +43,7 @@ public class OutResouceProjectAdpter extends BaseAdapter {
     private String projectNameString;
     public static boolean isOutResouceProjectAdpter = false;
     private long exitTime = 0;
+    ACache aCache;
     public OutResouceProjectAdpter(Activity activityBilling) {
         inflater = LayoutInflater.from(activityBilling);
         this.activity = activityBilling;
@@ -63,6 +66,7 @@ public class OutResouceProjectAdpter extends BaseAdapter {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        aCache = ACache.get(this.activity);
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
@@ -109,7 +113,7 @@ public class OutResouceProjectAdpter extends BaseAdapter {
                 param.put("rows", "1000");
                 //isProject = true;
                 isOutResouceProjectAdpter = true;
-                HttpBasePost.postHttp(Statics.ResourceGetWXExteriorProjectsUrl, param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXEXTERIOR_PROJECTS_URL), param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
                 outResouceProjecInformationtAdpter = new OutResouceProjecInformationtAdpter(activity);//项目信息
                 lvs.setAdapter(outResouceProjecInformationtAdpter);
                 //创建人就是用户名

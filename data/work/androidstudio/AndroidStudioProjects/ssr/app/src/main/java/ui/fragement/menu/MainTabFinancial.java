@@ -56,10 +56,10 @@ public class MainTabFinancial extends Fragment {
         new Runnable() {
             @Override
             public void run() {
-                HttpBasePost.postHttp(Statics.FinancialBillingGetWXAccountsTypeUrl,null, HttpTypeConstants.FinancialBillingGetWXAccountsTypeUrlType);//账目下拉框
-                HttpBasePost.postHttp(Statics.FinancialAccountCustomerUrl,null, HttpTypeConstants.FinancialAccountCustomerUrlType);
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_GETWXACCOUNTS_TYPE_URL),null, HttpTypeConstants.FinancialBillingGetWXAccountsTypeUrlType);//账目下拉框
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_ACCOUNT_CUSTOMER_URL),null, HttpTypeConstants.FinancialAccountCustomerUrlType);
                 HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.ACCOUNT_CLASSIFY_URL),null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
-                HttpBasePost.postHttp(Statics.FinancialSalaryGetWXOrgListUrl,null,HttpTypeConstants.CompanyDepartmentListUrlType);//单位下拉框
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_SALARY_GETWXORG_LIST_URL),null,HttpTypeConstants.CompanyDepartmentListUrlType);//单位下拉框
             }
         }.run();
     }

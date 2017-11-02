@@ -20,8 +20,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import Tool.ACache;
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
@@ -58,6 +60,7 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
     private String shijianTime = null;
     private double temp =0.0;
     private static Activity activity;
+    ACache aCache;
     public ExpressPiecePersonDetailsZhuFragment(){
         year = Statics.XiangxiChan.get("year");
         month = Statics.XiangxiChan.get("month");
@@ -75,7 +78,7 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
+        aCache = ACache.get(getActivity());
         Statics.epmsXList=null;
         View view = inflater.inflate(R.layout.fragment_zhu, null);
         mCombinedChart = (BarChart) view.findViewById(R.id.barChart);
@@ -83,16 +86,15 @@ public class ExpressPiecePersonDetailsZhuFragment extends Fragment {
         initBroadCast(null,-1);
         //处理月份天数和具体到每日的件数
         Statics.isBroadCast =true;
-        String ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
+        //String ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
         expressStatisticsHttpPost =new ExpressStatisticsHttpPost();
         Log.d("test00",month+"月");
-        expressStatisticsHttpPost.searchDayCurrentMonth(ExpressPieceMonthDaySearchUrl,year,month);
+        expressStatisticsHttpPost.searchDayCurrentMonth(aCache.getAsString(AchacheConstant.EXPRESS_PIECE_MONTHDAY_SEARCH_URL),year,month);
         //长按：
-        expressStatisticsHttpPost.searchPersonDayCurrentMonthPieceCount(Statics.ExpressPersonPieceDaySearchUrl, year,  month, expressPersonId, getContext());
+        expressStatisticsHttpPost.searchPersonDayCurrentMonthPieceCount(aCache.getAsString(AchacheConstant.EXPRESS_PERSON_PIECE_DAY_SEARCH_URL), year,  month, expressPersonId, getContext());
         //以快递员数量统计
         setGrayValue(mCount);
         initData(null,mCombinedChart,false,yVals1,-1);
-
         return view;
     }
 

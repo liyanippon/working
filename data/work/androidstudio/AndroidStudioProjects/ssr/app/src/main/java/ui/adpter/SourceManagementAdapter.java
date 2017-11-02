@@ -35,7 +35,9 @@ import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import Tool.ACache;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.ExpressBillingManagementHttpPost;
 import http.HttpBasePost;
@@ -72,6 +74,7 @@ public class SourceManagementAdapter extends BaseAdapter {
     static Thread httpThread,writeFileThread;
     private static String fileNameStrings;
     private long exitTime = 0 , fileNameTime = 0;
+    ACache aCache;
     public SourceManagementAdapter(Activity activity) {
         this.activity = activity;
     }
@@ -94,6 +97,7 @@ public class SourceManagementAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         positions = position;
+        aCache = ACache.get(activity);
         if (convertView == null) {
             vh = new ViewHolder();
             convertView = LayoutInflater.from(activity).inflate(R.layout.sourcemanagerlist, null);
@@ -233,7 +237,7 @@ public class SourceManagementAdapter extends BaseAdapter {
                 param.put("id",fileNameId);
                 //HttpBasePost.postHttp(Statics.ResourceGetDownLoadFileUrl,param, HttpTypeConstants.ResourceGetDownLoadFileUrlType);//请求网络
                 //线程安全
-                httpThread= new Thread(new SyncThread1(param));
+                httpThread= new Thread(new SyncThread1(param,activity));
                 httpThread.start();
             }
             isFileExists = false;
@@ -244,7 +248,7 @@ public class SourceManagementAdapter extends BaseAdapter {
                 //从网络端下载简历
                 param = new HashMap<>();
                 param.put("id",fileNameId);
-                HttpBasePost.postHttp(Statics.ResourceGetDownLoadFileUrl,param, HttpTypeConstants.ResourceGetDownLoadFileUrlType);//请求网络
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETDOWNLOADFILE_URL),param, HttpTypeConstants.ResourceGetDownLoadFileUrlType);//请求网络
                 //new SyncThread(param).run();//线程安全
             }
         }

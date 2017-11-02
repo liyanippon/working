@@ -250,9 +250,10 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                page = 1;
                 httpPost = new ExpressBillingManagementHttpPost();
                 //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-                String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL) ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,ExpressBillingManagementActivity.this,page);
+                String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL) ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,ExpressBillingManagementActivity.this,1);
                 onLoad();
             }
         }, 2000);
@@ -263,17 +264,19 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Statics.isPageUpload = true;
+
                 Log.d("ExpressBillingManagemen", "翻页");
                 page++;
-                if (page >= Statics.page) {
+                if (page > Statics.page) {
                     page = Statics.page;
+                    //大于总页数，不向下翻页
                     Toast.makeText(ExpressBillingManagementActivity.this,"已经是最后一页了",Toast.LENGTH_SHORT).show();
+                }else if(page < Statics.page){
+                    Statics.isPageUpload = true;
+                    httpPost = new ExpressBillingManagementHttpPost();
+                    //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
+                    String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL) ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,ExpressBillingManagementActivity.this,page);
                 }
-                //大于总页数，不向下翻页
-                httpPost = new ExpressBillingManagementHttpPost();
-                //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
-                String result = httpPost.searchHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL) ,typeSpinnerString ,classifySpinnerString ,reasonSpinnerString,ExpressBillingManagementActivity.this,page);
                 onLoad();
 
             }

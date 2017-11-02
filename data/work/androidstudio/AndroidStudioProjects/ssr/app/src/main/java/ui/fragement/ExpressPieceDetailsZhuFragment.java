@@ -17,8 +17,10 @@ import com.github.mikephil.charting.data.BarEntry;
 import java.util.ArrayList;
 import java.util.List;
 
+import Tool.ACache;
 import Tool.StatisticalGraph.CombinedBarChartUtil;
 import Tool.ToolUtils;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
@@ -49,6 +51,7 @@ public class ExpressPieceDetailsZhuFragment extends Fragment {
     private String year;
     private String month;
     private String type;
+    ACache aCache;
     public ExpressPieceDetailsZhuFragment(){
         year = Statics.XiangxiChan.get("year");
         month = Statics.XiangxiChan.get("month");
@@ -64,17 +67,17 @@ public class ExpressPieceDetailsZhuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
+        aCache = ACache.get(getActivity());
         View view = inflater.inflate(R.layout.fragment_zhu, null);
         mCombinedChart = (BarChart) view.findViewById(R.id.barChart);
 
         initBroadCast();
         //处理月份天数和具体到每日的件数
-        String ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
+        //String ExpressPieceMonthDaySearchUrl = Statics.ExpressPieceMonthDaySearchUrl;
         expressStatisticsHttpPost =new ExpressStatisticsHttpPost();
-        expressStatisticsHttpPost.searchDayCurrentMonth(ExpressPieceMonthDaySearchUrl,year,month);
-        String ExpressPieceDaySearchUrl = Statics.ExpressPieceDaySearchUrl;
-        expressStatisticsHttpPost.searchDayCurrentMonthPieceCount(ExpressPieceDaySearchUrl,year,month,type,getContext());
+        expressStatisticsHttpPost.searchDayCurrentMonth(aCache.getAsString(AchacheConstant.EXPRESS_PIECE_MONTHDAY_SEARCH_URL),year,month);
+        //String ExpressPieceDaySearchUrl = Statics.ExpressPieceDaySearchUrl;
+        expressStatisticsHttpPost.searchDayCurrentMonthPieceCount(aCache.getAsString(AchacheConstant.EXPRESS_PIECE_DAY_SEARCH_URL),year,month,type,getContext());
         setGrayValue(mCount);
         initData(null,mCombinedChart,false,yVals1,-1);
         return view;
@@ -86,7 +89,6 @@ public class ExpressPieceDetailsZhuFragment extends Fragment {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Config.BC_ONE);
         getContext().registerReceiver(broadcast, intentFilter);
-
 
         broadcast.setLazyLoadFace(new LazyLoadFace() {
             @Override

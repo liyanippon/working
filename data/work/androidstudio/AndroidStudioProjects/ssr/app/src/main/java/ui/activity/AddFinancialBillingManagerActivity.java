@@ -20,8 +20,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
@@ -40,6 +43,7 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
     private int currentYear,currentMon,currentDate;
     private Calendar calendar;
     private HashMap<String,String> param;
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +113,7 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
                         param.put("billClassification",remarkString);
                         param.put("updateTime",timeString);
                         Log.d("AddFinancialBillingMana", "customerId" + customerNameSpinnerString);
-                        if ("success".equals(HttpBasePost.postHttp(Statics.AddFinancialBillingUrl,param, HttpTypeConstants.AddFinancialBillingUrlType))) {
+                        if ("success".equals(HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.ADD_FINANCIAL_BILLING_URL),param, HttpTypeConstants.AddFinancialBillingUrlType))) {
                             Toast.makeText(AddFinancialBillingManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                             finish();
                         }
@@ -252,5 +256,6 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
         price.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         ToolUtils.setPoint(price);//设置金额输入位数
         remark = (EditText) findViewById(R.id.remark);
+        aCache = ACache.get(AddFinancialBillingManagerActivity.this);
     }
 }

@@ -30,8 +30,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import model.javabean.ExpressManagement;
 import model.javabean.ResourceGetWXExteriorProjects;
@@ -76,6 +79,7 @@ public class OutProjectManagementActivity extends BaseActivity implements XListV
     private HashMap<String,String> param;
     private static ListView lvs;
     private static TimeBackAdpter timeBackAdpter;
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,25 +91,6 @@ public class OutProjectManagementActivity extends BaseActivity implements XListV
         context = getApplicationContext();
         activity = OutProjectManagementActivity.this;
         initView();
-        /*calendar = Calendar.getInstance();
-        currentYear = calendar.get(Calendar.YEAR);
-        currentMon = calendar.get(Calendar.MONTH) + 1;
-        currentDate = calendar.get(Calendar.DAY_OF_MONTH);*/
-        //searchTime.setText("          ");
-        /*searchTime.setOnClickListener(this);
-        searchTime.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                searchTime.setCursorVisible(false);
-                searchTime.setText("");
-                billingTimeString = "全部";
-                Drawable nav_up=getResources().getDrawable(R.drawable.date2);
-                nav_up.setBounds(0, 0, nav_up.getMinimumWidth(), nav_up.getMinimumHeight());
-                searchTime.setCompoundDrawables(null, null, nav_up, null);
-                return true;
-            }
-        });*/
-        //Toast.makeText(activity, "wifi名字" + ToolUtils.getWifiName(activity), Toast.LENGTH_SHORT).show();
         //空查询
         page = 1;//显示页数
         //刚进入页面就要显示数据
@@ -113,8 +98,7 @@ public class OutProjectManagementActivity extends BaseActivity implements XListV
         param = new HashMap<>();
         param.put("page", Integer.toString(page));
         param.put("rows", "50");
-        Log.d("OutProjectManagementAct", "外包园项目url" + Statics.ResourceGetWXExteriorProjectsUrl);
-        HttpBasePost.postHttp(Statics.ResourceGetWXExteriorProjectsUrl, param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXEXTERIOR_PROJECTS_URL), param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
         projectLv.setPullLoadEnable(true);
         outProjectManagementAdapter = new OutProjectManagementAdapter(activity);
         projectLv.setAdapter(outProjectManagementAdapter);
@@ -173,6 +157,7 @@ public class OutProjectManagementActivity extends BaseActivity implements XListV
         //searchTime = (EditText) findViewById(R.id.searchTime);
         projectName = (EditText) findViewById(R.id.project_name);
         search.setOnClickListener(this);
+        aCache = ACache.get(OutProjectManagementActivity.this);
     }
     @Override
     public void onClick(View v) {
@@ -193,27 +178,9 @@ public class OutProjectManagementActivity extends BaseActivity implements XListV
                 param.put("projectName",projectNameString);
                 param.put("page", Integer.toString(page));
                 param.put("rows", "50");
-                HttpBasePost.postHttp(Statics.ResourceGetWXExteriorProjectsUrl, param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
+                HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXEXTERIOR_PROJECTS_URL), param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
                 break;
         }
-    }
-    private void searchTime() {
-        //日期选择器
-        final Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
-        new DatePickerDialog(activity,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        month++;
-                        searchTime.setText(String.format("%d-%02d-%02d", year, month, dayOfMonth));
-                        billingTimeString = String.format("%d-%02d-%02d", year, month, dayOfMonth);
-                        searchTime.setCompoundDrawables(null, null, null, null);
-                    }
-                },
-                mYear, mMonth, mDay).show();
     }
     @Override
     public void onRefresh() {//刷新
@@ -223,7 +190,7 @@ public class OutProjectManagementActivity extends BaseActivity implements XListV
         param.put("projectName",projectNameString);
         param.put("page", Integer.toString(page));
         param.put("rows", "50");
-        HttpBasePost.postHttp(Statics.ResourceGetWXExteriorProjectsUrl, param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXEXTERIOR_PROJECTS_URL), param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
         onLoad();
     }
     @Override
@@ -231,23 +198,23 @@ public class OutProjectManagementActivity extends BaseActivity implements XListV
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Statics.isPageUpload = true;
                 page++;
-                if (page >= Statics.page) {
+                if (page > Statics.page) {
                     page = Statics.page;
+                    //大于总页数，不向下翻页
                     Toast.makeText(activity,"已经是最后一页了",Toast.LENGTH_SHORT).show();
+                }else if(page < Statics.page){
+                    Statics.isPageUpload = true;
+                    //billingTimeString = searchTime.getText().toString().trim();
+                    param = new HashMap<>();
+                    Log.d("OutProjectManagementAct", "项目名称" + projectNameString);
+                    param.put("projectName",projectNameString);
+                    //param.put("startTime",billingTimeString);
+                    param.put("page", Integer.toString(page));
+                    param.put("rows", "50");
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.RESOURCE_GETWXEXTERIOR_PROJECTS_URL), param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
                 }
-                //大于总页数，不向下翻页
-                //billingTimeString = searchTime.getText().toString().trim();
-                param = new HashMap<>();
-                Log.d("OutProjectManagementAct", "项目名称" + projectNameString);
-                param.put("projectName",projectNameString);
-                //param.put("startTime",billingTimeString);
-                param.put("page", Integer.toString(page));
-                param.put("rows", "50");
-                HttpBasePost.postHttp(Statics.ResourceGetWXExteriorProjectsUrl, param, HttpTypeConstants.ResourceGetWXExteriorProjectsUrlType);
                 onLoad();
-
             }
         }, 2000);
     }

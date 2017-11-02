@@ -27,9 +27,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import Tool.ACache;
 import Tool.ToolUtils;
 import Tool.crash.BaseActivity;
 import Tool.customerWidget.PullScrollView;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.HttpBasePost;
 import http.HttpTypeConstants;
@@ -74,6 +77,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
     private Handler handler ;
     private long exitTime = 0,projectTime = 0 ,detailsTime = 0;
     //考勤统计
+    ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +111,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
         param.put("userId","");
         param.put("year",yearSpinnerString);
         param.put("month",monthSpinnerString);
-        HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.ATTENDANCE_STATISTICS_SEARCH_URL),param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
         //attendanceStatisticsHttpPost.searchStatisticsHttp(Statics.AttendanceStatisticsSearchUrl, "", Integer.toString(now.get(Calendar.YEAR)), Integer.toString(month), AttendanceStatisticsActivity.this);
         attendanceStatisticsList =new ArrayList<>();
         attendanceStatisticsList = Statics.attendanceStatisticsList;
@@ -135,7 +139,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
                         param.put("userId",nameSpinnerString);
                         param.put("year",yearSpinnerString);
                         param.put("month",monthSpinnerString);
-                        HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
+                        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.ATTENDANCE_STATISTICS_SEARCH_URL),param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
                         pullScrollView.stopRefresh();
                     }
                 }, 5000);
@@ -164,7 +168,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
         param.put("year",yearString);
         param.put("month",monthString);
         param.put("userId",userId);
-        HttpBasePost.postHttp(Statics.GetWXProjectSearchUrl,param,HttpTypeConstants.GetWXProjectSearchUrl);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.GET_WXPROJECT_SEARCH_URL),param,HttpTypeConstants.GetWXProjectSearchUrl);
         //显示对话框，在对话框中使用ListView
         listView = null;
         AlertDialog.Builder builder = new AlertDialog.Builder(AttendanceStatisticsActivity.this);
@@ -211,7 +215,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
         param.put("month",monthString);
         param.put("userId",userId);
         param.put("projectId",ida);
-        HttpBasePost.postHttp(Statics.GetWXAttendanceDetaSearchUrl,param,HttpTypeConstants.GetWXAttendanceDetaSearchUrl);
+        HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.GET_WXATTENDANCE_DETA),param,HttpTypeConstants.GetWXAttendanceDetaSearchUrl);
         //显示对话框，在对话框中使用ListView
         XiangxilistView = null;
         AlertDialog.Builder builder = new AlertDialog.Builder(AttendanceStatisticsActivity.this);
@@ -260,7 +264,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
                     param.put("userId",nameSpinnerString);
                     param.put("year",yearSpinnerString);
                     param.put("month",monthSpinnerString);
-                    HttpBasePost.postHttp(Statics.AttendanceStatisticsSearchUrl,param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
+                    HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.ATTENDANCE_STATISTICS_SEARCH_URL),param, HttpTypeConstants.AttendanceStatisticsSearchUrlType);
                     attendanceStatisticsList = Statics.attendanceStatisticsList;
                     attendanceAdapter = new AttendanceStatisticsAdapter(AttendanceStatisticsActivity.this, attendanceStatisticsList);
                     attendListView.setAdapter(attendanceAdapter);
@@ -431,6 +435,7 @@ public class AttendanceStatisticsActivity extends BaseActivity implements androi
         mCombinedChart = (BarChart)findViewById(R.id.barChart);
         titleMonth = (TextView) findViewById(R.id.titleMonth);
         pullScrollView = (PullScrollView) findViewById(R.id.test);
+        aCache = ACache.get(AttendanceStatisticsActivity.this);
     }
     public static void AdapterRefresh(String type) {//刷新adapter
         switch (type) {
