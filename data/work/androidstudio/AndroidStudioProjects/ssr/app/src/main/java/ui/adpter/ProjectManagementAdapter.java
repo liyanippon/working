@@ -53,8 +53,11 @@ public class ProjectManagementAdapter extends BaseAdapter {
     private static MemberDetailsAdpter memberDetailsAdpter;
     private long exitTime = 0;
     ACache aCache ;
+    ArrayList<ExpressManagement> tempList;
     public ProjectManagementAdapter(Activity activity) {
         this.activity = activity;
+        aCache = ACache.get(activity);
+        tempList = (ArrayList<ExpressManagement>) aCache.getAsObject(AchacheConstant.EXPRESS_MANAGEMENT_LIST);
     }
 
     @Override
@@ -127,7 +130,7 @@ public class ProjectManagementAdapter extends BaseAdapter {
          * @setMessage 设置对话框消息提示
          * setXXX方法返回Dialog对象，因此可以链式设置属性
          */
-        id = Statics.expressManagementList.get(0).getData().get(0).getRows().get(item).getId();
+        id = tempList.get(0).getData().get(0).getRows().get(item).getId();
         AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(activity);
         normalDialog.setIcon(R.drawable.delete);
@@ -139,7 +142,7 @@ public class ProjectManagementAdapter extends BaseAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
                         ExpressBillingManagementActivity.deleteSuccess = true;
-                        ExpressManagement.DataBean.RowsBean edrb=Statics.expressManagementList.get(0).getData().get(0).getRows().get(item);
+                        ExpressManagement.DataBean.RowsBean edrb=tempList.get(0).getData().get(0).getRows().get(item);
                         String sum = edrb.getSum().toString();
                         String classify = edrb.getClassify();
                         String paymentMethod = edrb.getPaymentMethod();
@@ -151,7 +154,7 @@ public class ProjectManagementAdapter extends BaseAdapter {
                             Log.d("ExpressManagementAdapte", "chuzhag"+sum+";"+classify+";"+paymentMethod);
                         }
                         Statics.isDelete = true;
-                        aCache = ACache.get(activity);
+
                         if ("success".equals(httpPost.delAccountManagerHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL), id, sum
                                 ,classify,paymentMethod,activity))) {
                             ExpressBillingManagementActivity.progressDialog = ProgressDialog.show(activity, "请稍等...", "获取数据中...", true);//显示进度条

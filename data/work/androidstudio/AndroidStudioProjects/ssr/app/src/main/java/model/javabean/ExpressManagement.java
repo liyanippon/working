@@ -21,7 +21,7 @@ public class ExpressManagement implements Serializable{
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         private List<RowsBean> rows;
 
         public List<RowsBean> getRows() {
@@ -32,7 +32,7 @@ public class ExpressManagement implements Serializable{
             this.rows = rows;
         }
 
-        public static class RowsBean {
+        public static class RowsBean implements Serializable{
             /**
              * billingTime : {"date":26,"day":3,"hours":0,"minutes":0,"month":6,"seconds":0,"time":1500998400000,"timezoneOffset":-480,"year":117}
              * classify : <span  style='color:#ff0000'><b>出账</b><span>
@@ -177,7 +177,7 @@ public class ExpressManagement implements Serializable{
                 this.updateTime = updateTime;
             }
 
-            public static class BillingTimeBean {
+            public static class BillingTimeBean implements Serializable{
                 /**
                  * date : 26
                  * day : 3
@@ -273,7 +273,7 @@ public class ExpressManagement implements Serializable{
                 }
             }
 
-            public static class CreateTimeBean {
+            public static class CreateTimeBean implements Serializable{
                 /**
                  * date : 26
                  * day : 3
@@ -369,7 +369,7 @@ public class ExpressManagement implements Serializable{
                 }
             }
 
-            public static class UpdateTimeBean {
+            public static class UpdateTimeBean implements Serializable{
                 /**
                  * date : 26
                  * day : 3

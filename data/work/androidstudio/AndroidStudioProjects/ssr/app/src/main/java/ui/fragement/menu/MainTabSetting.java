@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.example.admin.erp.MainActivity;
 import com.example.admin.erp.R;
+
+import Tool.ACache;
+import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 @SuppressLint("NewApi")
 public class MainTabSetting extends Fragment{
@@ -19,12 +22,13 @@ public class MainTabSetting extends Fragment{
 	private TextView userName;
 	private Button exitAccount;
 	private Intent in;
+	ACache aCache;
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 		//初始化
 		init(inflater,container);
-		userName.setText(Statics.Name);
+		userName.setText(aCache.getAsString(AchacheConstant.USER_NAME));
 
 		return settingLayout;
 	}
@@ -33,6 +37,7 @@ public class MainTabSetting extends Fragment{
 		userName = (TextView) settingLayout.findViewById(R.id.userName);
 		exitAccount = (Button) settingLayout.findViewById(R.id.exitAccount);
 		exitAccount.setOnClickListener(o);
+		aCache =ACache.get(getActivity());
 	}
 	View.OnClickListener o = new View.OnClickListener() {
 		@Override

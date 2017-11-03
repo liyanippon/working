@@ -39,14 +39,18 @@ public class ExpressManagementAdapter extends BaseAdapter {
     private ViewHolder vh;
     private List<ViewHolder> holders = new ArrayList<ViewHolder>();
     ACache aCache;
+    ArrayList<ExpressManagement> tempList;
     public ExpressManagementAdapter(Activity accactivity) {
         this.activity = accactivity;
     }
     @Override
     public int getCount() {
         //Log.d("ExpressManagementAdapte", "查看" + Statics.expressManagementList.get(0).getData().get(0).getRows().size());
-        if (Statics.expressManagementList.size()!=0) {
-            return Statics.expressManagementList.get(0).getData().get(0).getRows().size();
+        aCache = ACache.get(activity);
+        tempList = (ArrayList<ExpressManagement>) aCache.getAsObject(AchacheConstant.EXPRESS_MANAGEMENT_LIST);
+        Log.d("ExpressManagementAdapte", "tempList" + Boolean.toString(tempList==null));
+        if (tempList.size()!=0) {
+            return tempList.get(0).getData().get(0).getRows().size();
         } else {
             return 0;
         }
@@ -79,7 +83,7 @@ public class ExpressManagementAdapter extends BaseAdapter {
         }
         //获取数据和显示数据
         String number = Integer.toString((ExpressBillingManagementActivity.page-1)*50 + position+1);
-        ExpressManagement.DataBean.RowsBean edrb=Statics.expressManagementList.get(0).getData().get(0).getRows().get(position);
+        ExpressManagement.DataBean.RowsBean edrb=tempList.get(0).getData().get(0).getRows().get(position);
         id = edrb.getId();
         String type = edrb.getType().trim();
         String classify = edrb.getClassify().trim();
@@ -130,7 +134,7 @@ public class ExpressManagementAdapter extends BaseAdapter {
          * @setMessage 设置对话框消息提示
          * setXXX方法返回Dialog对象，因此可以链式设置属性
          */
-        id = Statics.expressManagementList.get(0).getData().get(0).getRows().get(item).getId();
+        id = tempList.get(0).getData().get(0).getRows().get(item).getId();
         AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(activity);
         normalDialog.setIcon(R.drawable.delete);
@@ -142,7 +146,7 @@ public class ExpressManagementAdapter extends BaseAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
                         ExpressBillingManagementActivity.deleteSuccess = true;
-                        ExpressManagement.DataBean.RowsBean edrb=Statics.expressManagementList.get(0).getData().get(0).getRows().get(item);
+                        ExpressManagement.DataBean.RowsBean edrb=tempList.get(0).getData().get(0).getRows().get(item);
                         String sum = edrb.getSum().toString();
                         String classify = edrb.getClassify();
                         String paymentMethod = edrb.getPaymentMethod();

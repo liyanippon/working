@@ -35,6 +35,7 @@ import Tool.crash.BaseActivity;
 import Tool.statistics.AchacheConstant;
 import Tool.statistics.Statics;
 import http.HttpTypeConstants;
+import model.javabean.AccountReason;
 import model.javabean.AccountType;
 import model.javabean.ExpressManagement;
 import model.javabean.UserUmp;
@@ -77,9 +78,10 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
     ExpressBillingManagerPresenterImpl ebmi = new ExpressBillingManagerPresenterImpl();
     //ExpressBillingManagerPresenter ebmPresenter;
     private long exitTime = 0, accountLvTime = 0;
-    LoginPresenterImpl presenter;
-    Properties properties;
-    ACache aCache;
+    private LoginPresenterImpl presenter;
+    private Properties properties;
+    private static ACache aCache;
+    private static ArrayList<AccountReason> accountReasonList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,10 +167,10 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 data_list.add("全部");
 
                 Log.d("ExpressBillingManagemen", "quanbu" + classifySpinnerString);
-                for (int i = 0; i < Statics.accountReasonList.size() ; i++) {
-                    data_list.add(Statics.accountReasonList.get(i).getName());
-                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
-                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getId());
+                for (int i = 0; i < accountReasonList.size() ; i++) {
+                    data_list.add(accountReasonList.get(i).getName());
+                    Log.v("test2", "data_list:" + accountReasonList.get(i).getName());
+                    Log.v("test2", "data_list:" + accountReasonList.get(i).getId());
 
                 }
                 //适配器
@@ -182,19 +184,19 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (position <= Statics.accountReasonList.size()) {//需要仔细
+                        if (position <= accountReasonList.size()) {//需要仔细
                             if(position == 0){
                                 reasonSpinnerString = "全部";
                                 Log.d("ExpressBillingManagemen", "代号："+"全部");
 
                             }else{
-                                reasonSpinnerString = Statics.accountReasonList.get(--position).getId();
+                                reasonSpinnerString = accountReasonList.get(--position).getId();
                                 Log.d("ExpressBillingManagemen", "代号："+reasonSpinnerString);
                             }
                         } else {
                             Log.v("test", "position:" + Integer.toString(position) + "@" +
-                                    "Static.accountReasonList.size()" + Integer.toString(Statics.accountReasonList.size()));
-                            Log.d("ExpressBillingManagemen","代号::"+position+"@@"+Integer.toString(Statics.accountReasonList.size()-1));
+                                    "Static.accountReasonList.size()" + Integer.toString(accountReasonList.size()));
+                            Log.d("ExpressBillingManagemen","代号::"+position+"@@"+Integer.toString(accountReasonList.size()-1));
                         }
                     }
                     @Override
@@ -292,12 +294,13 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
         ToolUtils.backButton(this);
         context = getApplicationContext();
         activityExpress = ExpressBillingManagementActivity.this;
+        aCache = ACache.get(activityExpress);
         initBroadCast();
         init();
+        accountReasonList = (ArrayList<AccountReason>) aCache.getAsObject(AchacheConstant.ACCOUNT_REASON_LIST);
         //空查询
         page = 1;//显示页数
         httpPost = new ExpressBillingManagementHttpPost();
-        aCache = ACache.get(activityExpress);
         //String httpUrl = Statics.FinancialBillingManagementSearchUrl;
         //刚进入页面就要显示数据
         progressDialog = ProgressDialog.show(ExpressBillingManagementActivity.this, "请稍等...", "获取数据中...", true);//显示进度条
@@ -350,7 +353,9 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                     TextView createuser = (TextView) layout.findViewById(R.id.createuser);//创建人
                     TextView billingTime = (TextView) layout.findViewById(R.id.billingTime);//账单时间
                     TextView createTime = (TextView) layout.findViewById(R.id.createTime);//创建时间
-                    ExpressManagement.DataBean.RowsBean edrb = Statics.expressManagementList.get(0).getData().get(0).getRows().get(position - 1);
+                    ArrayList<ExpressManagement> tempList;
+                    tempList = (ArrayList<ExpressManagement>) aCache.getAsObject(AchacheConstant.EXPRESS_MANAGEMENT_LIST);
+                    ExpressManagement.DataBean.RowsBean edrb = tempList.get(0).getData().get(0).getRows().get(position - 1);
                     type.setText(edrb.getType());
                     classify.setText(edrb.getClassify());
                     reason.setText(edrb.getReason());
@@ -448,12 +453,13 @@ public class ExpressBillingManagementActivity extends BaseActivity implements XL
                 if(type.equals("SearchReasonSpinner")){
                     Log.d("aleand","收到广播");
                     //适配器
+                    accountReasonList = (ArrayList<AccountReason>) aCache.getAsObject(AchacheConstant.ACCOUNT_REASON_LIST);
                     //arr_adapter1.notifyDataSetChanged();
                     data_list = new ArrayList<>();
                     data_list.add("全部");
-                    for (int i = 0; i < Statics.accountReasonList.size() && !"全部".equals(classifySpinnerString); i++) {
-                        data_list.add(Statics.accountReasonList.get(i).getName());
-                        Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
+                    for (int i = 0; i < accountReasonList.size() && !"全部".equals(classifySpinnerString); i++) {
+                        data_list.add(accountReasonList.get(i).getName());
+                        Log.v("test2", "data_list:" + accountReasonList.get(i).getName());
 
                     }
                     //适配器

@@ -90,7 +90,7 @@ public class AddExpressNumberActivity extends BaseActivity {
                         Log.d("test", typeSpinnerString    + "@" + description );
                         if ("success".equals(httpPost.addExpressBillingHttp(
                                 aCache.getAsString(AchacheConstant.EXPRESS_COUNT_SEARCH), typeSpinnerString,
-                                expressNameString, billNumberString,descriptionString ,billingTimeString))) {
+                                expressNameString, billNumberString,descriptionString ,billingTimeString,AddExpressNumberActivity.this))) {
                             Toast.makeText(AddExpressNumberActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                             finish();
                         }

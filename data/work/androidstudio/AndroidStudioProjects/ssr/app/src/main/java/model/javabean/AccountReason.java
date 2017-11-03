@@ -1,10 +1,12 @@
 package model.javabean;
 
+import java.io.Serializable;
+
 /**
  * Created by admin on 2017/2/27.
  */
 
-public class AccountReason {
+public class AccountReason implements Serializable{
     private String id;
     private String name;
 

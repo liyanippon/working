@@ -43,9 +43,9 @@ public class LoginPresenterImpl implements LoginPresenter,OnLoginFinishedListene
         try {
             properties.load(activity.getAssets().open("property1.properties"));
             String IFengLoginUrl = properties.getProperty("IFengLoginUrl").trim();
-            Statics.LoginUrl = IFengLoginUrl;
             //缓存本地
             ACache mCache = ACache.get(activity);
+            mCache.put(AchacheConstant.LOGIN_URL, IFengLoginUrl,1 * ACache.TIME_DAY);
             String IFengUrl = properties.getProperty("IFengUrl").trim();
             String UmpUrl = properties.getProperty("UmpUrl").trim();
             mCache.put(AchacheConstant.UML_URL, UmpUrl + "/setRoles/loadRoleUserId.ajax",1 * ACache.TIME_DAY);

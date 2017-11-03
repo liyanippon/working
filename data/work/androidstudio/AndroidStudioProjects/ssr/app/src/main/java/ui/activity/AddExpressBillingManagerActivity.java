@@ -29,7 +29,9 @@ import Tool.statistics.Statics;
 import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.ExpressBillingManagementHttpPost;
+import model.javabean.AccountReason;
 import model.javabean.AccountType;
+import model.javabean.Customer;
 import model.javabean.ExpressExpensePayMethod;
 import portface.LazyLoadFace;
 public class AddExpressBillingManagerActivity extends BaseActivity{
@@ -47,7 +49,9 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
     private static ArrayList data_list1;
     static FreshenBroadcastReceiver broadcast;
     public static Context context;
-    ACache aCache;
+    private static ACache aCache;
+    private ArrayList<Customer> customerArrayList;
+    private static ArrayList<AccountReason> accountReasonList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +61,9 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
         //添加返回按钮
         ToolUtils.backButton(this);
         context = getApplicationContext();
-        initBroadCast();
         init();
-
+        customerArrayList = (ArrayList<Customer>) aCache.getAsObject(AchacheConstant.CUSTOMER_LIST);
+        initBroadCast();
         spinnerType();
         calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
@@ -74,6 +78,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
     @Override
     protected void onResume() {
         super.onResume();
+
         add.setClickable(true);
     }
 
@@ -109,7 +114,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
                     Log.d("test", typeSpinnerString + "@" + classifySpinnerString + "@" + reasonSpinnerString + "@" + priceString + "@" + remarkString + "@" + customerSpinnerString);
                     if ("success".equals(httpPost.addCountManagerHttp(
                             aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL), typeSpinnerString, classifySpinnerString,
-                            reasonSpinnerString, priceString, remarkString, customerSpinnerString ,billingTimeString,payMethodSpinnerString))) {
+                            reasonSpinnerString, priceString, remarkString, customerSpinnerString ,billingTimeString,payMethodSpinnerString,AddExpressBillingManagerActivity.this))) {
                         Toast.makeText(AddExpressBillingManagerActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -144,12 +149,13 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
                 mYear, mMonth, mDay).show();
     }
     private void spinnerType() {
+        accountReasonList = (ArrayList<AccountReason>) aCache.getAsObject(AchacheConstant.ACCOUNT_REASON_LIST);
         //数据 customer
         httpPost = new ExpressBillingManagementHttpPost();
-        httpPost.customerSearchHttp(aCache.getAsString(AchacheConstant.All_CUSTOMER_URL));
+        httpPost.customerSearchHttp(aCache.getAsString(AchacheConstant.All_CUSTOMER_URL),AddExpressBillingManagerActivity.this);
         data_list = new ArrayList<>();
-        for (int i = 0; i < Statics.customerList.size(); i++) {
-            data_list.add(Statics.customerList.get(i).getName());
+        for (int i = 0; i < customerArrayList.size(); i++) {
+            data_list.add(customerArrayList.get(i).getName());
         }
         for (int j = 0; j < data_list.size(); j++) {
             Log.v("data-list", "--" + data_list.get(j));
@@ -163,7 +169,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
         customSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                customerSpinnerString = Statics.customerList.get(position).getId();
+                customerSpinnerString = customerArrayList.get(position).getId();
             }
 
             @Override
@@ -232,8 +238,8 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
                 httpPost = new ExpressBillingManagementHttpPost();
                 httpPost.accountReasonSearchHttp(aCache.getAsString(AchacheConstant.ACCOUNT_REASON_URL), classifySpinnerString, AddExpressBillingManagerActivity.this);
                 data_list1 = new ArrayList<>();
-                for (int i = 0; i < Statics.accountReasonList.size(); i++) {
-                    data_list1.add(Statics.accountReasonList.get(i).getName());
+                for (int i = 0; i < accountReasonList.size(); i++) {
+                    data_list1.add(accountReasonList.get(i).getName());
                 }
 
                 //适配器
@@ -246,7 +252,7 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
                 reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        reasonSpinnerString = Statics.accountReasonList.get(position).getId();
+                        reasonSpinnerString = accountReasonList.get(position).getId();
                     }
 
                     @Override
@@ -308,18 +314,18 @@ public class AddExpressBillingManagerActivity extends BaseActivity{
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Config.BC_ONE);
         context.registerReceiver(broadcast, intentFilter);
-
         broadcast.setLazyLoadFace(new LazyLoadFace() {
             @Override
             public void AdapterRefresh(String type) {
                 //具体更新
                 if(type.equals("addReasonSpinner")){
                     Log.d("aleand","收到广播");
+                    accountReasonList = (ArrayList<AccountReason>) aCache.getAsObject(AchacheConstant.ACCOUNT_REASON_LIST);
                     //适配器
                     //arr_adapter1.notifyDataSetChanged();
                     data_list1 = new ArrayList<>();
-                    for (int i = 0; i < Statics.accountReasonList.size(); i++) {
-                        data_list1.add(Statics.accountReasonList.get(i).getName());
+                    for (int i = 0; i <accountReasonList.size(); i++) {
+                        data_list1.add(accountReasonList.get(i).getName());
                     }
                     //适配器
                     arr_adapter1 = new ArrayAdapter<>(context, R.layout.spinner_addaccount_display_style, R.id.txtvwSpinner, data_list1);
