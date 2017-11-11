@@ -34,7 +34,7 @@ git commit -m "changed the foldername whaddup"//正常提交
 https://www.west.cn/manager/vhost/index.asp?module=detail&sid=1079584   虚拟主机
 ceshi
 
-
+定制衬衫svn地址：https://182.92.243.145/svn/wphcs
 
 
 

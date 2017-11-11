@@ -170,6 +170,7 @@ http://blog.csdn.net/l631768226/article/details/51858554
 			var projectId = "b8f9da13246e4f2e9a62a17ff377e3a4";//erp项目id majikai liyan liudongmei(6月后)
 
 
+定制衬衫svn地址：https://182.92.243.145/svn/wphcs
 
 
 
