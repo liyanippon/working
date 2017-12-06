@@ -173,9 +173,21 @@ http://blog.csdn.net/l631768226/article/details/51858554
 定制衬衫svn地址：https://182.92.243.145/svn/wphcs
 
 
+Struts2 
 
+xml页面跳转传递参数： 
 
+		<!-- 改衣详情 -->
+		<action name="/modifydetail/*" class="com.ctm.action.ModifyDetailAction" method="{1}">
+			<result name="success">
+				/WEB-INF/jsp/modify_detail.jsp
+			</result>
 
+			<result name="cancel" type="redirect">
+				 showOrderDetails/index?orderNo=${orderNo}&amp;productId=${productId}
+			</result>
+			 <allowed-methods>cancel</allowed-methods>
+		</action>
 
 
 
