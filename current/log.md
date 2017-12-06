@@ -189,7 +189,20 @@ xml页面跳转传递参数：
 			 <allowed-methods>cancel</allowed-methods>
 		</action>
 
+定制信息struts循环table:
 
+	<div width="89.3%" style="padding-left: 5.3%;height:100% ;padding-right: 5.3%;margin-top:48px;">
+		<table style="width:100%;height:100%" >
+			<s:iterator value="propList"  status="sta" var="i">
+				<tr>
+					<td class="td1"><s:property value="#i.propName"/></td>
+					<td class="td2"><s:property value="#i.propValue"/></td>
+				</tr>
+			</s:iterator>
+			
+		</table>
+		<input type="hidden" id="ordermessage" name="ordermessage" value="${orderMessage}"/>
+	</div>
 
 
 
