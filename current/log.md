@@ -204,7 +204,11 @@ xml页面跳转传递参数：
 		<input type="hidden" id="ordermessage" name="ordermessage" value="${orderMessage}"/>
 	</div>
 
+productname访问地址
+http://localhost:8080/CSDZ/productname/index?productId=1&mode=1&m=webview
 
+
+html默认背景色：#eee
 
 
 
