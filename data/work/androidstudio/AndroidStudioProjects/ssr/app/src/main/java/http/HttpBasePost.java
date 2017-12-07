@@ -1,4 +1,5 @@
 package http;
+import android.app.Activity;
 import android.util.Log;
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;

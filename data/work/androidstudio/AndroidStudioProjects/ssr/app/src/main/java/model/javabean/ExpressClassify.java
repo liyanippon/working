@@ -1,12 +1,13 @@
 package model.javabean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by admin on 2017/7/6.
  */
 
-public class ExpressClassify {
+public class ExpressClassify implements Serializable{
 
 
     /**
@@ -43,7 +44,7 @@ public class ExpressClassify {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * name : 进账
          * id : 023001

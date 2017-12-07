@@ -93,13 +93,14 @@ public class ExpressNumberManagementHttpPost{
 
     //快递数量订单添加
     public String addExpressBillingHttp(String httpUrl, String typeSpinnerString, String expressNameSpinnerString, String numeric, String description,
-                                      String billingTime) {//账目查询
+                                      String billingTime,Activity activity) {//账目查询
 
         //typeSpinnerString,classifySpinnerString,reasonSpinnerString;
+        aCache = ACache.get(activity);
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("option", "2");//1查询，2添加，3删除
-        params.put("userName", Statics.Name);
+        params.put("userName", aCache.getAsString(AchacheConstant.USER_NAME));
         params.put("type", typeSpinnerString);
         params.put("nameId", expressNameSpinnerString);
         params.put("numeric", numeric);

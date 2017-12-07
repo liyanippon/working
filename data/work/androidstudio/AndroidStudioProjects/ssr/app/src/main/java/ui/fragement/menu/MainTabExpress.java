@@ -89,7 +89,7 @@ public class MainTabExpress extends Fragment implements AdapterView.OnItemClickL
 	private void spinner() {
 		//获取数据 下拉菜单
 		//AllCustomer
-				httpPost.customerSearchHttp(aCache.getAsString(AchacheConstant.All_CUSTOMER_URL));
+				httpPost.customerSearchHttp(aCache.getAsString(AchacheConstant.All_CUSTOMER_URL),getActivity());
 				HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.ACCOUNT_CLASSIFY_URL),null,HttpTypeConstants.ExpressClassifyUrlType);//进账出账下拉框
 				param=new HashMap<>();
 				param.put("option","3");

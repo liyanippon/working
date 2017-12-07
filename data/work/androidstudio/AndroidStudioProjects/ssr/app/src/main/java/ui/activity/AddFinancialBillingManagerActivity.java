@@ -100,9 +100,9 @@ public class AddFinancialBillingManagerActivity extends BaseActivity {
                         add.setBackgroundColor(Color.rgb(0x66,0x66,0x66));
                         param=new HashMap<>();
                         param.put("id","");
-                        param.put("createBy",Statics.Name);
-                        param.put("updateBy",Statics.Name);
-                        param.put("userName", Statics.Name);
+                        param.put("createBy",aCache.getAsString(AchacheConstant.USER_NAME));
+                        param.put("updateBy",aCache.getAsString(AchacheConstant.USER_NAME));
+                        param.put("userName", aCache.getAsString(AchacheConstant.USER_NAME));
                         param.put("option", "2");//1查询，2添加，3删除
                         param.put("billType",accountSpinnerString);
                         param.put("billClassify",classifySpinnerString);

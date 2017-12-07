@@ -47,52 +47,50 @@ public class JsonResolve {
     static ACache aCache;
     public static void jsonAccountReasonSearch(String json, Activity activity) {//详细
         try {
+            aCache = ACache.get(activity);
             //解析前先清空
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Statics.accountReasonList.clear();
+            //Statics.accountReasonList.clear();
+            ArrayList<AccountReason> arrayList = new ArrayList<>();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String id = jsonObject1.getString("id");
                 String name = jsonObject1.getString("name");
                 AccountReason accountReason = new AccountReason(id, name);
-                Statics.accountReasonList.add(accountReason);
+                arrayList.add(accountReason);
                 accountReason = null;
                 Log.v("test2", "name:" + name);
                 Log.v("test2", "------------");
             }
+            aCache.put(AchacheConstant.ACCOUNT_REASON_LIST,arrayList,1 * ACache.TIME_DAY);//存储到缓存
             //刷新
             Statics.data_list.clear();
-            for (int i = 0; i < Statics.accountReasonList.size(); i++) {
-                Statics.data_list.add(Statics.accountReasonList.get(i).getName());
-                Log.v("test2", "data_list1:" + Statics.accountReasonList.get(i).getName());
+            for (int i = 0; i < arrayList.size(); i++) {
+                Statics.data_list.add(arrayList.get(i).getName());
+                Log.v("test2", "data_list1:" + arrayList.get(i).getName());
 
             }
             if(Statics.ActivityType!=null&&!Statics.ActivityType.equals("")){
                 if(Statics.ActivityType.equals("addExpress")){//更新add添加页面
                     BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"addReasonSpinner");
-                    //AddExpressBillingManagerActivity addExpressBillingManagerActivity = new AddExpressBillingManagerActivity();
                     AddExpressBillingManagerActivity.AdapterRefresh("reasonSpinner");
                     Statics.ActivityType = "";
                     Log.d("aleand","发送广播");
 
                 }else if(Statics.ActivityType.equals("ExpressBillingManagementActivity")){//更新search显示检索页面
                     BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"SearchReasonSpinner");
-                    //ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
                     ExpressBillingManagementActivity.AdapterRefresh("reasonSpinner");
-
                     Log.d("aleand","发送广播");
                     Statics.ActivityType = "";
                 }else if(Statics.ActivityType.equals("LogisticsReportActivity")){
                     Log.d("kl3kl","二级联动");
-                    for (int i = 0; i < Statics.accountReasonList.size(); i++) {
-                        Statics.data_list.add(Statics.accountReasonList.get(i).getName());
-                        Log.v("ki9", "sssss:" + Statics.accountReasonList.get(i).getName());
-
+                    for (int i = 0; i < arrayList.size(); i++) {
+                        Statics.data_list.add(arrayList.get(i).getName());
+                        Log.v("ki9", "sssss:" + arrayList.get(i).getName());
                     }
                     BroadCastTool.sendMyBroadcast(TYPE.NORMAL,activity,"SearchReasonSpinner1");
-                    //ExpressBillingManagementActivity expressBillingManagementActivity = new ExpressBillingManagementActivity();
                     LogisticsReportActivity.AdapterRefresh("reasonSpinner");
                     Log.d("aleand","发送广播");
                     Statics.ActivityType = "";
@@ -135,23 +133,26 @@ public class JsonResolve {
 
     }
 
-    public static void jsonCustomerAllSearch(String json) {//快递类型 圆通韵达
+    public static void jsonCustomerAllSearch(String json,Activity activity) {//快递类型 圆通韵达
         try {
+            aCache = ACache.get(activity);
             //解析前先清空
             JSONArray jsonArray = new JSONArray(json);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-            Statics.customerList.clear();
-
+            ArrayList<Customer> tempList = new ArrayList<>();
+            aCache.remove(AchacheConstant.CUSTOMER_LIST);
+            //Statics.customerList.clear();
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String id = jsonObject1.getString("id");
                 String name = jsonObject1.getString("name");
                 Customer customer = new Customer(id, name);
-                Statics.customerList.add(customer);
+                tempList.add(customer);
+                //Statics.customerList.add(customer);
                 customer = null;
             }
-
+            aCache.put(AchacheConstant.CUSTOMER_LIST,tempList,1 * ACache.TIME_DAY);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

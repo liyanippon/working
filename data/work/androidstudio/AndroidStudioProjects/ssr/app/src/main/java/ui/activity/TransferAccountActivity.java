@@ -64,6 +64,7 @@ public class TransferAccountActivity extends BaseActivity {
         //添加返回按钮
         ToolUtils.backButton(this);
         context = getApplicationContext();
+        aCache = ACache.get(activity);
         initBroadCast();
         init();
         spinnerType();
@@ -115,8 +116,8 @@ public class TransferAccountActivity extends BaseActivity {
                             +"?"+poundageString);
                     param = new HashMap<>();
                     param.put("option","4");
-                    param.put("createBy", Statics.Name);
-                    param.put("updateBy", Statics.Name);
+                    param.put("createBy", aCache.getAsString(AchacheConstant.USER_NAME));
+                    param.put("updateBy", aCache.getAsString(AchacheConstant.USER_NAME));
                     param.put("billingTime", billingTimeString);
                     param.put("updateTime", billingTimeString);
                     param.put("createTime", billingTimeString);
@@ -124,11 +125,10 @@ public class TransferAccountActivity extends BaseActivity {
                     param.put("sum", priceString);
                     param.put("reason",reasonSpinnerString);
                     param.put("classify",classifySpinnerString);
-                    param.put("userName", Statics.Name);
+                    param.put("userName", aCache.getAsString(AchacheConstant.USER_NAME));
                     param.put("id", "");
                     param.put("poundage",poundageString);
                     Statics.isTransfer = true;
-                    aCache = ACache.get(activity);
                     if ("success".equals(HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL),param,HttpTypeConstants.TransferAccount))){//进账出账下拉框
                         //Toast.makeText(TransferAccountActivity.this, "转账成功", Toast.LENGTH_SHORT).show();
                         finish();

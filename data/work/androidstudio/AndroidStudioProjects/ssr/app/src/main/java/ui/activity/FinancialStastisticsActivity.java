@@ -113,7 +113,7 @@ public class FinancialStastisticsActivity extends BaseActivity implements androi
                 String monthString = null;
                 yearSpinnerString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getYe());//选中年
                 monthString = Integer.toString(Statics.fbgwxSettlementMonthList.get(position).getMon());//选中月
-                param.put("id",Statics.Name);
+                param.put("id",aCache.getAsString(AchacheConstant.USER_NAME));
                 param.put("year",yearSpinnerString);
                 param.put("month",monthString);
                 HttpBasePost.postHttp(aCache.getAsString(AchacheConstant.FINANCIAL_BILLING_GETWXSELECT_MONTH_ACCOUNT_URL),param,HttpTypeConstants.FinancialBillingGetWXSelectMonthAccountUrlType);

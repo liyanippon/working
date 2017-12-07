@@ -36,6 +36,7 @@ import broadcast.Config;
 import broadcast.FreshenBroadcastReceiver;
 import http.BillingStatisticsHttpPost;
 import http.ExpressBillingManagementHttpPost;
+import model.javabean.AccountReason;
 import model.javabean.AccountType;
 import model.javabean.TimeBillingStatistics;
 import model.javabean.XiangxiBillingStatistics;
@@ -72,7 +73,8 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
     private PullScrollView pullScrollView;
     private Handler handler ;
     private long exitTime = 0 ,timeList = 0;
-    ACache aCache;
+    private static ACache aCache;
+    private static ArrayList<AccountReason> accountReasonList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,9 +92,10 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
         //添加返回按钮
         ToolUtils.backButton(this);
         context = getApplicationContext();
-        initBroadCast();
         init();
+        initBroadCast();
         activity = LogisticsReportActivity.this;
+        accountReasonList = (ArrayList<AccountReason>) aCache.getAsObject(AchacheConstant.ACCOUNT_REASON_LIST);
         spinnerType();
         yearSpinnerString = "2017";//默认赋值
         //首次访问
@@ -214,13 +217,14 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
                 //具体更新
                 if(type.equals("SearchReasonSpinner1")){
                     Log.d("aleand","收到广播");
+                    accountReasonList = (ArrayList<AccountReason>) aCache.getAsObject(AchacheConstant.ACCOUNT_REASON_LIST);
                     //适配器
                     //arr_adapter1.notifyDataSetChanged();
                     data_list1 = new ArrayList<>();
                     data_list1.add("全部");
-                    for (int i = 0; i < Statics.accountReasonList.size() && !"全部".equals(classifySpinnerString); i++) {
-                        data_list1.add(Statics.accountReasonList.get(i).getName());
-                        Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
+                    for (int i = 0; i < accountReasonList.size() && !"全部".equals(classifySpinnerString); i++) {
+                        data_list1.add(accountReasonList.get(i).getName());
+                        Log.v("test2", "data_list:" + accountReasonList.get(i).getName());
                     }
                     //适配器
                     arr_adapter = new ArrayAdapter<>(activity, R.layout.spinner_display_style, R.id.txtvwSpinner, data_list1);
@@ -328,10 +332,10 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
 
                 data_list1 = new ArrayList<>();
                 data_list1.add("全部");
-                for (int i = 0; i < Statics.accountReasonList.size(); i++) {
-                    data_list1.add(Statics.accountReasonList.get(i).getName());
-                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getName());
-                    Log.v("test2", "data_list:" + Statics.accountReasonList.get(i).getId());
+                for (int i = 0; i < accountReasonList.size(); i++) {
+                    data_list1.add(accountReasonList.get(i).getName());
+                    Log.v("test2", "data_list:" + accountReasonList.get(i).getName());
+                    Log.v("test2", "data_list:" + accountReasonList.get(i).getId());
 
                 }
                 //适配器
@@ -345,19 +349,19 @@ public class LogisticsReportActivity extends BaseActivity implements android.os.
                 reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (position <= Statics.accountReasonList.size()) {//需要仔细
+                        if (position <= accountReasonList.size()) {//需要仔细
                             if(position == 0){
                                 reasonSpinnerString = "全部";
                                 Log.d("ExpressBillingManagemen", "代号："+"全部");
 
                             }else{
-                                reasonSpinnerString = Statics.accountReasonList.get(--position).getId();
+                                reasonSpinnerString = accountReasonList.get(--position).getId();
                                 Log.d("ExpressBillingManagemen", "代号："+reasonSpinnerString);
                             }
                         } else {
                             Log.v("test", "position:" + Integer.toString(position) + "@" +
-                                    "Static.accountReasonList.size()" + Integer.toString(Statics.accountReasonList.size()));
-                            Log.d("ExpressBillingManagemen","代号::"+position+"@@"+Integer.toString(Statics.accountReasonList.size()-1));
+                                    "Static.accountReasonList.size()" + Integer.toString(accountReasonList.size()));
+                            Log.d("ExpressBillingManagemen","代号::"+position+"@@"+Integer.toString(accountReasonList.size()-1));
                         }
                     }
                     @Override

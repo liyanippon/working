@@ -49,18 +49,18 @@ public class Statics {
     /**登录**/
     public static String sessionId ;
     /**物流管理**/
-    public static String LoginUrl = "http://192.168.1.12:8081/login.jhtml";
+    //public static String LoginUrl = "http://192.168.1.12:8081/login.jhtml";
     //public static String UmlUrl = "http://192.168.1.16:8083/getWXMenuList.ajax";//用户权限url
-    public static String Name = null;
+    //public static String Name = null;
     //public static String LoginUrl = "http://i.yifeng-dl.com/login.jhtml";//用户登录地址
     //public static String FinancialBillingManagementSearchUrl = "http://192.168.1.12:8081/wxApi.ajax";//账目查询地址 添加地址
     //public static String AllCustomerUrl = "http://192.168.1.16:8083/getWXAllCustomer.ajax";//客户
     //public static String AccountReasonUrl = "http://192.168.1.16:8083/getWXExpenseAccountReason.ajax";//账目类型明细
     //public static String AccountClassifyUrl = "http://192.168.1.16:8083/getWXExpenseAccountClassify.ajax";//账目类型进账出账
     //public static String AccountTypeUrl = "http://192.168.1.16:8083/getWXExpenseAccountType.ajax";//获取快递类型 圆通韵达
-    public static ArrayList<ExpressManagement> expressManagementList = new ArrayList<>();
-    public static ArrayList<Customer> customerList = new ArrayList<>();
-    public static ArrayList<AccountReason> accountReasonList = new ArrayList<>();
+    //public static ArrayList<ExpressManagement> expressManagementList = new ArrayList<>();
+    //public static ArrayList<Customer> customerList = new ArrayList<>();
+    //public static ArrayList<AccountReason> accountReasonList = new ArrayList<>();
     public static ArrayList<ExpressClassify> expressClassifyList = new ArrayList<>();
     public static ArrayList<ExpressClassify> expressClassifyList2 = new ArrayList<>();
     //public static ArrayList<AccountType> accountTypeList = new ArrayList<>();

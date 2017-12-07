@@ -87,9 +87,7 @@ public class ExpressBillingManagementHttpPost {
                             String sessionid = jsonObject.getString("sessionid");//在添加账单时会用到
                             Statics.sessionId = sessionid;
                             Statics.results = success;
-                            Statics.Name = username;
-                            //缓存本地
-                            mCache = ACache.get(context);
+                            mCache = ACache.get(activity);
                             UmlHttp(mCache.getAsString(AchacheConstant.UML_URL), sessionid, username);
                             Log.d("uml", sessionid);
                             break;
@@ -121,6 +119,8 @@ public class ExpressBillingManagementHttpPost {
     }
 
     public String UmlHttp(String httpUrl, final String sessionid, String username) {//登录验证
+        mCache = ACache.get(context);
+        mCache.put(AchacheConstant.USER_NAME,username);//缓存用户名字
         Log.d("uml", httpUrl+"sss");
         finalHttp = new FinalHttp();
         finalHttp.configRequestExecutionRetryCount(7);// 请求错误重试次数
@@ -142,10 +142,9 @@ public class ExpressBillingManagementHttpPost {
                 UserUmp[] as = new Gson().fromJson(result, UserUmp[].class);
                 Collections.addAll(Statics.userUmpsStatisticsList, as);//转化arrayList
                 //缓存本地
-                mCache = ACache.get(context);
+
                 //只能使用List的子类
                 mCache.put(AchacheConstant.USER_UMP, Statics.userUmpsStatisticsList,1 * ACache.TIME_DAY);//缓存用户权限
-                mCache.put(AchacheConstant.USER_NAME,Statics.Name);//缓存用户名字
                 BroadCastTool.sendMyBroadcast(TYPE.NORMAL, context, "login");//发送广播
             }
             @Override
@@ -164,7 +163,7 @@ public class ExpressBillingManagementHttpPost {
         lazyLoad = lazyLoadFace;
         Log.d("test", Boolean.toString(lazyLoad == null));
     }
-    public String searchHttp(String httpUrl, String typeSpinnerString, String classifySpinnerString, String reasonSpinnerString,Activity activity, int page) {//账目查询
+    public String searchHttp(String httpUrl, String typeSpinnerString, String classifySpinnerString, String reasonSpinnerString, final Activity activity, int page) {//账目查询
         Log.d("search", typeSpinnerString + "@" + classifySpinnerString + "@" + reasonSpinnerString);
         Log.d("lll","请求次数");
         activitys = activity;
@@ -219,18 +218,23 @@ public class ExpressBillingManagementHttpPost {
                 ExpressManagement[] fc = new Gson().fromJson(results, ExpressManagement[].class);
                 //Collections.addAll(Statics.expressManagementList,fc);//转化arrayList
                 Collections.addAll(temp,fc);//转化arrayList
+                mCache = ACache.get(activity);
                 if(Statics.isPageUpload){//如果是翻页动作，则不清除以前的数据
-                    Log.d("ExpressBillingManagemen", "翻页，数"+Statics.expressManagementList.get(0).getData().get(0).getRows().size());
-                    Log.d("ExpressBillingManagemen", "翻页，数1:"+temp.get(0).getData().get(0).getRows().size());
-                    Statics.expressManagementList.get(0).getData().get(0).getRows().addAll(fc[0].getData().get(0).getRows());
-                    Log.d("ExpressBillingManagemen", "翻页，数"+Statics.expressManagementList.get(0).getData().get(0).getRows().size());
+                    temp = (ArrayList<ExpressManagement>) mCache.getAsObject(AchacheConstant.EXPRESS_MANAGEMENT_LIST);
+                    temp.get(0).getData().get(0).getRows().addAll(fc[0].getData().get(0).getRows());
+                    mCache.put(AchacheConstant.EXPRESS_MANAGEMENT_LIST, temp,1 * ACache.TIME_DAY);//再次存储
 
                 }else {
-                    Statics.expressManagementList.clear();
-                    Statics.expressManagementList = temp;
+                    //Statics.expressManagementList.clear();
+                    //Statics.expressManagementList = temp;
+                    //mCache.remove(AchacheConstant.EXPRESS_MANAGEMENT_LIST);
+                    Log.d("ExpressBillingManagemen", "sssdfa" + temp.size());
+                    mCache.put(AchacheConstant.EXPRESS_MANAGEMENT_LIST, temp,1 * ACache.TIME_DAY);
                 }
                 Statics.isPageUpload = false;
                 Log.d("ExpressBillingManagemen", "成功1");
+                temp = (ArrayList<ExpressManagement>) mCache.getAsObject(AchacheConstant.EXPRESS_MANAGEMENT_LIST);
+                Log.d("ExpressBillingManagemen", "sssdfa" + temp.size());
                 ExpressBillingManagementActivity.AdapterRefresh("accountManagementAdapter");
                 //回调接口
 
@@ -252,7 +256,7 @@ public class ExpressBillingManagementHttpPost {
         return resultString;
     }
     public String addCountManagerHttp(String httpUrl, String typeSpinnerString, String classifySpinnerString, String reasonSpinnerString, String sum,
-                                      String description, String customerId, String billingTime ,String payMethodString) {
+                                      String description, String customerId, String billingTime ,String payMethodString,Activity activity) {
         Log.d("addmm", "添加账单:" + typeSpinnerString + "/"
                 + classifySpinnerString +
                 "/" + reasonSpinnerString +
@@ -263,13 +267,13 @@ public class ExpressBillingManagementHttpPost {
         );
         finalHttp = new FinalHttp();
         params = new AjaxParams();
-        Log.d("ffff", "xxx" + Statics.Name);
+        mCache = ACache.get(activity);
         params.put("id", "");
-        params.put("createBy", Statics.Name);
-        params.put("updateBy", Statics.Name);
+        params.put("createBy", mCache.getAsString(AchacheConstant.USER_NAME));
+        params.put("updateBy", mCache.getAsString(AchacheConstant.USER_NAME));
         params.put("option", "2");//1查询，2添加，3删除
         //params.put("id","1212"); //Id不用传
-        params.put("userName", Statics.Name);
+        params.put("userName", mCache.getAsString(AchacheConstant.USER_NAME));
         params.put("type", typeSpinnerString);
         params.put("classify", classifySpinnerString);
         params.put("reason", reasonSpinnerString);
@@ -337,7 +341,7 @@ public class ExpressBillingManagementHttpPost {
         return resultString;
     }
     //下拉菜单
-    public String customerSearchHttp(String httpUrl) {//customerSearchHttp 顾客
+    public String customerSearchHttp(String httpUrl, final Activity activity) {//customerSearchHttp 顾客
         finalHttp = new FinalHttp();
         params = new AjaxParams();
         params.put("httpUrl", httpUrl);
@@ -348,7 +352,7 @@ public class ExpressBillingManagementHttpPost {
                 String result = (String) o;//从从网络端返回数据
                 Log.d("jijijij", result);
                 resultString = "success";
-                JsonResolve.jsonCustomerAllSearch(result);//json解析
+                JsonResolve.jsonCustomerAllSearch(result,activity);//json解析
             }
             @Override
             public void onFailure(Throwable t, int errorNo, String strMsg) {//网络请求失败

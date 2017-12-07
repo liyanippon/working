@@ -189,10 +189,6 @@ public class AddFinancialSalaryActivity extends AppCompatActivity {
                     if ("".equals(basePayString) ) {
                         Toast.makeText(AddFinancialSalaryActivity.this, "所填数据不能为空", Toast.LENGTH_LONG).show();
                     } else {
-                        Log.d("ttt1231","addzhangdan"+nameSpinnerString+","+basePayString+","+travellingAllowanceString+","+bonusString
-                                +","+trafficAllowanceString+","+overtimeAllowanceString+","+expenseString+","+leavePayString+","+housingFundString
-                                +","+medicalInsuranceString+","+endowmentInsuranceString+","+unemploymentInsuranceString+","+time[0]+","+time[1]
-                                +","+Statics.Name+","+billingTimeString+","+relavenceSpinnerString+","+buildStyleSpinnerString);
                         param = new HashMap<>();
                         param.put("userName",nameSpinnerString);//姓名
                         param.put("basePay",basePayString);//基本工资
@@ -208,8 +204,8 @@ public class AddFinancialSalaryActivity extends AppCompatActivity {
                         param.put("unemploymentInsurance", unemploymentInsuranceString);//失业保险
                         param.put("year",time[0]);
                         param.put("month",time[1]);
-                        param.put("createBy", Statics.Name);
-                        param.put("updateBy", Statics.Name);
+                        param.put("createBy", aCache.getAsString(AchacheConstant.USER_NAME));
+                        param.put("updateBy", aCache.getAsString(AchacheConstant.USER_NAME));
                         param.put("billingTime", billingTimeString);//billingTime 创建时间
                         param.put("updateTime", billingTimeString);
                         param.put("yes", relavenceSpinnerString);//是否关联加班

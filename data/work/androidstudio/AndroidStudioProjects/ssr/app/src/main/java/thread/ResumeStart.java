@@ -31,8 +31,6 @@ public class ResumeStart implements Runnable{
         //使用getAsObject()，直接进行强转
         new AchacheConstant();
         Statics.userUmpsStatisticsList = (ArrayList<UserUmp>) aCache.getAsObject(AchacheConstant.USER_UMP);
-        Statics.Name = aCache.getAsString(AchacheConstant.USER_NAME);
-        Log.d("ResumeStart", Statics.Name);
         presenter=new LoginPresenterImpl();
         properties = new Properties();
         presenter.readProperties(properties,activity);//读取配置文件

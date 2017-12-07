@@ -75,7 +75,6 @@ public class OutProjectManagementActivity extends BaseActivity implements XListV
     public static Activity activity;
     private EditText searchTime,projectName;
     private Calendar calendar;
-    //private int currentYear, currentMon, currentDate;
     private HashMap<String,String> param;
     private static ListView lvs;
     private static TimeBackAdpter timeBackAdpter;

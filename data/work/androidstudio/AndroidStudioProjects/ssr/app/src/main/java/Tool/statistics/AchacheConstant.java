@@ -15,6 +15,7 @@ public class AchacheConstant {
     public static final String OUT_WORKINGTIME = "outWorkingTime";//下班考勤时间
 
     public static final String UML_URL = "UmlUrl";//用户权限url
+    public static final String LOGIN_URL = "LoginUrl";
     public static final String FINANCIAL_BILLINGMANAGEMENT_SEARCH_URL = "FinancialBillingManagementSearchUrl";//账目查询地址 添加地址
     public static final String All_CUSTOMER_URL = "AllCustomerUrl";//客户
     public static final String ACCOUNT_REASON_URL = "AccountReasonUrl";//账目类型明细
@@ -64,5 +65,9 @@ public class AchacheConstant {
 
     //ArrayList
     public static final String ACCOUNT_TYPE_LIST = "accountTypeList";
+    public static final String EXPRESS_MANAGEMENT_LIST = "expressManagementList";
+    public static final String CUSTOMER_LIST = "customerList";
+    public static final String ACCOUNT_REASON_LIST = "accountReasonList";
+
 
 }
