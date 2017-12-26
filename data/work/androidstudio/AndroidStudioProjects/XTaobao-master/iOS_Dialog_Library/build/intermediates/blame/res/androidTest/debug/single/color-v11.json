@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "E:\\Workspaces\\Projects\\XTaobao\\iOS_Dialog_Library\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "E:\\Workspaces\\Projects\\XTaobao\\iOS_Dialog_Library\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\24.2.1\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+    },
+    {
+        "merged": "E:\\Workspaces\\Projects\\XTaobao\\iOS_Dialog_Library\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "E:\\Workspaces\\Projects\\XTaobao\\iOS_Dialog_Library\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\24.2.1\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\liyanippon\\AndroidStudioProjects\\XTaobao-master\\iOS_Dialog_Library\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "C:\\Users\\liyanippon\\.android\\build-cache\\44f2b55f630ef92f8544ce90eadf97485a25cc4b\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\liyanippon\\AndroidStudioProjects\\XTaobao-master\\iOS_Dialog_Library\\build\\intermediates\\res\\merged\\androidTest\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "C:\\Users\\liyanippon\\.android\\build-cache\\44f2b55f630ef92f8544ce90eadf97485a25cc4b\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+    }
+]
