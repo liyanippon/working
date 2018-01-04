@@ -4,8 +4,7 @@ https://182.92.243.145/svn/wphcs //唯品会前台手机端
 https://182.92.243.145/svn/wphcs/trunk/src/cms //唯品会后台管理系统
 
 http://erp.yifeng-dl.com/	 //项目网址
-192.168.1.55
-http://localhost:8083
+
 http://ump.yifeng-dl.com
 https://192.168.1.2:8006  服务器地址  
 https://192.168.1.3:8006  服务器地址107    ip：192.168.1.17 内网
@@ -144,22 +143,6 @@ android 最好用的ui框架：https://github.com/wasabeef/awesome-android-ui
 异常全局处理网址：http://blog.csdn.net/cym_lmy/article/details/24704089 
 http://www.jb51.net/article/78858.htm
 Android 全局异常处理：：http://onewayonelife.iteye.com/blog/1147533
-
-wine高版本安装：http://www.linuxidc.com/Linux/2017-04/143039.htm
-
-2017.5.24号使用
-:
-/getWXstatisticalData.ajax
-:
-/getWXsettlementMonth.ajax
-
-财务分析数据:
-[{"data":["0","0","0","0","2257.00","0","0","0","0","0","0","2341.00"]
-,"name":"进账","type":"bar"}
-,{"data":["0","0","0","0","1234.00","321.00","0","0","0","0","3212.00","0"]
-,"name":"出账","type":"bar"}]
-
-<span  style='color:#ff0000'><b>出账</b><span>"}]
 
 异步任务处理网络请求
 http://blog.csdn.net/l631768226/article/details/51858554
