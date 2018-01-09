@@ -24,7 +24,7 @@
 		<param-name>webAppRootKey</param-name>
 		<param-value>com.ifeng.root</param-value>
 	</context-param>
-	<!-- <context-param>
+	<context-param>
 		<param-name>log4jConfigLocation</param-name>
 		<param-value>/WEB-INF/classes/log4j.xml</param-value>
 	</context-param>
@@ -35,7 +35,7 @@
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener
 		</listener-class>
-	</listener> -->
+	</listener>
 
 	<servlet>
 		<servlet-name>springMvc</servlet-name>

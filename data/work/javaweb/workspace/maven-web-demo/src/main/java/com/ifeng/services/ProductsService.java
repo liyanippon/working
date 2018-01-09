@@ -1,7 +1,10 @@
 package com.ifeng.services;
 
+import java.util.List;
+
+import com.ifeng.entitys.CtmProduct;
 
 public interface ProductsService {
 
-	public void getAllProduct();
+	public List<CtmProduct> getAllProduct();
 }
