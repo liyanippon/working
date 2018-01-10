@@ -490,3 +490,5 @@ http://localhost:8080/CSDZ/volumedivision/index  量体师登录url
 http://book.szdnet.org.cn/views/specific/2929/bookDetail.jsp?dxNumber=000008034511&d=9BB0F56A4317930FE23020546C77FA59&fenlei=080406         日本 下 MP3版
 
 http://book.szdnet.org.cn/search?sw=%E5%A4%A7%E6%A3%AE%E5%92%8C%E5%A4%AB&allsw=%23%2Call%E6%97%A5%E6%9C%AC+%E5%A4%A7%E6%A3%AE%E5%92%8C%E5%A4%AB&bCon=&ecode=utf-8&channel=search&Field=all      大森和夫教材
+
+http://www.nihonwosiru.jp/        日本网站
