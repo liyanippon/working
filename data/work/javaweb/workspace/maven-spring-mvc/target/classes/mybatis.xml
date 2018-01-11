@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
+	<typeAliases>
+		<typeAlias alias="CtmProduct" type="com.ifeng.entitys.CtmProduct" />
+		<typeAlias alias="CtmFabric" type="com.ifeng.entitys.CtmFabric"/>
+		<typeAlias alias="CtmOrder" type="com.ifeng.entitys.CtmOrder" />
+		<typeAlias alias="CtmReservation" type="com.ifeng.entitys.CtmReservation" />
+		<typeAlias alias="CtmUser" type="com.ifeng.entitys.CtmUser"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="com/ifeng/mappers/xml/CtmProductMapper.xml" />
+		<mapper resource="com/ifeng/mappers/xml/CtmFabricMapper.xml" />
+		<mapper resource="com/ifeng/mappers/xml/CtmOrderMapper.xml" />
+		<mapper resource="com/ifeng/mappers/xml/CtmReservationMapper.xml" />
+		<mapper resource="com/ifeng/mappers/xml/CtmUserMapper.xml" />
+	</mappers>
+</configuration>

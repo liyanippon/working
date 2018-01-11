@@ -16,10 +16,6 @@
 		<param-name>systemPropertyPlaceholder</param-name>
 		<param-value>/WEB-INF/classes/config.properties</param-value>
 	</context-param>
-	<!-- <listener>
-		<listener-class>com.ctm.web.support.SystemPropertyListener
-		</listener-class>
-	</listener> -->
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>com.ifeng.root</param-value>

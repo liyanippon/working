@@ -11,8 +11,8 @@ pageEncoding="UTF-8"%>
 <center>
         <h2>Hello World</h2>
         <h3>
-            <a href="test/hello">点击跳转</a>
+            <a href="${pageContext.request.contextPath }/user/show">点击跳转</a>
         </h3>
-    </center>
+</center>
 </body>
 </html>

@@ -56,7 +56,7 @@
         <appender-ref ref="ifengError"/>
         <appender-ref ref="ifengApp"/>
     </category>
-<logger name="java.sql">  
+	<logger name="java.sql">  
         <level value="debug" />  
     </logger>
     <root>
