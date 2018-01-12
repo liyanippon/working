@@ -1,23 +1,20 @@
 package com.ifeng.servicesimpl;
 
 import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.ifeng.entitys.CtmProductExample;
-import com.ifeng.entitys.CtmUser;
-import com.ifeng.entitys.CtmUserExample;
-import com.ifeng.mappers.CtmUserMapper;
+import com.ifeng.entitys.DmsUser;
+import com.ifeng.entitys.DmsUserExample;
+import com.ifeng.mappers.DmsUserMapper;
 import com.ifeng.services.UserService;
 @Service
 public class UserServiceImpl implements UserService{
 
 	@Autowired
-	CtmUserMapper userMapper;
+	DmsUserMapper userMapper;
 	
 	@Override
-	public boolean addUser(CtmUser user) {
+	public boolean addUser(DmsUser user) {
 		// TODO Auto-generated method stub
 		
 		int result=userMapper.insertSelective(user);
@@ -29,17 +26,17 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public ArrayList<CtmUser> showUserAll() {
+	public ArrayList<DmsUser> showUserAll() {
 		// TODO Auto-generated method stub
 		
-		return (ArrayList<CtmUser>) userMapper.selectByExample(null);
+		return (ArrayList<DmsUser>) userMapper.selectByExample(null);
 	}
 
 	@Override
-	public CtmUser showUser(String userName) {
+	public DmsUser showUser(String userName) {
 		// TODO Auto-generated method stub
-		CtmUserExample example = new CtmUserExample();
-		CtmUserExample.Criteria criteria = example.createCriteria();
+		DmsUserExample example = new DmsUserExample();
+		DmsUserExample.Criteria criteria = example.createCriteria();
 		criteria.andUsernameEqualTo(userName);
 		return userMapper.selectByExample(example).get(0);
 	}
@@ -47,8 +44,8 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean deleteUser(String userName) {
 		// TODO Auto-generated method stub
-		CtmUserExample example = new CtmUserExample();
-		CtmUserExample.Criteria criteria = example.createCriteria();
+		DmsUserExample example = new DmsUserExample();
+		DmsUserExample.Criteria criteria = example.createCriteria();
 		criteria.andUsernameEqualTo(userName);
 		int result=userMapper.deleteByExample(example);
 		if(result==1){
@@ -57,5 +54,6 @@ public class UserServiceImpl implements UserService{
 			return false;
 		}
 	}
+
 
 }

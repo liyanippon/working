@@ -3,15 +3,12 @@
 <generatorConfiguration>
 	<classPathEntry location="D:\MavenRepository\mysql\mysql-connector-java\5.1.26\mysql-connector-java-5.1.26.jar"/>
   <context id="context1">
-    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/tshirt" driverClass="com.mysql.jdbc.Driver" password="root" userId="123456" />
+    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/dms" driverClass="com.mysql.jdbc.Driver" password="root" userId="123456" />
     <javaModelGenerator targetPackage="com.ifeng.entitys" targetProject="maven-spring-mvc/src/main/java" />
     <sqlMapGenerator targetPackage="com.ifeng.mappers.xml" targetProject="maven-spring-mvc/src/main/java" />
     <javaClientGenerator targetPackage="com.ifeng.mappers" targetProject="maven-spring-mvc/src/main/java" type="XMLMAPPER" />
-    <table tableName="ctm_product" domainObjectName="CtmProduct"></table>
-    <table tableName="ctm_fabric" domainObjectName="CtmFabric"></table>
-    <table tableName="ctm_order" domainObjectName="CtmOrder"></table>
-    <table tableName="ctm_reservation" domainObjectName="CtmReservation"></table>
-    <table tableName="ctm_user" domainObjectName="CtmUser"></table>
+    <table tableName="dms_user" domainObjectName="DmsUser"></table>
+    <table tableName="dms_document" domainObjectName="DmsDocument"></table>
   </context>
 </generatorConfiguration>
 

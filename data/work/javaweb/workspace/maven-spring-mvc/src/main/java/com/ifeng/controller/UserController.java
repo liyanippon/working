@@ -1,7 +1,6 @@
 package com.ifeng.controller;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -9,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.ifeng.entitys.CtmUser;
+import com.ifeng.entitys.DmsUser;
 import com.ifeng.services.UserService;
 @Controller
 @RequestMapping("/user")
@@ -26,7 +25,7 @@ public class UserController {
 			map.put("title", "添加");
 			map.put("buttontext", "添加");
 		}else{
-			CtmUser user=userService.showUser(username);
+			DmsUser user=userService.showUser(username);
 			map.put("user", user);
 			map.put("title", "修改");
 			map.put("buttontext", "修改");
@@ -45,7 +44,7 @@ public class UserController {
 		String password=request.getParameter("password");
 		String type=request.getParameter("type");
 		System.out.println(username+","+sex+","+phone+","+address+","+password+","+type);
-		CtmUser user=new CtmUser();
+		DmsUser user=new DmsUser();
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setAddress(address);
@@ -81,8 +80,14 @@ public class UserController {
 		return "show";
 	}
 	
+	@RequestMapping("/main") /*显示所有用户信息*/
+	public String Main(ModelMap map) throws UnsupportedEncodingException{
+		showPerson(map);
+		return "main";
+	}
+	
 	private void showPerson(ModelMap map){
-		ArrayList<CtmUser> list=new ArrayList<>();
+		ArrayList<DmsUser> list=new ArrayList<>();
 		list=userService.showUserAll();
 		map.put("userList", list);
 	}

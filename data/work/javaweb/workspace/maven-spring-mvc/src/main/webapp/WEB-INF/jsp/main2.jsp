@@ -7,7 +7,6 @@
 <link href="<%=request.getContextPath() %>/common/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath() %>/common/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath() %>/common/css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/jquery.min.js"></script>
 
@@ -69,24 +68,10 @@ div.menu ul li
 .top{
 padding-left:20%;
 }
-.pagination{
-padding-left:15%
-}
-.col-md-3 {
-    width: 10%;
-}
-.thumbnail {
-    padding: 0px;
-    margin-bottom: 5px;
-}
-.main{
-padding:0% 10%
-}
-
 </style>
 </head>
 <body>
-	<nav class="navbar navbar-default top" role="navigation">
+<nav class="navbar navbar-default top" role="navigation">
 	<div class="container-fluid">
 	<div class="navbar-header">
 		<a class="navbar-brand" href="#">文档管理</a>
@@ -95,40 +80,17 @@ padding:0% 10%
 		<ul class="nav navbar-nav">
 			<li class="active"><a href="#">首页</a></li>
 			<li><a href="#">标签</a></li>
-			<li><div style="margin-top:3%" class="form-inline">
-                   <input class="form-control" name="keyword" id="keyword" type="text" style="width: 230px;" placeholder="请输入书名或作者..." value="">
-                   <input  class="btn btn-default" type="button" value="查找" id="search" onclick="search()" />
+			<li><div style="margin-top:3%">
+                    <form class="form-inline" action="/search" method="get">
+                        <input class="form-control" name="keyword" type="search" style="width: 230px;" placeholder="请输入关键词..." value="">
+                        <input  class="textinput" type="submit" value="查找" id="search"  />
+                    </form>
                 </div></li>
            <li style="margin-left:10%"><a href="#">登录</a></li>     
 		</ul>
 	</div>
 	</div>
 </nav>
-
-<!-- 正文内容 -->
-<div class="main">
-<div class="row">
-<c:forEach items="${requestScope.documentList}" var="emp">
-    <div class="col-sm-6 col-md-3">
-        <a href="#" class="thumbnail">
-            <img src="<%=request.getContextPath() %>/common/style/images/book.jpg"
-                 alt="通用的占位符缩略图">
-        </a>
-        ${emp.documentName}<br>
-                   ${emp.authorName}
-    </div>
-    </c:forEach>
-
-</div>
-</div>
-
-<ul class="pagination">
-	<li><a href="${pageContext.request.contextPath }/document/list?start=1">&laquo;</a></li>
-	<c:forEach var="emp" begin="1" end="${requestScope.page.totalPages}" varStatus="emp">
-	<li id="page${emp.index}" onclick="pageNum(id)"><a href="${pageContext.request.contextPath }/document/list?start=${emp.index}">${emp.index}</a></li>
-	</c:forEach>
-	<li><a href="${pageContext.request.contextPath }/document/list?start=${requestScope.page.totalPages}">&raquo;</a></li>
-</ul>
 
 <footer class="footer navbar-fixed-bottom ">
     <div class="container">
@@ -143,30 +105,5 @@ padding:0% 10%
         </div>
     </div>
 </footer>
-<script type="text/javascript">
-	
-	function pageNum(jkl){
-		$("#"+jkl).addClass('active');
-	}
-	function search() {
-		alert("sd");
-        $.ajax({
-        //几个参数需要注意一下
-            type: "POST",//方法类型
-            url: "${pageContext.request.contextPath }/document/list" ,
-            data: {keyword:keyword},
-            success: function (result) {
-                if (result.resultCode == 200) {
-                    alert("SUCCESS");
-                }
-                ;
-            },
-            error : function() {
-                alert("异常！");
-            }
-        });
-    }
-</script>
 </body>
-
 </html>

@@ -5,18 +5,12 @@
 		<setting name="lazyLoadingEnabled" value="false" />
 	</settings>
 	<typeAliases>
-		<typeAlias alias="CtmProduct" type="com.ifeng.entitys.CtmProduct" />
-		<typeAlias alias="CtmFabric" type="com.ifeng.entitys.CtmFabric"/>
-		<typeAlias alias="CtmOrder" type="com.ifeng.entitys.CtmOrder" />
-		<typeAlias alias="CtmReservation" type="com.ifeng.entitys.CtmReservation" />
-		<typeAlias alias="CtmUser" type="com.ifeng.entitys.CtmUser"/>
+		<typeAlias alias="DmsUser" type="com.ifeng.entitys.DmsUser" />
+	    <typeAlias alias="DmsDocument" type="com.ifeng.entitys.DmsDocument" />
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="com/ifeng/mappers/xml/CtmProductMapper.xml" />
-		<mapper resource="com/ifeng/mappers/xml/CtmFabricMapper.xml" />
-		<mapper resource="com/ifeng/mappers/xml/CtmOrderMapper.xml" />
-		<mapper resource="com/ifeng/mappers/xml/CtmReservationMapper.xml" />
-		<mapper resource="com/ifeng/mappers/xml/CtmUserMapper.xml" />
+		<mapper resource="com/ifeng/mappers/xml/DmsUserMapper.xml" />
+		<mapper resource="com/ifeng/mappers/xml/DmsDocumentMapper.xml" />
 	</mappers>
 </configuration>
