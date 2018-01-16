@@ -8,15 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.ifeng.entitys.DmsDocument;
 import com.ifeng.entitys.DmsUser;
+import com.ifeng.services.DocumentService;
 import com.ifeng.services.UserService;
+import com.ifeng.utils.Page;
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	private static Logger logger = Logger.getLogger(UserController.class);
 	@Autowired
 	UserService userService;
-
+	@Autowired
+	DocumentService documentService;
 	@RequestMapping("/addandupdate") /*添加和修改个人信息*/
 	public String upDateUser(HttpServletRequest request,HttpServletResponse response,ModelMap map) throws UnsupportedEncodingException{
 		request.setCharacterEncoding("UTF-8");//解决中文乱码问题
@@ -83,6 +88,28 @@ public class UserController {
 	@RequestMapping("/main") /*显示所有用户信息*/
 	public String Main(ModelMap map) throws UnsupportedEncodingException{
 		showPerson(map);
+		return "main";
+	}
+	
+	@RequestMapping("/login") /*调转到用户登录*/
+	public String Login() throws UnsupportedEncodingException{
+		return "login";
+	}
+	
+	@RequestMapping("/loginsystem") /*用户登录*/
+	public String LoginSystem(HttpServletRequest request,ModelMap map) throws UnsupportedEncodingException{
+		int documentCount;
+		ArrayList<DmsDocument> list=new ArrayList<>();
+		Page page;
+		documentCount=(int) documentService.showCount("");
+		page=new Page(documentCount);//设置总条数
+		page.setStart(0);//设置起始页
+		page.setPageSize(30);//每页显示条数
+		page.setPageNo(0);
+		list=documentService.showDocumentAll(page,"");
+		map.put("documentList", list);
+		map.put("page", page);
+		map.put("login", "yes");
 		return "main";
 	}
 	

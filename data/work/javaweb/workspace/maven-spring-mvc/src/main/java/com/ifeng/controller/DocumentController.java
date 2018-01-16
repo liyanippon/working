@@ -1,13 +1,21 @@
 package com.ifeng.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ifeng.entitys.DmsDocument;
 import com.ifeng.services.DocumentService;
 import com.ifeng.utils.Page;
@@ -30,22 +38,109 @@ public class DocumentController {
 		}else{
 			start=Integer.valueOf(request.getParameter("start"));
 		}
-		if(request.getParameter("keyword")==null){
+		int documentCount;
+		ArrayList<DmsDocument> list=new ArrayList<>();
+		Page page;
+		if(request.getParameter("keyword")==null||request.getParameter("keyword")==""){
 			keyWords="";
+			documentCount=(int) documentService.showCount(keyWords);
+			page=new Page(documentCount);//设置总条数
+			page.setStart(start);//设置起始页
+			page.setPageSize(30);//每页显示条数
+			page.setPageNo(start);
+			list=documentService.showDocumentAll(page,keyWords);
 		}else{
 			keyWords=request.getParameter("keyword");
+			documentCount=(int) documentService.showDocumentNameCount(keyWords);
+			page=new Page(documentCount);//设置总条数
+			page.setStart(start);//设置起始页
+			page.setPageSize(30);//每页显示条数
+			page.setPageNo(start);
+			list=documentService.showDocumentNameDocument(page, keyWords);
+			
 		}
-		Page page=new Page((int) documentService.showCount(keyWords));//设置总条数
-		page.setStart(start);//设置起始页
-		page.setPageSize(30);//每页显示条数
-		page.setPageNo(start);
-		
-		ArrayList<DmsDocument> list=new ArrayList<>();
-		list=documentService.showDocumentAll(page);
-		
+		map.put("keyword", keyWords);
+		map.put("login", "no");
 		map.put("documentList", list);
 		map.put("page", page);
 		
+		return "main";
+	}
+	
+	@RequestMapping("/details") /*显示详细信息*/
+	public String searchResult(HttpServletRequest request,ModelMap map) throws UnsupportedEncodingException{
+		String weight= request.getParameter("weight");
+		String documentName=request.getParameter("documentName");
+		if(!weight.equals("manager")){
+			map.put("message", "用户没有登录");
+			return "details";
+		}
+		//显示该文档的所有信息
+		ArrayList<DmsDocument> list=new ArrayList<>();
+		list=documentService.showDocumentNameDocument(null, documentName);
+		SimpleDateFormat time=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		String createTime="",updateTime="";
+		if(list.get(0).getCreateTime()!=null){
+			createTime=time.format(list.get(0).getCreateTime());
+		}
+		if(list.get(0).getUpdateTime()!=null){
+			updateTime=time.format(list.get(0).getUpdateTime());
+		}
+		map.put("dmsDocument", list.get(0));
+		map.put("createTime", createTime);
+		map.put("updateTime", updateTime);
+		return "details";
+	}
+	@RequestMapping("/update") /*更新文档信息*/
+	@ResponseBody
+	public Map<String, Object> updateDocument(HttpServletRequest request,ModelMap map,HttpSession httpSession) throws Exception{
+		Map<String, Object> result = new HashMap<String, Object>();
+		DmsDocument dmsDocument= new DmsDocument();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//小写的mm表示的是分钟   
+		dmsDocument.setDocumentName(request.getParameter("documentName"));
+		dmsDocument.setAuthorName(request.getParameter("authorName"));
+		if(request.getParameter("createTime")!=null&&!request.getParameter("createTime").equals("")){
+		dmsDocument.setCreateTime(sdf.parse(request.getParameter("createTime")));
+		}
+		if(request.getParameter("updateTime")!=null&&!request.getParameter("updateTime").equals("")){
+		dmsDocument.setUpdateTime(sdf.parse(request.getParameter("updateTime")));
+		}
+		dmsDocument.setRemark(request.getParameter("remark"));
+		dmsDocument.setContext(request.getParameter("context"));
+		String documentSn=request.getParameter("documentSn");
+		documentService.updateDocument(documentSn, dmsDocument);
+		//显示该文档的所有信息
+		ArrayList<DmsDocument> list=new ArrayList<>();
+		list=documentService.showDocumentNameDocument(null, request.getParameter("documentName"));
+		SimpleDateFormat time=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		String createTime="",updateTime="";
+		if(list.get(0).getCreateTime()!=null){
+			createTime=time.format(list.get(0).getCreateTime());
+		}
+		if(list.get(0).getUpdateTime()!=null){
+			updateTime=time.format(list.get(0).getUpdateTime());
+		}
+		result.put("DmsDocument", list.get(0));
+		result.put("createTime", createTime);
+		result.put("updateTime", updateTime);
+		return result;
+	}
+	
+	@RequestMapping("/manager") /*文档管理*/
+	public String documentManager(HttpServletRequest request,ModelMap map) throws UnsupportedEncodingException{
+		int documentCount;
+		ArrayList<DmsDocument> list=new ArrayList<>();
+		Page page;
+		documentCount=(int) documentService.showCount("");
+		page=new Page(documentCount);//设置总条数
+		page.setStart(0);//设置起始页
+		page.setPageSize(30);//每页显示条数
+		page.setPageNo(0);
+		list=documentService.showDocumentAll(page,"");
+		map.put("documentList", list);
+		map.put("page", page);
+		map.put("login", "yes");
+		map.put("weight", "manager");
 		return "main";
 	}
 }

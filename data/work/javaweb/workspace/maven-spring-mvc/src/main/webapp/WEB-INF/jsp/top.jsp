@@ -80,13 +80,11 @@ padding-left:20%;
 		<ul class="nav navbar-nav">
 			<li class="active"><a href="#">首页</a></li>
 			<li><a href="#">标签</a></li>
-			<li><div style="margin-top:3%">
-                    <form class="form-inline" action="/search" method="get">
-                        <input class="form-control" name="keyword" type="search" style="width: 230px;" placeholder="请输入关键词..." value="">
-                        <input  class="textinput" type="submit" value="查找" id="search"  />
-                    </form>
-                </div></li>
-           <li style="margin-left:10%"><a href="#">登录</a></li>     
+			<li><form id="formid"  name= "myform" method = 'post' action = '${pageContext.request.contextPath }/document/list'><div style="margin-top:3%" class="form-inline">
+                   <input class="form-control" name="keyword" id="keyword" type="text" style="width: 230px;" placeholder="请输入书名或作者..." value="">
+                   <input  class="btn btn-default" type="submit" value="查找" id="search"  />
+                </div></form></li>
+           <li style="margin-left:10%"><a href="#">登录</a></li>
 		</ul>
 	</div>
 	</div>

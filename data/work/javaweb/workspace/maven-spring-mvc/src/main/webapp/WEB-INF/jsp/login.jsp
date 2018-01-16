@@ -7,7 +7,7 @@
 <link href="<%=request.getContextPath() %>/common/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath() %>/common/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath() %>/common/css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/jquery.min.js"></script>
 
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/date.js" charset="utf-8"></script>
@@ -34,46 +34,62 @@
       <script src="<%=request.getContextPath() %>/common/js/bootstrap.min.js"></script> --%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>个人信息展示</title>
+<title>登录</title>
 <style>
-.tabless{
-padding:0% 4%;
+.form-group{
+width:30%;
 }
-
+.title{
+margin:1% 0 1% 5%;
+}
+.form{
+margin:1% 0 1% 5%;
+}
+.col-sm-2{
+    position: relative;
+    min-height: 1px;
+    padding-right: 0px;
+    padding-left: 15px;
+}
+.form-control {
+    width: 50%;
+}
 </style>
 </head>
 <body>
-	<div class="tabless">
-    <table class="table">
-    <caption>个人信息展示</caption>
-    
-  <thead>
-    <tr>
-      <th>姓名</th>
-      <th>性别</th>
-      <th>电话</th>
-      <th>地址</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  	<tbody>
-  		<c:forEach items="${requestScope.userList}" var="emp">
-    		<tr>
-      		<td>${emp.username}</td>
-      		<td>${emp.sex}</td>
-      		<td>${emp.phone}</td>
-      		<td>${emp.address}</td>
-      		<td>
-      		<a href="${pageContext.request.contextPath }/user/addandupdate?username=${emp.username}">修改</a>
-      		<a href="${pageContext.request.contextPath }/user/delete?username=${emp.username}" style="margin-left:1%">删除</a>
-      		</td>
-    		</tr>
-  		</c:forEach>
-  	</tbody>
-     	</table>
-   </div>
-    <script type="text/javascript">
-    
-    </script>
+<form class="form-horizontal" action = '${pageContext.request.contextPath }/user/loginsystem' onsubmit = "return checkUser();">
+	<div class="title">用户登录</div>
+	<div class="form-group form">
+		<label for="firstname" class="col-sm-2 control-label">名字</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="firstname" 
+				   placeholder="请输入名字">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="lastname" class="col-sm-2 control-label">姓</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="lastname" 
+				   placeholder="请输入姓">
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox"> 请记住我
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-default">登录</button>
+		</div>
+	</div>
+</form>
+
+<body>
+	
 </body>
 </html>

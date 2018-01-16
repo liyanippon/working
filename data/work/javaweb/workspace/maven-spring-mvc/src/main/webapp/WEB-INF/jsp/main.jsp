@@ -20,19 +20,11 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-addon-i18n.js"></script>
 
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/jquery-ui-timepicker-zh-CN.js"></script>
-<!-- 引入 Bootstrap -->
-      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
- 
-      <!-- HTML5 Shiv 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
-      <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
-      <!--[if lt IE 9]>
-         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-      <![endif]-->
-      <%-- <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-      <script src="https://code.jquery.com/jquery.js"></script>
-      <!-- 包括所有已编译的插件 -->
-      <script src="<%=request.getContextPath() %>/common/js/bootstrap.min.js"></script> --%>
+
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
@@ -82,11 +74,20 @@ padding-left:15%
 .main{
 padding:0% 10%
 }
-
+.navbar-nav {
+    float: left;
+    margin: 0;
+    width: 40%;
+}
+.dropdown-menu {
+    
+}
 </style>
 </head>
 <body>
-	<nav class="navbar navbar-default top" role="navigation">
+	
+	<%-- <iframe name="content_iframe" marginwidth=0 marginheight=0 width=100% height=5% src="<%=request.getContextPath() %>/WEB-INF/jsp/top.jsp" frameborder=0></iframe> --%> 
+<nav class="navbar navbar-default top" role="navigation">
 	<div class="container-fluid">
 	<div class="navbar-header">
 		<a class="navbar-brand" href="#">文档管理</a>
@@ -95,27 +96,50 @@ padding:0% 10%
 		<ul class="nav navbar-nav">
 			<li class="active"><a href="#">首页</a></li>
 			<li><a href="#">标签</a></li>
-			<li><div style="margin-top:3%" class="form-inline">
-                   <input class="form-control" name="keyword" id="keyword" type="text" style="width: 230px;" placeholder="请输入书名或作者..." value="">
-                   <input  class="btn btn-default" type="button" value="查找" id="search" onclick="search()" />
-                </div></li>
-           <li style="margin-left:10%"><a href="#">登录</a></li>     
+			<li><form id="formid"  name= "myform" method = 'post' action = '${pageContext.request.contextPath }/document/list'><div style="margin-top:3%" class="form-inline">
+                   <input class="form-control" name="keyword" id="keyword" type="text" style="width: 230px;" placeholder="请输入书名或作者..." value="${requestScope.keyword}">
+                   <input  class="btn btn-default" type="submit" value="查找" id="search"  />
+                </div></form></li>
 		</ul>
+		<c:if test="${requestScope.login=='no'}">
+		<ul class="nav navbar-nav navbar-right"> 
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li> 
+            <li><a href="${pageContext.request.contextPath }/user/login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li> 
+        </ul>
+        </c:if>
+        <c:if test="${requestScope.login=='yes'}">
+        <ul class="nav navbar-nav">
+			<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">liyanippon <b class="caret"></b>
+			</a>
+				<ul class="dropdown-menu">
+					<li><a id="action-1" href="#">个人中心</a></li>
+					<li class="divider"></li>
+					<li><a href="#">用户管理</a></li>
+					<li class="divider"></li>
+					<li><a href="${pageContext.request.contextPath }/document/manager">文档管理</a></li>
+					<li class="divider"></li>
+					<li><a href="#">设置</a></li>
+					<li class="divider"></li>
+					<li><a href="#">退出登录</a></li>
+				</ul>
+			</li>
+			</ul>
+        </c:if>
 	</div>
 	</div>
 </nav>
-
 <!-- 正文内容 -->
 <div class="main">
 <div class="row">
 <c:forEach items="${requestScope.documentList}" var="emp">
-    <div class="col-sm-6 col-md-3">
-        <a href="#" class="thumbnail">
+    <div class="col-sm-6 col-md-3" id="num">
+        <a href="${pageContext.request.contextPath }/document/details?weight=${requestScope.weight}&documentName=${emp.documentName}" class="thumbnail">
             <img src="<%=request.getContextPath() %>/common/style/images/book.jpg"
                  alt="通用的占位符缩略图">
         </a>
-        ${emp.documentName}<br>
-                   ${emp.authorName}
+        <span id="docname">${emp.documentName}</span><br>
+        <span id="aurname">作者-${emp.authorName}</span>
     </div>
     </c:forEach>
 
@@ -127,7 +151,7 @@ padding:0% 10%
 	<c:forEach var="emp" begin="1" end="${requestScope.page.totalPages}" varStatus="emp">
 	<li id="page${emp.index}" onclick="pageNum(id)"><a href="${pageContext.request.contextPath }/document/list?start=${emp.index}">${emp.index}</a></li>
 	</c:forEach>
-	<li><a href="${pageContext.request.contextPath }/document/list?start=${requestScope.page.totalPages}">&raquo;</a></li>
+	<li><a href="${pageContext.request.contextPath }/document/list?start=${requestScope.page.totalPages+1}">&raquo;</a></li>
 </ul>
 
 <footer class="footer navbar-fixed-bottom ">
@@ -149,23 +173,21 @@ padding:0% 10%
 		$("#"+jkl).addClass('active');
 	}
 	function search() {
-		alert("sd");
+		
+		var keywords=$("#keyword").val();
         $.ajax({
         //几个参数需要注意一下
             type: "POST",//方法类型
-            url: "${pageContext.request.contextPath }/document/list" ,
-            data: {keyword:keyword},
-            success: function (result) {
-                if (result.resultCode == 200) {
-                    alert("SUCCESS");
-                }
-                ;
+            url: "${pageContext.request.contextPath }/document/list",
+            data: {keyword:keywords},
+            success: function (result) {        
             },
-            error : function() {
+            error : function() {           	
                 alert("异常！");
             }
         });
     }
+	
 </script>
 </body>
 
