@@ -204,12 +204,15 @@ height:100%;
 
 <div class="record">文档名称：<input id="documentName" type="text" value="${requestScope.dmsDocument.documentName}"/></div>
 <div class="record">作&emsp;&emsp;者：<input id="authorName" type="text" value="${requestScope.dmsDocument.authorName}"/></div>
-<div class="record">创建时间：<input id="createTime" type="text" value="${requestScope.createTime}"/></div>
-<div class="record">修改时间：<input id="updateTime" type="text" value="${requestScope.updateTime}"/></div>
+<div class="record">创建时间：<span id="">${requestScope.createTime}</span></div>
+<div class="record">修改时间：<span id="">${requestScope.updateTime}</span></div>
 <div class="record">备&emsp;&emsp;注：<input id="remark" type="text" value="${requestScope.dmsDocument.remark}"/></div>
 
 </div>
-</div>
+
+上传封面<br>
+
+
 <!-- 正文内容 -->
 <div id="contentview" style="height:100%;width:100%" class="editorRecommends">
 <textarea id="recontext" class="textareacontext" disabled>${requestScope.dmsDocument.context}</textarea>

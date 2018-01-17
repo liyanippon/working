@@ -3,6 +3,7 @@ package com.ifeng.controller;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,12 +100,7 @@ public class DocumentController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//小写的mm表示的是分钟   
 		dmsDocument.setDocumentName(request.getParameter("documentName"));
 		dmsDocument.setAuthorName(request.getParameter("authorName"));
-		if(request.getParameter("createTime")!=null&&!request.getParameter("createTime").equals("")){
-		dmsDocument.setCreateTime(sdf.parse(request.getParameter("createTime")));
-		}
-		if(request.getParameter("updateTime")!=null&&!request.getParameter("updateTime").equals("")){
-		dmsDocument.setUpdateTime(sdf.parse(request.getParameter("updateTime")));
-		}
+		dmsDocument.setUpdateTime(new Date());
 		dmsDocument.setRemark(request.getParameter("remark"));
 		dmsDocument.setContext(request.getParameter("context"));
 		String documentSn=request.getParameter("documentSn");
@@ -113,16 +109,9 @@ public class DocumentController {
 		ArrayList<DmsDocument> list=new ArrayList<>();
 		list=documentService.showDocumentNameDocument(null, request.getParameter("documentName"));
 		SimpleDateFormat time=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		String createTime="",updateTime="";
-		if(list.get(0).getCreateTime()!=null){
-			createTime=time.format(list.get(0).getCreateTime());
-		}
-		if(list.get(0).getUpdateTime()!=null){
-			updateTime=time.format(list.get(0).getUpdateTime());
-		}
 		result.put("DmsDocument", list.get(0));
-		result.put("createTime", createTime);
-		result.put("updateTime", updateTime);
+		result.put("createTime", time.format(list.get(0).getCreateTime()));
+		result.put("updateTime", time.format(list.get(0).getUpdateTime()));
 		return result;
 	}
 	
