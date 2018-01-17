@@ -155,6 +155,7 @@ background:#EBEBEB
 width:69%;
 height:100%;
 }
+
 </style>
 </head>
 <body>
@@ -169,7 +170,7 @@ height:100%;
 			
 		</ul>
 		<ul class="nav">
-		<li><a href="#"><img alt="" src="<%=request.getContextPath() %>/common/style/images/editor1.png" onclick="editor()"></a></li>
+		<li><a href="#"><img alt="" src="<%=request.getContextPath()%>/common/style/images/editor1.png" onclick="editor()"></a></li>
 		</ul>
 	</div>
 	</div>
@@ -192,27 +193,31 @@ height:100%;
 
 <!--编辑内容-->
 <div id="recordview" style="" class="editorRecommend">
-
 <div class="record">文档名称：<span id="redocumentName">${requestScope.dmsDocument.documentName}</span></div>
 <div class="record">作&emsp;&emsp;者：<span id="reauthorName">${requestScope.dmsDocument.authorName}</span></div>
 <div class="record">创建时间：<span id="recreateTime">${requestScope.createTime}</span></div>
 <div class="record">修改时间：<span id="reupdateTime">${requestScope.updateTime}</span></div>
 <div class="record">备&emsp;&emsp;注：<span id="reremark">${requestScope.dmsDocument.remark}</span></div>
-
 </div>
 <div id="recordeditor" style="display:none" class="editorRecommend">
-
 <div class="record">文档名称：<input id="documentName" type="text" value="${requestScope.dmsDocument.documentName}"/></div>
 <div class="record">作&emsp;&emsp;者：<input id="authorName" type="text" value="${requestScope.dmsDocument.authorName}"/></div>
 <div class="record">创建时间：<span id="">${requestScope.createTime}</span></div>
 <div class="record">修改时间：<span id="">${requestScope.updateTime}</span></div>
 <div class="record">备&emsp;&emsp;注：<input id="remark" type="text" value="${requestScope.dmsDocument.remark}"/></div>
-
 </div>
 
-上传封面<br>
+<div class="editorRecommend">
+封面<br>
+<img id="headImg" width="175px" height="230px" src="<%=request.getContextPath() %>${requestScope.dmsDocument.headimgsrc}"
+                 alt="通用的占位符缩略图">
 
-
+<form id= "uploadForm">  
+      <p >上传文件：480*320px大小 <input type="file" name="file" /></p>  
+      <input type="button" class="btn btn-info" value="上传" onclick="doUpload()" />  
+</form>  
+</div>
+</div>
 <!-- 正文内容 -->
 <div id="contentview" style="height:100%;width:100%" class="editorRecommends">
 <textarea id="recontext" class="textareacontext" disabled>${requestScope.dmsDocument.context}</textarea>
@@ -273,6 +278,37 @@ height:100%;
             }
         });
     }
+	function doUpload() {  
+	     var formData = new FormData($("#uploadForm" )[0]);
+	     formData.append('documentSn', '${requestScope.dmsDocument.documentSn}');
+	     formData.append('documentName', '${requestScope.dmsDocument.documentName}');
+	     
+	     $.ajax({  
+	          url: '${pageContext.request.contextPath}/document/fileUpload' ,  
+	          type: 'POST',  
+	          data: formData,
+	          async: false,  
+	          cache: false,  
+	          contentType: false,  
+	          processData: false,
+	          dataType:'json',
+	          complete: function (data) {
+	           
+	        	//更新图片
+	            var json=data.responseText;
+	            var obj =  JSON.parse(json);
+	            if(obj.result=="noFile"){
+	            	alert("没有选择文件");
+	            }else{
+	            	document.getElementById("headImg").src="<%=request.getContextPath() %>"+obj.headImgSrc;
+	            }
+	            
+	          },
+	          error: function (data) {
+	              	alert(data);
+	          }  
+	     });  
+	}  
     </script>
 </body>
 </html>

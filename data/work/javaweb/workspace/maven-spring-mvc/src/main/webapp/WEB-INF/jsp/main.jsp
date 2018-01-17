@@ -135,7 +135,7 @@ padding:0% 10%
 <c:forEach items="${requestScope.documentList}" var="emp">
     <div class="col-sm-6 col-md-3" id="num">
         <a href="${pageContext.request.contextPath }/document/details?weight=${requestScope.weight}&documentName=${emp.documentName}" class="thumbnail">
-            <img src="<%=request.getContextPath() %>/common/style/images/book.jpg"
+            <img id="headimg" width="175px" height="230px" src="<%=request.getContextPath() %>${emp.headimgsrc}"
                  alt="通用的占位符缩略图">
         </a>
         <span id="docname">${emp.documentName}</span><br>
@@ -187,7 +187,7 @@ padding:0% 10%
             }
         });
     }
-	
+
 </script>
 </body>
 
