@@ -492,3 +492,9 @@ http://book.szdnet.org.cn/views/specific/2929/bookDetail.jsp?dxNumber=0000080345
 http://book.szdnet.org.cn/search?sw=%E5%A4%A7%E6%A3%AE%E5%92%8C%E5%A4%AB&allsw=%23%2Call%E6%97%A5%E6%9C%AC+%E5%A4%A7%E6%A3%AE%E5%92%8C%E5%A4%AB&bCon=&ecode=utf-8&channel=search&Field=all      大森和夫教材
 
 http://www.nihonwosiru.jp/        日本网站
+
+##查找信息form
+<li><form id="formid"  name= "myform" method = 'post' action = '${pageContext.request.contextPath }/document/list'><div style="margin-top:3%" class="form-inline">
+                   <input class="form-control" name="keyword" id="keyword" type="text" style="width: 230px;" placeholder="请输入书名或作者..." value="">
+                   <input  class="btn btn-default" type="submit" value="查找" id="search"  />
+                </div></form></li>

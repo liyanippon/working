@@ -31,6 +31,7 @@
 		</property>
 	</bean>
 
+
 	<!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

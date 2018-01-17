@@ -1,5 +1,11 @@
 package com.ifeng.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,8 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.multipart.MultipartFile;
 import com.ifeng.entitys.DmsDocument;
 import com.ifeng.services.DocumentService;
 import com.ifeng.utils.Page;
@@ -132,4 +140,40 @@ public class DocumentController {
 		map.put("weight", "manager");
 		return "main";
 	}
+	
+	@RequestMapping(value = "/fileUpload", method = RequestMethod.POST) //更改封面
+	@ResponseBody
+    public Map<String, Object> upload(HttpServletRequest request, @RequestParam("file") MultipartFile file, ModelMap model) {
+		//https://www.cnblogs.com/xiaochangwei/p/5239104.html ajax图片上传实例
+		Map<String, Object> result = new HashMap<String, Object>();
+		String documentSn=request.getParameter("documentSn");
+		String documentName=request.getParameter("documentName");
+        String path = request.getSession().getServletContext().getRealPath("common\\style\\images");
+        String fileName = file.getOriginalFilename();
+        if(fileName.equals("")){
+        	result.put("result", "noFile");
+        	return result;
+        }
+        File targetFile = new File(path, fileName);
+        if (!targetFile.exists()) {
+            targetFile.mkdirs();
+        }
+        // 保存
+        try {
+            file.transferTo(targetFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.put("fileUrl", "url");
+        //把图片路径保存到数据库中
+        DmsDocument dmsDocument= new DmsDocument();
+        dmsDocument.setHeadimgsrc("/common/style/images"+"/"+fileName);
+        documentService.updateDocument(documentSn, dmsDocument);
+        //显示该文档的所有信息
+      	ArrayList<DmsDocument> list=new ArrayList<>();
+      	list=documentService.showDocumentNameDocument(null, documentName);
+      	result.put("headImgSrc", list.get(0).getHeadimgsrc());
+      	result.put("result", "ok");
+        return result;
+    }
 }
