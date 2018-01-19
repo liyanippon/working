@@ -27,16 +27,16 @@
 				<section id="header" class="skel-layers-fixed">
 					<header>
 						<span class="image avatar"><img src="<%=request.getContextPath() %>/common/style/images/avatar.jpg" alt="" /></span>
-						<h1 id="logo"><a href="#">Willis Corto</a></h1>
+						<h1 id="logo"><a href="#">liyanippon</a></h1>
 						<p>I got reprogrammed by a rogue AI<br />
 						and now I'm totally cray</p>
 					</header>
 					<nav id="nav">
 						<ul>
-							<li><a href="#one" class="active">About</a></li>
-							<li><a href="#two">Things I Can Do</a></li>
-							<li><a href="#three">A Few Accomplishments</a></li>
-							<li><a href="#four">Contact</a></li>
+							<li><a href="#one" class="active">关于</a></li>
+							<li><a href="#two">想我所想，做我所做</a></li>
+							<li><a href="#three">点滴成就</a></li>
+							<li><a href="#four">联系我</a></li>
 						</ul>
 					</nav>
 					<footer>
@@ -57,9 +57,9 @@
 						<section id="one">
 							<div class="container">
 								<header class="major">
-									<h2>Read Only</h2>
-									<p>Just an incredibly simple responsive site<br />
-									template freebie by <a href="http://html5up.net">HTML5 UP</a>.</p>
+									<h2>懂 你</h2>
+									<p>这是一个小小的 网站<br />
+									在这个网站 中蕴含着无限的 未来 <a href="http://www.cssmoban.com/tags.asp?page=7&n=html5">感谢 模板之家</a>.</p>
 								</header>
 								<p>Faucibus sed lobortis aliquam lorem blandit. Lorem eu nunc metus col. Commodo id in arcu ante lorem ipsum sed accumsan erat praesent faucibus commodo ac mi lacus. Adipiscing mi ac commodo. Vis aliquet tortor ultricies non ante erat nunc integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum.</p>
 							</div>
@@ -68,15 +68,15 @@
 					<!-- Two -->
 						<section id="two">
 							<div class="container">
-								<h3>Things I Can Do</h3>
-								<p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum integer lorem ipsum dolor sit amet.</p>
+								<h3>想做就做</h3>
+								<p>时间是宝贵的， 稍不留意就已是昨日黄花， 在这有限的时间里 不妨做做下面的工作</p>
 								<ul class="feature-icons">
-									<li class="fa-code">Write all the code</li>
-									<li class="fa-cubes">Stack small boxes</li>
-									<li class="fa-book">Read books and stuff</li>
-									<li class="fa-coffee">Drink much coffee</li>
-									<li class="fa-bolt">Lightning bolt</li>
-									<li class="fa-users">Shadow clone technique</li>
+									<li class="fa-code">写代码</li>
+									<li class="fa-cubes">云服务</li>
+									<li class="fa-book">读书与工作</li>
+									<li class="fa-coffee">休闲时刻</li>
+									<li class="fa-bolt">闪光 点</li>
+									<li class="fa-users">技术分享</li>
 								</ul>
 							</div>
 						</section>
@@ -86,7 +86,7 @@
 					<!-- Three -->
 						<section id="three">
 							<div class="container">
-								<h3>A Few Accomplishments</h3>
+								<h3>点滴成就</h3>
 								<p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum integer. Integer eu ante ornare amet commetus.</p>
 								<div class="features">
 									<article>
@@ -117,24 +117,24 @@
 					<!-- Four -->
 						<section id="four">
 							<div class="container">
-								<h3>Contact Me</h3>
+								<h3>联系 我</h3>
 								<p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum integer. Integer eu ante ornare amet commetus.</p>
 								<form method="post" action="#">
 									<div class="row uniform">
-										<div class="6u 12u(3)"><input type="text" name="name" id="name" placeholder="Name" /></div>
-										<div class="6u 12u(3)"><input type="email" name="email" id="email" placeholder="Email" /></div>
+										<div class="6u 12u(3)"><input type="text" name="name" id="name" placeholder="名字" /></div>
+										<div class="6u 12u(3)"><input type="email" name="email" id="email" placeholder="邮箱" /></div>
 									</div>
 									<div class="row uniform">
-										<div class="12u"><input type="text" name="subject" id="subject" placeholder="Subject" /></div>
+										<div class="12u"><input type="text" name="subject" id="subject" placeholder="主题" /></div>
 									</div>
 									<div class="row uniform">
-										<div class="12u"><textarea name="message" id="message" placeholder="Message" rows="6"></textarea></div>
+										<div class="12u"><textarea name="message" id="message" placeholder="消息" rows="6"></textarea></div>
 									</div>
 									<div class="row uniform">
 										<div class="12u">
 											<ul class="actions">
-												<li><input type="submit" class="special" value="Send Message" /></li>
-												<li><input type="reset" value="Reset Form" /></li>
+												<li><input type="submit" class="special" value="发 消息" /></li>
+												<li><input type="reset" value="重置 内容" /></li>
 											</ul>
 										</div>
 									</div>
@@ -480,8 +480,10 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 											<div class="4u"><span class="image fit"><img src="<%=request.getContextPath() %>/common/style/images/pic02.jpg" alt="" /></span></div>
 										</div>
 									</div>
-									<h5>Left &amp; Right</h5>
-									<p><span class="image left"><img src="<%=request.getContextPath() %>/common/style/images/avatar.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
+									<h5>双语 &amp; 阅读</h5>
+									<p><span class="image left"><img src="<%=request.getContextPath() %>/common/style/images/avatar.jpg" alt="" /></span>・雪    日本の「四季」の景観を代表する「雪月花」の一つ。多くの詩歌や俳句の題材になっている。雪は六角形の結晶が多いので「六つの花」ともいう。細かい雪が風に乗ってちらちら舞う様子を「風
+花が舞う」という。雪は、形や状況によって、様々な呼び方がある。白雪、粉雪、牡丹雪、ざらめ雪、 細雪、小雪、淡雪、根雪、なごり雪、風雪、吹雪など。「降る雪や 明治は遠く なりにけり」(中村草 田男 <br>・氷柱 家の軒や木から落ちる水のしずくが、凍って棒のように垂れ下がったもの。
+「御み仏の 御お鼻の先へ つららかな」(小林 一茶)<br>・春浅し暦の上では春だが、冬の気配が残り、まだ春は浅い、と感じる。「早春賦」という 唱歌に、「春は名のみの 風の寒さや、、、♪♪」とある。</p>
 									<p><span class="image right"><img src="<%=request.getContextPath() %>/common/style/images/avatar.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
 								</section>
 
