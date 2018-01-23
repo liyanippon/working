@@ -3,12 +3,16 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.druid.util.StringUtils;
 import com.ifeng.entitys.DmsDocument;
 import com.ifeng.entitys.DmsUser;
 import com.ifeng.services.DocumentService;
@@ -92,25 +96,50 @@ public class UserController {
 	}
 	
 	@RequestMapping("/login") /*调转到用户登录*/
-	public String Login() throws UnsupportedEncodingException{
+	public String Login() throws Exception{
+		
 		return "login";
 	}
 	
 	@RequestMapping("/loginsystem") /*用户登录*/
-	public String LoginSystem(HttpServletRequest request,ModelMap map) throws UnsupportedEncodingException{
+	public String LoginSystem(HttpServletRequest request,ModelMap map) throws Exception{
+		String name=request.getParameter("name");
+		String pass=request.getParameter("password");
+		long count=userService.showUserCount(name);
+		DmsUser dmsUser;
 		int documentCount;
-		ArrayList<DmsDocument> list=new ArrayList<>();
-		Page page;
-		documentCount=(int) documentService.showCount("");
-		page=new Page(documentCount);//设置总条数
-		page.setStart(0);//设置起始页
-		page.setPageSize(30);//每页显示条数
-		page.setPageNo(0);
-		list=documentService.showDocumentAll(page,"");
-		map.put("documentList", list);
-		map.put("page", page);
-		map.put("login", "yes");
-		return "main";
+		if(count==0){
+			map.put("name", name);
+			map.put("password", pass);
+			map.put("message", "nouser");
+			return "login";
+		}else{
+			//匹配密码是否正确
+			 dmsUser=userService.showUser(name);
+			 if(StringUtils.equals(pass, dmsUser.getPassword())){
+				 ArrayList<DmsDocument> list=new ArrayList<>();
+					Page page;
+					documentCount=(int) documentService.showCount("");
+					page=new Page(documentCount);//设置总条数
+					page.setStart(0);//设置起始页
+					page.setPageSize(30);//每页显示条数
+					page.setPageNo(0);
+					list=documentService.showDocumentAll(page,"");
+					map.put("documentList", list);
+					map.put("page", page);
+					map.put("login", "yes");
+					HttpSession session = request.getSession();
+					session.setAttribute("user", dmsUser);
+					return "main";
+			 }else{
+				 map.put("name", name);
+				 map.put("password", pass);
+				 map.put("message", "passerror");
+				 return "login";
+			 }			 
+				
+		}
+				
 	}
 	
 	private void showPerson(ModelMap map){

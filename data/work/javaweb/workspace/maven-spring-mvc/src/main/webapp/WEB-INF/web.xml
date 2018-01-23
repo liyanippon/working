@@ -56,5 +56,9 @@
 		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	
+	<session-config><!-- 15分钟失效 -->
+	<session-timeout>15</session-timeout>
+	</session-config>
 
 </web-app>

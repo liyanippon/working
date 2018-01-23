@@ -8,19 +8,13 @@
 <link href="<%=request.getContextPath() %>/common/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath() %>/common/css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/jquery.min.js"></script>
-
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/date.js" charset="utf-8"></script>
-
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/jquery.dataTables.min.js"></script>
-
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-addon-i18n.js"></script>
-
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/jquery-ui-timepicker-zh-CN.js"></script>
-
 <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -37,7 +31,7 @@ div.menu ul
     width: auto; /* 宽度根据元素内容调整 */  
 }  
 /* 所有class为menu的div中的ul中的li样式 */  
-div.menu ul li  
+div.menu ul li
 {  
     float:left; /* 向左漂移，将竖排变为横排 */ 
     position:relative;
@@ -85,7 +79,16 @@ padding:0% 10%
 </style>
 </head>
 <body>
-	
+	<%    
+             if(session.getAttribute("user") == null) {      
+   %>    
+          <script type="text/javascript" language="javascript">        
+            alert("您还没有登录，请登录...");   
+           top.location.href="/maven-spring-mvc/user/login";  
+           </script>   
+   <%    
+       }    
+   %>
 	<%-- <iframe name="content_iframe" marginwidth=0 marginheight=0 width=100% height=5% src="<%=request.getContextPath() %>/WEB-INF/jsp/top.jsp" frameborder=0></iframe> --%> 
 <nav class="navbar navbar-default top" role="navigation">
 	<div class="container-fluid">
@@ -168,7 +171,7 @@ padding:0% 10%
     </div>
 </footer>
 <script type="text/javascript">
-	
+
 	function pageNum(jkl){
 		$("#"+jkl).addClass('active');
 	}
@@ -188,6 +191,7 @@ padding:0% 10%
         });
     }
 
+	
 </script>
 </body>
 

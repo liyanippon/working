@@ -40,6 +40,10 @@ public class DocumentController {
 	@RequestMapping("/list") /*显示文档信息*/
 	public String showUser(HttpServletRequest request,ModelMap map) throws UnsupportedEncodingException{
 		request.setCharacterEncoding("UTF-8");//解决中文乱码问题
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user")==null){
+			//重新登录
+		}
 		int start;
 		String keyWords;
 		if(request.getParameter("start")==null){
@@ -176,4 +180,5 @@ public class DocumentController {
       	result.put("result", "ok");
         return result;
     }
+	
 }

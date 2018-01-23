@@ -55,5 +55,14 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
+	@Override
+	public long showUserCount(String userName) {
+		// TODO Auto-generated method stub
+		DmsUserExample example = new DmsUserExample();
+		DmsUserExample.Criteria criteria = example.createCriteria();
+		criteria.andUsernameEqualTo(userName);
+		return userMapper.countByExample(example);
+	}
+
 
 }
