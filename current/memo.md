@@ -37,8 +37,15 @@ ceshi
 定制衬衫svn地址：https://182.92.243.145/svn/wphcs
 
 
+翻墙工具：
+Shadowsocks-windows          github
+服务器：s6.zxt.im
 
+57920   57920   aes-256-cfb     Q8a2Gb
+57921   57921   aes-256-cfb     n6WDRl
+57922   57922   aes-256-cfb     8ANwDm
+57923   57923   aes-256-cfb     2A6bRH
 
-
+端口号和密码
 
 

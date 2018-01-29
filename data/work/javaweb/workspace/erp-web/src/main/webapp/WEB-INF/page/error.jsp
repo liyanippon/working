@@ -1,1 +1,0 @@
-<h1><%= request.getParameter("message") %></h1>
