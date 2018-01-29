@@ -1,0 +1,7 @@
+/src/MvcTemplate.Web/Logs/
+.vs/
+bin/
+obj/
+
+*.user
+*.suo

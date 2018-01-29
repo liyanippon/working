@@ -1,0 +1,32 @@
+@model IQueryable<AccountView>
+
+<div class="col-xs-12">
+    <div class="widget-box">
+        <div class="widget-header">
+            <span class="widget-header-icon fa fa-th"></span>
+            <h5>@Headers.Accounts</h5>
+            <div class="widget-header-buttons">
+                <authorize action="Create">
+                    <a asp-action="Create" class="btn">
+                        <i class="fa fa-file-o"></i><span class="text">@Actions.Create</span>
+                    </a>
+                </authorize>
+            </div>
+        </div>
+        <div class="widget-content">
+            @(Html
+                .Grid(Model)
+                .Build(columns =>
+                {
+                    columns.AddActionLink("Details", "fa fa-info");
+                    columns.AddActionLink("Edit", "fa fa-pencil");
+
+                    columns.AddProperty(model => model.Username);
+                    columns.AddProperty(model => model.Email);
+                    columns.AddProperty(model => model.RoleTitle);
+                })
+                .ApplyDefaults()
+            )
+        </div>
+    </div>
+</div>

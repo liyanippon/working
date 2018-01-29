@@ -1,0 +1,50 @@
+﻿.header {
+  min-height: 80px;
+}
+.header-navigation {
+  float: right;
+  padding: 0;
+}
+.header-navigation > .btn {
+  min-width: 40px;
+  border: none;
+  padding: 0;
+}
+.header-navigation > .btn.open > a,
+.header-navigation > .btn:hover > a {
+  background: linear-gradient(#6F93A7, #2A4E62);
+  color: #FFFFFF;
+}
+.header-navigation > .btn > a {
+  text-shadow: 0 0 #CCCCCC;
+  display: block;
+  padding: 10px;
+  color: #CCCCCC;
+}
+.header-navigation > .btn > a .fa {
+  margin-right: 5px;
+}
+.header-navigation > .btn > a .caret {
+  margin-left: 5px;
+}
+.header-navigation > .btn .dropdown-menu {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  margin-top: 0;
+}
+.header-navigation > .btn .dropdown-menu img {
+  margin-bottom: 3px;
+  margin-right: 5px;
+}
+@media (max-width: 767px) {
+  .header-navigation > .btn > a .fa {
+    margin: 0;
+  }
+  .header-navigation .dropdown-menu {
+    left: -120px;
+  }
+  .header-navigation .text,
+  .header-navigation .caret {
+    display: none;
+  }
+}

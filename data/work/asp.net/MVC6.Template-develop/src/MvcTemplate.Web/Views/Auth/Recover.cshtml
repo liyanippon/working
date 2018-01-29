@@ -1,0 +1,25 @@
+﻿@using Texts = MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Texts
+@using MvcTemplate.Resources.Views.Auth.AccountRecoveryView
+
+@model AccountRecoveryView
+
+<div class="title text">@Pages.AuthRecover</div>
+<div class="separator"></div>
+
+<form asp-antiforgery="true">
+    @Html.Partial("_AuthAlerts")
+
+    <div class="auth-content">
+        <div class="input-group">
+            <span class="fa fa-envelope"></span>
+            <input asp-for="Email" placeholder="@Titles.Email" autocomplete="off" />
+            <span class="input-error fa fa-warning"></span>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">@Actions.Recover</button>
+</form>
+
+<div class="separator"></div>
+<div class="auth-actions">
+    <a asp-action="Login" class="text fa fa-sign-in" data-toggle="tooltip" data-original-title="@Texts.Login" data-placement="bottom"></a>
+</div>

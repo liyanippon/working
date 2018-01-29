@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>1.1.0</Version>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MvcTemplate\MvcTemplate.csproj" />
+    <ProjectReference Include="..\MvcTemplate.Services\MvcTemplate.Services.csproj" />
+    <ProjectReference Include="..\MvcTemplate.Validators\MvcTemplate.Validators.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.0.1" />
+  </ItemGroup>
+
+</Project>

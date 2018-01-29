@@ -1,0 +1,140 @@
+﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {//添加
+        $("#btn1").click(function () {
+            //alert("click");
+            var name = $("#name").val();
+            var age = $("#age").val();
+            //http://blog.csdn.net/baidu_28283827/article/details/53695084   http://blog.csdn.net/laixiaobailing/article/details/39163321 教程
+            $.ajax({
+                url: "/Home/AjaxForm",
+                type: "post",
+                data: {
+                    name: name, age: age
+                },
+                dataType: "json",
+                complete: function (data) {
+
+                    var tbody;
+
+                    $.each(data.responseJSON, function (n, value) {
+
+                        var trs = "";
+                        trs += "<tr><td>" + (n + 1) + "</td><td>" + value.Id + "</td> <td>" + value.Name + "</td> <td>" + value.Age + "</td> <td>"
+                            + "<a href='#' onclick='delAjax(" + value.Id + ")'>删除 </a>" + "<a href='#' onclick='UpdateAjax(" + value.Id + ',"' + value.Name + '",' + value.Age + ")'>修改</a>" + "</td></tr>";
+                        tbody += trs;
+
+                    })
+
+                    $("#partList").html(tbody);//这里动态的为tbody添加内容
+
+                    //window.location.href = "@Url.Action("Index", "Home")"; 网页重定向
+
+                }
+            });
+        });
+    });
+    function delAjax(id)//删除
+    {
+
+        var con;
+        con = confirm("您确实要删除该记录吗么?"); //在页面上弹出对话框
+        if (con == true)
+        {
+            $.ajax({
+                url: "/Home/DeleteStu",
+                type: "post",
+                data: {
+                    Id: id
+                },
+                dataType: "json",
+                complete: function (data) {
+
+                    var tbody;
+
+                    $.each(data.responseJSON, function (n, value) {
+
+                        var trs = "";
+                        trs += "<tr><td>" + (n + 1) + "</td><td>" + value.Id + "</td> <td>" + value.Name + "</td> <td>" + value.Age + "</td> <td>"
+                            + "<a href='#' onclick='delAjax(" + value.Id + ")'>删除 </a>" + "<a href='#' onclick='UpdateAjax(" + value.Id + ',"' + value.Name + '",' + value.Age + ")'>修改</a>" + "</td></tr>";
+                        tbody += trs;
+
+                    })
+
+                    $("#partList").html(tbody);//这里动态的为tbody添加内容
+
+                }
+            });
+        }
+        else        
+        {
+        }
+
+        
+    }
+
+    function UpdateAjax(id,name1,age1)//修改
+    {
+        var name, age;
+        name = prompt("输入想要修改的名字"); /*在页面上弹出提示对话框，
+        将用户输入的结果赋给变量name*/
+        age = prompt("输入想要修改的年龄"); /*在页面上再一次弹出提示对话框，
+        讲用户输入的信息赋给变量age*/
+        if (name == "" || age == "" )
+        {
+            alert("名字或年龄不能为空");
+        }
+        aler(name);
+        alert(age);
+    }
+</script>
+
+
+@ViewBag.Name
+<form method="get" action="/Home/Login">
+    <p>用户名: <input type="text" name="fname" id="fname" /></p>
+    <p>密码: <input type="password" name="pass" id="pass" /></p>
+    <input type="submit" value="Submit" />
+</form>
+@ViewBag.username
+klkl
+@ViewBag.password
+
+
+<div style="width:90px">
+    <form id="myform" action="">
+        名字<input type="text" name="name" id="name" />
+        年龄<input type="text" name="age" id="age" />
+        <input type="button" id="btn1" name="btn1" value="提交">
+    </form>
+</div>
+
+
+@ViewBag.Bag
+
+<div id="showDetail" style="" class="layui-layer layui-layer-dialog  layer-anim dialog" type="dialog" times="3" showtime="0" contype="string">
+    <div class="layui-layer-title" style="cursor: move;">用户表</div>
+    <div id="" class="layui-layer-content">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>编号</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="partList"></tbody>
+        </table>
+</div>
+
+    
+
+</div>
+
+
+
+
+
