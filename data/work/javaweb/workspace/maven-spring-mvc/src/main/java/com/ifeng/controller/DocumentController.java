@@ -80,10 +80,10 @@ public class DocumentController {
 	public String searchResult(HttpServletRequest request,ModelMap map) throws UnsupportedEncodingException{
 		String weight= request.getParameter("weight");
 		String documentName=request.getParameter("documentName");
-		if(!weight.equals("manager")){
+		/*if(!weight.equals("manager")){
 			map.put("message", "用户没有登录");
 			return "details";
-		}
+		}*/
 		//显示该文档的所有信息
 		ArrayList<DmsDocument> list=new ArrayList<>();
 		list=documentService.showDocumentNameDocument(null, documentName);
@@ -121,6 +121,86 @@ public class DocumentController {
 		result.put("createTime", time.format(list.get(0).getCreateTime()));
 		result.put("updateTime", time.format(list.get(0).getUpdateTime()));
 		return result;
+	}
+	@RequestMapping("/add") /*跳转添加文档*/
+	public String addDocument(HttpServletRequest request,ModelMap map,HttpSession httpSession) throws Exception{
+		map.put("DmsDocument", "add");
+		//创建时间
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//小写的mm表示的是分钟   
+		map.put("createTime", sdf.format(new Date()));
+		return "details";
+	}
+	
+	@RequestMapping("/adddocument") /*添加文档*/
+	@ResponseBody
+	public Map<String, Object> addsDocument(HttpServletRequest request,ModelMap map,HttpSession httpSession) throws Exception{
+		Map<String, Object> result = new HashMap<String, Object>();
+		String documentName = request.getParameter("documentName");
+		String authorName = request.getParameter("authorName");
+		String remark = request.getParameter("remark");
+		String context = request.getParameter("context");
+		String createTime = request.getParameter("createTime");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DmsDocument dmsDocument = new DmsDocument();
+		dmsDocument.setDocumentName(documentName);
+		dmsDocument.setAuthorName(authorName);
+		dmsDocument.setRemark(remark);
+		dmsDocument.setContext(context);
+		dmsDocument.setCreateTime(sdf.parse(createTime));
+		dmsDocument.setDocumentSn(new Date().toString());
+		dmsDocument.setHeadimgsrc("/common/style/images"+"/"+"book.png");
+		if (documentService.addDocument(dmsDocument)) {
+			logger.info("add"+"添加成功");
+		}else {
+			logger.info("add"+"添加失败");
+		}
+		return result;
+	}
+	
+	
+	@RequestMapping("/delete") /*删除文档信息*/
+	public String deleteDocument(HttpServletRequest request,ModelMap map,HttpSession httpSession) throws Exception{
+		
+		String documentName = request.getParameter("documentName");
+		
+		System.out.println("删除文档:"+documentName);
+		
+		//删除文档
+		documentService.deleteDocument(documentName);//根据文档名删除
+		
+		int start;
+		String keyWords;
+		if(request.getParameter("start")==null){
+			start=1;
+		}else{
+			start=Integer.valueOf(request.getParameter("start"));
+		}
+		int documentCount;
+		ArrayList<DmsDocument> list=new ArrayList<>();
+		Page page;
+		if(request.getParameter("keyword")==null||request.getParameter("keyword")==""){
+			keyWords="";
+			documentCount=(int) documentService.showCount(keyWords);
+			page=new Page(documentCount);//设置总条数
+			page.setStart(start);//设置起始页
+			page.setPageSize(30);//每页显示条数
+			page.setPageNo(start);
+			list=documentService.showDocumentAll(page,keyWords);
+		}else{
+			keyWords=request.getParameter("keyword");
+			documentCount=(int) documentService.showDocumentNameCount(keyWords);
+			page=new Page(documentCount);//设置总条数
+			page.setStart(start);//设置起始页
+			page.setPageSize(30);//每页显示条数
+			page.setPageNo(start);
+			list=documentService.showDocumentNameDocument(page, keyWords);
+			
+		}
+		map.put("keyword", keyWords);
+		map.put("login", "no");
+		map.put("documentList", list);
+		map.put("page", page);
+		return "main";
 	}
 	
 	@RequestMapping("/manager") /*文档管理*/

@@ -7,6 +7,7 @@
 <link href="<%=request.getContextPath() %>/common/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath() %>/common/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath() %>/common/css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <script type="text/javascript" src="<%=request.getContextPath() %>/common/js/jquery.min.js"></script>
 
@@ -162,16 +163,13 @@ height:100%;
 	<nav class="navbar navbar-default top" role="navigation">
 	<div class="container-fluid">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="#">文档管理</a>
+		<a class="navbar-brand" href="${pageContext.request.contextPath }/document/list">文档管理</a>
 	</div>
 	<div>
 		<ul class="nav navbar-nav">
-			<li class="active"><a href="#">${requestScope.dmsDocument.documentName}</a></li>	<!-- 文档名称 -->
-			
+			<li class="active"><a href="#">${requestScope.dmsDocument.documentName}</a></li>	<!-- 文档名称 -->			
 		</ul>
-		<ul class="nav">
-		<li><a href="#"><img alt="" src="<%=request.getContextPath()%>/common/style/images/editor1.png" onclick="editor()"></a></li>
-		</ul>
+		
 	</div>
 	</div>
 </nav>
@@ -211,11 +209,21 @@ height:100%;
 封面<br>
 <img id="headImg" width="175px" height="230px" src="<%=request.getContextPath() %>${requestScope.dmsDocument.headimgsrc}"
                  alt="通用的占位符缩略图">
-
+<c:choose>                 
+<c:when test="${requestScope.DmsDocument=='add'}">
+<form id= "addForm">
+	  <input style="margin-top:2%" type="button" class="btn btn-info" value="添加" onclick="add()" />  
+</form>
+</c:when>
+<c:otherwise>
 <form id= "uploadForm">  
       <p >上传文件：480*320px大小 <input type="file" name="file" /></p>  
-      <input type="button" class="btn btn-info" value="上传" onclick="doUpload()" />  
-</form>  
+      <input type="button" class="btn btn-info" value="上传" onclick="doUpload()" /> 
+	  <input type="button" class="btn btn-info" value="修改" onclick="editor()()" />  
+	  <input type="button" class="btn btn-info" value="删除" onclick="deletes()" />	
+</form>
+</c:otherwise>
+</c:choose>
 </div>
 </div>
 <!-- 正文内容 -->
@@ -228,6 +236,14 @@ height:100%;
 </div>
 
     <script type="text/javascript">
+    
+    if('${requestScope.DmsDocument}'=='add'){//如果是添加就处于编辑状态
+    recordview.style.display="none";
+	recordeditor.style.display="";
+	contentview.style.display="none";
+	contexteditor.style.display="";
+	document.getElementById("headImg").src="<%=request.getContextPath() %>/common/style/images/book.png";
+    }
     function editor(){
     	var recordview=document.getElementById("recordview");
     	var recordeditor=document.getElementById("recordeditor");
@@ -240,6 +256,47 @@ height:100%;
     		contexteditor.style.display="";
     	}else{
     		update();
+    	}
+	}
+    function add(){
+    	
+    	var documentName = $("#documentName").val();
+    	var authorName = $("#authorName").val();
+    	var remark = $("#remark").val();
+    	var context = $("#context").val();
+    	var createTime = '${requestScope.createTime}';
+    	if(documentName==""){  
+            alert("文档名不能为空");
+            return;  
+        }  
+        if(authorName==""){  
+            alert("作者名不能为空");
+            return;  
+        }  
+        
+        $.ajax({
+            //几个参数需要注意一下
+                type: "POST",//方法类型
+                url: "${pageContext.request.contextPath }/document/adddocument",
+                data: {documentName:documentName,authorName:authorName,createTime:createTime
+                	,remark:remark,context:context},
+                dataType:"json",
+                complete: function (data) {
+                	window.location.href="${pageContext.request.contextPath }/document/list";
+                },
+                error : function() {           	
+                    alert("添加异常！");
+                }
+            });
+	}
+    function deletes(){
+    	var con;
+    	con=confirm("确实要删除该记录吗?"); //在页面上弹出对话框
+    	//获取要删除的name
+    	var documentName=$("#documentName").val();
+    	//form提交
+    	if(con){
+    		window.location.href="${pageContext.request.contextPath }/document/delete?documentName="+documentName;
     	}
 	}
 	function update() {

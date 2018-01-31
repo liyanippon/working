@@ -1,7 +1,9 @@
 package com.ifeng.servicesimpl;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-
+import java.util.HashSet;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ifeng.entitys.DmsDocument;
@@ -17,7 +19,15 @@ public class DocumentServiceImpl implements DocumentService{
 	@Override
 	public boolean addDocument(DmsDocument user) {
 		// TODO Auto-generated method stub
-		return false;
+		
+		int result = documentMapper.insertSelective(user);
+		
+		if(result==1){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	@Override
@@ -40,16 +50,32 @@ public class DocumentServiceImpl implements DocumentService{
 	@Override
 	public boolean deleteDocument(String documentName) {
 		// TODO Auto-generated method stub
-		return false;
+		DmsDocumentExample example=new DmsDocumentExample();
+		DmsDocumentExample.Criteria criteria = example.createCriteria();
+		criteria.andDocumentNameEqualTo(documentName);
+		int result = documentMapper.deleteByExample(example);
+		if(result==1){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	@Override
 	public long showDocumentNameCount(String keyWords) {
 		// TODO Auto-generated method stub
+		long count=0;
 		DmsDocumentExample example=new DmsDocumentExample();
 		DmsDocumentExample.Criteria criteria = example.createCriteria();
 		criteria.andDocumentNameLike(keyWords);
-		return documentMapper.countByExample(example);
+		count = documentMapper.countByExample(example);
+		example=new DmsDocumentExample();
+		criteria = example.createCriteria();
+		criteria.andAuthorNameLike(keyWords);
+		count+=documentMapper.countByExample(example);
+		System.out.println("数量："+count);
+		return count;
 	}
 
 	@Override
@@ -71,12 +97,18 @@ public class DocumentServiceImpl implements DocumentService{
 			criteria.andDocumentNameLike(keyword);
 			return (ArrayList<DmsDocument>) documentMapper.selectByExample(example);
 		}
-		DmsDocumentExample example=new DmsDocumentExample();
-		example.setLimit(page.getPageSize());//设置分页
-		example.setStart(page.getStart(page.getPageNo()));
+		ArrayList<DmsDocument> list;
+		ArrayList<DmsDocument> list1;
+		DmsDocumentExample example = new DmsDocumentExample();
 		DmsDocumentExample.Criteria criteria = example.createCriteria();
 		criteria.andDocumentNameLike(keyword);
-		return (ArrayList<DmsDocument>) documentMapper.selectByExample(example);
+		list=(ArrayList<DmsDocument>) documentMapper.selectByExample(example);
+		example = new DmsDocumentExample();
+		criteria = example.createCriteria();
+		criteria.andAuthorNameLike(keyword);
+		list1=(ArrayList<DmsDocument>) documentMapper.selectByExample(example);
+		list.addAll(list1);
+		return list;
 	}
 
 	@Override
