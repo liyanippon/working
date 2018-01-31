@@ -162,15 +162,16 @@ height:100%;
 <body>
 	<nav class="navbar navbar-default top" role="navigation">
 	<div class="container-fluid">
-	<div class="navbar-header">
-		<a class="navbar-brand" href="${pageContext.request.contextPath }/document/list">文档管理</a>
-	</div>
-	<div>
-		<ul class="nav navbar-nav">
-			<li class="active"><a href="#">${requestScope.dmsDocument.documentName}</a></li>	<!-- 文档名称 -->			
-		</ul>
+		<div class="navbar-header">
+			<a class="navbar-brand" href="${pageContext.request.contextPath }/document/list">文档管理</a>
+		</div>
+		<div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#" id="documentNameq">${requestScope.dmsDocument.documentName}</a></li>	<!-- 文档名称 -->
+			
+			</ul>
 		
-	</div>
+		</div>
 	</div>
 </nav>
 
@@ -324,7 +325,7 @@ height:100%;
             	document.getElementById("reupdateTime").innerText = obj.updateTime;
             	document.getElementById("reremark").innerText = obj.DmsDocument.remark;
             	document.getElementById("recontext").innerHTML = obj.DmsDocument.context;
-            	
+            	document.getElementById("documentNameq").innerHTML = obj.DmsDocument.documentName;
             	recordview.style.display="";
             	recordeditor.style.display="none";
             	contentview.style.display="";
