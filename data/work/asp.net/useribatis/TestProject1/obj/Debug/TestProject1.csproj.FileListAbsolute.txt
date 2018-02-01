@@ -1,0 +1,15 @@
+G:\source\useribatis\TestProject1\bin\Debug\Providers.config
+G:\source\useribatis\TestProject1\bin\Debug\SqlMap.config
+G:\source\useribatis\TestProject1\bin\Debug\TestProject1.dll
+G:\source\useribatis\TestProject1\bin\Debug\TestProject1.pdb
+G:\source\useribatis\TestProject1\bin\Debug\Castle.DynamicProxy.dll
+G:\source\useribatis\TestProject1\bin\Debug\IBatisNet.Common.dll
+G:\source\useribatis\TestProject1\bin\Debug\IBatisNet.Common.Logging.Log4Net.dll
+G:\source\useribatis\TestProject1\bin\Debug\IBatisNet.DataAccess.dll
+G:\source\useribatis\TestProject1\bin\Debug\IBatisNet.DataMapper.dll
+G:\source\useribatis\TestProject1\bin\Debug\log4net.dll
+G:\source\useribatis\TestProject1\bin\Debug\useribatis.dll
+G:\source\useribatis\TestProject1\bin\Debug\useribatis.pdb
+G:\source\useribatis\TestProject1\obj\Debug\ResolveAssemblyReference.cache
+G:\source\useribatis\TestProject1\obj\Debug\TestProject1.dll
+G:\source\useribatis\TestProject1\obj\Debug\TestProject1.pdb

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Student" xmlns="http://ibatis.apache.org/mapping"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+  <statements>
+    <insert id="create" parameterClass="useribatis.Student">
+      insert into m_student(username,password)
+      values (#username#,#password#)
+    </insert>
+  </statements>
+</sqlMap>

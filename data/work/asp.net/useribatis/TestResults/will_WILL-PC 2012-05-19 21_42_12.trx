@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="df403877-5d9b-462d-90a9-13d7aba1582c" name="will@WILL-PC 2012-05-19 21:42:12" runUser="will-PC\will" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="本地" id="05a92402-420d-4eae-955b-b60825e53d1c">
+    <Description>这些设置为本地测试运行的默认测试设置。</Description>
+    <Deployment enabled="false" runDeploymentRoot="will_WILL-PC 2012-05-19 21_42_12">
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\log4net.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\Castle.DynamicProxy.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.Common.Logging.Log4Net.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.DataAccess.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.DataMapper.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\bin\useribatis.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.Common.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-05-19T21:42:12.7804000+08:00" queuing="2012-05-19T21:42:13.0704000+08:00" start="2012-05-19T21:42:13.1014000+08:00" finish="2012-05-19T21:42:37.6154000+08:00" />
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" error="0" failed="1" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="doCreateTest" storage="g:\source\useribatis\test\bin\debug\test.dll" id="05938219-74f1-b0a6-a1e0-f8c5dcd46936">
+      <Execution id="c9e3b9a0-1af4-4d81-8cc3-c69a8af9bc72" />
+      <TestMethod codeBase="G:/source/useribatis/Test/bin/Debug/Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Test.InsertTest, Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="doCreateTest" />
+      <AspNet webSiteUrl="http://localhost:61128/">
+        <Host pathToWebApp="G:\source\useribatis\useribatis" webAppRoot="/" />
+      </AspNet>
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="05938219-74f1-b0a6-a1e0-f8c5dcd46936" executionId="c9e3b9a0-1af4-4d81-8cc3-c69a8af9bc72" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="c9e3b9a0-1af4-4d81-8cc3-c69a8af9bc72" testId="05938219-74f1-b0a6-a1e0-f8c5dcd46936" testName="doCreateTest" computerName="WILL-PC" duration="00:00:00.1515276" startTime="2012-05-19T21:42:13.1164000+08:00" endTime="2012-05-19T21:42:37.4094000+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c9e3b9a0-1af4-4d81-8cc3-c69a8af9bc72">
+      <Output>
+        <ErrorInfo>
+          <Message>测试方法 Test.InsertTest.doCreateTest 引发了异常: 
+IBatisNet.DataMapper.Exceptions.DataMapperException: This SQL map does not contain a MappedStatement named Student.create</Message>
+          <StackTrace>    在 IBatisNet.DataMapper.SqlMapper.GetMappedStatement(String id)
+   在 IBatisNet.DataMapper.SqlMapper.Insert(String statementName, Object parameterObject)
+   在 useribatis.Insert.doCreate() 位置 G:\source\useribatis\useribatis\Insert.cs:行号 32
+   在 Test.InsertTest.doCreateTest() 位置 G:\source\useribatis\Test\InsertTest.cs:行号 81
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

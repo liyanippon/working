@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="bc3014cc-297a-467f-9ae2-adde1dc197a9" name="will@WILL-PC 2012-05-19 19:59:09" runUser="will-PC\will" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="本地" id="05a92402-420d-4eae-955b-b60825e53d1c">
+    <Description>这些设置为本地测试运行的默认测试设置。</Description>
+    <Deployment enabled="false" runDeploymentRoot="will_WILL-PC 2012-05-19 19_59_09">
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\log4net.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\Castle.DynamicProxy.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.Common.Logging.Log4Net.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.DataAccess.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.DataMapper.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\bin\useribatis.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.Common.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-05-19T19:59:09.5944000+08:00" queuing="2012-05-19T19:59:10.0394000+08:00" start="2012-05-19T19:59:10.1104000+08:00" finish="2012-05-19T19:59:35.0274000+08:00" />
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" error="0" failed="1" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="doCreateTest" storage="g:\source\useribatis\testproject1\bin\debug\testproject1.dll" id="01a4a373-0171-6556-d6b8-8b28f2451e7e">
+      <Execution id="089cb687-3c3e-4816-91a2-ac5a45045964" />
+      <TestMethod codeBase="G:/source/useribatis/TestProject1/bin/Debug/TestProject1.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="TestProject1.InsertTest, TestProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="doCreateTest" />
+      <AspNet webSiteUrl="http://localhost:61128/">
+        <Host pathToWebApp="G:\source\useribatis\useribatis" webAppRoot="/" />
+      </AspNet>
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="01a4a373-0171-6556-d6b8-8b28f2451e7e" executionId="089cb687-3c3e-4816-91a2-ac5a45045964" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="089cb687-3c3e-4816-91a2-ac5a45045964" testId="01a4a373-0171-6556-d6b8-8b28f2451e7e" testName="doCreateTest" computerName="WILL-PC" duration="00:00:00.1067160" startTime="2012-05-19T19:59:10.3574000+08:00" endTime="2012-05-19T19:59:34.8824000+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="089cb687-3c3e-4816-91a2-ac5a45045964">
+      <Output>
+        <ErrorInfo>
+          <Message>测试方法 TestProject1.InsertTest.doCreateTest 引发了异常: 
+IBatisNet.DataMapper.Exceptions.DataMapperException: This SQL map does not contain a MappedStatement named Student.create</Message>
+          <StackTrace>    在 IBatisNet.DataMapper.SqlMapper.GetMappedStatement(String id)
+   在 IBatisNet.DataMapper.SqlMapper.Insert(String statementName, Object parameterObject)
+   在 useribatis.Insert.doCreate() 位置 G:\source\useribatis\useribatis\Insert.cs:行号 30
+   在 TestProject1.InsertTest.doCreateTest() 位置 G:\source\useribatis\TestProject1\InsertTest.cs:行号 81
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Student" xmlns="http://ibatis.apache.org/mapping"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+  <statements>
+    
+    <resultMap id="resultMapId">
+      <result property="Id" column="id" />
+      <result property="Username" column="username" />
+      <result property="Password" column="password" />
+    </resultMap>
+  </statements>
+  
+  <statements>
+    <insert id="create" parameterClass="WebApplication2.Student">
+      insert into m_student(username,password)
+      values (#Username#,#Password#)
+    </insert>
+  </statements>
+  
+  <statements>
+    <select id="login" resultMap="resultMapId" parameterClass="WebApplication2.Student">
+
+      select *
+      from
+      dbo.m_student
+      where username = #Username#
+    </select>
+  </statements>
+
+  
+  
+</sqlMap>

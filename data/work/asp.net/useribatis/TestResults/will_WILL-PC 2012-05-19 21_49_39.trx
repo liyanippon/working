@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="545b65d2-158c-4bc5-98bf-e57945e0524c" name="will@WILL-PC 2012-05-19 21:49:39" runUser="will-PC\will" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="本地" id="05a92402-420d-4eae-955b-b60825e53d1c">
+    <Description>这些设置为本地测试运行的默认测试设置。</Description>
+    <Deployment enabled="false" runDeploymentRoot="will_WILL-PC 2012-05-19 21_49_39">
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\log4net.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\Castle.DynamicProxy.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.Common.Logging.Log4Net.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.DataAccess.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.DataMapper.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\bin\useribatis.dll" />
+      <DeploymentItem filename="G:\source\useribatis\useribatis\dll\IBatisNet.Common.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-05-19T21:49:39.8434000+08:00" queuing="2012-05-19T21:49:39.8844000+08:00" start="2012-05-19T21:49:39.9054000+08:00" finish="2012-05-19T21:50:05.5874000+08:00" />
+  <ResultSummary outcome="Inconclusive">
+    <Counters total="1" executed="1" error="0" failed="0" timeout="0" aborted="0" inconclusive="1" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="doCreateTest" storage="g:\source\useribatis\test\bin\debug\test.dll" id="05938219-74f1-b0a6-a1e0-f8c5dcd46936">
+      <Execution id="312e7a6a-6a19-4dec-a05a-e88dd4cddb45" />
+      <TestMethod codeBase="G:/source/useribatis/Test/bin/Debug/Test.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Test.InsertTest, Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="doCreateTest" />
+      <AspNet webSiteUrl="http://localhost:61128/">
+        <Host pathToWebApp="G:\source\useribatis\useribatis" webAppRoot="/" />
+      </AspNet>
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="05938219-74f1-b0a6-a1e0-f8c5dcd46936" executionId="312e7a6a-6a19-4dec-a05a-e88dd4cddb45" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="312e7a6a-6a19-4dec-a05a-e88dd4cddb45" testId="05938219-74f1-b0a6-a1e0-f8c5dcd46936" testName="doCreateTest" computerName="WILL-PC" duration="00:00:00.2196690" startTime="2012-05-19T21:49:39.9144000+08:00" endTime="2012-05-19T21:50:03.9454000+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Inconclusive" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="312e7a6a-6a19-4dec-a05a-e88dd4cddb45">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Inconclusive 失败。无法验证不返回值的方法。</Message>
+          <StackTrace>   在 Test.InsertTest.doCreateTest() 位置 G:\source\useribatis\Test\InsertTest.cs:行号 82
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>
