@@ -47,11 +47,6 @@ div.menu ul li
 	padding-bottom:2%
 }
 
-.navbar-nav {
-    float: left;
-    margin: 0;
-    width:70%
-}
 .top{
 padding-left:20%;
 }
@@ -71,7 +66,7 @@ padding:0% 10%
 .navbar-nav {
     float: left;
     margin: 0;
-    width: 40%;
+    width: 50%;
 }
 .dropdown-menu {
     
@@ -93,7 +88,7 @@ padding:0% 10%
 <nav class="navbar navbar-default top" role="navigation">
 	<div class="container-fluid">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="#">文档管理</a>
+		<a class="navbar-brand" href="${pageContext.request.contextPath }/document/list">文档管理</a>
 	</div>
 	<div>
 		<ul class="nav navbar-nav">
@@ -104,12 +99,12 @@ padding:0% 10%
                    <input  class="btn btn-default" type="submit" value="查找" id="search"  />
                 </div></form></li>
 		</ul>
-		<c:if test="${requestScope.login=='no'}">
+		<%-- <c:if test="${requestScope.login=='no'}">
 		<ul class="nav navbar-nav navbar-right"> 
             <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li> 
             <li><a href="${pageContext.request.contextPath }/user/login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li> 
         </ul>
-        </c:if>
+        </c:if> --%>
         <c:if test="${requestScope.login=='yes'}">
         <ul class="nav navbar-nav">
 			<li class="dropdown">
@@ -145,7 +140,14 @@ padding:0% 10%
         <span id="aurname">作者-${emp.authorName}</span>
     </div>
     </c:forEach>
-
+	<div class="col-sm-6 col-md-3" id="num">
+		<a href="${pageContext.request.contextPath }/document/add" class="thumbnail">
+            <img id="headimg" width="175px" height="230px" src="<%=request.getContextPath() %>/common/style/images/book.png"
+                 alt="通用的占位符缩略图">
+        </a>
+        <span id="docname">添加图书</span><br>
+        <span id="aurname"></span>
+        </div>
 </div>
 </div>
 
