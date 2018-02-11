@@ -23,4 +23,6 @@ a.無事[ぶじ]暮らし居侯[いそうろう]間、ご安心下され度侯[�
 
 
 
-日语学习网站：http://www.nihongonoki.com/blog/kotoba/post1748/
+日语学习网站
+：http://www.nihongonoki.com/blog/kotoba/post1748/
+：http://study.u-biq.org/
