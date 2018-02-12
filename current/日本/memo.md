@@ -26,3 +26,12 @@ a.無事[ぶじ]暮らし居侯[いそうろう]間、ご安心下され度侯[�
 日语学习网站
 ：http://www.nihongonoki.com/blog/kotoba/post1748/
 ：http://study.u-biq.org/
+
+
+
+电邮笔友：
+[中国]
+206322634@qq.com    90后姑娘 大四汪 寒假中 期待你的来信
+1950734307@qq.com   活泼开朗的女孩期待你的来信
+yydcwxj@163.com     乐于倾听、即将大四的女孩期待你的来信
+xbxsvip@126.com     辽宁★猪夏初
